@@ -2,7 +2,7 @@
 from typing import BinaryIO, Generic, MutableMapping, Optional, TextIO, Tuple, TypeVar, Union
 
 import attr
-from httpx import codes, HTTPStatusError
+from httpx import codes, HTTPStatusError, HTTPError
 
 
 class Unset:
@@ -94,57 +94,46 @@ class Response(Generic[T]):
         `False` otherwise.
         """
         return (
-            self.status_code
-            in (
-                # 301 (Cacheable redirect. Method may change to GET.)
-                codes.MOVED_PERMANENTLY,
-                # 302 (Uncacheable redirect. Method may change to GET.)
-                codes.FOUND,
-                # 303 (Client should make a GET or HEAD request.)
-                codes.SEE_OTHER,
-                # 307 (Equiv. 302, but retain method)
-                codes.TEMPORARY_REDIRECT,
-                # 308 (Equiv. 301, but retain method)
-                codes.PERMANENT_REDIRECT,
-            )
-            and "Location" in self.headers
+                self.status_code
+                in (
+                    # 301 (Cacheable redirect. Method may change to GET.)
+                    codes.MOVED_PERMANENTLY,
+                    # 302 (Uncacheable redirect. Method may change to GET.)
+                    codes.FOUND,
+                    # 303 (Client should make a GET or HEAD request.)
+                    codes.SEE_OTHER,
+                    # 307 (Equiv. 302, but retain method)
+                    codes.TEMPORARY_REDIRECT,
+                    # 308 (Equiv. 301, but retain method)
+                    codes.PERMANENT_REDIRECT,
+                )
+                and "Location" in self.headers
         )
 
-    def raise_for_status(self) -> None:
-        """
-        Raise the `HTTPStatusError` if one occurred.
-        """
-        request = self._request
-        if request is None:
-            raise RuntimeError(
-                "Cannot call `raise_for_status` as the request " "instance has not been set on this response."
-            )
+    def raise_for_status(self):
+        """Raises :class:`HTTPError`, if one occurred."""
 
-        if self.is_success:
-            return
-
-        if self.has_redirect_location:
-            message = (
-                "{error_type} '{0.status_code} {0.reason_phrase}' for url '{0.url}'\n"
-                "Redirect location: '{0.headers[location]}'\n"
-                "For more information check: https://httpstatuses.com/{0.status_code}"
-            )
+        http_error_msg = ''
+        if isinstance(self.content, bytes):
+            # We attempt to decode utf-8 first because some servers
+            # choose to localize their reason strings. If the string
+            # isn't utf-8, we fall back to iso-8859-1 for all other
+            # encodings. (See PR #3538)
+            try:
+                reason = self.content.decode('utf-8')
+            except UnicodeDecodeError:
+                reason = self.content.decode('iso-8859-1')
         else:
-            message = (
-                "{error_type} '{0.status_code} {0.reason_phrase}' for url '{0.url}'\n"
-                "For more information check: https://httpstatuses.com/{0.status_code}"
-            )
+            reason = self.content
 
-        status_class = self.status_code // 100
-        error_types = {
-            1: "Informational response",
-            3: "Redirect response",
-            4: "Client error",
-            5: "Server error",
-        }
-        error_type = error_types.get(status_class, "Invalid status code")
-        message = message.format(self, error_type=error_type)
-        raise HTTPStatusError(message, request=request, response=self)
+        if 400 <= self.status_code < 500:
+            http_error_msg = u'%s Client Error: %s' % (self.status_code, reason)
+
+        elif 500 <= self.status_code < 600:
+            http_error_msg = u'%s Server Error: %s' % (self.status_code, reason)
+
+        if http_error_msg:
+            raise HTTPError(http_error_msg)
 
 
 __all__ = ["File", "Response", "FileJsonType"]
