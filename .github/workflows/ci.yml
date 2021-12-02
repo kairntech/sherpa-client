@@ -45,12 +45,13 @@ jobs:
           CODECOV_TOKEN: '1af5f6c7-23ad-4b3f-9a96-9e5b816707bc'
         #          DJANGO_SETTINGS_MODULE: project.settings
         #          SECRETS_FILE: .confidential/ci.json
-        run: poetry run pytest --cov .
+        run: poetry run pytest --cov . --cov-report=xml
 
-#      - name: "Upload coverage to Codecov"
-#        uses: codecov/codecov-action@v2
-#        with:
-#          fail_ci_if_error: true
-#          token: '1af5f6c7-23ad-4b3f-9a96-9e5b816707bc'
+      - name: "Upload coverage to Codecov"
+        uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true
+          files: ./coverage.xml
+          token: '1af5f6c7-23ad-4b3f-9a96-9e5b816707bc'
 #          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
 
