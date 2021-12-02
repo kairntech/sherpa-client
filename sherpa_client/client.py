@@ -3,7 +3,6 @@ from typing import Dict, Union, Optional
 
 import attr
 
-from sherpa_client.api.authentication import request_jwt_token
 from sherpa_client.models import Credentials, RequestJwtTokenProjectAccessMode, BearerToken
 from sherpa_client.types import Unset, UNSET, Response
 
@@ -60,6 +59,7 @@ class AuthenticatedClient(Client):
         login_only: Union[Unset, None, bool] = False,
     ):
         """ """
+        from sherpa_client.api.authentication import request_jwt_token
         r: Response[BearerToken] = request_jwt_token.sync_detailed(
             self,
             json_body=json_body,
