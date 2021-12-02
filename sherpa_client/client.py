@@ -60,6 +60,7 @@ class AuthenticatedClient(Client):
     ):
         """ """
         from sherpa_client.api.authentication import request_jwt_token
+
         r: Response[BearerToken] = request_jwt_token.sync_detailed(
             self,
             json_body=json_body,
