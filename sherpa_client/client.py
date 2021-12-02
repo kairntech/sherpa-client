@@ -62,7 +62,7 @@ class AuthenticatedClient(Client):
         from sherpa_client.api.authentication import request_jwt_token
 
         r: Response[BearerToken] = request_jwt_token.sync_detailed(
-            self,
+            client=self,
             json_body=json_body,
             project_filter=project_filter,
             project_access_mode=project_access_mode,
