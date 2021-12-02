@@ -44,6 +44,7 @@ class Client:
 @attr.s(auto_attribs=True)
 class AuthenticatedClient(Client):
     """A Client which has been authenticated for use on secured endpoints"""
+
     token: str = attr.ib(init=False, default=None)
 
     def get_headers(self) -> Dict[str, str]:
@@ -51,21 +52,22 @@ class AuthenticatedClient(Client):
         return {"Authorization": f"Bearer {self.token}", **self.headers}
 
     def login(
-            self,
-            json_body: Credentials,
-            project_filter: Union[Unset, None, str] = UNSET,
-            project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
-            annotate_only: Union[Unset, None, bool] = False,
-            login_only: Union[Unset, None, bool] = False,
+        self,
+        json_body: Credentials,
+        project_filter: Union[Unset, None, str] = UNSET,
+        project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
+        annotate_only: Union[Unset, None, bool] = False,
+        login_only: Union[Unset, None, bool] = False,
     ):
         """ """
-        r : Response[BearerToken] = request_jwt_token.sync_detailed(self,
-                                            json_body=json_body,
-                                            project_filter=project_filter,
-                                            project_access_mode=project_access_mode,
-                                            annotate_only=annotate_only,
-                                            login_only=login_only,
-                                            )
+        r: Response[BearerToken] = request_jwt_token.sync_detailed(
+            self,
+            json_body=json_body,
+            project_filter=project_filter,
+            project_access_mode=project_access_mode,
+            annotate_only=annotate_only,
+            login_only=login_only,
+        )
         if r.is_success:
             self.token = r.parsed.access_token
         else:

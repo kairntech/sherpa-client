@@ -117,8 +117,7 @@ class Response(Generic[T]):
         request = self._request
         if request is None:
             raise RuntimeError(
-                "Cannot call `raise_for_status` as the request "
-                "instance has not been set on this response."
+                "Cannot call `raise_for_status` as the request " "instance has not been set on this response."
             )
 
         if self.is_success:
@@ -146,5 +145,6 @@ class Response(Generic[T]):
         error_type = error_types.get(status_class, "Invalid status code")
         message = message.format(self, error_type=error_type)
         raise HTTPStatusError(message, request=request, response=self)
+
 
 __all__ = ["File", "Response", "FileJsonType"]
