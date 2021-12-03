@@ -25,13 +25,7 @@ class Annotator:
         is_default = self.is_default
 
         field_dict: Dict[str, Any] = {}
-        field_dict.update(
-            {
-                "name": name,
-                "label": label,
-                "engine": engine
-            }
-        )
+        field_dict.update({"name": name, "label": label, "engine": engine})
         if favorite is not UNSET:
             field_dict["favorite"] = favorite
 

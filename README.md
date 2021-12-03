@@ -2,20 +2,13 @@
 A client library for accessing Sherpa API documentation
 
 ## Usage
-First, create a client:
+First, create a client and log in:
 
 ```python
-from sherpa_client import Client
+from sherpa_client import SherpaClient
 
-client = Client(base_url="https://api.example.com")
-```
-
-If the endpoints you're going to hit require authentication, use `AuthenticatedClient` instead:
-
-```python
-from sherpa_client import AuthenticatedClient
-
-client = AuthenticatedClient(base_url="https://api.example.com", token="SuperSecretToken")
+client = SherpaClient(base_url="https://api.example.com")
+client.login(Credentials(email="login", password="pwd"))
 ```
 
 Now call your endpoint and use your models:

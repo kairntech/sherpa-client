@@ -11,6 +11,7 @@ def _get_kwargs(
     project_name: str,
     *,
     client: Client,
+    text_body: str,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
@@ -34,6 +35,7 @@ def _get_kwargs(
         "headers": headers,
         "cookies": cookies,
         "timeout": client.get_timeout(),
+        "content": text_body,
         "params": params,
     }
 
@@ -59,6 +61,7 @@ def sync_detailed(
     project_name: str,
     *,
     client: Client,
+    text_body: str,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
@@ -67,6 +70,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
+        text_body=text_body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
@@ -85,6 +89,7 @@ def sync(
     project_name: str,
     *,
     client: Client,
+    text_body: str,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
@@ -95,6 +100,7 @@ def sync(
     return sync_detailed(
         project_name=project_name,
         client=client,
+        text_body=text_body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
@@ -106,6 +112,7 @@ async def asyncio_detailed(
     project_name: str,
     *,
     client: Client,
+    text_body: str,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
@@ -114,6 +121,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
+        text_body=text_body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
@@ -130,6 +138,7 @@ async def asyncio(
     project_name: str,
     *,
     client: Client,
+    text_body: str,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
@@ -141,6 +150,7 @@ async def asyncio(
         await asyncio_detailed(
             project_name=project_name,
             client=client,
+            text_body=text_body,
             inline_labels=inline_labels,
             inline_label_ids=inline_label_ids,
             inline_text=inline_text,

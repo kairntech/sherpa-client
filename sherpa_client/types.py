@@ -94,43 +94,43 @@ class Response(Generic[T]):
         `False` otherwise.
         """
         return (
-                self.status_code
-                in (
-                    # 301 (Cacheable redirect. Method may change to GET.)
-                    codes.MOVED_PERMANENTLY,
-                    # 302 (Uncacheable redirect. Method may change to GET.)
-                    codes.FOUND,
-                    # 303 (Client should make a GET or HEAD request.)
-                    codes.SEE_OTHER,
-                    # 307 (Equiv. 302, but retain method)
-                    codes.TEMPORARY_REDIRECT,
-                    # 308 (Equiv. 301, but retain method)
-                    codes.PERMANENT_REDIRECT,
-                )
-                and "Location" in self.headers
+            self.status_code
+            in (
+                # 301 (Cacheable redirect. Method may change to GET.)
+                codes.MOVED_PERMANENTLY,
+                # 302 (Uncacheable redirect. Method may change to GET.)
+                codes.FOUND,
+                # 303 (Client should make a GET or HEAD request.)
+                codes.SEE_OTHER,
+                # 307 (Equiv. 302, but retain method)
+                codes.TEMPORARY_REDIRECT,
+                # 308 (Equiv. 301, but retain method)
+                codes.PERMANENT_REDIRECT,
+            )
+            and "Location" in self.headers
         )
 
     def raise_for_status(self):
         """Raises :class:`HTTPError`, if one occurred."""
 
-        http_error_msg = ''
+        http_error_msg = ""
         if isinstance(self.content, bytes):
             # We attempt to decode utf-8 first because some servers
             # choose to localize their reason strings. If the string
             # isn't utf-8, we fall back to iso-8859-1 for all other
             # encodings. (See PR #3538)
             try:
-                reason = self.content.decode('utf-8')
+                reason = self.content.decode("utf-8")
             except UnicodeDecodeError:
-                reason = self.content.decode('iso-8859-1')
+                reason = self.content.decode("iso-8859-1")
         else:
             reason = self.content
 
         if 400 <= self.status_code < 500:
-            http_error_msg = u'%s Client Error: %s' % (self.status_code, reason)
+            http_error_msg = "%s Client Error: %s" % (self.status_code, reason)
 
         elif 500 <= self.status_code < 600:
-            http_error_msg = u'%s Server Error: %s' % (self.status_code, reason)
+            http_error_msg = "%s Server Error: %s" % (self.status_code, reason)
 
         if http_error_msg:
             raise HTTPError(http_error_msg)
