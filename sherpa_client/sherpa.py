@@ -10,6 +10,8 @@ import attr
 class SherpaClient(AuthenticatedClient):
     """A Client logged"""
 
+    token: str = attr.ib(init=True, default=None)
+
     def login(
         self,
         credentials: Credentials,
