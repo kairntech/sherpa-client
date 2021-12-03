@@ -2,6 +2,7 @@ import ssl
 from typing import Dict, Union
 from sherpa_client.models import Credentials, RequestJwtTokenProjectAccessMode, BearerToken
 from sherpa_client.types import Unset, UNSET, Response
+from sherpa_client.client import AuthenticatedClient
 import attr
 
 
