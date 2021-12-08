@@ -2,7 +2,7 @@
 from typing import BinaryIO, Generic, MutableMapping, Optional, TextIO, Tuple, TypeVar, Union
 
 import attr
-from httpx import codes, HTTPStatusError, HTTPError
+from httpx import HTTPError, codes
 
 
 class Unset:

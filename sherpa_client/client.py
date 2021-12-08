@@ -1,10 +1,7 @@
 import ssl
-from typing import Dict, Union, Optional
+from typing import Dict, Union
 
 import attr
-
-from sherpa_client.models import Credentials, RequestJwtTokenProjectAccessMode, BearerToken
-from sherpa_client.types import Unset, UNSET, Response
 
 
 @attr.s(auto_attribs=True)
@@ -44,26 +41,37 @@ class Client:
 class AuthenticatedClient(Client):
     """A Client which has been authenticated for use on secured endpoints"""
 
-    token: str = attr.ib(init=False, default=None)
+    token: str
 
     def get_headers(self) -> Dict[str, str]:
         """Get headers to be used in authenticated endpoints"""
         return {"Authorization": f"Bearer {self.token}", **self.headers}
 
+
+from .models import BearerToken, Credentials, RequestJwtTokenProjectAccessMode
+from .types import UNSET, Response, Unset
+
+
+@attr.s(auto_attribs=True)
+class SherpaClient(AuthenticatedClient):
+    """A Client logged"""
+
+    token: str = attr.ib(init=True, default=None)
+
     def login(
         self,
-        json_body: Credentials,
+        credentials: Credentials,
         project_filter: Union[Unset, None, str] = UNSET,
         project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
         annotate_only: Union[Unset, None, bool] = False,
         login_only: Union[Unset, None, bool] = False,
     ):
         """ """
-        from sherpa_client.api.authentication import request_jwt_token
+        from .api.authentication import request_jwt_token
 
         r: Response[BearerToken] = request_jwt_token.sync_detailed(
             client=self,
-            json_body=json_body,
+            json_body=credentials,
             project_filter=project_filter,
             project_access_mode=project_access_mode,
             annotate_only=annotate_only,

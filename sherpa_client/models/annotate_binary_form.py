@@ -40,9 +40,9 @@ class AnnotateBinaryForm:
         if not isinstance(self.file, Unset):
             file = self.file.to_tuple()
 
-        plan: Union[Unset, Tuple[None, str, str]] = UNSET
+        plan: Union[Unset, Tuple[None, bytes, str]] = UNSET
         if not isinstance(self.plan, Unset):
-            plan = (None, json.dumps(self.plan.to_dict()), "application/json")
+            plan = (None, json.dumps(self.plan.to_dict()).encode(), "application/json")
 
         field_dict: Dict[str, Any] = {}
         field_dict.update({})
