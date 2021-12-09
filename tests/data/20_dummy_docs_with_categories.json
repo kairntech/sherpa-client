@@ -1,0 +1,22 @@
+[
+   { "identifier":"a01","text": "atest01", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a02","text": "atest02", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a03","text": "atest03", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a04","text": "atest04", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a05","text": "atest05", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a06","text": "atest06", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a07","text": "atest07", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a08","text": "atest08", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a09","text": "atest09", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a10","text": "atest10", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a11","text": "atest11", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a12","text": "atest12", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a13","text": "atest13", "categories":[ { "label":"cat1" } ] },
+   { "identifier":"a14","text": "atest14", "categories":[ { "label":"cat2" }, { "label":"cat3" } ] },
+   { "identifier":"a15","text": "atest15", "categories":[ { "label":"cat2" }, { "label":"cat3" } ] },
+   { "identifier":"a16","text": "atest16", "categories":[ { "label":"cat2" }, { "label":"cat3" } ] },
+   { "identifier":"a17","text": "atest17", "categories":[ { "label":"cat2" }, { "label":"cat3" } ] },
+   { "identifier":"a18","text": "atest18", "categories":[ { "label":"cat2" }, { "label":"cat3" } ] },
+   { "identifier":"a19","text": "atest19", "categories":[ { "label":"cat2" }, { "label":"cat3" } ] },
+   { "identifier":"a20","text": "atest20", "categories":[ { "label":"cat2" }, { "label":"cat3" } ] }
+]
