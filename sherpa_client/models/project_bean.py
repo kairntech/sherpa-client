@@ -14,9 +14,9 @@ class ProjectBean:
 
     name: str
     label: str
-    description: str
     image: str
     lang: str
+    description: Union[Unset, str] = UNSET
     version: Union[Unset, str] = UNSET
     documents: Union[Unset, int] = UNSET
     segments: Union[Unset, int] = UNSET
@@ -79,11 +79,12 @@ class ProjectBean:
             {
                 "name": name,
                 "label": label,
-                "description": description,
                 "image": image,
                 "lang": lang,
             }
         )
+        if description is not UNSET:
+            field_dict["description"] = description
         if version is not UNSET:
             field_dict["version"] = version
         if documents is not UNSET:
@@ -128,11 +129,11 @@ class ProjectBean:
 
         label = d.pop("label")
 
-        description = d.pop("description")
-
         image = d.pop("image")
 
         lang = d.pop("lang")
+
+        description = d.pop("description", UNSET)
 
         version = d.pop("version", UNSET)
 

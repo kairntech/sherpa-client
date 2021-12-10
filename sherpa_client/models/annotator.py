@@ -14,7 +14,7 @@ class Annotator:
     name: str
     label: str
     engine: str
-    favorite: bool
+    favorite: Union[Unset, bool] = UNSET
     is_default: Union[Unset, bool] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
@@ -25,14 +25,10 @@ class Annotator:
         is_default = self.is_default
 
         field_dict: Dict[str, Any] = {}
-        field_dict.update(
-            {
-                "name": name,
-                "label": label,
-                "engine": engine,
-                "favorite": favorite,
-            }
-        )
+        field_dict.update({"name": name, "label": label, "engine": engine})
+        if favorite is not UNSET:
+            field_dict["favorite"] = favorite
+
         if is_default is not UNSET:
             field_dict["isDefault"] = is_default
 
@@ -47,7 +43,7 @@ class Annotator:
 
         engine = d.pop("engine")
 
-        favorite = d.pop("favorite")
+        favorite = d.pop("favorite", UNSET)
 
         is_default = d.pop("isDefault", UNSET)
 
