@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sherpa-client"
-version = "0.9.23"
+version = "0.9.24"
 description = "A client library for accessing Sherpa API documentation (Iota release)"
 
 authors = []

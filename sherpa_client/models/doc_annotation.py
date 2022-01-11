@@ -73,7 +73,7 @@ class DocAnnotation:
 
         _status = d.pop("status", UNSET)
         status: Union[Unset, DocAnnotationStatus]
-        if isinstance(_status, Unset):
+        if _status is None or isinstance(_status, Unset):
             status = UNSET
         else:
             status = DocAnnotationStatus(_status)
