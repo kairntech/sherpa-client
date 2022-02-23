@@ -38,9 +38,9 @@ class ProjectBean:
     def to_dict(self) -> Dict[str, Any]:
         name = self.name
         label = self.label
-        description = self.description
         image = self.image
         lang = self.lang
+        description = self.description
         version = self.version
         documents = self.documents
         segments = self.segments
@@ -182,9 +182,9 @@ class ProjectBean:
         project_bean = cls(
             name=name,
             label=label,
-            description=description,
             image=image,
             lang=lang,
+            description=description,
             version=version,
             documents=documents,
             segments=segments,

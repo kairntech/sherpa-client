@@ -12,8 +12,8 @@ T = TypeVar("T", bound="DocCategory")
 class DocCategory:
     """A document category"""
 
-    identifier: str
     label_name: str
+    identifier: Union[Unset, str] = UNSET
     score: Union[Unset, float] = UNSET
     status: Union[Unset, DocCategoryStatus] = UNSET
     created_date: Union[Unset, str] = UNSET
@@ -21,8 +21,8 @@ class DocCategory:
     created_by: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        identifier = self.identifier
         label_name = self.label_name
+        identifier = self.identifier
         score = self.score
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
@@ -35,10 +35,11 @@ class DocCategory:
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "identifier": identifier,
                 "labelName": label_name,
             }
         )
+        if identifier is not UNSET:
+            field_dict["identifier"] = identifier
         if score is not UNSET:
             field_dict["score"] = score
         if status is not UNSET:
@@ -55,9 +56,9 @@ class DocCategory:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        identifier = d.pop("identifier")
-
         label_name = d.pop("labelName")
+
+        identifier = d.pop("identifier", UNSET)
 
         score = d.pop("score", UNSET)
 
@@ -75,8 +76,8 @@ class DocCategory:
         created_by = d.pop("createdBy", UNSET)
 
         doc_category = cls(
-            identifier=identifier,
             label_name=label_name,
+            identifier=identifier,
             score=score,
             status=status,
             created_date=created_date,
