@@ -11,18 +11,19 @@ T = TypeVar("T", bound="SearchTotal")
 class SearchTotal:
     """ """
 
-    value: int
     relation: SearchTotalRelation
+    value: int
 
     def to_dict(self) -> Dict[str, Any]:
-        value = self.value
         relation = self.relation.value
+
+        value = self.value
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "value": value,
                 "relation": relation,
+                "value": value,
             }
         )
 
@@ -31,13 +32,13 @@ class SearchTotal:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        value = d.pop("value")
-
         relation = SearchTotalRelation(d.pop("relation"))
 
+        value = d.pop("value")
+
         search_total = cls(
-            value=value,
             relation=relation,
+            value=value,
         )
 
         return search_total

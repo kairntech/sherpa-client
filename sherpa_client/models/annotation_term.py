@@ -15,17 +15,18 @@ class AnnotationTerm:
     identifier: str
     lexicon: str
     preferred_form: Union[Unset, str] = UNSET
-    score: Union[Unset, int] = UNSET
     properties: Union[Unset, AnnotationTermProperties] = UNSET
+    score: Union[Unset, int] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         identifier = self.identifier
         lexicon = self.lexicon
         preferred_form = self.preferred_form
-        score = self.score
         properties: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.properties, Unset):
             properties = self.properties.to_dict()
+
+        score = self.score
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
@@ -36,10 +37,10 @@ class AnnotationTerm:
         )
         if preferred_form is not UNSET:
             field_dict["preferredForm"] = preferred_form
-        if score is not UNSET:
-            field_dict["score"] = score
         if properties is not UNSET:
             field_dict["properties"] = properties
+        if score is not UNSET:
+            field_dict["score"] = score
 
         return field_dict
 
@@ -52,8 +53,6 @@ class AnnotationTerm:
 
         preferred_form = d.pop("preferredForm", UNSET)
 
-        score = d.pop("score", UNSET)
-
         _properties = d.pop("properties", UNSET)
         properties: Union[Unset, AnnotationTermProperties]
         if isinstance(_properties, Unset):
@@ -61,12 +60,14 @@ class AnnotationTerm:
         else:
             properties = AnnotationTermProperties.from_dict(_properties)
 
+        score = d.pop("score", UNSET)
+
         annotation_term = cls(
             identifier=identifier,
             lexicon=lexicon,
             preferred_form=preferred_form,
-            score=score,
             properties=properties,
+            score=score,
         )
 
         return annotation_term

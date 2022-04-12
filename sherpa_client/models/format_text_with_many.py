@@ -13,12 +13,13 @@ T = TypeVar("T", bound="FormatTextWithMany")
 class FormatTextWithMany:
     """ """
 
-    text: str
-    pipeline: List[Union[WithAnnotator, WithProcessor]]
     formatter: Formatter
+    pipeline: List[Union[WithAnnotator, WithProcessor]]
+    text: str
 
     def to_dict(self) -> Dict[str, Any]:
-        text = self.text
+        formatter = self.formatter.to_dict()
+
         pipeline = []
         for pipeline_item_data in self.pipeline:
             if isinstance(pipeline_item_data, WithAnnotator):
@@ -29,14 +30,14 @@ class FormatTextWithMany:
 
             pipeline.append(pipeline_item)
 
-        formatter = self.formatter.to_dict()
+        text = self.text
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "text": text,
-                "pipeline": pipeline,
                 "formatter": formatter,
+                "pipeline": pipeline,
+                "text": text,
             }
         )
 
@@ -45,7 +46,7 @@ class FormatTextWithMany:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        text = d.pop("text")
+        formatter = Formatter.from_dict(d.pop("formatter"))
 
         pipeline = []
         _pipeline = d.pop("pipeline")
@@ -70,12 +71,12 @@ class FormatTextWithMany:
 
             pipeline.append(pipeline_item)
 
-        formatter = Formatter.from_dict(d.pop("formatter"))
+        text = d.pop("text")
 
         format_text_with_many = cls(
-            text=text,
-            pipeline=pipeline,
             formatter=formatter,
+            pipeline=pipeline,
+            text=text,
         )
 
         return format_text_with_many

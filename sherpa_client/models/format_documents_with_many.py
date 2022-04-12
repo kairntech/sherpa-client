@@ -15,8 +15,8 @@ class FormatDocumentsWithMany:
     """ """
 
     documents: List[InputDocument]
-    pipeline: List[Union[WithAnnotator, WithProcessor]]
     formatter: Formatter
+    pipeline: List[Union[WithAnnotator, WithProcessor]]
 
     def to_dict(self) -> Dict[str, Any]:
         documents = []
@@ -24,6 +24,8 @@ class FormatDocumentsWithMany:
             documents_item = documents_item_data.to_dict()
 
             documents.append(documents_item)
+
+        formatter = self.formatter.to_dict()
 
         pipeline = []
         for pipeline_item_data in self.pipeline:
@@ -35,14 +37,12 @@ class FormatDocumentsWithMany:
 
             pipeline.append(pipeline_item)
 
-        formatter = self.formatter.to_dict()
-
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
                 "documents": documents,
-                "pipeline": pipeline,
                 "formatter": formatter,
+                "pipeline": pipeline,
             }
         )
 
@@ -57,6 +57,8 @@ class FormatDocumentsWithMany:
             documents_item = InputDocument.from_dict(documents_item_data)
 
             documents.append(documents_item)
+
+        formatter = Formatter.from_dict(d.pop("formatter"))
 
         pipeline = []
         _pipeline = d.pop("pipeline")
@@ -81,12 +83,10 @@ class FormatDocumentsWithMany:
 
             pipeline.append(pipeline_item)
 
-        formatter = Formatter.from_dict(d.pop("formatter"))
-
         format_documents_with_many = cls(
             documents=documents,
-            pipeline=pipeline,
             formatter=formatter,
+            pipeline=pipeline,
         )
 
         return format_documents_with_many

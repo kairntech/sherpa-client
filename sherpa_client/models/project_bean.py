@@ -12,56 +12,53 @@ T = TypeVar("T", bound="ProjectBean")
 class ProjectBean:
     """ """
 
-    name: str
-    label: str
+    description: str
     image: str
+    label: str
     lang: str
-    description: Union[Unset, str] = UNSET
-    version: Union[Unset, str] = UNSET
-    documents: Union[Unset, int] = UNSET
-    segments: Union[Unset, int] = UNSET
+    name: str
+    algorithms: Union[Unset, List[str]] = UNSET
     annotations: Union[Unset, int] = UNSET
     categories: Union[Unset, int] = UNSET
-    nature: Union[Unset, str] = UNSET
+    classification: Union[Unset, ClassificationConfig] = UNSET
     created_by: Union[Unset, str] = UNSET
     created_date: Union[Unset, str] = UNSET
-    owner: Union[Unset, str] = UNSET
-    group_name: Union[Unset, str] = UNSET
-    shared: Union[Unset, bool] = UNSET
-    read_only: Union[Unset, bool] = UNSET
-    private: Union[Unset, bool] = UNSET
+    documents: Union[Unset, int] = UNSET
     engines: Union[Unset, List[str]] = UNSET
-    algorithms: Union[Unset, List[str]] = UNSET
+    group_name: Union[Unset, str] = UNSET
     metafacets: Union[Unset, List[Any]] = UNSET
-    classification: Union[Unset, ClassificationConfig] = UNSET
+    nature: Union[Unset, str] = UNSET
+    owner: Union[Unset, str] = UNSET
+    private: Union[Unset, bool] = UNSET
+    read_only: Union[Unset, bool] = UNSET
+    segments: Union[Unset, int] = UNSET
+    shared: Union[Unset, bool] = UNSET
+    version: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        name = self.name
-        label = self.label
-        image = self.image
-        lang = self.lang
         description = self.description
-        version = self.version
-        documents = self.documents
-        segments = self.segments
-        annotations = self.annotations
-        categories = self.categories
-        nature = self.nature
-        created_by = self.created_by
-        created_date = self.created_date
-        owner = self.owner
-        group_name = self.group_name
-        shared = self.shared
-        read_only = self.read_only
-        private = self.private
-        engines: Union[Unset, List[str]] = UNSET
-        if not isinstance(self.engines, Unset):
-            engines = self.engines
-
+        image = self.image
+        label = self.label
+        lang = self.lang
+        name = self.name
         algorithms: Union[Unset, List[str]] = UNSET
         if not isinstance(self.algorithms, Unset):
             algorithms = self.algorithms
 
+        annotations = self.annotations
+        categories = self.categories
+        classification: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.classification, Unset):
+            classification = self.classification.to_dict()
+
+        created_by = self.created_by
+        created_date = self.created_date
+        documents = self.documents
+        engines: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.engines, Unset):
+            engines = self.engines
+
+        group_name = self.group_name
         metafacets: Union[Unset, List[Any]] = UNSET
         if not isinstance(self.metafacets, Unset):
             metafacets = []
@@ -70,107 +67,79 @@ class ProjectBean:
 
                 metafacets.append(metafacets_item)
 
-        classification: Union[Unset, Dict[str, Any]] = UNSET
-        if not isinstance(self.classification, Unset):
-            classification = self.classification.to_dict()
+        nature = self.nature
+        owner = self.owner
+        private = self.private
+        read_only = self.read_only
+        segments = self.segments
+        shared = self.shared
+        version = self.version
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "name": name,
-                "label": label,
+                "description": description,
                 "image": image,
+                "label": label,
                 "lang": lang,
+                "name": name,
             }
         )
-        if description is not UNSET:
-            field_dict["description"] = description
-        if version is not UNSET:
-            field_dict["version"] = version
-        if documents is not UNSET:
-            field_dict["documents"] = documents
-        if segments is not UNSET:
-            field_dict["segments"] = segments
+        if algorithms is not UNSET:
+            field_dict["algorithms"] = algorithms
         if annotations is not UNSET:
             field_dict["annotations"] = annotations
         if categories is not UNSET:
             field_dict["categories"] = categories
-        if nature is not UNSET:
-            field_dict["nature"] = nature
+        if classification is not UNSET:
+            field_dict["classification"] = classification
         if created_by is not UNSET:
             field_dict["createdBy"] = created_by
         if created_date is not UNSET:
             field_dict["createdDate"] = created_date
-        if owner is not UNSET:
-            field_dict["owner"] = owner
-        if group_name is not UNSET:
-            field_dict["groupName"] = group_name
-        if shared is not UNSET:
-            field_dict["shared"] = shared
-        if read_only is not UNSET:
-            field_dict["readOnly"] = read_only
-        if private is not UNSET:
-            field_dict["private"] = private
+        if documents is not UNSET:
+            field_dict["documents"] = documents
         if engines is not UNSET:
             field_dict["engines"] = engines
-        if algorithms is not UNSET:
-            field_dict["algorithms"] = algorithms
+        if group_name is not UNSET:
+            field_dict["groupName"] = group_name
         if metafacets is not UNSET:
             field_dict["metafacets"] = metafacets
-        if classification is not UNSET:
-            field_dict["classification"] = classification
+        if nature is not UNSET:
+            field_dict["nature"] = nature
+        if owner is not UNSET:
+            field_dict["owner"] = owner
+        if private is not UNSET:
+            field_dict["private"] = private
+        if read_only is not UNSET:
+            field_dict["readOnly"] = read_only
+        if segments is not UNSET:
+            field_dict["segments"] = segments
+        if shared is not UNSET:
+            field_dict["shared"] = shared
+        if version is not UNSET:
+            field_dict["version"] = version
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        name = d.pop("name")
-
-        label = d.pop("label")
+        description = d.pop("description")
 
         image = d.pop("image")
 
+        label = d.pop("label")
+
         lang = d.pop("lang")
 
-        description = d.pop("description", UNSET)
+        name = d.pop("name")
 
-        version = d.pop("version", UNSET)
-
-        documents = d.pop("documents", UNSET)
-
-        segments = d.pop("segments", UNSET)
+        algorithms = cast(List[str], d.pop("algorithms", UNSET))
 
         annotations = d.pop("annotations", UNSET)
 
         categories = d.pop("categories", UNSET)
-
-        nature = d.pop("nature", UNSET)
-
-        created_by = d.pop("createdBy", UNSET)
-
-        created_date = d.pop("createdDate", UNSET)
-
-        owner = d.pop("owner", UNSET)
-
-        group_name = d.pop("groupName", UNSET)
-
-        shared = d.pop("shared", UNSET)
-
-        read_only = d.pop("readOnly", UNSET)
-
-        private = d.pop("private", UNSET)
-
-        engines = cast(List[str], d.pop("engines", UNSET))
-
-        algorithms = cast(List[str], d.pop("algorithms", UNSET))
-
-        metafacets = []
-        _metafacets = d.pop("metafacets", UNSET)
-        for metafacets_item_data in _metafacets or []:
-            metafacets_item = metafacets_item_data
-
-            metafacets.append(metafacets_item)
 
         _classification = d.pop("classification", UNSET)
         classification: Union[Unset, ClassificationConfig]
@@ -179,29 +148,60 @@ class ProjectBean:
         else:
             classification = ClassificationConfig.from_dict(_classification)
 
+        created_by = d.pop("createdBy", UNSET)
+
+        created_date = d.pop("createdDate", UNSET)
+
+        documents = d.pop("documents", UNSET)
+
+        engines = cast(List[str], d.pop("engines", UNSET))
+
+        group_name = d.pop("groupName", UNSET)
+
+        metafacets = []
+        _metafacets = d.pop("metafacets", UNSET)
+        for metafacets_item_data in _metafacets or []:
+            metafacets_item = metafacets_item_data
+
+            metafacets.append(metafacets_item)
+
+        nature = d.pop("nature", UNSET)
+
+        owner = d.pop("owner", UNSET)
+
+        private = d.pop("private", UNSET)
+
+        read_only = d.pop("readOnly", UNSET)
+
+        segments = d.pop("segments", UNSET)
+
+        shared = d.pop("shared", UNSET)
+
+        version = d.pop("version", UNSET)
+
         project_bean = cls(
-            name=name,
-            label=label,
-            image=image,
-            lang=lang,
             description=description,
-            version=version,
-            documents=documents,
-            segments=segments,
+            image=image,
+            label=label,
+            lang=lang,
+            name=name,
+            algorithms=algorithms,
             annotations=annotations,
             categories=categories,
-            nature=nature,
+            classification=classification,
             created_by=created_by,
             created_date=created_date,
-            owner=owner,
-            group_name=group_name,
-            shared=shared,
-            read_only=read_only,
-            private=private,
+            documents=documents,
             engines=engines,
-            algorithms=algorithms,
+            group_name=group_name,
             metafacets=metafacets,
-            classification=classification,
+            nature=nature,
+            owner=owner,
+            private=private,
+            read_only=read_only,
+            segments=segments,
+            shared=shared,
+            version=version,
         )
 
         return project_bean

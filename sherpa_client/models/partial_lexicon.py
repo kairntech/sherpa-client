@@ -12,13 +12,13 @@ class PartialLexicon:
     """ """
 
     label: str
-    name: Union[Unset, str] = UNSET
     color: Union[Unset, str] = UNSET
+    name: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         label = self.label
-        name = self.name
         color = self.color
+        name = self.name
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
@@ -26,10 +26,10 @@ class PartialLexicon:
                 "label": label,
             }
         )
-        if name is not UNSET:
-            field_dict["name"] = name
         if color is not UNSET:
             field_dict["color"] = color
+        if name is not UNSET:
+            field_dict["name"] = name
 
         return field_dict
 
@@ -38,14 +38,14 @@ class PartialLexicon:
         d = src_dict.copy()
         label = d.pop("label")
 
-        name = d.pop("name", UNSET)
-
         color = d.pop("color", UNSET)
+
+        name = d.pop("name", UNSET)
 
         partial_lexicon = cls(
             label=label,
-            name=name,
             color=color,
+            name=name,
         )
 
         return partial_lexicon

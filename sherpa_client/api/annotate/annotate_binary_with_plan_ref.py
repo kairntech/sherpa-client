@@ -17,6 +17,7 @@ def _get_kwargs(
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
+    debug: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/plans/{planName}/_annotate_binary".format(
@@ -30,6 +31,7 @@ def _get_kwargs(
         "inlineLabels": inline_labels,
         "inlineLabelIds": inline_label_ids,
         "inlineText": inline_text,
+        "debug": debug,
         "outputFields": output_fields,
     }
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -79,6 +81,7 @@ def sync_detailed(
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
+    debug: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Response[List[AnnotatedDocument]]:
     kwargs = _get_kwargs(
@@ -89,6 +92,7 @@ def sync_detailed(
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
+        debug=debug,
         output_fields=output_fields,
     )
 
@@ -109,6 +113,7 @@ def sync(
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
+    debug: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Optional[List[AnnotatedDocument]]:
     """ """
@@ -121,6 +126,7 @@ def sync(
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
+        debug=debug,
         output_fields=output_fields,
     ).parsed
 
@@ -134,6 +140,7 @@ async def asyncio_detailed(
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
+    debug: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Response[List[AnnotatedDocument]]:
     kwargs = _get_kwargs(
@@ -144,6 +151,7 @@ async def asyncio_detailed(
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
+        debug=debug,
         output_fields=output_fields,
     )
 
@@ -162,6 +170,7 @@ async def asyncio(
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
+    debug: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Optional[List[AnnotatedDocument]]:
     """ """
@@ -175,6 +184,7 @@ async def asyncio(
             inline_labels=inline_labels,
             inline_label_ids=inline_label_ids,
             inline_text=inline_text,
+            debug=debug,
             output_fields=output_fields,
         )
     ).parsed

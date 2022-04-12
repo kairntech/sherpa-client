@@ -9,24 +9,25 @@ T = TypeVar("T", bound="MetadataDefinitionEntry")
 class MetadataDefinitionEntry:
     """ """
 
-    metadata_name: str
+    distinct_metadata_values: List[str]
     is_editable: bool
     is_multiple: bool
-    distinct_metadata_values: List[str]
+    metadata_name: str
 
     def to_dict(self) -> Dict[str, Any]:
-        metadata_name = self.metadata_name
+        distinct_metadata_values = self.distinct_metadata_values
+
         is_editable = self.is_editable
         is_multiple = self.is_multiple
-        distinct_metadata_values = self.distinct_metadata_values
+        metadata_name = self.metadata_name
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "metadataName": metadata_name,
+                "distinctMetadataValues": distinct_metadata_values,
                 "isEditable": is_editable,
                 "isMultiple": is_multiple,
-                "distinctMetadataValues": distinct_metadata_values,
+                "metadataName": metadata_name,
             }
         )
 
@@ -35,19 +36,19 @@ class MetadataDefinitionEntry:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        metadata_name = d.pop("metadataName")
+        distinct_metadata_values = cast(List[str], d.pop("distinctMetadataValues"))
 
         is_editable = d.pop("isEditable")
 
         is_multiple = d.pop("isMultiple")
 
-        distinct_metadata_values = cast(List[str], d.pop("distinctMetadataValues"))
+        metadata_name = d.pop("metadataName")
 
         metadata_definition_entry = cls(
-            metadata_name=metadata_name,
+            distinct_metadata_values=distinct_metadata_values,
             is_editable=is_editable,
             is_multiple=is_multiple,
-            distinct_metadata_values=distinct_metadata_values,
+            metadata_name=metadata_name,
         )
 
         return metadata_definition_entry

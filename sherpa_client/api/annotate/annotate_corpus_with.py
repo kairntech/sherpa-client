@@ -14,6 +14,7 @@ def _get_kwargs(
     client: Client,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
+    email_notification: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/annotators/{annotator}/_annotate_corpus".format(
         client.base_url, projectName=project_name, annotator=annotator
@@ -25,6 +26,7 @@ def _get_kwargs(
     params: Dict[str, Any] = {
         "annotatorProject": annotator_project,
         "overwrite": overwrite,
+        "emailNotification": email_notification,
     }
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -61,6 +63,7 @@ def sync_detailed(
     client: Client,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
+    email_notification: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
     kwargs = _get_kwargs(
         project_name=project_name,
@@ -68,6 +71,7 @@ def sync_detailed(
         client=client,
         annotator_project=annotator_project,
         overwrite=overwrite,
+        email_notification=email_notification,
     )
 
     response = httpx.post(
@@ -85,6 +89,7 @@ def sync(
     client: Client,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
+    email_notification: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """ """
 
@@ -94,6 +99,7 @@ def sync(
         client=client,
         annotator_project=annotator_project,
         overwrite=overwrite,
+        email_notification=email_notification,
     ).parsed
 
 
@@ -104,6 +110,7 @@ async def asyncio_detailed(
     client: Client,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
+    email_notification: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
     kwargs = _get_kwargs(
         project_name=project_name,
@@ -111,6 +118,7 @@ async def asyncio_detailed(
         client=client,
         annotator_project=annotator_project,
         overwrite=overwrite,
+        email_notification=email_notification,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -126,6 +134,7 @@ async def asyncio(
     client: Client,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
+    email_notification: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """ """
 
@@ -136,5 +145,6 @@ async def asyncio(
             client=client,
             annotator_project=annotator_project,
             overwrite=overwrite,
+            email_notification=email_notification,
         )
     ).parsed

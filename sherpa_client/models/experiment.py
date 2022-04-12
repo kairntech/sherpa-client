@@ -13,31 +13,31 @@ T = TypeVar("T", bound="Experiment")
 class Experiment:
     """ """
 
-    name: str
-    label: str
-    engine: str
-    running: bool
-    quality: int
-    timestamp: int
     duration: int
-    uptodate: bool
+    engine: str
+    label: str
     models: int
+    name: str
     parameters: ExperimentParameters
+    quality: int
+    running: bool
+    timestamp: int
+    uptodate: bool
     favorite: Union[Unset, bool] = UNSET
     report: Union[Unset, Report] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        name = self.name
-        label = self.label
-        engine = self.engine
-        running = self.running
-        quality = self.quality
-        timestamp = self.timestamp
         duration = self.duration
-        uptodate = self.uptodate
+        engine = self.engine
+        label = self.label
         models = self.models
+        name = self.name
         parameters = self.parameters.to_dict()
 
+        quality = self.quality
+        running = self.running
+        timestamp = self.timestamp
+        uptodate = self.uptodate
         favorite = self.favorite
         report: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.report, Unset):
@@ -46,16 +46,16 @@ class Experiment:
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "name": name,
-                "label": label,
-                "engine": engine,
-                "running": running,
-                "quality": quality,
-                "timestamp": timestamp,
                 "duration": duration,
-                "uptodate": uptodate,
+                "engine": engine,
+                "label": label,
                 "models": models,
+                "name": name,
                 "parameters": parameters,
+                "quality": quality,
+                "running": running,
+                "timestamp": timestamp,
+                "uptodate": uptodate,
             }
         )
         if favorite is not UNSET:
@@ -68,25 +68,25 @@ class Experiment:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        name = d.pop("name")
-
-        label = d.pop("label")
+        duration = d.pop("duration")
 
         engine = d.pop("engine")
 
-        running = d.pop("running")
-
-        quality = d.pop("quality")
-
-        timestamp = d.pop("timestamp")
-
-        duration = d.pop("duration")
-
-        uptodate = d.pop("uptodate")
+        label = d.pop("label")
 
         models = d.pop("models")
 
+        name = d.pop("name")
+
         parameters = ExperimentParameters.from_dict(d.pop("parameters"))
+
+        quality = d.pop("quality")
+
+        running = d.pop("running")
+
+        timestamp = d.pop("timestamp")
+
+        uptodate = d.pop("uptodate")
 
         favorite = d.pop("favorite", UNSET)
 
@@ -98,16 +98,16 @@ class Experiment:
             report = Report.from_dict(_report)
 
         experiment = cls(
-            name=name,
-            label=label,
-            engine=engine,
-            running=running,
-            quality=quality,
-            timestamp=timestamp,
             duration=duration,
-            uptodate=uptodate,
+            engine=engine,
+            label=label,
             models=models,
+            name=name,
             parameters=parameters,
+            quality=quality,
+            running=running,
+            timestamp=timestamp,
+            uptodate=uptodate,
             favorite=favorite,
             report=report,
         )

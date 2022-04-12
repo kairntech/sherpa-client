@@ -14,20 +14,20 @@ class WithProcessor:
     """ """
 
     processor: str
+    condition: Union[Unset, WithProcessorCondition] = UNSET
     disabled: Union[Unset, bool] = UNSET
     parameters: Union[Unset, WithProcessorParameters] = UNSET
-    condition: Union[Unset, WithProcessorCondition] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         processor = self.processor
+        condition: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.condition, Unset):
+            condition = self.condition.to_dict()
+
         disabled = self.disabled
         parameters: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.parameters, Unset):
             parameters = self.parameters.to_dict()
-
-        condition: Union[Unset, Dict[str, Any]] = UNSET
-        if not isinstance(self.condition, Unset):
-            condition = self.condition.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
@@ -35,12 +35,12 @@ class WithProcessor:
                 "processor": processor,
             }
         )
+        if condition is not UNSET:
+            field_dict["condition"] = condition
         if disabled is not UNSET:
             field_dict["disabled"] = disabled
         if parameters is not UNSET:
             field_dict["parameters"] = parameters
-        if condition is not UNSET:
-            field_dict["condition"] = condition
 
         return field_dict
 
@@ -48,6 +48,13 @@ class WithProcessor:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         processor = d.pop("processor")
+
+        _condition = d.pop("condition", UNSET)
+        condition: Union[Unset, WithProcessorCondition]
+        if isinstance(_condition, Unset):
+            condition = UNSET
+        else:
+            condition = WithProcessorCondition.from_dict(_condition)
 
         disabled = d.pop("disabled", UNSET)
 
@@ -58,18 +65,11 @@ class WithProcessor:
         else:
             parameters = WithProcessorParameters.from_dict(_parameters)
 
-        _condition = d.pop("condition", UNSET)
-        condition: Union[Unset, WithProcessorCondition]
-        if isinstance(_condition, Unset):
-            condition = UNSET
-        else:
-            condition = WithProcessorCondition.from_dict(_condition)
-
         with_processor = cls(
             processor=processor,
+            condition=condition,
             disabled=disabled,
             parameters=parameters,
-            condition=condition,
         )
 
         return with_processor

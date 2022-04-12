@@ -11,32 +11,32 @@ T = TypeVar("T", bound="LexiconUpdate")
 class LexiconUpdate:
     """ """
 
-    label: Union[Unset, str] = UNSET
     color: Union[Unset, str] = UNSET
+    label: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        label = self.label
         color = self.color
+        label = self.label
 
         field_dict: Dict[str, Any] = {}
         field_dict.update({})
-        if label is not UNSET:
-            field_dict["label"] = label
         if color is not UNSET:
             field_dict["color"] = color
+        if label is not UNSET:
+            field_dict["label"] = label
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        label = d.pop("label", UNSET)
-
         color = d.pop("color", UNSET)
 
+        label = d.pop("label", UNSET)
+
         lexicon_update = cls(
-            label=label,
             color=color,
+            label=label,
         )
 
         return lexicon_update

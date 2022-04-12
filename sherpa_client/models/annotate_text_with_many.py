@@ -12,11 +12,10 @@ T = TypeVar("T", bound="AnnotateTextWithMany")
 class AnnotateTextWithMany:
     """ """
 
-    text: str
     pipeline: List[Union[WithAnnotator, WithProcessor]]
+    text: str
 
     def to_dict(self) -> Dict[str, Any]:
-        text = self.text
         pipeline = []
         for pipeline_item_data in self.pipeline:
             if isinstance(pipeline_item_data, WithAnnotator):
@@ -27,11 +26,13 @@ class AnnotateTextWithMany:
 
             pipeline.append(pipeline_item)
 
+        text = self.text
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "text": text,
                 "pipeline": pipeline,
+                "text": text,
             }
         )
 
@@ -40,8 +41,6 @@ class AnnotateTextWithMany:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        text = d.pop("text")
-
         pipeline = []
         _pipeline = d.pop("pipeline")
         for pipeline_item_data in _pipeline:
@@ -65,9 +64,11 @@ class AnnotateTextWithMany:
 
             pipeline.append(pipeline_item)
 
+        text = d.pop("text")
+
         annotate_text_with_many = cls(
-            text=text,
             pipeline=pipeline,
+            text=text,
         )
 
         return annotate_text_with_many

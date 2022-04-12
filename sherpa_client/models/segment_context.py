@@ -13,11 +13,15 @@ class SegmentContext:
     """ """
 
     size: int
-    segments: Union[Unset, List[Segment]] = UNSET
     merged: Union[Unset, Segment] = UNSET
+    segments: Union[Unset, List[Segment]] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         size = self.size
+        merged: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.merged, Unset):
+            merged = self.merged.to_dict()
+
         segments: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.segments, Unset):
             segments = []
@@ -26,20 +30,16 @@ class SegmentContext:
 
                 segments.append(segments_item)
 
-        merged: Union[Unset, Dict[str, Any]] = UNSET
-        if not isinstance(self.merged, Unset):
-            merged = self.merged.to_dict()
-
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
                 "size": size,
             }
         )
-        if segments is not UNSET:
-            field_dict["segments"] = segments
         if merged is not UNSET:
             field_dict["merged"] = merged
+        if segments is not UNSET:
+            field_dict["segments"] = segments
 
         return field_dict
 
@@ -48,13 +48,6 @@ class SegmentContext:
         d = src_dict.copy()
         size = d.pop("size")
 
-        segments = []
-        _segments = d.pop("segments", UNSET)
-        for segments_item_data in _segments or []:
-            segments_item = Segment.from_dict(segments_item_data)
-
-            segments.append(segments_item)
-
         _merged = d.pop("merged", UNSET)
         merged: Union[Unset, Segment]
         if isinstance(_merged, Unset):
@@ -62,10 +55,17 @@ class SegmentContext:
         else:
             merged = Segment.from_dict(_merged)
 
+        segments = []
+        _segments = d.pop("segments", UNSET)
+        for segments_item_data in _segments or []:
+            segments_item = Segment.from_dict(segments_item_data)
+
+            segments.append(segments_item)
+
         segment_context = cls(
             size=size,
-            segments=segments,
             merged=merged,
+            segments=segments,
         )
 
         return segment_context

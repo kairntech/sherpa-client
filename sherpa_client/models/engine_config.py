@@ -9,18 +9,18 @@ T = TypeVar("T", bound="EngineConfig")
 class EngineConfig:
     """ """
 
-    type: str
     name: str
+    type: str
 
     def to_dict(self) -> Dict[str, Any]:
-        type = self.type
         name = self.name
+        type = self.type
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "type": type,
                 "name": name,
+                "type": type,
             }
         )
 
@@ -29,13 +29,13 @@ class EngineConfig:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        type = d.pop("type")
-
         name = d.pop("name")
 
+        type = d.pop("type")
+
         engine_config = cls(
-            type=type,
             name=name,
+            type=type,
         )
 
         return engine_config

@@ -11,22 +11,23 @@ T = TypeVar("T", bound="DocumentFacets")
 class DocumentFacets:
     """ """
 
-    metadata: str
     facets: List[MetadataCount]
+    metadata: str
 
     def to_dict(self) -> Dict[str, Any]:
-        metadata = self.metadata
         facets = []
         for facets_item_data in self.facets:
             facets_item = facets_item_data.to_dict()
 
             facets.append(facets_item)
 
+        metadata = self.metadata
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "metadata": metadata,
                 "facets": facets,
+                "metadata": metadata,
             }
         )
 
@@ -35,8 +36,6 @@ class DocumentFacets:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        metadata = d.pop("metadata")
-
         facets = []
         _facets = d.pop("facets")
         for facets_item_data in _facets:
@@ -44,9 +43,11 @@ class DocumentFacets:
 
             facets.append(facets_item)
 
+        metadata = d.pop("metadata")
+
         document_facets = cls(
-            metadata=metadata,
             facets=facets,
+            metadata=metadata,
         )
 
         return document_facets

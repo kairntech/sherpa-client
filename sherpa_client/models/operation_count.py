@@ -9,21 +9,21 @@ T = TypeVar("T", bound="OperationCount")
 class OperationCount:
     """Annotation creation response"""
 
+    count: int
     operation: str
     unit: str
-    count: int
 
     def to_dict(self) -> Dict[str, Any]:
+        count = self.count
         operation = self.operation
         unit = self.unit
-        count = self.count
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
+                "count": count,
                 "operation": operation,
                 "unit": unit,
-                "count": count,
             }
         )
 
@@ -32,16 +32,16 @@ class OperationCount:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
+        count = d.pop("count")
+
         operation = d.pop("operation")
 
         unit = d.pop("unit")
 
-        count = d.pop("count")
-
         operation_count = cls(
+            count=count,
             operation=operation,
             unit=unit,
-            count=count,
         )
 
         return operation_count

@@ -14,22 +14,23 @@ class WithAnnotator:
     """ """
 
     annotator: str
-    disabled: Union[Unset, bool] = UNSET
-    project_name: Union[Unset, str] = UNSET
-    parameters: Union[Unset, WithAnnotatorParameters] = UNSET
     condition: Union[Unset, WithAnnotatorCondition] = UNSET
+    disabled: Union[Unset, bool] = UNSET
+    parameters: Union[Unset, WithAnnotatorParameters] = UNSET
+    project_name: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         annotator = self.annotator
+        condition: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.condition, Unset):
+            condition = self.condition.to_dict()
+
         disabled = self.disabled
-        project_name = self.project_name
         parameters: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.parameters, Unset):
             parameters = self.parameters.to_dict()
 
-        condition: Union[Unset, Dict[str, Any]] = UNSET
-        if not isinstance(self.condition, Unset):
-            condition = self.condition.to_dict()
+        project_name = self.project_name
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
@@ -37,14 +38,14 @@ class WithAnnotator:
                 "annotator": annotator,
             }
         )
-        if disabled is not UNSET:
-            field_dict["disabled"] = disabled
-        if project_name is not UNSET:
-            field_dict["projectName"] = project_name
-        if parameters is not UNSET:
-            field_dict["parameters"] = parameters
         if condition is not UNSET:
             field_dict["condition"] = condition
+        if disabled is not UNSET:
+            field_dict["disabled"] = disabled
+        if parameters is not UNSET:
+            field_dict["parameters"] = parameters
+        if project_name is not UNSET:
+            field_dict["projectName"] = project_name
 
         return field_dict
 
@@ -53,9 +54,14 @@ class WithAnnotator:
         d = src_dict.copy()
         annotator = d.pop("annotator")
 
-        disabled = d.pop("disabled", UNSET)
+        _condition = d.pop("condition", UNSET)
+        condition: Union[Unset, WithAnnotatorCondition]
+        if isinstance(_condition, Unset):
+            condition = UNSET
+        else:
+            condition = WithAnnotatorCondition.from_dict(_condition)
 
-        project_name = d.pop("projectName", UNSET)
+        disabled = d.pop("disabled", UNSET)
 
         _parameters = d.pop("parameters", UNSET)
         parameters: Union[Unset, WithAnnotatorParameters]
@@ -64,19 +70,14 @@ class WithAnnotator:
         else:
             parameters = WithAnnotatorParameters.from_dict(_parameters)
 
-        _condition = d.pop("condition", UNSET)
-        condition: Union[Unset, WithAnnotatorCondition]
-        if isinstance(_condition, Unset):
-            condition = UNSET
-        else:
-            condition = WithAnnotatorCondition.from_dict(_condition)
+        project_name = d.pop("projectName", UNSET)
 
         with_annotator = cls(
             annotator=annotator,
-            disabled=disabled,
-            project_name=project_name,
-            parameters=parameters,
             condition=condition,
+            disabled=disabled,
+            parameters=parameters,
+            project_name=project_name,
         )
 
         return with_annotator

@@ -9,21 +9,18 @@ T = TypeVar("T", bound="BearerToken")
 class BearerToken:
     """ """
 
-    username: str
-    profilename: str
     access_token: str
+    email: str
 
     def to_dict(self) -> Dict[str, Any]:
-        username = self.username
-        profilename = self.profilename
         access_token = self.access_token
+        email = self.email
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "username": username,
-                "profilename": profilename,
                 "access_token": access_token,
+                "email": email,
             }
         )
 
@@ -32,14 +29,13 @@ class BearerToken:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        username = d.pop("username")
-        profilename = d.pop("profilename")
         access_token = d.pop("access_token")
 
+        email = d.pop("email")
+
         bearer_token = cls(
-            username=username,
-            profilename=profilename,
             access_token=access_token,
+            email=email,
         )
 
         return bearer_token

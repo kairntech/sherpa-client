@@ -45,6 +45,7 @@ from .created_by_count import CreatedByCount
 from .credentials import Credentials
 from .delete_group_result import DeleteGroupResult
 from .delete_response import DeleteResponse
+from .doc_alt_text import DocAltText
 from .doc_annotation import DocAnnotation
 from .doc_annotation_status import DocAnnotationStatus
 from .doc_category import DocCategory
@@ -76,6 +77,7 @@ from .get_app_state_response_200 import GetAppStateResponse200
 from .get_engine_parameters_schema_response_200 import GetEngineParametersSchemaResponse200
 from .get_project_engine_parameters_schema_response_200 import GetProjectEngineParametersSchemaResponse200
 from .get_segment_context_context_output import GetSegmentContextContextOutput
+from .get_services_distinct_values_response_200_item import GetServicesDistinctValuesResponse200Item
 from .get_suggestions_response_200 import GetSuggestionsResponse200
 from .group_desc import GroupDesc
 from .group_name import GroupName
@@ -87,6 +89,7 @@ from .http_service_record import HttpServiceRecord
 from .import_archive_multipart_data import ImportArchiveMultipartData
 from .import_models_multipart_data import ImportModelsMultipartData
 from .input_document import InputDocument
+from .input_document_al_texts import InputDocumentAlTexts
 from .input_document_metadata import InputDocumentMetadata
 from .input_label import InputLabel
 from .job_status import JobStatus
@@ -166,6 +169,7 @@ from .upload_files_multipart_data import UploadFilesMultipartData
 from .uploaded_file import UploadedFile
 from .uploaded_file_info import UploadedFileInfo
 from .user_permissions_update import UserPermissionsUpdate
+from .user_profile import UserProfile
 from .user_profile_update import UserProfileUpdate
 from .user_response import UserResponse
 from .with_annotator import WithAnnotator

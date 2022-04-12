@@ -13,32 +13,31 @@ class ConfigPatchOptions:
     """ """
 
     classification: Union[Unset, ClassificationOptions] = UNSET
+    image: Union[Unset, str] = UNSET
     label: Union[Unset, str] = UNSET
     metafacets: Union[Unset, List[str]] = UNSET
-    image: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         classification: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.classification, Unset):
             classification = self.classification.to_dict()
 
+        image = self.image
         label = self.label
         metafacets: Union[Unset, List[str]] = UNSET
         if not isinstance(self.metafacets, Unset):
             metafacets = self.metafacets
 
-        image = self.image
-
         field_dict: Dict[str, Any] = {}
         field_dict.update({})
         if classification is not UNSET:
             field_dict["classification"] = classification
+        if image is not UNSET:
+            field_dict["image"] = image
         if label is not UNSET:
             field_dict["label"] = label
         if metafacets is not UNSET:
             field_dict["metafacets"] = metafacets
-        if image is not UNSET:
-            field_dict["image"] = image
 
         return field_dict
 
@@ -52,17 +51,17 @@ class ConfigPatchOptions:
         else:
             classification = ClassificationOptions.from_dict(_classification)
 
+        image = d.pop("image", UNSET)
+
         label = d.pop("label", UNSET)
 
         metafacets = cast(List[str], d.pop("metafacets", UNSET))
 
-        image = d.pop("image", UNSET)
-
         config_patch_options = cls(
             classification=classification,
+            image=image,
             label=label,
             metafacets=metafacets,
-            image=image,
         )
 
         return config_patch_options

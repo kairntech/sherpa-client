@@ -11,19 +11,19 @@ T = TypeVar("T", bound="SegmentContexts")
 class SegmentContexts:
     """ """
 
-    before: SegmentContext
     after: SegmentContext
+    before: SegmentContext
 
     def to_dict(self) -> Dict[str, Any]:
-        before = self.before.to_dict()
-
         after = self.after.to_dict()
+
+        before = self.before.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "before": before,
                 "after": after,
+                "before": before,
             }
         )
 
@@ -32,13 +32,13 @@ class SegmentContexts:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        before = SegmentContext.from_dict(d.pop("before"))
-
         after = SegmentContext.from_dict(d.pop("after"))
 
+        before = SegmentContext.from_dict(d.pop("before"))
+
         segment_contexts = cls(
-            before=before,
             after=after,
+            before=before,
         )
 
         return segment_contexts

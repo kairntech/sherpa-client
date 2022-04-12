@@ -11,53 +11,53 @@ T = TypeVar("T", bound="Label")
 class Label:
     """ """
 
-    name: str
-    label: str
     color: str
-    identifier: Union[Unset, str] = UNSET
+    label: str
+    name: str
     count: Union[Unset, int] = UNSET
+    identifier: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        name = self.name
-        label = self.label
         color = self.color
-        identifier = self.identifier
+        label = self.label
+        name = self.name
         count = self.count
+        identifier = self.identifier
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "name": name,
-                "label": label,
                 "color": color,
+                "label": label,
+                "name": name,
             }
         )
-        if identifier is not UNSET:
-            field_dict["identifier"] = identifier
         if count is not UNSET:
             field_dict["count"] = count
+        if identifier is not UNSET:
+            field_dict["identifier"] = identifier
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        name = d.pop("name")
+        color = d.pop("color")
 
         label = d.pop("label")
 
-        color = d.pop("color")
-
-        identifier = d.pop("identifier", UNSET)
+        name = d.pop("name")
 
         count = d.pop("count", UNSET)
 
+        identifier = d.pop("identifier", UNSET)
+
         label = cls(
-            name=name,
-            label=label,
             color=color,
-            identifier=identifier,
+            label=label,
+            name=name,
             count=count,
+            identifier=identifier,
         )
 
         return label

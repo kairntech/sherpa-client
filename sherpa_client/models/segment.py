@@ -13,31 +13,26 @@ T = TypeVar("T", bound="Segment")
 class Segment:
     """ """
 
-    identifier: str
     document_identifier: str
     document_title: str
-    text: str
-    start: int
     end: int
-    shift: Union[Unset, int] = UNSET
-    metadata: Union[Unset, SegmentMetadata] = UNSET
+    identifier: str
+    start: int
+    text: str
     annotations: Union[Unset, List[DocAnnotation]] = UNSET
-    created_date: Union[Unset, str] = UNSET
-    modified_date: Union[Unset, str] = UNSET
     created_by: Union[Unset, str] = UNSET
+    created_date: Union[Unset, str] = UNSET
+    metadata: Union[Unset, SegmentMetadata] = UNSET
+    modified_date: Union[Unset, str] = UNSET
+    shift: Union[Unset, int] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        identifier = self.identifier
         document_identifier = self.document_identifier
         document_title = self.document_title
-        text = self.text
-        start = self.start
         end = self.end
-        shift = self.shift
-        metadata: Union[Unset, Dict[str, Any]] = UNSET
-        if not isinstance(self.metadata, Unset):
-            metadata = self.metadata.to_dict()
-
+        identifier = self.identifier
+        start = self.start
+        text = self.text
         annotations: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.annotations, Unset):
             annotations = []
@@ -46,59 +41,55 @@ class Segment:
 
                 annotations.append(annotations_item)
 
-        created_date = self.created_date
-        modified_date = self.modified_date
         created_by = self.created_by
+        created_date = self.created_date
+        metadata: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.metadata, Unset):
+            metadata = self.metadata.to_dict()
+
+        modified_date = self.modified_date
+        shift = self.shift
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "identifier": identifier,
                 "documentIdentifier": document_identifier,
                 "documentTitle": document_title,
-                "text": text,
-                "start": start,
                 "end": end,
+                "identifier": identifier,
+                "start": start,
+                "text": text,
             }
         )
-        if shift is not UNSET:
-            field_dict["shift"] = shift
-        if metadata is not UNSET:
-            field_dict["metadata"] = metadata
         if annotations is not UNSET:
             field_dict["annotations"] = annotations
-        if created_date is not UNSET:
-            field_dict["createdDate"] = created_date
-        if modified_date is not UNSET:
-            field_dict["modifiedDate"] = modified_date
         if created_by is not UNSET:
             field_dict["createdBy"] = created_by
+        if created_date is not UNSET:
+            field_dict["createdDate"] = created_date
+        if metadata is not UNSET:
+            field_dict["metadata"] = metadata
+        if modified_date is not UNSET:
+            field_dict["modifiedDate"] = modified_date
+        if shift is not UNSET:
+            field_dict["shift"] = shift
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        identifier = d.pop("identifier")
-
         document_identifier = d.pop("documentIdentifier")
 
         document_title = d.pop("documentTitle")
 
-        text = d.pop("text")
+        end = d.pop("end")
+
+        identifier = d.pop("identifier")
 
         start = d.pop("start")
 
-        end = d.pop("end")
-
-        shift = d.pop("shift", UNSET)
-
-        _metadata = d.pop("metadata", UNSET)
-        metadata: Union[Unset, SegmentMetadata]
-        if isinstance(_metadata, Unset):
-            metadata = UNSET
-        else:
-            metadata = SegmentMetadata.from_dict(_metadata)
+        text = d.pop("text")
 
         annotations = []
         _annotations = d.pop("annotations", UNSET)
@@ -107,25 +98,34 @@ class Segment:
 
             annotations.append(annotations_item)
 
+        created_by = d.pop("createdBy", UNSET)
+
         created_date = d.pop("createdDate", UNSET)
+
+        _metadata = d.pop("metadata", UNSET)
+        metadata: Union[Unset, SegmentMetadata]
+        if isinstance(_metadata, Unset):
+            metadata = UNSET
+        else:
+            metadata = SegmentMetadata.from_dict(_metadata)
 
         modified_date = d.pop("modifiedDate", UNSET)
 
-        created_by = d.pop("createdBy", UNSET)
+        shift = d.pop("shift", UNSET)
 
         segment = cls(
-            identifier=identifier,
             document_identifier=document_identifier,
             document_title=document_title,
-            text=text,
-            start=start,
             end=end,
-            shift=shift,
-            metadata=metadata,
+            identifier=identifier,
+            start=start,
+            text=text,
             annotations=annotations,
-            created_date=created_date,
-            modified_date=modified_date,
             created_by=created_by,
+            created_date=created_date,
+            metadata=metadata,
+            modified_date=modified_date,
+            shift=shift,
         )
 
         return segment

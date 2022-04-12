@@ -12,26 +12,26 @@ T = TypeVar("T", bound="ProjectConfigCreation")
 class ProjectConfigCreation:
     """ """
 
+    description: Union[Unset, str] = UNSET
+    image_filename: Union[Unset, str] = UNSET
+    image_id: Union[Unset, str] = UNSET
+    image_url: Union[Unset, str] = UNSET
     label: Union[Unset, str] = UNSET
     lang: Union[Unset, str] = "en"
-    name: Union[Unset, str] = UNSET
-    description: Union[Unset, str] = UNSET
-    image_url: Union[Unset, str] = UNSET
-    image_id: Union[Unset, str] = UNSET
-    image_filename: Union[Unset, str] = UNSET
     metafacets: Union[Unset, str] = UNSET
+    name: Union[Unset, str] = UNSET
     nature: Union[Unset, str] = "sequence_labelling"
     properties: Union[Unset, ProjectConfigCreationProperties] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
+        description = self.description
+        image_filename = self.image_filename
+        image_id = self.image_id
+        image_url = self.image_url
         label = self.label
         lang = self.lang
-        name = self.name
-        description = self.description
-        image_url = self.image_url
-        image_id = self.image_id
-        image_filename = self.image_filename
         metafacets = self.metafacets
+        name = self.name
         nature = self.nature
         properties: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.properties, Unset):
@@ -39,22 +39,22 @@ class ProjectConfigCreation:
 
         field_dict: Dict[str, Any] = {}
         field_dict.update({})
+        if description is not UNSET:
+            field_dict["description"] = description
+        if image_filename is not UNSET:
+            field_dict["imageFilename"] = image_filename
+        if image_id is not UNSET:
+            field_dict["imageId"] = image_id
+        if image_url is not UNSET:
+            field_dict["imageUrl"] = image_url
         if label is not UNSET:
             field_dict["label"] = label
         if lang is not UNSET:
             field_dict["lang"] = lang
-        if name is not UNSET:
-            field_dict["name"] = name
-        if description is not UNSET:
-            field_dict["description"] = description
-        if image_url is not UNSET:
-            field_dict["imageUrl"] = image_url
-        if image_id is not UNSET:
-            field_dict["imageId"] = image_id
-        if image_filename is not UNSET:
-            field_dict["imageFilename"] = image_filename
         if metafacets is not UNSET:
             field_dict["metafacets"] = metafacets
+        if name is not UNSET:
+            field_dict["name"] = name
         if nature is not UNSET:
             field_dict["nature"] = nature
         if properties is not UNSET:
@@ -65,21 +65,21 @@ class ProjectConfigCreation:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
+        description = d.pop("description", UNSET)
+
+        image_filename = d.pop("imageFilename", UNSET)
+
+        image_id = d.pop("imageId", UNSET)
+
+        image_url = d.pop("imageUrl", UNSET)
+
         label = d.pop("label", UNSET)
 
         lang = d.pop("lang", UNSET)
 
-        name = d.pop("name", UNSET)
-
-        description = d.pop("description", UNSET)
-
-        image_url = d.pop("imageUrl", UNSET)
-
-        image_id = d.pop("imageId", UNSET)
-
-        image_filename = d.pop("imageFilename", UNSET)
-
         metafacets = d.pop("metafacets", UNSET)
+
+        name = d.pop("name", UNSET)
 
         nature = d.pop("nature", UNSET)
 
@@ -91,14 +91,14 @@ class ProjectConfigCreation:
             properties = ProjectConfigCreationProperties.from_dict(_properties)
 
         project_config_creation = cls(
+            description=description,
+            image_filename=image_filename,
+            image_id=image_id,
+            image_url=image_url,
             label=label,
             lang=lang,
-            name=name,
-            description=description,
-            image_url=image_url,
-            image_id=image_id,
-            image_filename=image_filename,
             metafacets=metafacets,
+            name=name,
             nature=nature,
             properties=properties,
         )

@@ -11,21 +11,22 @@ T = TypeVar("T", bound="DocumentHit")
 class DocumentHit:
     """ """
 
-    score: float
     id: str
     document: Document
+    score: float
 
     def to_dict(self) -> Dict[str, Any]:
-        score = self.score
         id = self.id
         document = self.document.to_dict()
+
+        score = self.score
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "score": score,
                 "_id": id,
                 "document": document,
+                "score": score,
             }
         )
 
@@ -34,16 +35,16 @@ class DocumentHit:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        score = d.pop("score")
-
         id = d.pop("_id")
 
         document = Document.from_dict(d.pop("document"))
 
+        score = d.pop("score")
+
         document_hit = cls(
-            score=score,
             id=id,
             document=document,
+            score=score,
         )
 
         return document_hit

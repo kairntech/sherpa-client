@@ -12,27 +12,27 @@ T = TypeVar("T", bound="HttpServiceRecord")
 class HttpServiceRecord:
     """ """
 
-    name: str
     host: str
-    port: int
     metadata: HttpServiceMetadata
+    name: str
+    port: int
     ssl: Union[Unset, bool] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        name = self.name
         host = self.host
-        port = self.port
         metadata = self.metadata.to_dict()
 
+        name = self.name
+        port = self.port
         ssl = self.ssl
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "name": name,
                 "host": host,
-                "port": port,
                 "metadata": metadata,
+                "name": name,
+                "port": port,
             }
         )
         if ssl is not UNSET:
@@ -43,21 +43,21 @@ class HttpServiceRecord:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        name = d.pop("name")
-
         host = d.pop("host")
 
-        port = d.pop("port")
-
         metadata = HttpServiceMetadata.from_dict(d.pop("metadata"))
+
+        name = d.pop("name")
+
+        port = d.pop("port")
 
         ssl = d.pop("ssl", UNSET)
 
         http_service_record = cls(
-            name=name,
             host=host,
-            port=port,
             metadata=metadata,
+            name=name,
+            port=port,
             ssl=ssl,
         )
 

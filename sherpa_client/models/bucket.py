@@ -9,18 +9,18 @@ T = TypeVar("T", bound="Bucket")
 class Bucket:
     """ """
 
-    key: str
     doc_count: int
+    key: str
 
     def to_dict(self) -> Dict[str, Any]:
-        key = self.key
         doc_count = self.doc_count
+        key = self.key
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "key": key,
                 "doc_count": doc_count,
+                "key": key,
             }
         )
 
@@ -29,13 +29,13 @@ class Bucket:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        key = d.pop("key")
-
         doc_count = d.pop("doc_count")
 
+        key = d.pop("key")
+
         bucket = cls(
-            key=key,
             doc_count=doc_count,
+            key=key,
         )
 
         return bucket

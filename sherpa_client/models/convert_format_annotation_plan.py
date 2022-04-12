@@ -15,11 +15,13 @@ class ConvertFormatAnnotationPlan:
     """ """
 
     converter: Converter
-    pipeline: List[Union[WithAnnotator, WithProcessor]]
     formatter: Formatter
+    pipeline: List[Union[WithAnnotator, WithProcessor]]
 
     def to_dict(self) -> Dict[str, Any]:
         converter = self.converter.to_dict()
+
+        formatter = self.formatter.to_dict()
 
         pipeline = []
         for pipeline_item_data in self.pipeline:
@@ -31,14 +33,12 @@ class ConvertFormatAnnotationPlan:
 
             pipeline.append(pipeline_item)
 
-        formatter = self.formatter.to_dict()
-
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
                 "converter": converter,
-                "pipeline": pipeline,
                 "formatter": formatter,
+                "pipeline": pipeline,
             }
         )
 
@@ -48,6 +48,8 @@ class ConvertFormatAnnotationPlan:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         converter = Converter.from_dict(d.pop("converter"))
+
+        formatter = Formatter.from_dict(d.pop("formatter"))
 
         pipeline = []
         _pipeline = d.pop("pipeline")
@@ -72,12 +74,10 @@ class ConvertFormatAnnotationPlan:
 
             pipeline.append(pipeline_item)
 
-        formatter = Formatter.from_dict(d.pop("formatter"))
-
         convert_format_annotation_plan = cls(
             converter=converter,
-            pipeline=pipeline,
             formatter=formatter,
+            pipeline=pipeline,
         )
 
         return convert_format_annotation_plan

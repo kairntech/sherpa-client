@@ -13,28 +13,28 @@ T = TypeVar("T", bound="AnnotatedDocAnnotation")
 class AnnotatedDocAnnotation:
     """A document annotation"""
 
+    end: int
     label_name: str
     start: int
-    end: int
     text: str
-    label_id: Union[Unset, str] = UNSET
     label: Union[Unset, str] = UNSET
-    score: Union[Unset, float] = UNSET
+    label_id: Union[Unset, str] = UNSET
     properties: Union[Unset, AnnotatedDocAnnotationProperties] = UNSET
+    score: Union[Unset, float] = UNSET
     terms: Union[Unset, List[AnnotationTerm]] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
+        end = self.end
         label_name = self.label_name
         start = self.start
-        end = self.end
         text = self.text
-        label_id = self.label_id
         label = self.label
-        score = self.score
+        label_id = self.label_id
         properties: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.properties, Unset):
             properties = self.properties.to_dict()
 
+        score = self.score
         terms: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.terms, Unset):
             terms = []
@@ -46,20 +46,20 @@ class AnnotatedDocAnnotation:
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
+                "end": end,
                 "labelName": label_name,
                 "start": start,
-                "end": end,
                 "text": text,
             }
         )
-        if label_id is not UNSET:
-            field_dict["labelId"] = label_id
         if label is not UNSET:
             field_dict["label"] = label
-        if score is not UNSET:
-            field_dict["score"] = score
+        if label_id is not UNSET:
+            field_dict["labelId"] = label_id
         if properties is not UNSET:
             field_dict["properties"] = properties
+        if score is not UNSET:
+            field_dict["score"] = score
         if terms is not UNSET:
             field_dict["terms"] = terms
 
@@ -68,19 +68,17 @@ class AnnotatedDocAnnotation:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
+        end = d.pop("end")
+
         label_name = d.pop("labelName")
 
         start = d.pop("start")
 
-        end = d.pop("end")
-
         text = d.pop("text")
-
-        label_id = d.pop("labelId", UNSET)
 
         label = d.pop("label", UNSET)
 
-        score = d.pop("score", UNSET)
+        label_id = d.pop("labelId", UNSET)
 
         _properties = d.pop("properties", UNSET)
         properties: Union[Unset, AnnotatedDocAnnotationProperties]
@@ -88,6 +86,8 @@ class AnnotatedDocAnnotation:
             properties = UNSET
         else:
             properties = AnnotatedDocAnnotationProperties.from_dict(_properties)
+
+        score = d.pop("score", UNSET)
 
         terms = []
         _terms = d.pop("terms", UNSET)
@@ -97,14 +97,14 @@ class AnnotatedDocAnnotation:
             terms.append(terms_item)
 
         annotated_doc_annotation = cls(
+            end=end,
             label_name=label_name,
             start=start,
-            end=end,
             text=text,
-            label_id=label_id,
             label=label,
-            score=score,
+            label_id=label_id,
             properties=properties,
+            score=score,
             terms=terms,
         )
 

@@ -11,22 +11,23 @@ T = TypeVar("T", bound="Aggregation")
 class Aggregation:
     """ """
 
-    name: str
     buckets: List[Bucket]
+    name: str
 
     def to_dict(self) -> Dict[str, Any]:
-        name = self.name
         buckets = []
         for buckets_item_data in self.buckets:
             buckets_item = buckets_item_data.to_dict()
 
             buckets.append(buckets_item)
 
+        name = self.name
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "name": name,
                 "buckets": buckets,
+                "name": name,
             }
         )
 
@@ -35,8 +36,6 @@ class Aggregation:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        name = d.pop("name")
-
         buckets = []
         _buckets = d.pop("buckets")
         for buckets_item_data in _buckets:
@@ -44,9 +43,11 @@ class Aggregation:
 
             buckets.append(buckets_item)
 
+        name = d.pop("name")
+
         aggregation = cls(
-            name=name,
             buckets=buckets,
+            name=name,
         )
 
         return aggregation

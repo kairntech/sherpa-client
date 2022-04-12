@@ -11,42 +11,43 @@ T = TypeVar("T", bound="Suggester")
 class Suggester:
     """ """
 
-    name: str
-    label: str
-    engine: str
-    running: bool
-    quality: int
-    timestamp: int
     duration: int
-    uptodate: bool
+    engine: str
+    label: str
     models: int
+    name: str
     parameters: SuggesterParameters
+    quality: int
+    running: bool
+    timestamp: int
+    uptodate: bool
 
     def to_dict(self) -> Dict[str, Any]:
-        name = self.name
-        label = self.label
-        engine = self.engine
-        running = self.running
-        quality = self.quality
-        timestamp = self.timestamp
         duration = self.duration
-        uptodate = self.uptodate
+        engine = self.engine
+        label = self.label
         models = self.models
+        name = self.name
         parameters = self.parameters.to_dict()
+
+        quality = self.quality
+        running = self.running
+        timestamp = self.timestamp
+        uptodate = self.uptodate
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "name": name,
-                "label": label,
-                "engine": engine,
-                "running": running,
-                "quality": quality,
-                "timestamp": timestamp,
                 "duration": duration,
-                "uptodate": uptodate,
+                "engine": engine,
+                "label": label,
                 "models": models,
+                "name": name,
                 "parameters": parameters,
+                "quality": quality,
+                "running": running,
+                "timestamp": timestamp,
+                "uptodate": uptodate,
             }
         )
 
@@ -55,37 +56,37 @@ class Suggester:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        name = d.pop("name")
-
-        label = d.pop("label")
+        duration = d.pop("duration")
 
         engine = d.pop("engine")
 
-        running = d.pop("running")
-
-        quality = d.pop("quality")
-
-        timestamp = d.pop("timestamp")
-
-        duration = d.pop("duration")
-
-        uptodate = d.pop("uptodate")
+        label = d.pop("label")
 
         models = d.pop("models")
 
+        name = d.pop("name")
+
         parameters = SuggesterParameters.from_dict(d.pop("parameters"))
 
+        quality = d.pop("quality")
+
+        running = d.pop("running")
+
+        timestamp = d.pop("timestamp")
+
+        uptodate = d.pop("uptodate")
+
         suggester = cls(
-            name=name,
-            label=label,
-            engine=engine,
-            running=running,
-            quality=quality,
-            timestamp=timestamp,
             duration=duration,
-            uptodate=uptodate,
+            engine=engine,
+            label=label,
             models=models,
+            name=name,
             parameters=parameters,
+            quality=quality,
+            running=running,
+            timestamp=timestamp,
+            uptodate=uptodate,
         )
 
         return suggester

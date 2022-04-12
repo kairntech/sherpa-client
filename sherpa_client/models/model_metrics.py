@@ -13,48 +13,49 @@ T = TypeVar("T", bound="ModelMetrics")
 class ModelMetrics:
     """ """
 
-    name: str
+    classes: List[str]
+    config: EngineConfig
+    engine: str
     lang: str
+    name: str
+    options: ModelMetricsOptions
+    quality: float
+    report: Report
+    status: str
     timestamp: int
     timestamp_end: int
-    quality: float
-    status: str
-    engine: str
-    options: ModelMetricsOptions
-    classes: List[str]
-    report: Report
-    config: EngineConfig
 
     def to_dict(self) -> Dict[str, Any]:
-        name = self.name
-        lang = self.lang
-        timestamp = self.timestamp
-        timestamp_end = self.timestamp_end
-        quality = self.quality
-        status = self.status
-        engine = self.engine
-        options = self.options.to_dict()
-
         classes = self.classes
 
+        config = self.config.to_dict()
+
+        engine = self.engine
+        lang = self.lang
+        name = self.name
+        options = self.options.to_dict()
+
+        quality = self.quality
         report = self.report.to_dict()
 
-        config = self.config.to_dict()
+        status = self.status
+        timestamp = self.timestamp
+        timestamp_end = self.timestamp_end
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "name": name,
+                "classes": classes,
+                "config": config,
+                "engine": engine,
                 "lang": lang,
+                "name": name,
+                "options": options,
+                "quality": quality,
+                "report": report,
+                "status": status,
                 "timestamp": timestamp,
                 "timestamp_end": timestamp_end,
-                "quality": quality,
-                "status": status,
-                "engine": engine,
-                "options": options,
-                "classes": classes,
-                "report": report,
-                "config": config,
             }
         )
 
@@ -63,40 +64,40 @@ class ModelMetrics:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        name = d.pop("name")
+        classes = cast(List[str], d.pop("classes"))
+
+        config = EngineConfig.from_dict(d.pop("config"))
+
+        engine = d.pop("engine")
 
         lang = d.pop("lang")
+
+        name = d.pop("name")
+
+        options = ModelMetricsOptions.from_dict(d.pop("options"))
+
+        quality = d.pop("quality")
+
+        report = Report.from_dict(d.pop("report"))
+
+        status = d.pop("status")
 
         timestamp = d.pop("timestamp")
 
         timestamp_end = d.pop("timestamp_end")
 
-        quality = d.pop("quality")
-
-        status = d.pop("status")
-
-        engine = d.pop("engine")
-
-        options = ModelMetricsOptions.from_dict(d.pop("options"))
-
-        classes = cast(List[str], d.pop("classes"))
-
-        report = Report.from_dict(d.pop("report"))
-
-        config = EngineConfig.from_dict(d.pop("config"))
-
         model_metrics = cls(
-            name=name,
+            classes=classes,
+            config=config,
+            engine=engine,
             lang=lang,
+            name=name,
+            options=options,
+            quality=quality,
+            report=report,
+            status=status,
             timestamp=timestamp,
             timestamp_end=timestamp_end,
-            quality=quality,
-            status=status,
-            engine=engine,
-            options=options,
-            classes=classes,
-            report=report,
-            config=config,
         )
 
         return model_metrics

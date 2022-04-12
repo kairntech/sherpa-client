@@ -11,18 +11,27 @@ T = TypeVar("T", bound="UserResponse")
 class UserResponse:
     """ """
 
-    username: str
     profilename: str
+    username: str
+    created_at: Union[Unset, str] = UNSET
+    created_by: Union[Unset, str] = UNSET
+    default_group: Union[Unset, str] = UNSET
+    email: Union[Unset, str] = UNSET
+    groups: Union[Unset, List[str]] = UNSET
     permissions: Union[Unset, List[str]] = UNSET
     roles: Union[Unset, List[str]] = UNSET
-    groups: Union[Unset, List[str]] = UNSET
-    default_group: Union[Unset, str] = UNSET
-    created_by: Union[Unset, str] = UNSET
-    created_at: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        username = self.username
         profilename = self.profilename
+        username = self.username
+        created_at = self.created_at
+        created_by = self.created_by
+        default_group = self.default_group
+        email = self.email
+        groups: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.groups, Unset):
+            groups = self.groups
+
         permissions: Union[Unset, List[str]] = UNSET
         if not isinstance(self.permissions, Unset):
             permissions = self.permissions
@@ -31,64 +40,61 @@ class UserResponse:
         if not isinstance(self.roles, Unset):
             roles = self.roles
 
-        groups: Union[Unset, List[str]] = UNSET
-        if not isinstance(self.groups, Unset):
-            groups = self.groups
-
-        default_group = self.default_group
-        created_by = self.created_by
-        created_at = self.created_at
-
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "username": username,
                 "profilename": profilename,
+                "username": username,
             }
         )
+        if created_at is not UNSET:
+            field_dict["createdAt"] = created_at
+        if created_by is not UNSET:
+            field_dict["createdBy"] = created_by
+        if default_group is not UNSET:
+            field_dict["defaultGroup"] = default_group
+        if email is not UNSET:
+            field_dict["email"] = email
+        if groups is not UNSET:
+            field_dict["groups"] = groups
         if permissions is not UNSET:
             field_dict["permissions"] = permissions
         if roles is not UNSET:
             field_dict["roles"] = roles
-        if groups is not UNSET:
-            field_dict["groups"] = groups
-        if default_group is not UNSET:
-            field_dict["defaultGroup"] = default_group
-        if created_by is not UNSET:
-            field_dict["createdBy"] = created_by
-        if created_at is not UNSET:
-            field_dict["createdAt"] = created_at
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
+        profilename = d.pop("profilename")
+
         username = d.pop("username")
 
-        profilename = d.pop("profilename")
+        created_at = d.pop("createdAt", UNSET)
+
+        created_by = d.pop("createdBy", UNSET)
+
+        default_group = d.pop("defaultGroup", UNSET)
+
+        email = d.pop("email", UNSET)
+
+        groups = cast(List[str], d.pop("groups", UNSET))
 
         permissions = cast(List[str], d.pop("permissions", UNSET))
 
         roles = cast(List[str], d.pop("roles", UNSET))
 
-        groups = cast(List[str], d.pop("groups", UNSET))
-
-        default_group = d.pop("defaultGroup", UNSET)
-
-        created_by = d.pop("createdBy", UNSET)
-
-        created_at = d.pop("createdAt", UNSET)
-
         user_response = cls(
-            username=username,
             profilename=profilename,
+            username=username,
+            created_at=created_at,
+            created_by=created_by,
+            default_group=default_group,
+            email=email,
+            groups=groups,
             permissions=permissions,
             roles=roles,
-            groups=groups,
-            default_group=default_group,
-            created_by=created_by,
-            created_at=created_at,
         )
 
         return user_response

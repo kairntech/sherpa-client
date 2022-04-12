@@ -13,17 +13,17 @@ class Annotation:
     """A document annotation"""
 
     document_identifier: str
+    end: int
     label_name: str
     start: int
-    end: int
     text: str
     status: Union[Unset, AnnotationStatus] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         document_identifier = self.document_identifier
+        end = self.end
         label_name = self.label_name
         start = self.start
-        end = self.end
         text = self.text
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
@@ -33,9 +33,9 @@ class Annotation:
         field_dict.update(
             {
                 "documentIdentifier": document_identifier,
+                "end": end,
                 "labelName": label_name,
                 "start": start,
-                "end": end,
                 "text": text,
             }
         )
@@ -49,11 +49,11 @@ class Annotation:
         d = src_dict.copy()
         document_identifier = d.pop("documentIdentifier")
 
+        end = d.pop("end")
+
         label_name = d.pop("labelName")
 
         start = d.pop("start")
-
-        end = d.pop("end")
 
         text = d.pop("text")
 
@@ -66,9 +66,9 @@ class Annotation:
 
         annotation = cls(
             document_identifier=document_identifier,
+            end=end,
             label_name=label_name,
             start=start,
-            end=end,
             text=text,
             status=status,
         )

@@ -14,34 +14,34 @@ class AnnotationMetrics:
     """ """
 
     annotation_count: int
-    suggestion_count: int
     annotation_facets: AnnotationFacets
-    suggestion_facets: SuggestionFacets
+    document_facets: DocumentFacets
     documents_in_dataset: int
     segments_in_dataset: int
-    document_facets: DocumentFacets
+    suggestion_count: int
+    suggestion_facets: SuggestionFacets
 
     def to_dict(self) -> Dict[str, Any]:
         annotation_count = self.annotation_count
-        suggestion_count = self.suggestion_count
         annotation_facets = self.annotation_facets.to_dict()
 
-        suggestion_facets = self.suggestion_facets.to_dict()
+        document_facets = self.document_facets.to_dict()
 
         documents_in_dataset = self.documents_in_dataset
         segments_in_dataset = self.segments_in_dataset
-        document_facets = self.document_facets.to_dict()
+        suggestion_count = self.suggestion_count
+        suggestion_facets = self.suggestion_facets.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
                 "annotationCount": annotation_count,
-                "suggestionCount": suggestion_count,
                 "annotationFacets": annotation_facets,
-                "suggestionFacets": suggestion_facets,
+                "documentFacets": document_facets,
                 "documentsInDataset": documents_in_dataset,
                 "segmentsInDataset": segments_in_dataset,
-                "documentFacets": document_facets,
+                "suggestionCount": suggestion_count,
+                "suggestionFacets": suggestion_facets,
             }
         )
 
@@ -52,26 +52,26 @@ class AnnotationMetrics:
         d = src_dict.copy()
         annotation_count = d.pop("annotationCount")
 
-        suggestion_count = d.pop("suggestionCount")
-
         annotation_facets = AnnotationFacets.from_dict(d.pop("annotationFacets"))
 
-        suggestion_facets = SuggestionFacets.from_dict(d.pop("suggestionFacets"))
+        document_facets = DocumentFacets.from_dict(d.pop("documentFacets"))
 
         documents_in_dataset = d.pop("documentsInDataset")
 
         segments_in_dataset = d.pop("segmentsInDataset")
 
-        document_facets = DocumentFacets.from_dict(d.pop("documentFacets"))
+        suggestion_count = d.pop("suggestionCount")
+
+        suggestion_facets = SuggestionFacets.from_dict(d.pop("suggestionFacets"))
 
         annotation_metrics = cls(
             annotation_count=annotation_count,
-            suggestion_count=suggestion_count,
             annotation_facets=annotation_facets,
-            suggestion_facets=suggestion_facets,
+            document_facets=document_facets,
             documents_in_dataset=documents_in_dataset,
             segments_in_dataset=segments_in_dataset,
-            document_facets=document_facets,
+            suggestion_count=suggestion_count,
+            suggestion_facets=suggestion_facets,
         )
 
         return annotation_metrics

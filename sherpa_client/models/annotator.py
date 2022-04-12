@@ -11,24 +11,28 @@ T = TypeVar("T", bound="Annotator")
 class Annotator:
     """ """
 
-    name: str
-    label: str
     engine: str
-    favorite: Union[Unset, bool] = UNSET
+    favorite: bool
+    label: str
+    name: str
     is_default: Union[Unset, bool] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        name = self.name
-        label = self.label
         engine = self.engine
         favorite = self.favorite
+        label = self.label
+        name = self.name
         is_default = self.is_default
 
         field_dict: Dict[str, Any] = {}
-        field_dict.update({"name": name, "label": label, "engine": engine})
-        if favorite is not UNSET:
-            field_dict["favorite"] = favorite
-
+        field_dict.update(
+            {
+                "engine": engine,
+                "favorite": favorite,
+                "label": label,
+                "name": name,
+            }
+        )
         if is_default is not UNSET:
             field_dict["isDefault"] = is_default
 
@@ -37,21 +41,21 @@ class Annotator:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        name = d.pop("name")
+        engine = d.pop("engine")
+
+        favorite = d.pop("favorite")
 
         label = d.pop("label")
 
-        engine = d.pop("engine")
-
-        favorite = d.pop("favorite", UNSET)
+        name = d.pop("name")
 
         is_default = d.pop("isDefault", UNSET)
 
         annotator = cls(
-            name=name,
-            label=label,
             engine=engine,
             favorite=favorite,
+            label=label,
+            name=name,
             is_default=is_default,
         )
 

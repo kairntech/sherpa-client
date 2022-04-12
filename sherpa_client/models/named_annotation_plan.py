@@ -12,31 +12,31 @@ T = TypeVar("T", bound="NamedAnnotationPlan")
 class NamedAnnotationPlan:
     """ """
 
-    name: str
     label: str
+    name: str
     parameters: AnnotationPlan
     created_at: Union[Unset, str] = UNSET
     created_by: Union[Unset, str] = UNSET
-    modified_by: Union[Unset, str] = UNSET
-    modified_at: Union[Unset, str] = UNSET
     favorite: Union[Unset, bool] = UNSET
+    modified_at: Union[Unset, str] = UNSET
+    modified_by: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        name = self.name
         label = self.label
+        name = self.name
         parameters = self.parameters.to_dict()
 
         created_at = self.created_at
         created_by = self.created_by
-        modified_by = self.modified_by
-        modified_at = self.modified_at
         favorite = self.favorite
+        modified_at = self.modified_at
+        modified_by = self.modified_by
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "name": name,
                 "label": label,
+                "name": name,
                 "parameters": parameters,
             }
         )
@@ -44,21 +44,21 @@ class NamedAnnotationPlan:
             field_dict["createdAt"] = created_at
         if created_by is not UNSET:
             field_dict["createdBy"] = created_by
-        if modified_by is not UNSET:
-            field_dict["modifiedBy"] = modified_by
-        if modified_at is not UNSET:
-            field_dict["modifiedAt"] = modified_at
         if favorite is not UNSET:
             field_dict["favorite"] = favorite
+        if modified_at is not UNSET:
+            field_dict["modifiedAt"] = modified_at
+        if modified_by is not UNSET:
+            field_dict["modifiedBy"] = modified_by
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        name = d.pop("name")
-
         label = d.pop("label")
+
+        name = d.pop("name")
 
         parameters = AnnotationPlan.from_dict(d.pop("parameters"))
 
@@ -66,21 +66,21 @@ class NamedAnnotationPlan:
 
         created_by = d.pop("createdBy", UNSET)
 
-        modified_by = d.pop("modifiedBy", UNSET)
+        favorite = d.pop("favorite", UNSET)
 
         modified_at = d.pop("modifiedAt", UNSET)
 
-        favorite = d.pop("favorite", UNSET)
+        modified_by = d.pop("modifiedBy", UNSET)
 
         named_annotation_plan = cls(
-            name=name,
             label=label,
+            name=name,
             parameters=parameters,
             created_at=created_at,
             created_by=created_by,
-            modified_by=modified_by,
-            modified_at=modified_at,
             favorite=favorite,
+            modified_at=modified_at,
+            modified_by=modified_by,
         )
 
         return named_annotation_plan

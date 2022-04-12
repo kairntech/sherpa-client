@@ -13,26 +13,26 @@ T = TypeVar("T", bound="TermHits")
 class TermHits:
     """ """
 
-    total: SearchTotal
     hits: List[TermHit]
+    total: SearchTotal
     max_score: Union[Unset, float] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        total = self.total.to_dict()
-
         hits = []
         for hits_item_data in self.hits:
             hits_item = hits_item_data.to_dict()
 
             hits.append(hits_item)
 
+        total = self.total.to_dict()
+
         max_score = self.max_score
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "total": total,
                 "hits": hits,
+                "total": total,
             }
         )
         if max_score is not UNSET:
@@ -43,8 +43,6 @@ class TermHits:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        total = SearchTotal.from_dict(d.pop("total"))
-
         hits = []
         _hits = d.pop("hits")
         for hits_item_data in _hits:
@@ -52,11 +50,13 @@ class TermHits:
 
             hits.append(hits_item)
 
+        total = SearchTotal.from_dict(d.pop("total"))
+
         max_score = d.pop("max_score", UNSET)
 
         term_hits = cls(
-            total=total,
             hits=hits,
+            total=total,
             max_score=max_score,
         )
 
