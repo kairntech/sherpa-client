@@ -89,7 +89,7 @@ from .http_service_record import HttpServiceRecord
 from .import_archive_multipart_data import ImportArchiveMultipartData
 from .import_models_multipart_data import ImportModelsMultipartData
 from .input_document import InputDocument
-from .input_document_al_texts import InputDocumentAlTexts
+from .input_document_alt_texts import InputDocumentAltTexts
 from .input_document_metadata import InputDocumentMetadata
 from .input_label import InputLabel
 from .job_status import JobStatus

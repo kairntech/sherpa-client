@@ -5,7 +5,7 @@ import attr
 from ..models.doc_annotation import DocAnnotation
 from ..models.doc_category import DocCategory
 from ..models.doc_sentence import DocSentence
-from ..models.input_document_al_texts import InputDocumentAlTexts
+from ..models.input_document_alt_texts import InputDocumentAltTexts
 from ..models.input_document_metadata import InputDocumentMetadata
 from ..types import UNSET, Unset
 
@@ -17,7 +17,7 @@ class InputDocument:
     """ """
 
     text: str
-    al_texts: Union[Unset, InputDocumentAlTexts] = UNSET
+    alt_texts: Union[Unset, InputDocumentAltTexts] = UNSET
     annotations: Union[Unset, List[DocAnnotation]] = UNSET
     categories: Union[Unset, List[DocCategory]] = UNSET
     identifier: Union[Unset, str] = UNSET
@@ -27,9 +27,9 @@ class InputDocument:
 
     def to_dict(self) -> Dict[str, Any]:
         text = self.text
-        al_texts: Union[Unset, Dict[str, Any]] = UNSET
-        if not isinstance(self.al_texts, Unset):
-            al_texts = self.al_texts.to_dict()
+        alt_texts: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.alt_texts, Unset):
+            alt_texts = self.alt_texts.to_dict()
 
         annotations: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.annotations, Unset):
@@ -68,8 +68,8 @@ class InputDocument:
                 "text": text,
             }
         )
-        if al_texts is not UNSET:
-            field_dict["alTexts"] = al_texts
+        if alt_texts is not UNSET:
+            field_dict["altTexts"] = alt_texts
         if annotations is not UNSET:
             field_dict["annotations"] = annotations
         if categories is not UNSET:
@@ -90,12 +90,12 @@ class InputDocument:
         d = src_dict.copy()
         text = d.pop("text")
 
-        _al_texts = d.pop("alTexts", UNSET)
-        al_texts: Union[Unset, InputDocumentAlTexts]
-        if isinstance(_al_texts, Unset):
-            al_texts = UNSET
+        _alt_texts = d.pop("altTexts", UNSET)
+        alt_texts: Union[Unset, InputDocumentAltTexts]
+        if isinstance(_alt_texts, Unset):
+            alt_texts = UNSET
         else:
-            al_texts = InputDocumentAlTexts.from_dict(_al_texts)
+            alt_texts = InputDocumentAltTexts.from_dict(_alt_texts)
 
         annotations = []
         _annotations = d.pop("annotations", UNSET)
@@ -131,7 +131,7 @@ class InputDocument:
 
         input_document = cls(
             text=text,
-            al_texts=al_texts,
+            alt_texts=alt_texts,
             annotations=annotations,
             categories=categories,
             identifier=identifier,
