@@ -10,17 +10,17 @@ class BearerToken:
     """ """
 
     access_token: str
-    email: str
+    username: str
 
     def to_dict(self) -> Dict[str, Any]:
         access_token = self.access_token
-        email = self.email
+        username = self.username
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
                 "access_token": access_token,
-                "email": email,
+                "username": username,
             }
         )
 
@@ -31,11 +31,11 @@ class BearerToken:
         d = src_dict.copy()
         access_token = d.pop("access_token")
 
-        email = d.pop("email")
+        username = d.pop("username")
 
         bearer_token = cls(
             access_token=access_token,
-            email=email,
+            username=username,
         )
 
         return bearer_token
