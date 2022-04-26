@@ -12,7 +12,6 @@ T = TypeVar("T", bound="ProjectBean")
 class ProjectBean:
     """ """
 
-    description: str
     image: str
     label: str
     lang: str
@@ -21,6 +20,7 @@ class ProjectBean:
     annotations: Union[Unset, int] = UNSET
     categories: Union[Unset, int] = UNSET
     classification: Union[Unset, ClassificationConfig] = UNSET
+    description: Union[Unset, str] = UNSET
     created_by: Union[Unset, str] = UNSET
     created_date: Union[Unset, str] = UNSET
     documents: Union[Unset, int] = UNSET
@@ -36,7 +36,6 @@ class ProjectBean:
     version: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        description = self.description
         image = self.image
         label = self.label
         lang = self.lang
@@ -51,6 +50,7 @@ class ProjectBean:
         if not isinstance(self.classification, Unset):
             classification = self.classification.to_dict()
 
+        description = self.description
         created_by = self.created_by
         created_date = self.created_date
         documents = self.documents
@@ -93,6 +93,8 @@ class ProjectBean:
             field_dict["categories"] = categories
         if classification is not UNSET:
             field_dict["classification"] = classification
+        if description is not UNSET:
+            field_dict["description"] = description
         if created_by is not UNSET:
             field_dict["createdBy"] = created_by
         if created_date is not UNSET:
@@ -125,7 +127,6 @@ class ProjectBean:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        description = d.pop("description")
 
         image = d.pop("image")
 
@@ -147,6 +148,8 @@ class ProjectBean:
             classification = UNSET
         else:
             classification = ClassificationConfig.from_dict(_classification)
+
+        description = d.pop("description", UNSET)
 
         created_by = d.pop("createdBy", UNSET)
 
