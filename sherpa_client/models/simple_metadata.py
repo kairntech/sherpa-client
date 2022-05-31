@@ -9,7 +9,11 @@ T = TypeVar("T", bound="SimpleMetadata")
 
 @attr.s(auto_attribs=True)
 class SimpleMetadata:
-    """ """
+    """
+    Attributes:
+        name (str):
+        value (Union[Unset, str]):
+    """
 
     name: str
     value: Union[Unset, str] = UNSET

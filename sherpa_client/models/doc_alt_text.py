@@ -9,7 +9,15 @@ T = TypeVar("T", bound="DocAltText")
 
 @attr.s(auto_attribs=True)
 class DocAltText:
-    """A document alternative text"""
+    """A document alternative text
+
+    Attributes:
+        name (str): The alternative text name
+        text (str): The alternative text
+        created_by (Union[Unset, str]): User having created the category
+        created_date (Union[Unset, str]): Creation date
+        modified_date (Union[Unset, str]): Last modification date
+    """
 
     name: str
     text: str

@@ -16,7 +16,7 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/_load_models".format(client.base_url, projectName=project_name)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
     json_json_body = []
@@ -26,6 +26,7 @@ def _get_kwargs(
         json_json_body.append(componentsschemas_uploaded_file_array_item)
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -57,13 +58,23 @@ def sync_detailed(
     client: Client,
     json_body: List[UploadedFile],
 ) -> Response[EngineConfigImportSummary]:
+    """import models already uploaded on the server
+
+    Args:
+        project_name (str):
+        json_body (List[UploadedFile]):
+
+    Returns:
+        Response[EngineConfigImportSummary]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
         json_body=json_body,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -77,7 +88,15 @@ def sync(
     client: Client,
     json_body: List[UploadedFile],
 ) -> Optional[EngineConfigImportSummary]:
-    """ """
+    """import models already uploaded on the server
+
+    Args:
+        project_name (str):
+        json_body (List[UploadedFile]):
+
+    Returns:
+        Response[EngineConfigImportSummary]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -92,6 +111,16 @@ async def asyncio_detailed(
     client: Client,
     json_body: List[UploadedFile],
 ) -> Response[EngineConfigImportSummary]:
+    """import models already uploaded on the server
+
+    Args:
+        project_name (str):
+        json_body (List[UploadedFile]):
+
+    Returns:
+        Response[EngineConfigImportSummary]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -99,7 +128,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -110,7 +139,15 @@ async def asyncio(
     client: Client,
     json_body: List[UploadedFile],
 ) -> Optional[EngineConfigImportSummary]:
-    """ """
+    """import models already uploaded on the server
+
+    Args:
+        project_name (str):
+        json_body (List[UploadedFile]):
+
+    Returns:
+        Response[EngineConfigImportSummary]
+    """
 
     return (
         await asyncio_detailed(

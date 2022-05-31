@@ -7,7 +7,10 @@ T = TypeVar("T", bound="Term")
 
 @attr.s(auto_attribs=True)
 class Term:
-    """ """
+    """
+    Attributes:
+        identifier (str):
+    """
 
     identifier: str
 

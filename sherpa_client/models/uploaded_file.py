@@ -9,7 +9,12 @@ T = TypeVar("T", bound="UploadedFile")
 
 @attr.s(auto_attribs=True)
 class UploadedFile:
-    """ """
+    """
+    Attributes:
+        filename (str):
+        id (str):
+        content_type (Union[Unset, str]):
+    """
 
     filename: str
     id: str

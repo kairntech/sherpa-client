@@ -15,16 +15,18 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/users".format(client.base_url)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "groupName": group_name,
-        "adminData": admin_data,
-    }
+    params: Dict[str, Any] = {}
+    params["groupName"] = group_name
+
+    params["adminData"] = admin_data
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "get",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -63,13 +65,23 @@ def sync_detailed(
     group_name: Union[Unset, None, str] = UNSET,
     admin_data: Union[Unset, None, bool] = False,
 ) -> Response[List[UserResponse]]:
+    """Get users
+
+    Args:
+        group_name (Union[Unset, None, str]):
+        admin_data (Union[Unset, None, bool]):
+
+    Returns:
+        Response[List[UserResponse]]
+    """
+
     kwargs = _get_kwargs(
         client=client,
         group_name=group_name,
         admin_data=admin_data,
     )
 
-    response = httpx.get(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -83,7 +95,15 @@ def sync(
     group_name: Union[Unset, None, str] = UNSET,
     admin_data: Union[Unset, None, bool] = False,
 ) -> Optional[List[UserResponse]]:
-    """ """
+    """Get users
+
+    Args:
+        group_name (Union[Unset, None, str]):
+        admin_data (Union[Unset, None, bool]):
+
+    Returns:
+        Response[List[UserResponse]]
+    """
 
     return sync_detailed(
         client=client,
@@ -98,6 +118,16 @@ async def asyncio_detailed(
     group_name: Union[Unset, None, str] = UNSET,
     admin_data: Union[Unset, None, bool] = False,
 ) -> Response[List[UserResponse]]:
+    """Get users
+
+    Args:
+        group_name (Union[Unset, None, str]):
+        admin_data (Union[Unset, None, bool]):
+
+    Returns:
+        Response[List[UserResponse]]
+    """
+
     kwargs = _get_kwargs(
         client=client,
         group_name=group_name,
@@ -105,7 +135,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.get(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -116,7 +146,15 @@ async def asyncio(
     group_name: Union[Unset, None, str] = UNSET,
     admin_data: Union[Unset, None, bool] = False,
 ) -> Optional[List[UserResponse]]:
-    """ """
+    """Get users
+
+    Args:
+        group_name (Union[Unset, None, str]):
+        admin_data (Union[Unset, None, bool]):
+
+    Returns:
+        Response[List[UserResponse]]
+    """
 
     return (
         await asyncio_detailed(

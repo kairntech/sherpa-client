@@ -9,7 +9,10 @@ T = TypeVar("T", bound="ClassificationOptions")
 
 @attr.s(auto_attribs=True)
 class ClassificationOptions:
-    """ """
+    """
+    Attributes:
+        exclusive_classes (Union[Unset, bool]):  Default: True.
+    """
 
     exclusive_classes: Union[Unset, bool] = True
 

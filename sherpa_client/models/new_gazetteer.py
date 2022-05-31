@@ -9,7 +9,12 @@ T = TypeVar("T", bound="NewGazetteer")
 
 @attr.s(auto_attribs=True)
 class NewGazetteer:
-    """ """
+    """
+    Attributes:
+        engine (str):
+        label (str):
+        parameters (NewGazetteerParameters):
+    """
 
     engine: str
     label: str

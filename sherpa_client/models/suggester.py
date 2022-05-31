@@ -9,7 +9,19 @@ T = TypeVar("T", bound="Suggester")
 
 @attr.s(auto_attribs=True)
 class Suggester:
-    """ """
+    """
+    Attributes:
+        duration (int):
+        engine (str):
+        label (str):
+        models (int):
+        name (str):
+        parameters (SuggesterParameters):
+        quality (int):
+        running (bool):
+        timestamp (int):
+        uptodate (bool):
+    """
 
     duration: int
     engine: str

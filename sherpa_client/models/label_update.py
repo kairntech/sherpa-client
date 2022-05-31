@@ -9,7 +9,12 @@ T = TypeVar("T", bound="LabelUpdate")
 
 @attr.s(auto_attribs=True)
 class LabelUpdate:
-    """ """
+    """
+    Attributes:
+        color (Union[Unset, str]):
+        identifier (Union[Unset, str]):
+        label (Union[Unset, str]):
+    """
 
     color: Union[Unset, str] = UNSET
     identifier: Union[Unset, str] = UNSET

@@ -7,7 +7,11 @@ T = TypeVar("T", bound="TextCount")
 
 @attr.s(auto_attribs=True)
 class TextCount:
-    """ """
+    """
+    Attributes:
+        id (str):
+        count (int):
+    """
 
     id: str
     count: int

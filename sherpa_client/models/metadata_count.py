@@ -7,7 +7,12 @@ T = TypeVar("T", bound="MetadataCount")
 
 @attr.s(auto_attribs=True)
 class MetadataCount:
-    """ """
+    """
+    Attributes:
+        id (str):
+        document_count (int):
+        segment_count (int):
+    """
 
     id: str
     document_count: int

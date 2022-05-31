@@ -7,7 +7,11 @@ T = TypeVar("T", bound="LabelCount")
 
 @attr.s(auto_attribs=True)
 class LabelCount:
-    """ """
+    """
+    Attributes:
+        id (str):
+        count (int):
+    """
 
     id: str
     count: int

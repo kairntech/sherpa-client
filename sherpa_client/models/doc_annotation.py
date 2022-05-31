@@ -10,7 +10,19 @@ T = TypeVar("T", bound="DocAnnotation")
 
 @attr.s(auto_attribs=True)
 class DocAnnotation:
-    """A document annotation"""
+    """A document annotation
+
+    Attributes:
+        end (int): End offset in document
+        label_name (str): The label name
+        start (int): Start offset in document
+        text (str): Covered text
+        created_by (Union[Unset, str]): User having created the annotation
+        created_date (Union[Unset, str]): Creation date
+        identifier (Union[Unset, str]): Annotation identifier (only in 'html version')
+        modified_date (Union[Unset, str]): Last modification date
+        status (Union[Unset, DocAnnotationStatus]): Status of the annotation
+    """
 
     end: int
     label_name: str

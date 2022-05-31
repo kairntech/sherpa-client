@@ -17,18 +17,20 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/roles".format(client.base_url)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "groupName": group_name,
-        "restricted": restricted,
-    }
+    params: Dict[str, Any] = {}
+    params["groupName"] = group_name
+
+    params["restricted"] = restricted
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     json_json_body = json_body.to_dict()
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -62,6 +64,17 @@ def sync_detailed(
     group_name: Union[Unset, None, str] = "",
     restricted: Union[Unset, None, bool] = False,
 ) -> Response[RoleDesc]:
+    """Create role
+
+    Args:
+        group_name (Union[Unset, None, str]):  Default: ''.
+        restricted (Union[Unset, None, bool]):
+        json_body (NewRole):
+
+    Returns:
+        Response[RoleDesc]
+    """
+
     kwargs = _get_kwargs(
         client=client,
         json_body=json_body,
@@ -69,7 +82,7 @@ def sync_detailed(
         restricted=restricted,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -84,7 +97,16 @@ def sync(
     group_name: Union[Unset, None, str] = "",
     restricted: Union[Unset, None, bool] = False,
 ) -> Optional[RoleDesc]:
-    """ """
+    """Create role
+
+    Args:
+        group_name (Union[Unset, None, str]):  Default: ''.
+        restricted (Union[Unset, None, bool]):
+        json_body (NewRole):
+
+    Returns:
+        Response[RoleDesc]
+    """
 
     return sync_detailed(
         client=client,
@@ -101,6 +123,17 @@ async def asyncio_detailed(
     group_name: Union[Unset, None, str] = "",
     restricted: Union[Unset, None, bool] = False,
 ) -> Response[RoleDesc]:
+    """Create role
+
+    Args:
+        group_name (Union[Unset, None, str]):  Default: ''.
+        restricted (Union[Unset, None, bool]):
+        json_body (NewRole):
+
+    Returns:
+        Response[RoleDesc]
+    """
+
     kwargs = _get_kwargs(
         client=client,
         json_body=json_body,
@@ -109,7 +142,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -121,7 +154,16 @@ async def asyncio(
     group_name: Union[Unset, None, str] = "",
     restricted: Union[Unset, None, bool] = False,
 ) -> Optional[RoleDesc]:
-    """ """
+    """Create role
+
+    Args:
+        group_name (Union[Unset, None, str]):  Default: ''.
+        restricted (Union[Unset, None, bool]):
+        json_body (NewRole):
+
+    Returns:
+        Response[RoleDesc]
+    """
 
     return (
         await asyncio_detailed(

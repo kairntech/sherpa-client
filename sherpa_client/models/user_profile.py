@@ -9,7 +9,12 @@ T = TypeVar("T", bound="UserProfile")
 
 @attr.s(auto_attribs=True)
 class UserProfile:
-    """ """
+    """
+    Attributes:
+        profilename (str):
+        username (str):
+        email (Union[Unset, str]):
+    """
 
     profilename: str
     username: str

@@ -11,7 +11,20 @@ T = TypeVar("T", bound="ModelMetrics")
 
 @attr.s(auto_attribs=True)
 class ModelMetrics:
-    """ """
+    """
+    Attributes:
+        classes (List[str]):
+        config (EngineConfig):
+        engine (str):
+        lang (str):
+        name (str):
+        options (ModelMetricsOptions):
+        quality (float):
+        report (Report):
+        status (str):
+        timestamp (int):
+        timestamp_end (int):
+    """
 
     classes: List[str]
     config: EngineConfig

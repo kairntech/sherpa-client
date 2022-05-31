@@ -11,7 +11,22 @@ T = TypeVar("T", bound="SherpaJobBean")
 
 @attr.s(auto_attribs=True)
 class SherpaJobBean:
-    """ """
+    """
+    Attributes:
+        created_at (int):
+        created_by (str):
+        current_step_count (int):
+        description (str):
+        id (str):
+        project (str):
+        project_label (str):
+        status (SherpaJobBeanStatus):
+        total_step_count (int):
+        type (SherpaJobBeanType):
+        upload_ids (List[str]):
+        completed_at (Union[Unset, int]):
+        status_message (Union[Unset, str]):
+    """
 
     created_at: int
     created_by: str

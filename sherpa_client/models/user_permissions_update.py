@@ -9,7 +9,11 @@ T = TypeVar("T", bound="UserPermissionsUpdate")
 
 @attr.s(auto_attribs=True)
 class UserPermissionsUpdate:
-    """ """
+    """
+    Attributes:
+        permissions (Union[Unset, List[str]]):
+        roles (Union[Unset, List[str]]):
+    """
 
     permissions: Union[Unset, List[str]] = UNSET
     roles: Union[Unset, List[str]] = UNSET

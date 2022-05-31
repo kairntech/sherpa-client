@@ -10,7 +10,15 @@ T = TypeVar("T", bound="AnnotatedDocCategory")
 
 @attr.s(auto_attribs=True)
 class AnnotatedDocCategory:
-    """A document category"""
+    """A document category
+
+    Attributes:
+        label_name (str): Label name
+        label (Union[Unset, str]): Human-friendly label
+        label_id (Union[Unset, str]): External label identifier
+        properties (Union[Unset, AnnotatedDocCategoryProperties]): Additional properties
+        score (Union[Unset, float]): Score of the category
+    """
 
     label_name: str
     label: Union[Unset, str] = UNSET

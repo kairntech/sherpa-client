@@ -7,7 +7,11 @@ T = TypeVar("T", bound="BearerToken")
 
 @attr.s(auto_attribs=True)
 class BearerToken:
-    """ """
+    """
+    Attributes:
+        access_token (str):
+        username (str):
+    """
 
     access_token: str
     username: str

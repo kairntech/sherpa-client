@@ -7,7 +7,11 @@ T = TypeVar("T", bound="EngineConfig")
 
 @attr.s(auto_attribs=True)
 class EngineConfig:
-    """ """
+    """
+    Attributes:
+        name (str):
+        type (str):
+    """
 
     name: str
     type: str

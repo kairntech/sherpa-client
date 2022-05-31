@@ -9,7 +9,12 @@ T = TypeVar("T", bound="NewExperiment")
 
 @attr.s(auto_attribs=True)
 class NewExperiment:
-    """ """
+    """
+    Attributes:
+        engine (str):
+        label (str):
+        parameters (NewExperimentParameters):
+    """
 
     engine: str
     label: str

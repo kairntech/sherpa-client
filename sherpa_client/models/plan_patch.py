@@ -10,7 +10,12 @@ T = TypeVar("T", bound="PlanPatch")
 
 @attr.s(auto_attribs=True)
 class PlanPatch:
-    """ """
+    """
+    Attributes:
+        favorite (Union[Unset, bool]):
+        label (Union[Unset, str]):
+        parameters (Union[Unset, AnnotationPlan]):
+    """
 
     favorite: Union[Unset, bool] = UNSET
     label: Union[Unset, str] = UNSET

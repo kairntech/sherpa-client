@@ -10,7 +10,12 @@ T = TypeVar("T", bound="SegmentContext")
 
 @attr.s(auto_attribs=True)
 class SegmentContext:
-    """ """
+    """
+    Attributes:
+        size (int):
+        merged (Union[Unset, Segment]):
+        segments (Union[Unset, List[Segment]]):
+    """
 
     size: int
     merged: Union[Unset, Segment] = UNSET

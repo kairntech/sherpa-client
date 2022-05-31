@@ -10,7 +10,11 @@ T = TypeVar("T", bound="Formatter")
 
 @attr.s(auto_attribs=True)
 class Formatter:
-    """ """
+    """
+    Attributes:
+        name (str): Name of the formatter (e.g. tabular)
+        parameters (Union[Unset, FormatterParameters]): Optional formatting parameters
+    """
 
     name: str
     parameters: Union[Unset, FormatterParameters] = UNSET

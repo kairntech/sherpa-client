@@ -2,10 +2,10 @@ from typing import Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
+from ..models.doc_alt_text import DocAltText
 from ..models.doc_annotation import DocAnnotation
 from ..models.doc_category import DocCategory
 from ..models.doc_sentence import DocSentence
-from ..models.input_document_alt_texts import InputDocumentAltTexts
 from ..models.input_document_metadata import InputDocumentMetadata
 from ..types import UNSET, Unset
 
@@ -14,23 +14,29 @@ T = TypeVar("T", bound="InputDocument")
 
 @attr.s(auto_attribs=True)
 class InputDocument:
-    """ """
+    """
+    Attributes:
+        text (str): text of the document
+        annotations (Union[Unset, List[DocAnnotation]]):
+        categories (Union[Unset, List[DocCategory]]):
+        identifier (Union[Unset, str]): document identifier
+        metadata (Union[Unset, InputDocumentMetadata]): document metadata
+        alt_texts (Union[Unset, List[DocAltText]]):
+        sentences (Union[Unset, List[DocSentence]]):
+        title (Union[Unset, str]): title of the document
+    """
 
     text: str
-    alt_texts: Union[Unset, InputDocumentAltTexts] = UNSET
     annotations: Union[Unset, List[DocAnnotation]] = UNSET
     categories: Union[Unset, List[DocCategory]] = UNSET
     identifier: Union[Unset, str] = UNSET
     metadata: Union[Unset, InputDocumentMetadata] = UNSET
+    alt_texts: Union[Unset, List[DocAltText]] = UNSET
     sentences: Union[Unset, List[DocSentence]] = UNSET
     title: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         text = self.text
-        alt_texts: Union[Unset, Dict[str, Any]] = UNSET
-        if not isinstance(self.alt_texts, Unset):
-            alt_texts = self.alt_texts.to_dict()
-
         annotations: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.annotations, Unset):
             annotations = []
@@ -52,6 +58,14 @@ class InputDocument:
         if not isinstance(self.metadata, Unset):
             metadata = self.metadata.to_dict()
 
+        alt_texts: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.alt_texts, Unset):
+            alt_texts = []
+            for alt_texts_item_data in self.alt_texts:
+                alt_texts_item = alt_texts_item_data.to_dict()
+
+                alt_texts.append(alt_texts_item)
+
         sentences: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.sentences, Unset):
             sentences = []
@@ -68,8 +82,6 @@ class InputDocument:
                 "text": text,
             }
         )
-        if alt_texts is not UNSET:
-            field_dict["altTexts"] = alt_texts
         if annotations is not UNSET:
             field_dict["annotations"] = annotations
         if categories is not UNSET:
@@ -78,6 +90,8 @@ class InputDocument:
             field_dict["identifier"] = identifier
         if metadata is not UNSET:
             field_dict["metadata"] = metadata
+        if alt_texts is not UNSET:
+            field_dict["altTexts"] = alt_texts
         if sentences is not UNSET:
             field_dict["sentences"] = sentences
         if title is not UNSET:
@@ -89,13 +103,6 @@ class InputDocument:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         text = d.pop("text")
-
-        _alt_texts = d.pop("altTexts", UNSET)
-        alt_texts: Union[Unset, InputDocumentAltTexts]
-        if isinstance(_alt_texts, Unset):
-            alt_texts = UNSET
-        else:
-            alt_texts = InputDocumentAltTexts.from_dict(_alt_texts)
 
         annotations = []
         _annotations = d.pop("annotations", UNSET)
@@ -120,6 +127,13 @@ class InputDocument:
         else:
             metadata = InputDocumentMetadata.from_dict(_metadata)
 
+        alt_texts = []
+        _alt_texts = d.pop("altTexts", UNSET)
+        for alt_texts_item_data in _alt_texts or []:
+            alt_texts_item = DocAltText.from_dict(alt_texts_item_data)
+
+            alt_texts.append(alt_texts_item)
+
         sentences = []
         _sentences = d.pop("sentences", UNSET)
         for sentences_item_data in _sentences or []:
@@ -131,11 +145,11 @@ class InputDocument:
 
         input_document = cls(
             text=text,
-            alt_texts=alt_texts,
             annotations=annotations,
             categories=categories,
             identifier=identifier,
             metadata=metadata,
+            alt_texts=alt_texts,
             sentences=sentences,
             title=title,
         )

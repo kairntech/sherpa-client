@@ -9,7 +9,11 @@ T = TypeVar("T", bound="TermImporterSpec")
 
 @attr.s(auto_attribs=True)
 class TermImporterSpec:
-    """ """
+    """
+    Attributes:
+        format_ (str):
+        parameters (TermImporterSpecParameters):
+    """
 
     format_: str
     parameters: TermImporterSpecParameters

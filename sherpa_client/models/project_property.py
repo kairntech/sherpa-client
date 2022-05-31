@@ -9,7 +9,10 @@ T = TypeVar("T", bound="ProjectProperty")
 
 @attr.s(auto_attribs=True)
 class ProjectProperty:
-    """ """
+    """
+    Attributes:
+        name (Union[Unset, str]):  Default: 'value'.
+    """
 
     name: Union[Unset, str] = "value"
 

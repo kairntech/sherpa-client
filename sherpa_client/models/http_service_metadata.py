@@ -10,7 +10,24 @@ T = TypeVar("T", bound="HttpServiceMetadata")
 
 @attr.s(auto_attribs=True)
 class HttpServiceMetadata:
-    """ """
+    """
+    Attributes:
+        api (str):
+        compatibility (str):
+        version (str):
+        annotators (Union[Unset, str]):
+        converters (Union[Unset, str]):
+        engine (Union[Unset, str]):
+        extensions (Union[Unset, str]):
+        formatters (Union[Unset, str]):
+        functions (Union[Unset, str]):
+        languages (Union[Unset, str]):
+        natures (Union[Unset, str]):
+        operations (Union[Unset, HttpServiceMetadataOperations]):
+        processors (Union[Unset, str]):
+        term_importers (Union[Unset, str]):
+        trigger (Union[Unset, str]):
+    """
 
     api: str
     compatibility: str

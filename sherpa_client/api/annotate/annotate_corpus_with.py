@@ -20,17 +20,20 @@ def _get_kwargs(
         client.base_url, projectName=project_name, annotator=annotator
     )
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "annotatorProject": annotator_project,
-        "overwrite": overwrite,
-        "emailNotification": email_notification,
-    }
+    params: Dict[str, Any] = {}
+    params["annotatorProject"] = annotator_project
+
+    params["overwrite"] = overwrite
+
+    params["emailNotification"] = email_notification
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -65,6 +68,19 @@ def sync_detailed(
     overwrite: Union[Unset, None, bool] = True,
     email_notification: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
+    """Annotate the whole corpus with the given annotator
+
+    Args:
+        project_name (str):
+        annotator (str):
+        annotator_project (Union[Unset, None, str]):
+        overwrite (Union[Unset, None, bool]):  Default: True.
+        email_notification (Union[Unset, None, bool]):
+
+    Returns:
+        Response[SherpaJobBean]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         annotator=annotator,
@@ -74,7 +90,7 @@ def sync_detailed(
         email_notification=email_notification,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -91,7 +107,18 @@ def sync(
     overwrite: Union[Unset, None, bool] = True,
     email_notification: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
-    """ """
+    """Annotate the whole corpus with the given annotator
+
+    Args:
+        project_name (str):
+        annotator (str):
+        annotator_project (Union[Unset, None, str]):
+        overwrite (Union[Unset, None, bool]):  Default: True.
+        email_notification (Union[Unset, None, bool]):
+
+    Returns:
+        Response[SherpaJobBean]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -112,6 +139,19 @@ async def asyncio_detailed(
     overwrite: Union[Unset, None, bool] = True,
     email_notification: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
+    """Annotate the whole corpus with the given annotator
+
+    Args:
+        project_name (str):
+        annotator (str):
+        annotator_project (Union[Unset, None, str]):
+        overwrite (Union[Unset, None, bool]):  Default: True.
+        email_notification (Union[Unset, None, bool]):
+
+    Returns:
+        Response[SherpaJobBean]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         annotator=annotator,
@@ -122,7 +162,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -136,7 +176,18 @@ async def asyncio(
     overwrite: Union[Unset, None, bool] = True,
     email_notification: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
-    """ """
+    """Annotate the whole corpus with the given annotator
+
+    Args:
+        project_name (str):
+        annotator (str):
+        annotator_project (Union[Unset, None, str]):
+        overwrite (Union[Unset, None, bool]):  Default: True.
+        email_notification (Union[Unset, None, bool]):
+
+    Returns:
+        Response[SherpaJobBean]
+    """
 
     return (
         await asyncio_detailed(

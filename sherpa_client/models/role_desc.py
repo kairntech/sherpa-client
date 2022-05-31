@@ -9,7 +9,19 @@ T = TypeVar("T", bound="RoleDesc")
 
 @attr.s(auto_attribs=True)
 class RoleDesc:
-    """ """
+    """
+    Attributes:
+        label (str):
+        permissions (List[str]):
+        rolename (str):
+        type (str):
+        created_at (Union[Unset, str]):
+        created_by (Union[Unset, str]):
+        group_name (Union[Unset, str]):
+        modified_at (Union[Unset, str]):
+        modified_by (Union[Unset, str]):
+        predefined (Union[Unset, bool]):
+    """
 
     label: str
     permissions: List[str]

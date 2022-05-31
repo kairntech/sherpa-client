@@ -7,7 +7,11 @@ T = TypeVar("T", bound="AnnotationId")
 
 @attr.s(auto_attribs=True)
 class AnnotationId:
-    """Annotation creation response"""
+    """Annotation creation response
+
+    Attributes:
+        identifier (str): Identifier of the new annotation
+    """
 
     identifier: str
 

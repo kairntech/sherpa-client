@@ -7,7 +7,10 @@ T = TypeVar("T", bound="GroupName")
 
 @attr.s(auto_attribs=True)
 class GroupName:
-    """ """
+    """
+    Attributes:
+        name (str):
+    """
 
     name: str
 

@@ -20,20 +20,26 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/suggestions".format(client.base_url, projectName=project_name)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "from": from_,
-        "size": size,
-        "sort": sort,
-        "filter": filter_,
-        "htmlVersion": html_version,
-        "facet": facet,
-    }
+    params: Dict[str, Any] = {}
+    params["from"] = from_
+
+    params["size"] = size
+
+    params["sort"] = sort
+
+    params["filter"] = filter_
+
+    params["htmlVersion"] = html_version
+
+    params["facet"] = facet
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "get",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -70,6 +76,21 @@ def sync_detailed(
     html_version: Union[Unset, None, bool] = False,
     facet: Union[Unset, None, bool] = False,
 ) -> Response[GetSuggestionsResponse200]:
+    """Get suggestions according to the project nature
+
+    Args:
+        project_name (str):
+        from_ (Union[Unset, None, int]):
+        size (Union[Unset, None, int]):  Default: 25.
+        sort (Union[Unset, None, str]):  Default: 'sampling'.
+        filter_ (Union[Unset, None, str]):  Default: ''.
+        html_version (Union[Unset, None, bool]):
+        facet (Union[Unset, None, bool]):
+
+    Returns:
+        Response[GetSuggestionsResponse200]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -81,7 +102,7 @@ def sync_detailed(
         facet=facet,
     )
 
-    response = httpx.get(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -100,7 +121,20 @@ def sync(
     html_version: Union[Unset, None, bool] = False,
     facet: Union[Unset, None, bool] = False,
 ) -> Optional[GetSuggestionsResponse200]:
-    """ """
+    """Get suggestions according to the project nature
+
+    Args:
+        project_name (str):
+        from_ (Union[Unset, None, int]):
+        size (Union[Unset, None, int]):  Default: 25.
+        sort (Union[Unset, None, str]):  Default: 'sampling'.
+        filter_ (Union[Unset, None, str]):  Default: ''.
+        html_version (Union[Unset, None, bool]):
+        facet (Union[Unset, None, bool]):
+
+    Returns:
+        Response[GetSuggestionsResponse200]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -125,6 +159,21 @@ async def asyncio_detailed(
     html_version: Union[Unset, None, bool] = False,
     facet: Union[Unset, None, bool] = False,
 ) -> Response[GetSuggestionsResponse200]:
+    """Get suggestions according to the project nature
+
+    Args:
+        project_name (str):
+        from_ (Union[Unset, None, int]):
+        size (Union[Unset, None, int]):  Default: 25.
+        sort (Union[Unset, None, str]):  Default: 'sampling'.
+        filter_ (Union[Unset, None, str]):  Default: ''.
+        html_version (Union[Unset, None, bool]):
+        facet (Union[Unset, None, bool]):
+
+    Returns:
+        Response[GetSuggestionsResponse200]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -137,7 +186,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.get(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -153,7 +202,20 @@ async def asyncio(
     html_version: Union[Unset, None, bool] = False,
     facet: Union[Unset, None, bool] = False,
 ) -> Optional[GetSuggestionsResponse200]:
-    """ """
+    """Get suggestions according to the project nature
+
+    Args:
+        project_name (str):
+        from_ (Union[Unset, None, int]):
+        size (Union[Unset, None, int]):  Default: 25.
+        sort (Union[Unset, None, str]):  Default: 'sampling'.
+        filter_ (Union[Unset, None, str]):  Default: ''.
+        html_version (Union[Unset, None, bool]):
+        facet (Union[Unset, None, bool]):
+
+    Returns:
+        Response[GetSuggestionsResponse200]
+    """
 
     return (
         await asyncio_detailed(

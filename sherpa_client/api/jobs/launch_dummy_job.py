@@ -16,16 +16,18 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/job".format(client.base_url, projectName=project_name)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "job_desc": job_desc,
-        "timeout": timeout,
-    }
+    params: Dict[str, Any] = {}
+    params["job_desc"] = job_desc
+
+    params["timeout"] = timeout
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -58,6 +60,18 @@ def sync_detailed(
     job_desc: Union[Unset, None, str] = "All work and no play makes Jack a dull boy",
     timeout: Union[Unset, None, int] = 60,
 ) -> Response[SherpaJobBean]:
+    """create a dummy job
+
+    Args:
+        project_name (str):
+        job_desc (Union[Unset, None, str]):  Default: 'All work and no play makes Jack a dull
+            boy'.
+        timeout (Union[Unset, None, int]):  Default: 60.
+
+    Returns:
+        Response[SherpaJobBean]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -65,7 +79,7 @@ def sync_detailed(
         timeout=timeout,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -80,7 +94,17 @@ def sync(
     job_desc: Union[Unset, None, str] = "All work and no play makes Jack a dull boy",
     timeout: Union[Unset, None, int] = 60,
 ) -> Optional[SherpaJobBean]:
-    """ """
+    """create a dummy job
+
+    Args:
+        project_name (str):
+        job_desc (Union[Unset, None, str]):  Default: 'All work and no play makes Jack a dull
+            boy'.
+        timeout (Union[Unset, None, int]):  Default: 60.
+
+    Returns:
+        Response[SherpaJobBean]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -97,6 +121,18 @@ async def asyncio_detailed(
     job_desc: Union[Unset, None, str] = "All work and no play makes Jack a dull boy",
     timeout: Union[Unset, None, int] = 60,
 ) -> Response[SherpaJobBean]:
+    """create a dummy job
+
+    Args:
+        project_name (str):
+        job_desc (Union[Unset, None, str]):  Default: 'All work and no play makes Jack a dull
+            boy'.
+        timeout (Union[Unset, None, int]):  Default: 60.
+
+    Returns:
+        Response[SherpaJobBean]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -105,7 +141,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -117,7 +153,17 @@ async def asyncio(
     job_desc: Union[Unset, None, str] = "All work and no play makes Jack a dull boy",
     timeout: Union[Unset, None, int] = 60,
 ) -> Optional[SherpaJobBean]:
-    """ """
+    """create a dummy job
+
+    Args:
+        project_name (str):
+        job_desc (Union[Unset, None, str]):  Default: 'All work and no play makes Jack a dull
+            boy'.
+        timeout (Union[Unset, None, int]):  Default: 60.
+
+    Returns:
+        Response[SherpaJobBean]
+    """
 
     return (
         await asyncio_detailed(

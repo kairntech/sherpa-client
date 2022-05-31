@@ -7,7 +7,10 @@ T = TypeVar("T", bound="GeneratedLabelHint")
 
 @attr.s(auto_attribs=True)
 class GeneratedLabelHint:
-    """ """
+    """
+    Attributes:
+        label_hint (str):
+    """
 
     label_hint: str
 

@@ -11,7 +11,21 @@ T = TypeVar("T", bound="Segment")
 
 @attr.s(auto_attribs=True)
 class Segment:
-    """ """
+    """
+    Attributes:
+        document_identifier (str):
+        document_title (str):
+        end (int):
+        identifier (str):
+        start (int):
+        text (str):
+        annotations (Union[Unset, List[DocAnnotation]]):
+        created_by (Union[Unset, str]): User having created the segment
+        created_date (Union[Unset, str]): Creation date
+        metadata (Union[Unset, SegmentMetadata]):
+        modified_date (Union[Unset, str]): Last modification date
+        shift (Union[Unset, int]):
+    """
 
     document_identifier: str
     document_title: str

@@ -9,7 +9,18 @@ T = TypeVar("T", bound="Lexicon")
 
 @attr.s(auto_attribs=True)
 class Lexicon:
-    """ """
+    """
+    Attributes:
+        color (str):
+        label (str):
+        manual_edition_allowed (bool): (unstable)
+        name (str):
+        created_at (Union[Unset, str]):
+        created_by (Union[Unset, str]):
+        modified_at (Union[Unset, str]):
+        modified_by (Union[Unset, str]):
+        terms (Union[Unset, int]):
+    """
 
     color: str
     label: str

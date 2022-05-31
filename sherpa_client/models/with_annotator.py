@@ -11,7 +11,14 @@ T = TypeVar("T", bound="WithAnnotator")
 
 @attr.s(auto_attribs=True)
 class WithAnnotator:
-    """ """
+    """
+    Attributes:
+        annotator (str):
+        condition (Union[Unset, WithAnnotatorCondition]):
+        disabled (Union[Unset, bool]):
+        parameters (Union[Unset, WithAnnotatorParameters]):
+        project_name (Union[Unset, str]):
+    """
 
     annotator: str
     condition: Union[Unset, WithAnnotatorCondition] = UNSET

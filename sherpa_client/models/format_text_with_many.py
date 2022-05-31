@@ -11,7 +11,12 @@ T = TypeVar("T", bound="FormatTextWithMany")
 
 @attr.s(auto_attribs=True)
 class FormatTextWithMany:
-    """ """
+    """
+    Attributes:
+        formatter (Formatter):
+        pipeline (List[Union[WithAnnotator, WithProcessor]]):
+        text (str):
+    """
 
     formatter: Formatter
     pipeline: List[Union[WithAnnotator, WithProcessor]]
@@ -22,6 +27,7 @@ class FormatTextWithMany:
 
         pipeline = []
         for pipeline_item_data in self.pipeline:
+
             if isinstance(pipeline_item_data, WithAnnotator):
                 pipeline_item = pipeline_item_data.to_dict()
 

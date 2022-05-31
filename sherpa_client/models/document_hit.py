@@ -9,7 +9,12 @@ T = TypeVar("T", bound="DocumentHit")
 
 @attr.s(auto_attribs=True)
 class DocumentHit:
-    """ """
+    """
+    Attributes:
+        id (str):
+        document (Document):
+        score (float):
+    """
 
     id: str
     document: Document

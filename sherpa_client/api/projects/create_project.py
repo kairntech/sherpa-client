@@ -16,17 +16,18 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects".format(client.base_url)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "groupName": group_name,
-    }
+    params: Dict[str, Any] = {}
+    params["groupName"] = group_name
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     json_json_body = json_body.to_dict()
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -59,13 +60,23 @@ def sync_detailed(
     json_body: ProjectConfigCreation,
     group_name: Union[Unset, None, str] = UNSET,
 ) -> Response[ProjectStatus]:
+    """create an empty project
+
+    Args:
+        group_name (Union[Unset, None, str]):
+        json_body (ProjectConfigCreation):
+
+    Returns:
+        Response[ProjectStatus]
+    """
+
     kwargs = _get_kwargs(
         client=client,
         json_body=json_body,
         group_name=group_name,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -79,7 +90,15 @@ def sync(
     json_body: ProjectConfigCreation,
     group_name: Union[Unset, None, str] = UNSET,
 ) -> Optional[ProjectStatus]:
-    """ """
+    """create an empty project
+
+    Args:
+        group_name (Union[Unset, None, str]):
+        json_body (ProjectConfigCreation):
+
+    Returns:
+        Response[ProjectStatus]
+    """
 
     return sync_detailed(
         client=client,
@@ -94,6 +113,16 @@ async def asyncio_detailed(
     json_body: ProjectConfigCreation,
     group_name: Union[Unset, None, str] = UNSET,
 ) -> Response[ProjectStatus]:
+    """create an empty project
+
+    Args:
+        group_name (Union[Unset, None, str]):
+        json_body (ProjectConfigCreation):
+
+    Returns:
+        Response[ProjectStatus]
+    """
+
     kwargs = _get_kwargs(
         client=client,
         json_body=json_body,
@@ -101,7 +130,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -112,7 +141,15 @@ async def asyncio(
     json_body: ProjectConfigCreation,
     group_name: Union[Unset, None, str] = UNSET,
 ) -> Optional[ProjectStatus]:
-    """ """
+    """create an empty project
+
+    Args:
+        group_name (Union[Unset, None, str]):
+        json_body (ProjectConfigCreation):
+
+    Returns:
+        Response[ProjectStatus]
+    """
 
     return (
         await asyncio_detailed(

@@ -10,7 +10,11 @@ T = TypeVar("T", bound="GazetteerPatch")
 
 @attr.s(auto_attribs=True)
 class GazetteerPatch:
-    """ """
+    """
+    Attributes:
+        label (Union[Unset, str]):
+        parameters (Union[Unset, GazetteerPatchParameters]):
+    """
 
     label: Union[Unset, str] = UNSET
     parameters: Union[Unset, GazetteerPatchParameters] = UNSET

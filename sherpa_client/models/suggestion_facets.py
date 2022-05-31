@@ -10,7 +10,11 @@ T = TypeVar("T", bound="SuggestionFacets")
 
 @attr.s(auto_attribs=True)
 class SuggestionFacets:
-    """ """
+    """
+    Attributes:
+        labels (List[LabelCount]):
+        texts (List[TextCount]):
+    """
 
     labels: List[LabelCount]
     texts: List[TextCount]

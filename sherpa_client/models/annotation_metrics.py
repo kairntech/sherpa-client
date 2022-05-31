@@ -11,7 +11,16 @@ T = TypeVar("T", bound="AnnotationMetrics")
 
 @attr.s(auto_attribs=True)
 class AnnotationMetrics:
-    """ """
+    """
+    Attributes:
+        annotation_count (int):
+        annotation_facets (AnnotationFacets):
+        document_facets (DocumentFacets):
+        documents_in_dataset (int):
+        segments_in_dataset (int):
+        suggestion_count (int):
+        suggestion_facets (SuggestionFacets):
+    """
 
     annotation_count: int
     annotation_facets: AnnotationFacets

@@ -9,7 +9,11 @@ T = TypeVar("T", bound="Aggregation")
 
 @attr.s(auto_attribs=True)
 class Aggregation:
-    """ """
+    """
+    Attributes:
+        buckets (List[Bucket]):
+        name (str):
+    """
 
     buckets: List[Bucket]
     name: str

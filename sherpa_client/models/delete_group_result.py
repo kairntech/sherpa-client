@@ -7,7 +7,11 @@ T = TypeVar("T", bound="DeleteGroupResult")
 
 @attr.s(auto_attribs=True)
 class DeleteGroupResult:
-    """ """
+    """
+    Attributes:
+        removed_projects (int):
+        removed_users (int):
+    """
 
     removed_projects: int
     removed_users: int

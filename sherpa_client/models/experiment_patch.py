@@ -10,7 +10,12 @@ T = TypeVar("T", bound="ExperimentPatch")
 
 @attr.s(auto_attribs=True)
 class ExperimentPatch:
-    """ """
+    """
+    Attributes:
+        favorite (Union[Unset, bool]):
+        label (Union[Unset, str]):
+        parameters (Union[Unset, ExperimentPatchParameters]):
+    """
 
     favorite: Union[Unset, bool] = UNSET
     label: Union[Unset, str] = UNSET

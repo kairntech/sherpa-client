@@ -12,7 +12,13 @@ T = TypeVar("T", bound="SegmentHits")
 
 @attr.s(auto_attribs=True)
 class SegmentHits:
-    """ """
+    """
+    Attributes:
+        hits (List[SegmentHit]):
+        total (SearchTotal):
+        aggregations (Union[Unset, List[Aggregation]]):
+        max_score (Union[Unset, float]):
+    """
 
     hits: List[SegmentHit]
     total: SearchTotal

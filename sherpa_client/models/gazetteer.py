@@ -9,7 +9,18 @@ T = TypeVar("T", bound="Gazetteer")
 
 @attr.s(auto_attribs=True)
 class Gazetteer:
-    """ """
+    """
+    Attributes:
+        duration (int):
+        engine (str):
+        label (str):
+        models (int):
+        name (str):
+        parameters (GazetteerParameters):
+        running (bool):
+        timestamp (int):
+        uptodate (bool):
+    """
 
     duration: int
     engine: str

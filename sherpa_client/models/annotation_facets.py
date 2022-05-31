@@ -10,7 +10,11 @@ T = TypeVar("T", bound="AnnotationFacets")
 
 @attr.s(auto_attribs=True)
 class AnnotationFacets:
-    """ """
+    """
+    Attributes:
+        labels (List[LabelCount]):
+        texts (List[TextCount]):
+    """
 
     labels: List[LabelCount]
     texts: List[TextCount]

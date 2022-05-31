@@ -7,7 +7,11 @@ T = TypeVar("T", bound="NewRole")
 
 @attr.s(auto_attribs=True)
 class NewRole:
-    """ """
+    """
+    Attributes:
+        label (str):
+        permissions (List[str]):
+    """
 
     label: str
     permissions: List[str]

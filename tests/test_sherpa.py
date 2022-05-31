@@ -6,12 +6,14 @@ from typing import List
 import pytest
 import shortuuid
 
+from sherpa_client.api.annotate import annotate_text_with
 from sherpa_client.api.authentication import user_sign_out
 from sherpa_client.api.documents import export_documents_sample, get_document, launch_document_import
 from sherpa_client.api.jobs import get_job
 from sherpa_client.api.projects import create_project, delete_project, get_project_info, get_projects
 from sherpa_client.client import SherpaClient
 from sherpa_client.models import (
+    AnnotatedDocument,
     Credentials,
     Document,
     LaunchDocumentImportMultipartData,
@@ -134,3 +136,4 @@ def test_get_document(client, project):
         assert doc.title == "a01"
         assert len(doc.sentences) == 20
         assert len(doc.annotations) == 27
+

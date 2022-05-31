@@ -11,7 +11,19 @@ T = TypeVar("T", bound="AnnotatedDocAnnotation")
 
 @attr.s(auto_attribs=True)
 class AnnotatedDocAnnotation:
-    """A document annotation"""
+    """A document annotation
+
+    Attributes:
+        end (int): End offset in document
+        label_name (str): Label name
+        start (int): Start offset in document
+        text (str): Covered text
+        label (Union[Unset, str]): Human-friendly label
+        label_id (Union[Unset, str]): External label identifier
+        properties (Union[Unset, AnnotatedDocAnnotationProperties]): Additional properties
+        score (Union[Unset, float]): Score of the annotation
+        terms (Union[Unset, List[AnnotationTerm]]):
+    """
 
     end: int
     label_name: str

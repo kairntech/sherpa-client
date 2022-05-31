@@ -9,7 +9,14 @@ T = TypeVar("T", bound="Annotator")
 
 @attr.s(auto_attribs=True)
 class Annotator:
-    """ """
+    """
+    Attributes:
+        engine (str):
+        label (str):
+        name (str):
+        favorite (Union[Unset, bool]):
+        is_default (Union[Unset, bool]):
+    """
 
     engine: str
     label: str

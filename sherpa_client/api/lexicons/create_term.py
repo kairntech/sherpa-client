@@ -19,12 +19,13 @@ def _get_kwargs(
         client.base_url, projectName=project_name, lexiconName=lexicon_name
     )
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
     json_json_body = json_body.to_dict()
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -57,6 +58,17 @@ def sync_detailed(
     client: Client,
     json_body: Term,
 ) -> Response[CreateTermResponse200]:
+    """Create a new term in the lexicon
+
+    Args:
+        project_name (str):
+        lexicon_name (str):
+        json_body (Term):
+
+    Returns:
+        Response[CreateTermResponse200]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         lexicon_name=lexicon_name,
@@ -64,7 +76,7 @@ def sync_detailed(
         json_body=json_body,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -79,7 +91,16 @@ def sync(
     client: Client,
     json_body: Term,
 ) -> Optional[CreateTermResponse200]:
-    """ """
+    """Create a new term in the lexicon
+
+    Args:
+        project_name (str):
+        lexicon_name (str):
+        json_body (Term):
+
+    Returns:
+        Response[CreateTermResponse200]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -96,6 +117,17 @@ async def asyncio_detailed(
     client: Client,
     json_body: Term,
 ) -> Response[CreateTermResponse200]:
+    """Create a new term in the lexicon
+
+    Args:
+        project_name (str):
+        lexicon_name (str):
+        json_body (Term):
+
+    Returns:
+        Response[CreateTermResponse200]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         lexicon_name=lexicon_name,
@@ -104,7 +136,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -116,7 +148,16 @@ async def asyncio(
     client: Client,
     json_body: Term,
 ) -> Optional[CreateTermResponse200]:
-    """ """
+    """Create a new term in the lexicon
+
+    Args:
+        project_name (str):
+        lexicon_name (str):
+        json_body (Term):
+
+    Returns:
+        Response[CreateTermResponse200]
+    """
 
     return (
         await asyncio_detailed(

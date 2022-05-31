@@ -7,7 +7,11 @@ T = TypeVar("T", bound="CreatedByCount")
 
 @attr.s(auto_attribs=True)
 class CreatedByCount:
-    """ """
+    """
+    Attributes:
+        count (int):
+        created_by (str):
+    """
 
     count: int
     created_by: str

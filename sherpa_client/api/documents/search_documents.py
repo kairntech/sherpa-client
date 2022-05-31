@@ -24,8 +24,25 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/documents/_search".format(client.base_url, projectName=project_name)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
+
+    params: Dict[str, Any] = {}
+    params["query"] = query
+
+    params["from"] = from_
+
+    params["size"] = size
+
+    params["highlight"] = highlight
+
+    params["facet"] = facet
+
+    params["queryFilter"] = query_filter
+
+    params["outputFields"] = output_fields
+
+    params["simpleQuery"] = simple_query
 
     json_selected_facets: Union[Unset, None, List[str]] = UNSET
     if not isinstance(selected_facets, Unset):
@@ -34,21 +51,14 @@ def _get_kwargs(
         else:
             json_selected_facets = selected_facets
 
-    params: Dict[str, Any] = {
-        "query": query,
-        "from": from_,
-        "size": size,
-        "highlight": highlight,
-        "facet": facet,
-        "queryFilter": query_filter,
-        "outputFields": output_fields,
-        "simpleQuery": simple_query,
-        "selectedFacets": json_selected_facets,
-        "htmlVersion": html_version,
-    }
+    params["selectedFacets"] = json_selected_facets
+
+    params["htmlVersion"] = html_version
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -89,6 +99,25 @@ def sync_detailed(
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     html_version: Union[Unset, None, bool] = False,
 ) -> Response[DocumentHits]:
+    """Search for documents
+
+    Args:
+        project_name (str):
+        query (Union[Unset, None, str]):  Default: ''.
+        from_ (Union[Unset, None, int]):
+        size (Union[Unset, None, int]):  Default: 10.
+        highlight (Union[Unset, None, bool]):
+        facet (Union[Unset, None, bool]):
+        query_filter (Union[Unset, None, str]):  Default: ''.
+        output_fields (Union[Unset, None, str]):  Default: ''.
+        simple_query (Union[Unset, None, bool]):
+        selected_facets (Union[Unset, None, List[str]]):
+        html_version (Union[Unset, None, bool]):
+
+    Returns:
+        Response[DocumentHits]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -104,7 +133,7 @@ def sync_detailed(
         html_version=html_version,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -127,7 +156,24 @@ def sync(
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     html_version: Union[Unset, None, bool] = False,
 ) -> Optional[DocumentHits]:
-    """ """
+    """Search for documents
+
+    Args:
+        project_name (str):
+        query (Union[Unset, None, str]):  Default: ''.
+        from_ (Union[Unset, None, int]):
+        size (Union[Unset, None, int]):  Default: 10.
+        highlight (Union[Unset, None, bool]):
+        facet (Union[Unset, None, bool]):
+        query_filter (Union[Unset, None, str]):  Default: ''.
+        output_fields (Union[Unset, None, str]):  Default: ''.
+        simple_query (Union[Unset, None, bool]):
+        selected_facets (Union[Unset, None, List[str]]):
+        html_version (Union[Unset, None, bool]):
+
+    Returns:
+        Response[DocumentHits]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -160,6 +206,25 @@ async def asyncio_detailed(
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     html_version: Union[Unset, None, bool] = False,
 ) -> Response[DocumentHits]:
+    """Search for documents
+
+    Args:
+        project_name (str):
+        query (Union[Unset, None, str]):  Default: ''.
+        from_ (Union[Unset, None, int]):
+        size (Union[Unset, None, int]):  Default: 10.
+        highlight (Union[Unset, None, bool]):
+        facet (Union[Unset, None, bool]):
+        query_filter (Union[Unset, None, str]):  Default: ''.
+        output_fields (Union[Unset, None, str]):  Default: ''.
+        simple_query (Union[Unset, None, bool]):
+        selected_facets (Union[Unset, None, List[str]]):
+        html_version (Union[Unset, None, bool]):
+
+    Returns:
+        Response[DocumentHits]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -176,7 +241,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -196,7 +261,24 @@ async def asyncio(
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     html_version: Union[Unset, None, bool] = False,
 ) -> Optional[DocumentHits]:
-    """ """
+    """Search for documents
+
+    Args:
+        project_name (str):
+        query (Union[Unset, None, str]):  Default: ''.
+        from_ (Union[Unset, None, int]):
+        size (Union[Unset, None, int]):  Default: 10.
+        highlight (Union[Unset, None, bool]):
+        facet (Union[Unset, None, bool]):
+        query_filter (Union[Unset, None, str]):  Default: ''.
+        output_fields (Union[Unset, None, str]):  Default: ''.
+        simple_query (Union[Unset, None, bool]):
+        selected_facets (Union[Unset, None, List[str]]):
+        html_version (Union[Unset, None, bool]):
+
+    Returns:
+        Response[DocumentHits]
+    """
 
     return (
         await asyncio_detailed(

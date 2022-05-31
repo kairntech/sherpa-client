@@ -9,7 +9,12 @@ T = TypeVar("T", bound="GroupPatch")
 
 @attr.s(auto_attribs=True)
 class GroupPatch:
-    """ """
+    """
+    Attributes:
+        attached_roles (Union[Unset, List[str]]):
+        label (Union[Unset, str]):
+        max_users (Union[Unset, int]):
+    """
 
     attached_roles: Union[Unset, List[str]] = UNSET
     label: Union[Unset, str] = UNSET

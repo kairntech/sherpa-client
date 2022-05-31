@@ -7,7 +7,11 @@ T = TypeVar("T", bound="Bucket")
 
 @attr.s(auto_attribs=True)
 class Bucket:
-    """ """
+    """
+    Attributes:
+        doc_count (int):
+        key (str):
+    """
 
     doc_count: int
     key: str

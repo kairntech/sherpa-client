@@ -19,8 +19,17 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/documents/_search_and_export".format(client.base_url, projectName=project_name)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
+
+    params: Dict[str, Any] = {}
+    params["query"] = query
+
+    params["queryFilter"] = query_filter
+
+    params["simpleQuery"] = simple_query
+
+    params["outputFields"] = output_fields
 
     json_selected_facets: Union[Unset, None, List[str]] = UNSET
     if not isinstance(selected_facets, Unset):
@@ -29,16 +38,12 @@ def _get_kwargs(
         else:
             json_selected_facets = selected_facets
 
-    params: Dict[str, Any] = {
-        "query": query,
-        "queryFilter": query_filter,
-        "simpleQuery": simple_query,
-        "outputFields": output_fields,
-        "selectedFacets": json_selected_facets,
-    }
+    params["selectedFacets"] = json_selected_facets
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -79,6 +84,20 @@ def sync_detailed(
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
 ) -> Response[List[Document]]:
+    """Search for documents and export them
+
+    Args:
+        project_name (str):
+        query (Union[Unset, None, str]):  Default: ''.
+        query_filter (Union[Unset, None, str]):  Default: ''.
+        simple_query (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):  Default: ''.
+        selected_facets (Union[Unset, None, List[str]]):
+
+    Returns:
+        Response[List[Document]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -89,7 +108,7 @@ def sync_detailed(
         selected_facets=selected_facets,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -107,7 +126,19 @@ def sync(
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
 ) -> Optional[List[Document]]:
-    """ """
+    """Search for documents and export them
+
+    Args:
+        project_name (str):
+        query (Union[Unset, None, str]):  Default: ''.
+        query_filter (Union[Unset, None, str]):  Default: ''.
+        simple_query (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):  Default: ''.
+        selected_facets (Union[Unset, None, List[str]]):
+
+    Returns:
+        Response[List[Document]]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -130,6 +161,20 @@ async def asyncio_detailed(
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
 ) -> Response[List[Document]]:
+    """Search for documents and export them
+
+    Args:
+        project_name (str):
+        query (Union[Unset, None, str]):  Default: ''.
+        query_filter (Union[Unset, None, str]):  Default: ''.
+        simple_query (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):  Default: ''.
+        selected_facets (Union[Unset, None, List[str]]):
+
+    Returns:
+        Response[List[Document]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -141,7 +186,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -156,7 +201,19 @@ async def asyncio(
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
 ) -> Optional[List[Document]]:
-    """ """
+    """Search for documents and export them
+
+    Args:
+        project_name (str):
+        query (Union[Unset, None, str]):  Default: ''.
+        query_filter (Union[Unset, None, str]):  Default: ''.
+        simple_query (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):  Default: ''.
+        selected_facets (Union[Unset, None, List[str]]):
+
+    Returns:
+        Response[List[Document]]
+    """
 
     return (
         await asyncio_detailed(

@@ -24,16 +24,20 @@ def _get_kwargs(
         client.base_url, projectName=project_name, annotator=annotator
     )
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "inlineLabels": inline_labels,
-        "inlineLabelIds": inline_label_ids,
-        "inlineText": inline_text,
-        "debug": debug,
-        "outputFields": output_fields,
-    }
+    params: Dict[str, Any] = {}
+    params["inlineLabels"] = inline_labels
+
+    params["inlineLabelIds"] = inline_label_ids
+
+    params["inlineText"] = inline_text
+
+    params["debug"] = debug
+
+    params["outputFields"] = output_fields
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     json_json_body = []
@@ -43,6 +47,7 @@ def _get_kwargs(
         json_json_body.append(componentsschemas_input_document_array_item)
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -88,6 +93,22 @@ def sync_detailed(
     debug: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Response[List[AnnotatedDocument]]:
+    """Annotate documents with the given annotator
+
+    Args:
+        project_name (str):
+        annotator (str):
+        inline_labels (Union[Unset, None, bool]):  Default: True.
+        inline_label_ids (Union[Unset, None, bool]):  Default: True.
+        inline_text (Union[Unset, None, bool]):  Default: True.
+        debug (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):
+        json_body (List[InputDocument]):
+
+    Returns:
+        Response[List[AnnotatedDocument]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         annotator=annotator,
@@ -100,7 +121,7 @@ def sync_detailed(
         output_fields=output_fields,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -120,7 +141,21 @@ def sync(
     debug: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Optional[List[AnnotatedDocument]]:
-    """ """
+    """Annotate documents with the given annotator
+
+    Args:
+        project_name (str):
+        annotator (str):
+        inline_labels (Union[Unset, None, bool]):  Default: True.
+        inline_label_ids (Union[Unset, None, bool]):  Default: True.
+        inline_text (Union[Unset, None, bool]):  Default: True.
+        debug (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):
+        json_body (List[InputDocument]):
+
+    Returns:
+        Response[List[AnnotatedDocument]]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -147,6 +182,22 @@ async def asyncio_detailed(
     debug: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Response[List[AnnotatedDocument]]:
+    """Annotate documents with the given annotator
+
+    Args:
+        project_name (str):
+        annotator (str):
+        inline_labels (Union[Unset, None, bool]):  Default: True.
+        inline_label_ids (Union[Unset, None, bool]):  Default: True.
+        inline_text (Union[Unset, None, bool]):  Default: True.
+        debug (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):
+        json_body (List[InputDocument]):
+
+    Returns:
+        Response[List[AnnotatedDocument]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         annotator=annotator,
@@ -160,7 +211,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -177,7 +228,21 @@ async def asyncio(
     debug: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Optional[List[AnnotatedDocument]]:
-    """ """
+    """Annotate documents with the given annotator
+
+    Args:
+        project_name (str):
+        annotator (str):
+        inline_labels (Union[Unset, None, bool]):  Default: True.
+        inline_label_ids (Union[Unset, None, bool]):  Default: True.
+        inline_text (Union[Unset, None, bool]):  Default: True.
+        debug (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):
+        json_body (List[InputDocument]):
+
+    Returns:
+        Response[List[AnnotatedDocument]]
+    """
 
     return (
         await asyncio_detailed(

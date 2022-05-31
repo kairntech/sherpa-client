@@ -21,20 +21,24 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/_import_models".format(client.base_url)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "groupName": group_name,
-        "reuseProjectName": reuse_project_name,
-        "projectName": project_name,
-        "projectLabel": project_label,
-    }
+    params: Dict[str, Any] = {}
+    params["groupName"] = group_name
+
+    params["reuseProjectName"] = reuse_project_name
+
+    params["projectName"] = project_name
+
+    params["projectLabel"] = project_label
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     multipart_multipart_data = multipart_data.to_multipart()
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -77,6 +81,19 @@ def sync_detailed(
     project_name: Union[Unset, None, str] = UNSET,
     project_label: Union[Unset, None, str] = UNSET,
 ) -> Response[List[ProjectStatus]]:
+    """import models (and create projects if required)
+
+    Args:
+        group_name (Union[Unset, None, str]):
+        reuse_project_name (Union[Unset, None, bool]):
+        project_name (Union[Unset, None, str]):
+        project_label (Union[Unset, None, str]):
+        multipart_data (MaybeCreateProjectsAndImportModelsFromArchiveMultipartData):
+
+    Returns:
+        Response[List[ProjectStatus]]
+    """
+
     kwargs = _get_kwargs(
         client=client,
         multipart_data=multipart_data,
@@ -86,7 +103,7 @@ def sync_detailed(
         project_label=project_label,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -103,7 +120,18 @@ def sync(
     project_name: Union[Unset, None, str] = UNSET,
     project_label: Union[Unset, None, str] = UNSET,
 ) -> Optional[List[ProjectStatus]]:
-    """ """
+    """import models (and create projects if required)
+
+    Args:
+        group_name (Union[Unset, None, str]):
+        reuse_project_name (Union[Unset, None, bool]):
+        project_name (Union[Unset, None, str]):
+        project_label (Union[Unset, None, str]):
+        multipart_data (MaybeCreateProjectsAndImportModelsFromArchiveMultipartData):
+
+    Returns:
+        Response[List[ProjectStatus]]
+    """
 
     return sync_detailed(
         client=client,
@@ -124,6 +152,19 @@ async def asyncio_detailed(
     project_name: Union[Unset, None, str] = UNSET,
     project_label: Union[Unset, None, str] = UNSET,
 ) -> Response[List[ProjectStatus]]:
+    """import models (and create projects if required)
+
+    Args:
+        group_name (Union[Unset, None, str]):
+        reuse_project_name (Union[Unset, None, bool]):
+        project_name (Union[Unset, None, str]):
+        project_label (Union[Unset, None, str]):
+        multipart_data (MaybeCreateProjectsAndImportModelsFromArchiveMultipartData):
+
+    Returns:
+        Response[List[ProjectStatus]]
+    """
+
     kwargs = _get_kwargs(
         client=client,
         multipart_data=multipart_data,
@@ -134,7 +175,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -148,7 +189,18 @@ async def asyncio(
     project_name: Union[Unset, None, str] = UNSET,
     project_label: Union[Unset, None, str] = UNSET,
 ) -> Optional[List[ProjectStatus]]:
-    """ """
+    """import models (and create projects if required)
+
+    Args:
+        group_name (Union[Unset, None, str]):
+        reuse_project_name (Union[Unset, None, bool]):
+        project_name (Union[Unset, None, str]):
+        project_label (Union[Unset, None, str]):
+        multipart_data (MaybeCreateProjectsAndImportModelsFromArchiveMultipartData):
+
+    Returns:
+        Response[List[ProjectStatus]]
+    """
 
     return (
         await asyncio_detailed(

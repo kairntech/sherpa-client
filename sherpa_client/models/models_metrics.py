@@ -10,7 +10,12 @@ T = TypeVar("T", bound="ModelsMetrics")
 
 @attr.s(auto_attribs=True)
 class ModelsMetrics:
-    """ """
+    """
+    Attributes:
+        history (List[ModelMetrics]):
+        best (Union[Unset, ModelMetrics]):
+        last (Union[Unset, ModelMetrics]):
+    """
 
     history: List[ModelMetrics]
     best: Union[Unset, ModelMetrics] = UNSET

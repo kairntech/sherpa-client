@@ -7,7 +7,11 @@ T = TypeVar("T", bound="DocSentence")
 
 @attr.s(auto_attribs=True)
 class DocSentence:
-    """ """
+    """
+    Attributes:
+        end (int):
+        start (int):
+    """
 
     end: int
     start: int

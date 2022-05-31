@@ -13,10 +13,11 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/config".format(client.base_url, projectName=project_name)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
     return {
+        "method": "patch",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -38,12 +39,21 @@ def sync_detailed(
     *,
     client: Client,
 ) -> Response[Any]:
+    """update config options
+
+    Args:
+        project_name (str):
+
+    Returns:
+        Response[Any]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
     )
 
-    response = httpx.patch(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -56,12 +66,21 @@ async def asyncio_detailed(
     *,
     client: Client,
 ) -> Response[Any]:
+    """update config options
+
+    Args:
+        project_name (str):
+
+    Returns:
+        Response[Any]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.patch(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)

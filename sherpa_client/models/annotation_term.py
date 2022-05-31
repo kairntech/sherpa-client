@@ -10,7 +10,15 @@ T = TypeVar("T", bound="AnnotationTerm")
 
 @attr.s(auto_attribs=True)
 class AnnotationTerm:
-    """A term"""
+    """A term
+
+    Attributes:
+        identifier (str): Annotation identifier (only in 'html version')
+        lexicon (str): Lexicon of the term
+        preferred_form (Union[Unset, str]): Preferred form of the term
+        properties (Union[Unset, AnnotationTermProperties]): Properties of the term
+        score (Union[Unset, int]): Score of the term
+    """
 
     identifier: str
     lexicon: str

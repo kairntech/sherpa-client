@@ -15,16 +15,18 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/_flush".format(client.base_url, projectName=project_name)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "indices": indices,
-        "timeoutMillis": timeout_millis,
-    }
+    params: Dict[str, Any] = {}
+    params["indices"] = indices
+
+    params["timeoutMillis"] = timeout_millis
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -49,6 +51,17 @@ def sync_detailed(
     indices: Union[Unset, None, str] = "*",
     timeout_millis: Union[Unset, None, int] = 1500,
 ) -> Response[Any]:
+    """flush search indices of the project
+
+    Args:
+        project_name (str):
+        indices (Union[Unset, None, str]):  Default: '*'.
+        timeout_millis (Union[Unset, None, int]):  Default: 1500.
+
+    Returns:
+        Response[Any]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -56,7 +69,7 @@ def sync_detailed(
         timeout_millis=timeout_millis,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -71,6 +84,17 @@ async def asyncio_detailed(
     indices: Union[Unset, None, str] = "*",
     timeout_millis: Union[Unset, None, int] = 1500,
 ) -> Response[Any]:
+    """flush search indices of the project
+
+    Args:
+        project_name (str):
+        indices (Union[Unset, None, str]):  Default: '*'.
+        timeout_millis (Union[Unset, None, int]):  Default: 1500.
+
+    Returns:
+        Response[Any]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -79,6 +103,6 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)

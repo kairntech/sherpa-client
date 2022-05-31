@@ -12,7 +12,13 @@ T = TypeVar("T", bound="DocumentHits")
 
 @attr.s(auto_attribs=True)
 class DocumentHits:
-    """ """
+    """
+    Attributes:
+        hits (List[DocumentHit]):
+        total (SearchTotal):
+        aggregations (Union[Unset, List[Aggregation]]):
+        max_score (Union[Unset, float]):
+    """
 
     hits: List[DocumentHit]
     total: SearchTotal

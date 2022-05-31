@@ -9,7 +9,10 @@ T = TypeVar("T", bound="CategoriesFacets")
 
 @attr.s(auto_attribs=True)
 class CategoriesFacets:
-    """ """
+    """
+    Attributes:
+        labels (List[LabelCount]):
+    """
 
     labels: List[LabelCount]
 

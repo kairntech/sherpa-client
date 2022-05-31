@@ -9,7 +9,11 @@ T = TypeVar("T", bound="NewNamedAnnotationPlan")
 
 @attr.s(auto_attribs=True)
 class NewNamedAnnotationPlan:
-    """ """
+    """
+    Attributes:
+        label (str):
+        parameters (AnnotationPlan):
+    """
 
     label: str
     parameters: AnnotationPlan

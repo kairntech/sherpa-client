@@ -16,16 +16,18 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/documents".format(client.base_url, projectName=project_name)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "limit": limit,
-        "outputFields": output_fields,
-    }
+    params: Dict[str, Any] = {}
+    params["limit"] = limit
+
+    params["outputFields"] = output_fields
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "get",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -63,6 +65,17 @@ def sync_detailed(
     limit: Union[Unset, None, int] = 0,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Response[List[Document]]:
+    """Get documents within project
+
+    Args:
+        project_name (str):
+        limit (Union[Unset, None, int]):
+        output_fields (Union[Unset, None, str]):
+
+    Returns:
+        Response[List[Document]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -70,7 +83,7 @@ def sync_detailed(
         output_fields=output_fields,
     )
 
-    response = httpx.get(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -85,7 +98,16 @@ def sync(
     limit: Union[Unset, None, int] = 0,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Optional[List[Document]]:
-    """ """
+    """Get documents within project
+
+    Args:
+        project_name (str):
+        limit (Union[Unset, None, int]):
+        output_fields (Union[Unset, None, str]):
+
+    Returns:
+        Response[List[Document]]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -102,6 +124,17 @@ async def asyncio_detailed(
     limit: Union[Unset, None, int] = 0,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Response[List[Document]]:
+    """Get documents within project
+
+    Args:
+        project_name (str):
+        limit (Union[Unset, None, int]):
+        output_fields (Union[Unset, None, str]):
+
+    Returns:
+        Response[List[Document]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -110,7 +143,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.get(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -122,7 +155,16 @@ async def asyncio(
     limit: Union[Unset, None, int] = 0,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Optional[List[Document]]:
-    """ """
+    """Get documents within project
+
+    Args:
+        project_name (str):
+        limit (Union[Unset, None, int]):
+        output_fields (Union[Unset, None, str]):
+
+    Returns:
+        Response[List[Document]]
+    """
 
     return (
         await asyncio_detailed(

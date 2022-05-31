@@ -7,7 +7,10 @@ T = TypeVar("T", bound="CategoryId")
 
 @attr.s(auto_attribs=True)
 class CategoryId:
-    """ """
+    """
+    Attributes:
+        identifier (str):
+    """
 
     identifier: str
 

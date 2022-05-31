@@ -9,7 +9,14 @@ T = TypeVar("T", bound="NewUser")
 
 @attr.s(auto_attribs=True)
 class NewUser:
-    """ """
+    """
+    Attributes:
+        password (str):
+        permissions (List[str]):
+        roles (List[str]):
+        username (str):
+        email (Union[Unset, str]):
+    """
 
     password: str
     permissions: List[str]

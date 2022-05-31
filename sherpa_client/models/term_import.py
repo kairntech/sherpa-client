@@ -10,7 +10,11 @@ T = TypeVar("T", bound="TermImport")
 
 @attr.s(auto_attribs=True)
 class TermImport:
-    """ """
+    """
+    Attributes:
+        files (List[UploadedFile]):
+        importer (TermImporterSpec):
+    """
 
     files: List[UploadedFile]
     importer: TermImporterSpec

@@ -9,7 +9,13 @@ T = TypeVar("T", bound="PartialLabel")
 
 @attr.s(auto_attribs=True)
 class PartialLabel:
-    """ """
+    """
+    Attributes:
+        color (Union[Unset, str]):
+        identifier (Union[Unset, str]):
+        label (Union[Unset, str]):
+        name (Union[Unset, str]):
+    """
 
     color: Union[Unset, str] = UNSET
     identifier: Union[Unset, str] = UNSET

@@ -24,20 +24,24 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/documents/_load".format(client.base_url, projectName=project_name)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
+
+    params: Dict[str, Any] = {}
+    params["ignoreLabelling"] = ignore_labelling
 
     json_segmentation_policy: Union[Unset, None, str] = UNSET
     if not isinstance(segmentation_policy, Unset):
         json_segmentation_policy = segmentation_policy.value if segmentation_policy else None
 
-    params: Dict[str, Any] = {
-        "ignoreLabelling": ignore_labelling,
-        "segmentationPolicy": json_segmentation_policy,
-        "splitCorpus": split_corpus,
-        "cleanText": clean_text,
-        "generateCategoriesFromSourceFolder": generate_categories_from_source_folder,
-    }
+    params["segmentationPolicy"] = json_segmentation_policy
+
+    params["splitCorpus"] = split_corpus
+
+    params["cleanText"] = clean_text
+
+    params["generateCategoriesFromSourceFolder"] = generate_categories_from_source_folder
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     json_json_body = []
@@ -47,6 +51,7 @@ def _get_kwargs(
         json_json_body.append(componentsschemas_uploaded_file_array_item)
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -86,6 +91,22 @@ def sync_detailed(
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
+    """import documents already uploaded on the server into the project
+
+    Args:
+        project_name (str):
+        ignore_labelling (Union[Unset, None, bool]):
+        segmentation_policy (Union[Unset, None, LaunchUploadedDocumentImportSegmentationPolicy]):
+            Default: LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
+        split_corpus (Union[Unset, None, bool]):
+        clean_text (Union[Unset, None, bool]):  Default: True.
+        generate_categories_from_source_folder (Union[Unset, None, bool]):
+        json_body (List[UploadedFile]):
+
+    Returns:
+        Response[SherpaJobBean]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -97,7 +118,7 @@ def sync_detailed(
         generate_categories_from_source_folder=generate_categories_from_source_folder,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -118,7 +139,21 @@ def sync(
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
-    """ """
+    """import documents already uploaded on the server into the project
+
+    Args:
+        project_name (str):
+        ignore_labelling (Union[Unset, None, bool]):
+        segmentation_policy (Union[Unset, None, LaunchUploadedDocumentImportSegmentationPolicy]):
+            Default: LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
+        split_corpus (Union[Unset, None, bool]):
+        clean_text (Union[Unset, None, bool]):  Default: True.
+        generate_categories_from_source_folder (Union[Unset, None, bool]):
+        json_body (List[UploadedFile]):
+
+    Returns:
+        Response[SherpaJobBean]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -145,6 +180,22 @@ async def asyncio_detailed(
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
+    """import documents already uploaded on the server into the project
+
+    Args:
+        project_name (str):
+        ignore_labelling (Union[Unset, None, bool]):
+        segmentation_policy (Union[Unset, None, LaunchUploadedDocumentImportSegmentationPolicy]):
+            Default: LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
+        split_corpus (Union[Unset, None, bool]):
+        clean_text (Union[Unset, None, bool]):  Default: True.
+        generate_categories_from_source_folder (Union[Unset, None, bool]):
+        json_body (List[UploadedFile]):
+
+    Returns:
+        Response[SherpaJobBean]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -157,7 +208,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -175,7 +226,21 @@ async def asyncio(
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
-    """ """
+    """import documents already uploaded on the server into the project
+
+    Args:
+        project_name (str):
+        ignore_labelling (Union[Unset, None, bool]):
+        segmentation_policy (Union[Unset, None, LaunchUploadedDocumentImportSegmentationPolicy]):
+            Default: LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
+        split_corpus (Union[Unset, None, bool]):
+        clean_text (Union[Unset, None, bool]):  Default: True.
+        generate_categories_from_source_folder (Union[Unset, None, bool]):
+        json_body (List[UploadedFile]):
+
+    Returns:
+        Response[SherpaJobBean]
+    """
 
     return (
         await asyncio_detailed(

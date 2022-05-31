@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional, Union, cast
 
 import httpx
 
@@ -17,17 +17,20 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/services/{service}/parameters".format(client.base_url, service=service)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "nature": nature,
-        "function": function,
-        "uiSchema": ui_schema,
-    }
+    params: Dict[str, Any] = {}
+    params["nature"] = nature
+
+    params["function"] = function
+
+    params["uiSchema"] = ui_schema
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "get",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -42,8 +45,7 @@ def _parse_response(*, response: httpx.Response) -> Optional[Union[Any, GetEngin
 
         return response_200
     if response.status_code == 404:
-        response_404 = None
-
+        response_404 = cast(Any, None)
         return response_404
     return None
 
@@ -65,6 +67,18 @@ def sync_detailed(
     function: str,
     ui_schema: Union[Unset, None, bool] = False,
 ) -> Response[Union[Any, GetEngineParametersSchemaResponse200]]:
+    """get the options of the given service in JSON schema format
+
+    Args:
+        service (str):
+        nature (str):
+        function (str):
+        ui_schema (Union[Unset, None, bool]):
+
+    Returns:
+        Response[Union[Any, GetEngineParametersSchemaResponse200]]
+    """
+
     kwargs = _get_kwargs(
         service=service,
         client=client,
@@ -73,7 +87,7 @@ def sync_detailed(
         ui_schema=ui_schema,
     )
 
-    response = httpx.get(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -89,7 +103,17 @@ def sync(
     function: str,
     ui_schema: Union[Unset, None, bool] = False,
 ) -> Optional[Union[Any, GetEngineParametersSchemaResponse200]]:
-    """ """
+    """get the options of the given service in JSON schema format
+
+    Args:
+        service (str):
+        nature (str):
+        function (str):
+        ui_schema (Union[Unset, None, bool]):
+
+    Returns:
+        Response[Union[Any, GetEngineParametersSchemaResponse200]]
+    """
 
     return sync_detailed(
         service=service,
@@ -108,6 +132,18 @@ async def asyncio_detailed(
     function: str,
     ui_schema: Union[Unset, None, bool] = False,
 ) -> Response[Union[Any, GetEngineParametersSchemaResponse200]]:
+    """get the options of the given service in JSON schema format
+
+    Args:
+        service (str):
+        nature (str):
+        function (str):
+        ui_schema (Union[Unset, None, bool]):
+
+    Returns:
+        Response[Union[Any, GetEngineParametersSchemaResponse200]]
+    """
+
     kwargs = _get_kwargs(
         service=service,
         client=client,
@@ -117,7 +153,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.get(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -130,7 +166,17 @@ async def asyncio(
     function: str,
     ui_schema: Union[Unset, None, bool] = False,
 ) -> Optional[Union[Any, GetEngineParametersSchemaResponse200]]:
-    """ """
+    """get the options of the given service in JSON schema format
+
+    Args:
+        service (str):
+        nature (str):
+        function (str):
+        ui_schema (Union[Unset, None, bool]):
+
+    Returns:
+        Response[Union[Any, GetEngineParametersSchemaResponse200]]
+    """
 
     return (
         await asyncio_detailed(

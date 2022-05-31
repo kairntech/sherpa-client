@@ -10,7 +10,13 @@ T = TypeVar("T", bound="EngineConfigImportSummary")
 
 @attr.s(auto_attribs=True)
 class EngineConfigImportSummary:
-    """ """
+    """
+    Attributes:
+        configs (Union[Unset, List[str]]):
+        ignored (Union[Unset, List[str]]):
+        models (Union[Unset, int]): number of models that will be imported
+        pending_job (Union[Unset, SherpaJobBean]):
+    """
 
     configs: Union[Unset, List[str]] = UNSET
     ignored: Union[Unset, List[str]] = UNSET

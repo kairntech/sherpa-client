@@ -10,7 +10,31 @@ T = TypeVar("T", bound="ProjectBean")
 
 @attr.s(auto_attribs=True)
 class ProjectBean:
-    """ """
+    """
+    Attributes:
+        description (str):
+        image (str):
+        label (str):
+        lang (str):
+        name (str):
+        algorithms (Union[Unset, List[str]]):
+        annotations (Union[Unset, int]):
+        categories (Union[Unset, int]):
+        classification (Union[Unset, ClassificationConfig]):
+        created_by (Union[Unset, str]):
+        created_date (Union[Unset, str]):
+        documents (Union[Unset, int]):
+        engines (Union[Unset, List[str]]):
+        group_name (Union[Unset, str]):
+        metafacets (Union[Unset, List[Any]]):
+        nature (Union[Unset, str]):
+        owner (Union[Unset, str]):
+        private (Union[Unset, bool]):
+        read_only (Union[Unset, bool]):
+        segments (Union[Unset, int]):
+        shared (Union[Unset, bool]):
+        version (Union[Unset, str]):
+    """
 
     image: str
     label: str

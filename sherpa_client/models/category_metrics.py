@@ -10,7 +10,13 @@ T = TypeVar("T", bound="CategoryMetrics")
 
 @attr.s(auto_attribs=True)
 class CategoryMetrics:
-    """ """
+    """
+    Attributes:
+        categories_count (int):
+        categories_facets (CategoriesFacets):
+        document_facets (DocumentFacets):
+        documents_in_dataset (int):
+    """
 
     categories_count: int
     categories_facets: CategoriesFacets

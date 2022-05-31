@@ -7,7 +7,13 @@ T = TypeVar("T", bound="OperationCount")
 
 @attr.s(auto_attribs=True)
 class OperationCount:
-    """Annotation creation response"""
+    """Annotation creation response
+
+    Attributes:
+        count (int): Number of elements affected by the operation
+        operation (str): Name of the operation
+        unit (str): Element unit of the operation
+    """
 
     count: int
     operation: str

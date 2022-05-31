@@ -9,7 +9,11 @@ T = TypeVar("T", bound="DocumentFacets")
 
 @attr.s(auto_attribs=True)
 class DocumentFacets:
-    """ """
+    """
+    Attributes:
+        facets (List[MetadataCount]):
+        metadata (str):
+    """
 
     facets: List[MetadataCount]
     metadata: str

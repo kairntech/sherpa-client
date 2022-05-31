@@ -7,7 +7,13 @@ T = TypeVar("T", bound="MetadataDefinitionEntry")
 
 @attr.s(auto_attribs=True)
 class MetadataDefinitionEntry:
-    """ """
+    """
+    Attributes:
+        distinct_metadata_values (List[str]):
+        is_editable (bool):
+        is_multiple (bool):
+        metadata_name (str):
+    """
 
     distinct_metadata_values: List[str]
     is_editable: bool

@@ -11,7 +11,12 @@ T = TypeVar("T", bound="TermHits")
 
 @attr.s(auto_attribs=True)
 class TermHits:
-    """ """
+    """
+    Attributes:
+        hits (List[TermHit]):
+        total (SearchTotal):
+        max_score (Union[Unset, float]):
+    """
 
     hits: List[TermHit]
     total: SearchTotal

@@ -9,7 +9,14 @@ T = TypeVar("T", bound="Label")
 
 @attr.s(auto_attribs=True)
 class Label:
-    """ """
+    """
+    Attributes:
+        color (str):
+        label (str):
+        name (str):
+        count (Union[Unset, int]):
+        identifier (Union[Unset, str]):
+    """
 
     color: str
     label: str

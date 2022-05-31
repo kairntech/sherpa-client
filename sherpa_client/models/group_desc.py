@@ -9,7 +9,17 @@ T = TypeVar("T", bound="GroupDesc")
 
 @attr.s(auto_attribs=True)
 class GroupDesc:
-    """ """
+    """
+    Attributes:
+        label (str):
+        max_users (int):
+        name (str):
+        attached_roles (Union[Unset, List[str]]):
+        created_at (Union[Unset, str]):
+        created_by (Union[Unset, str]):
+        modified_at (Union[Unset, str]):
+        modified_by (Union[Unset, str]):
+    """
 
     label: str
     max_users: int

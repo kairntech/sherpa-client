@@ -12,7 +12,15 @@ T = TypeVar("T", bound="Report")
 
 @attr.s(auto_attribs=True)
 class Report:
-    """ """
+    """
+    Attributes:
+        classes (ReportClasses):
+        micro_avg (QualityFigures):
+        config (Union[Unset, EngineConfig]):
+        macro_avg (Union[Unset, QualityFigures]):
+        samples_avg (Union[Unset, QualityFigures]):
+        weighted_avg (Union[Unset, QualityFigures]):
+    """
 
     classes: ReportClasses
     micro_avg: QualityFigures

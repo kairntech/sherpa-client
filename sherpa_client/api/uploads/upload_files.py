@@ -17,18 +17,20 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/uploads".format(client.base_url)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "ttl": ttl,
-        "image": image,
-    }
+    params: Dict[str, Any] = {}
+    params["ttl"] = ttl
+
+    params["image"] = image
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     multipart_multipart_data = multipart_data.to_multipart()
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -69,6 +71,16 @@ def sync_detailed(
     ttl: Union[Unset, None, int] = 0,
     image: Union[Unset, None, bool] = False,
 ) -> Response[List[UploadedFile]]:
+    """
+    Args:
+        ttl (Union[Unset, None, int]):
+        image (Union[Unset, None, bool]):
+        multipart_data (UploadFilesMultipartData):
+
+    Returns:
+        Response[List[UploadedFile]]
+    """
+
     kwargs = _get_kwargs(
         client=client,
         multipart_data=multipart_data,
@@ -76,7 +88,7 @@ def sync_detailed(
         image=image,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -91,7 +103,15 @@ def sync(
     ttl: Union[Unset, None, int] = 0,
     image: Union[Unset, None, bool] = False,
 ) -> Optional[List[UploadedFile]]:
-    """ """
+    """
+    Args:
+        ttl (Union[Unset, None, int]):
+        image (Union[Unset, None, bool]):
+        multipart_data (UploadFilesMultipartData):
+
+    Returns:
+        Response[List[UploadedFile]]
+    """
 
     return sync_detailed(
         client=client,
@@ -108,6 +128,16 @@ async def asyncio_detailed(
     ttl: Union[Unset, None, int] = 0,
     image: Union[Unset, None, bool] = False,
 ) -> Response[List[UploadedFile]]:
+    """
+    Args:
+        ttl (Union[Unset, None, int]):
+        image (Union[Unset, None, bool]):
+        multipart_data (UploadFilesMultipartData):
+
+    Returns:
+        Response[List[UploadedFile]]
+    """
+
     kwargs = _get_kwargs(
         client=client,
         multipart_data=multipart_data,
@@ -116,7 +146,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -128,7 +158,15 @@ async def asyncio(
     ttl: Union[Unset, None, int] = 0,
     image: Union[Unset, None, bool] = False,
 ) -> Optional[List[UploadedFile]]:
-    """ """
+    """
+    Args:
+        ttl (Union[Unset, None, int]):
+        image (Union[Unset, None, bool]):
+        multipart_data (UploadFilesMultipartData):
+
+    Returns:
+        Response[List[UploadedFile]]
+    """
 
     return (
         await asyncio_detailed(

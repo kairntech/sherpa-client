@@ -9,7 +9,12 @@ T = TypeVar("T", bound="GroupShare")
 
 @attr.s(auto_attribs=True)
 class GroupShare:
-    """ """
+    """
+    Attributes:
+        can_revoke (bool):
+        group_name (str):
+        mode (ShareMode):
+    """
 
     can_revoke: bool
     group_name: str

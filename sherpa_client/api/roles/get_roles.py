@@ -13,10 +13,11 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/roles".format(client.base_url)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
     return {
+        "method": "get",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -50,11 +51,17 @@ def sync_detailed(
     *,
     client: Client,
 ) -> Response[List[RoleDesc]]:
+    """Get roles
+
+    Returns:
+        Response[List[RoleDesc]]
+    """
+
     kwargs = _get_kwargs(
         client=client,
     )
 
-    response = httpx.get(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -66,7 +73,11 @@ def sync(
     *,
     client: Client,
 ) -> Optional[List[RoleDesc]]:
-    """ """
+    """Get roles
+
+    Returns:
+        Response[List[RoleDesc]]
+    """
 
     return sync_detailed(
         client=client,
@@ -77,12 +88,18 @@ async def asyncio_detailed(
     *,
     client: Client,
 ) -> Response[List[RoleDesc]]:
+    """Get roles
+
+    Returns:
+        Response[List[RoleDesc]]
+    """
+
     kwargs = _get_kwargs(
         client=client,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.get(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -91,7 +108,11 @@ async def asyncio(
     *,
     client: Client,
 ) -> Optional[List[RoleDesc]]:
-    """ """
+    """Get roles
+
+    Returns:
+        Response[List[RoleDesc]]
+    """
 
     return (
         await asyncio_detailed(

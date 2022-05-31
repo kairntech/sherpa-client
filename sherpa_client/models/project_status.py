@@ -10,7 +10,12 @@ T = TypeVar("T", bound="ProjectStatus")
 
 @attr.s(auto_attribs=True)
 class ProjectStatus:
-    """ """
+    """
+    Attributes:
+        project_name (str):
+        status (str):
+        pending_job (Union[Unset, SherpaJobBean]):
+    """
 
     project_name: str
     status: str

@@ -9,7 +9,12 @@ T = TypeVar("T", bound="UserProfileUpdate")
 
 @attr.s(auto_attribs=True)
 class UserProfileUpdate:
-    """ """
+    """
+    Attributes:
+        email (Union[Unset, str]):
+        password (Union[Unset, str]):
+        profilename (Union[Unset, str]):
+    """
 
     email: Union[Unset, str] = UNSET
     password: Union[Unset, str] = UNSET

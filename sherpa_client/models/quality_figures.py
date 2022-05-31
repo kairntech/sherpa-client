@@ -9,7 +9,14 @@ T = TypeVar("T", bound="QualityFigures")
 
 @attr.s(auto_attribs=True)
 class QualityFigures:
-    """ """
+    """
+    Attributes:
+        f1 (float):
+        precision (float):
+        recall (float):
+        support (int):
+        roc_auc (Union[Unset, float]):
+    """
 
     f1: float
     precision: float

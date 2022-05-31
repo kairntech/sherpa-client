@@ -7,7 +7,10 @@ T = TypeVar("T", bound="UploadedFileInfo")
 
 @attr.s(auto_attribs=True)
 class UploadedFileInfo:
-    """ """
+    """
+    Attributes:
+        id (str):
+    """
 
     id: str
 

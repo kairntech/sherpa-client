@@ -11,7 +11,11 @@ T = TypeVar("T", bound="AnnotateDocumentsWithMany")
 
 @attr.s(auto_attribs=True)
 class AnnotateDocumentsWithMany:
-    """ """
+    """
+    Attributes:
+        documents (List[InputDocument]):
+        pipeline (List[Union[WithAnnotator, WithProcessor]]):
+    """
 
     documents: List[InputDocument]
     pipeline: List[Union[WithAnnotator, WithProcessor]]
@@ -25,6 +29,7 @@ class AnnotateDocumentsWithMany:
 
         pipeline = []
         for pipeline_item_data in self.pipeline:
+
             if isinstance(pipeline_item_data, WithAnnotator):
                 pipeline_item = pipeline_item_data.to_dict()
 

@@ -9,7 +9,12 @@ T = TypeVar("T", bound="NewSuggester")
 
 @attr.s(auto_attribs=True)
 class NewSuggester:
-    """ """
+    """
+    Attributes:
+        engine (str):
+        label (str):
+        parameters (NewSuggesterParameters):
+    """
 
     engine: str
     label: str

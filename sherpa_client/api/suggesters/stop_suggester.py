@@ -16,10 +16,11 @@ def _get_kwargs(
         client.base_url, projectName=project_name, name=name
     )
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -42,13 +43,23 @@ def sync_detailed(
     *,
     client: Client,
 ) -> Response[Any]:
+    """Stop a suggester
+
+    Args:
+        project_name (str):
+        name (str):
+
+    Returns:
+        Response[Any]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         name=name,
         client=client,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -62,6 +73,16 @@ async def asyncio_detailed(
     *,
     client: Client,
 ) -> Response[Any]:
+    """Stop a suggester
+
+    Args:
+        project_name (str):
+        name (str):
+
+    Returns:
+        Response[Any]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         name=name,
@@ -69,6 +90,6 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)

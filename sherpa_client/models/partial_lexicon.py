@@ -9,7 +9,12 @@ T = TypeVar("T", bound="PartialLexicon")
 
 @attr.s(auto_attribs=True)
 class PartialLexicon:
-    """ """
+    """
+    Attributes:
+        label (str):
+        color (Union[Unset, str]):
+        name (Union[Unset, str]):
+    """
 
     label: str
     color: Union[Unset, str] = UNSET

@@ -9,7 +9,18 @@ T = TypeVar("T", bound="UserResponse")
 
 @attr.s(auto_attribs=True)
 class UserResponse:
-    """ """
+    """
+    Attributes:
+        profilename (str):
+        username (str):
+        created_at (Union[Unset, str]):
+        created_by (Union[Unset, str]):
+        default_group (Union[Unset, str]):
+        email (Union[Unset, str]):
+        groups (Union[Unset, List[str]]):
+        permissions (Union[Unset, List[str]]):
+        roles (Union[Unset, List[str]]):
+    """
 
     profilename: str
     username: str

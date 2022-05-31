@@ -9,7 +9,11 @@ T = TypeVar("T", bound="SegmentContexts")
 
 @attr.s(auto_attribs=True)
 class SegmentContexts:
-    """ """
+    """
+    Attributes:
+        after (SegmentContext):
+        before (SegmentContext):
+    """
 
     after: SegmentContext
     before: SegmentContext

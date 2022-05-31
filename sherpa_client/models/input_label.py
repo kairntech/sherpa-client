@@ -7,7 +7,10 @@ T = TypeVar("T", bound="InputLabel")
 
 @attr.s(auto_attribs=True)
 class InputLabel:
-    """ """
+    """
+    Attributes:
+        label (str):
+    """
 
     label: str
 

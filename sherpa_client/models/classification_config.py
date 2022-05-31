@@ -7,7 +7,10 @@ T = TypeVar("T", bound="ClassificationConfig")
 
 @attr.s(auto_attribs=True)
 class ClassificationConfig:
-    """ """
+    """
+    Attributes:
+        exclusive_classes (bool):
+    """
 
     exclusive_classes: bool
 

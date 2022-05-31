@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional, Union, cast
 
 import httpx
 
@@ -19,12 +19,13 @@ def _get_kwargs(
         client.base_url, projectName=project_name, lexiconName=lexicon_name
     )
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
     json_json_body = json_body.to_dict()
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -39,8 +40,7 @@ def _parse_response(*, response: httpx.Response) -> Optional[Union[Any, SherpaJo
 
         return response_200
     if response.status_code == 404:
-        response_404 = None
-
+        response_404 = cast(Any, None)
         return response_404
     return None
 
@@ -61,6 +61,17 @@ def sync_detailed(
     client: Client,
     json_body: TermImport,
 ) -> Response[Union[Any, SherpaJobBean]]:
+    """import a term file already uploaded on the server into the project
+
+    Args:
+        project_name (str):
+        lexicon_name (str):
+        json_body (TermImport):
+
+    Returns:
+        Response[Union[Any, SherpaJobBean]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         lexicon_name=lexicon_name,
@@ -68,7 +79,7 @@ def sync_detailed(
         json_body=json_body,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -83,7 +94,16 @@ def sync(
     client: Client,
     json_body: TermImport,
 ) -> Optional[Union[Any, SherpaJobBean]]:
-    """ """
+    """import a term file already uploaded on the server into the project
+
+    Args:
+        project_name (str):
+        lexicon_name (str):
+        json_body (TermImport):
+
+    Returns:
+        Response[Union[Any, SherpaJobBean]]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -100,6 +120,17 @@ async def asyncio_detailed(
     client: Client,
     json_body: TermImport,
 ) -> Response[Union[Any, SherpaJobBean]]:
+    """import a term file already uploaded on the server into the project
+
+    Args:
+        project_name (str):
+        lexicon_name (str):
+        json_body (TermImport):
+
+    Returns:
+        Response[Union[Any, SherpaJobBean]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         lexicon_name=lexicon_name,
@@ -108,7 +139,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -120,7 +151,16 @@ async def asyncio(
     client: Client,
     json_body: TermImport,
 ) -> Optional[Union[Any, SherpaJobBean]]:
-    """ """
+    """import a term file already uploaded on the server into the project
+
+    Args:
+        project_name (str):
+        lexicon_name (str):
+        json_body (TermImport):
+
+    Returns:
+        Response[Union[Any, SherpaJobBean]]
+    """
 
     return (
         await asyncio_detailed(

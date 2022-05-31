@@ -11,7 +11,13 @@ T = TypeVar("T", bound="WithProcessor")
 
 @attr.s(auto_attribs=True)
 class WithProcessor:
-    """ """
+    """
+    Attributes:
+        processor (str):
+        condition (Union[Unset, WithProcessorCondition]):
+        disabled (Union[Unset, bool]):
+        parameters (Union[Unset, WithProcessorParameters]):
+    """
 
     processor: str
     condition: Union[Unset, WithProcessorCondition] = UNSET

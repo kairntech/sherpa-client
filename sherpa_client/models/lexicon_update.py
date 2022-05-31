@@ -9,7 +9,11 @@ T = TypeVar("T", bound="LexiconUpdate")
 
 @attr.s(auto_attribs=True)
 class LexiconUpdate:
-    """ """
+    """
+    Attributes:
+        color (Union[Unset, str]):
+        label (Union[Unset, str]):
+    """
 
     color: Union[Unset, str] = UNSET
     label: Union[Unset, str] = UNSET

@@ -9,7 +9,11 @@ T = TypeVar("T", bound="TermHit")
 
 @attr.s(auto_attribs=True)
 class TermHit:
-    """ """
+    """
+    Attributes:
+        score (float):
+        term (TermHitTerm):
+    """
 
     score: float
     term: TermHitTerm

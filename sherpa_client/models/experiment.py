@@ -11,7 +11,21 @@ T = TypeVar("T", bound="Experiment")
 
 @attr.s(auto_attribs=True)
 class Experiment:
-    """ """
+    """
+    Attributes:
+        duration (int):
+        engine (str):
+        label (str):
+        models (int):
+        name (str):
+        parameters (ExperimentParameters):
+        quality (int):
+        running (bool):
+        timestamp (int):
+        uptodate (bool):
+        favorite (Union[Unset, bool]):
+        report (Union[Unset, Report]):
+    """
 
     duration: int
     engine: str

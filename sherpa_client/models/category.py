@@ -10,7 +10,14 @@ T = TypeVar("T", bound="Category")
 
 @attr.s(auto_attribs=True)
 class Category:
-    """A document category"""
+    """A document category
+
+    Attributes:
+        document_identifier (str): identifier of the document
+        label_name (str): The label name
+        score (Union[Unset, float]): Score of the category
+        status (Union[Unset, CategoryStatus]): Status of the category
+    """
 
     document_identifier: str
     label_name: str

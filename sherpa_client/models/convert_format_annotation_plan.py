@@ -12,7 +12,12 @@ T = TypeVar("T", bound="ConvertFormatAnnotationPlan")
 
 @attr.s(auto_attribs=True)
 class ConvertFormatAnnotationPlan:
-    """ """
+    """
+    Attributes:
+        converter (Converter):
+        formatter (Formatter):
+        pipeline (List[Union[WithAnnotator, WithProcessor]]):
+    """
 
     converter: Converter
     formatter: Formatter
@@ -25,6 +30,7 @@ class ConvertFormatAnnotationPlan:
 
         pipeline = []
         for pipeline_item_data in self.pipeline:
+
             if isinstance(pipeline_item_data, WithAnnotator):
                 pipeline_item = pipeline_item_data.to_dict()
 

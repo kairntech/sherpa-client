@@ -10,7 +10,11 @@ T = TypeVar("T", bound="AnnotateTextWithMany")
 
 @attr.s(auto_attribs=True)
 class AnnotateTextWithMany:
-    """ """
+    """
+    Attributes:
+        pipeline (List[Union[WithAnnotator, WithProcessor]]):
+        text (str): Text to be annotated
+    """
 
     pipeline: List[Union[WithAnnotator, WithProcessor]]
     text: str
@@ -18,6 +22,7 @@ class AnnotateTextWithMany:
     def to_dict(self) -> Dict[str, Any]:
         pipeline = []
         for pipeline_item_data in self.pipeline:
+
             if isinstance(pipeline_item_data, WithAnnotator):
                 pipeline_item = pipeline_item_data.to_dict()
 

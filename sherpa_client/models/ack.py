@@ -7,7 +7,10 @@ T = TypeVar("T", bound="Ack")
 
 @attr.s(auto_attribs=True)
 class Ack:
-    """ """
+    """
+    Attributes:
+        ok (bool):
+    """
 
     ok: bool
 

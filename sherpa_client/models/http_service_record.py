@@ -10,7 +10,14 @@ T = TypeVar("T", bound="HttpServiceRecord")
 
 @attr.s(auto_attribs=True)
 class HttpServiceRecord:
-    """ """
+    """
+    Attributes:
+        host (str):
+        metadata (HttpServiceMetadata):
+        name (str):
+        port (int):
+        ssl (Union[Unset, bool]):
+    """
 
     host: str
     metadata: HttpServiceMetadata

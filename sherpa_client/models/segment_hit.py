@@ -9,7 +9,12 @@ T = TypeVar("T", bound="SegmentHit")
 
 @attr.s(auto_attribs=True)
 class SegmentHit:
-    """ """
+    """
+    Attributes:
+        id (str):
+        score (float):
+        segment (Segment):
+    """
 
     id: str
     score: float

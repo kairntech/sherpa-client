@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional, Union, cast
 
 import httpx
 
@@ -17,16 +17,18 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/documents/{docId}".format(client.base_url, projectName=project_name, docId=doc_id)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "outputFields": output_fields,
-        "htmlVersion": html_version,
-    }
+    params: Dict[str, Any] = {}
+    params["outputFields"] = output_fields
+
+    params["htmlVersion"] = html_version
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "get",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -41,8 +43,7 @@ def _parse_response(*, response: httpx.Response) -> Optional[Union[Any, Document
 
         return response_200
     if response.status_code == 404:
-        response_404 = None
-
+        response_404 = cast(Any, None)
         return response_404
     return None
 
@@ -64,6 +65,18 @@ def sync_detailed(
     output_fields: Union[Unset, None, str] = UNSET,
     html_version: Union[Unset, None, bool] = False,
 ) -> Response[Union[Any, Document]]:
+    """Get a specific document
+
+    Args:
+        project_name (str):
+        doc_id (str):
+        output_fields (Union[Unset, None, str]):
+        html_version (Union[Unset, None, bool]):
+
+    Returns:
+        Response[Union[Any, Document]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         doc_id=doc_id,
@@ -72,7 +85,7 @@ def sync_detailed(
         html_version=html_version,
     )
 
-    response = httpx.get(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -88,7 +101,17 @@ def sync(
     output_fields: Union[Unset, None, str] = UNSET,
     html_version: Union[Unset, None, bool] = False,
 ) -> Optional[Union[Any, Document]]:
-    """ """
+    """Get a specific document
+
+    Args:
+        project_name (str):
+        doc_id (str):
+        output_fields (Union[Unset, None, str]):
+        html_version (Union[Unset, None, bool]):
+
+    Returns:
+        Response[Union[Any, Document]]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -107,6 +130,18 @@ async def asyncio_detailed(
     output_fields: Union[Unset, None, str] = UNSET,
     html_version: Union[Unset, None, bool] = False,
 ) -> Response[Union[Any, Document]]:
+    """Get a specific document
+
+    Args:
+        project_name (str):
+        doc_id (str):
+        output_fields (Union[Unset, None, str]):
+        html_version (Union[Unset, None, bool]):
+
+    Returns:
+        Response[Union[Any, Document]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         doc_id=doc_id,
@@ -116,7 +151,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.get(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -129,7 +164,17 @@ async def asyncio(
     output_fields: Union[Unset, None, str] = UNSET,
     html_version: Union[Unset, None, bool] = False,
 ) -> Optional[Union[Any, Document]]:
-    """ """
+    """Get a specific document
+
+    Args:
+        project_name (str):
+        doc_id (str):
+        output_fields (Union[Unset, None, str]):
+        html_version (Union[Unset, None, bool]):
+
+    Returns:
+        Response[Union[Any, Document]]
+    """
 
     return (
         await asyncio_detailed(

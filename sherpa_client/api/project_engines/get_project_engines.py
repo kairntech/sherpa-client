@@ -14,15 +14,16 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/engines".format(client.base_url, projectName=project_name)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "type": type,
-    }
+    params: Dict[str, Any] = {}
+    params["type"] = type
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "get",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -54,13 +55,23 @@ def sync_detailed(
     client: Client,
     type: str,
 ) -> Response[List[str]]:
+    """Filter the list of engines available for this project
+
+    Args:
+        project_name (str):
+        type (str):
+
+    Returns:
+        Response[List[str]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
         type=type,
     )
 
-    response = httpx.get(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -74,7 +85,15 @@ def sync(
     client: Client,
     type: str,
 ) -> Optional[List[str]]:
-    """ """
+    """Filter the list of engines available for this project
+
+    Args:
+        project_name (str):
+        type (str):
+
+    Returns:
+        Response[List[str]]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -89,6 +108,16 @@ async def asyncio_detailed(
     client: Client,
     type: str,
 ) -> Response[List[str]]:
+    """Filter the list of engines available for this project
+
+    Args:
+        project_name (str):
+        type (str):
+
+    Returns:
+        Response[List[str]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -96,7 +125,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.get(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -107,7 +136,15 @@ async def asyncio(
     client: Client,
     type: str,
 ) -> Optional[List[str]]:
-    """ """
+    """Filter the list of engines available for this project
+
+    Args:
+        project_name (str):
+        type (str):
+
+    Returns:
+        Response[List[str]]
+    """
 
     return (
         await asyncio_detailed(

@@ -9,7 +9,10 @@ T = TypeVar("T", bound="MetadataDefinition")
 
 @attr.s(auto_attribs=True)
 class MetadataDefinition:
-    """ """
+    """
+    Attributes:
+        metadata (List[MetadataDefinitionEntry]):
+    """
 
     metadata: List[MetadataDefinitionEntry]
 

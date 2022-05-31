@@ -10,7 +10,13 @@ T = TypeVar("T", bound="ConfigPatchOptions")
 
 @attr.s(auto_attribs=True)
 class ConfigPatchOptions:
-    """ """
+    """
+    Attributes:
+        classification (Union[Unset, ClassificationOptions]):
+        image (Union[Unset, str]):
+        label (Union[Unset, str]):
+        metafacets (Union[Unset, List[str]]):
+    """
 
     classification: Union[Unset, ClassificationOptions] = UNSET
     image: Union[Unset, str] = UNSET

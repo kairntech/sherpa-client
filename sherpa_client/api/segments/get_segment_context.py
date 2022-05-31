@@ -24,27 +24,36 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/segments/_context".format(client.base_url, projectName=project_name)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
+
+    params: Dict[str, Any] = {}
+    params["documentIdentifier"] = document_identifier
+
+    params["segmentStart"] = segment_start
+
+    params["fromBefore"] = from_before
+
+    params["sizeBefore"] = size_before
+
+    params["fromAfter"] = from_after
+
+    params["sizeAfter"] = size_after
 
     json_context_output: Union[Unset, None, str] = UNSET
     if not isinstance(context_output, Unset):
         json_context_output = context_output.value if context_output else None
 
-    params: Dict[str, Any] = {
-        "documentIdentifier": document_identifier,
-        "segmentStart": segment_start,
-        "fromBefore": from_before,
-        "sizeBefore": size_before,
-        "fromAfter": from_after,
-        "sizeAfter": size_after,
-        "contextOutput": json_context_output,
-        "includeAnnotations": include_annotations,
-        "htmlVersion": html_version,
-    }
+    params["contextOutput"] = json_context_output
+
+    params["includeAnnotations"] = include_annotations
+
+    params["htmlVersion"] = html_version
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -84,6 +93,25 @@ def sync_detailed(
     include_annotations: Union[Unset, None, bool] = False,
     html_version: Union[Unset, None, bool] = False,
 ) -> Response[SegmentContexts]:
+    """Get segments surrounding a segment
+
+    Args:
+        project_name (str):
+        document_identifier (str):
+        segment_start (int):
+        from_before (Union[Unset, None, int]):
+        size_before (Union[Unset, None, int]):  Default: 1.
+        from_after (Union[Unset, None, int]):
+        size_after (Union[Unset, None, int]):  Default: 1.
+        context_output (Union[Unset, None, GetSegmentContextContextOutput]):  Default:
+            GetSegmentContextContextOutput.SEGMENTS.
+        include_annotations (Union[Unset, None, bool]):
+        html_version (Union[Unset, None, bool]):
+
+    Returns:
+        Response[SegmentContexts]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -98,7 +126,7 @@ def sync_detailed(
         html_version=html_version,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -120,7 +148,24 @@ def sync(
     include_annotations: Union[Unset, None, bool] = False,
     html_version: Union[Unset, None, bool] = False,
 ) -> Optional[SegmentContexts]:
-    """ """
+    """Get segments surrounding a segment
+
+    Args:
+        project_name (str):
+        document_identifier (str):
+        segment_start (int):
+        from_before (Union[Unset, None, int]):
+        size_before (Union[Unset, None, int]):  Default: 1.
+        from_after (Union[Unset, None, int]):
+        size_after (Union[Unset, None, int]):  Default: 1.
+        context_output (Union[Unset, None, GetSegmentContextContextOutput]):  Default:
+            GetSegmentContextContextOutput.SEGMENTS.
+        include_annotations (Union[Unset, None, bool]):
+        html_version (Union[Unset, None, bool]):
+
+    Returns:
+        Response[SegmentContexts]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -151,6 +196,25 @@ async def asyncio_detailed(
     include_annotations: Union[Unset, None, bool] = False,
     html_version: Union[Unset, None, bool] = False,
 ) -> Response[SegmentContexts]:
+    """Get segments surrounding a segment
+
+    Args:
+        project_name (str):
+        document_identifier (str):
+        segment_start (int):
+        from_before (Union[Unset, None, int]):
+        size_before (Union[Unset, None, int]):  Default: 1.
+        from_after (Union[Unset, None, int]):
+        size_after (Union[Unset, None, int]):  Default: 1.
+        context_output (Union[Unset, None, GetSegmentContextContextOutput]):  Default:
+            GetSegmentContextContextOutput.SEGMENTS.
+        include_annotations (Union[Unset, None, bool]):
+        html_version (Union[Unset, None, bool]):
+
+    Returns:
+        Response[SegmentContexts]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -166,7 +230,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -185,7 +249,24 @@ async def asyncio(
     include_annotations: Union[Unset, None, bool] = False,
     html_version: Union[Unset, None, bool] = False,
 ) -> Optional[SegmentContexts]:
-    """ """
+    """Get segments surrounding a segment
+
+    Args:
+        project_name (str):
+        document_identifier (str):
+        segment_start (int):
+        from_before (Union[Unset, None, int]):
+        size_before (Union[Unset, None, int]):  Default: 1.
+        from_after (Union[Unset, None, int]):
+        size_after (Union[Unset, None, int]):  Default: 1.
+        context_output (Union[Unset, None, GetSegmentContextContextOutput]):  Default:
+            GetSegmentContextContextOutput.SEGMENTS.
+        include_annotations (Union[Unset, None, bool]):
+        html_version (Union[Unset, None, bool]):
+
+    Returns:
+        Response[SegmentContexts]
+    """
 
     return (
         await asyncio_detailed(

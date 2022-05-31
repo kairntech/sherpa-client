@@ -19,19 +19,24 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/services".format(client.base_url, projectName=project_name)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {
-        "name": name,
-        "engine": engine,
-        "function": function,
-        "type": type,
-        "version": version,
-    }
+    params: Dict[str, Any] = {}
+    params["name"] = name
+
+    params["engine"] = engine
+
+    params["function"] = function
+
+    params["type"] = type
+
+    params["version"] = version
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
+        "method": "get",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -74,6 +79,20 @@ def sync_detailed(
     type: Union[Unset, None, str] = "",
     version: Union[Unset, None, str] = "",
 ) -> Response[List[HttpServiceRecord]]:
+    """Filter the list of services available for this project
+
+    Args:
+        project_name (str):
+        name (Union[Unset, None, str]):  Default: ''.
+        engine (Union[Unset, None, str]):  Default: ''.
+        function (Union[Unset, None, str]):  Default: ''.
+        type (Union[Unset, None, str]):  Default: ''.
+        version (Union[Unset, None, str]):  Default: ''.
+
+    Returns:
+        Response[List[HttpServiceRecord]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -84,7 +103,7 @@ def sync_detailed(
         version=version,
     )
 
-    response = httpx.get(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -102,7 +121,19 @@ def sync(
     type: Union[Unset, None, str] = "",
     version: Union[Unset, None, str] = "",
 ) -> Optional[List[HttpServiceRecord]]:
-    """ """
+    """Filter the list of services available for this project
+
+    Args:
+        project_name (str):
+        name (Union[Unset, None, str]):  Default: ''.
+        engine (Union[Unset, None, str]):  Default: ''.
+        function (Union[Unset, None, str]):  Default: ''.
+        type (Union[Unset, None, str]):  Default: ''.
+        version (Union[Unset, None, str]):  Default: ''.
+
+    Returns:
+        Response[List[HttpServiceRecord]]
+    """
 
     return sync_detailed(
         project_name=project_name,
@@ -125,6 +156,20 @@ async def asyncio_detailed(
     type: Union[Unset, None, str] = "",
     version: Union[Unset, None, str] = "",
 ) -> Response[List[HttpServiceRecord]]:
+    """Filter the list of services available for this project
+
+    Args:
+        project_name (str):
+        name (Union[Unset, None, str]):  Default: ''.
+        engine (Union[Unset, None, str]):  Default: ''.
+        function (Union[Unset, None, str]):  Default: ''.
+        type (Union[Unset, None, str]):  Default: ''.
+        version (Union[Unset, None, str]):  Default: ''.
+
+    Returns:
+        Response[List[HttpServiceRecord]]
+    """
+
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
@@ -136,7 +181,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.get(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -151,7 +196,19 @@ async def asyncio(
     type: Union[Unset, None, str] = "",
     version: Union[Unset, None, str] = "",
 ) -> Optional[List[HttpServiceRecord]]:
-    """ """
+    """Filter the list of services available for this project
+
+    Args:
+        project_name (str):
+        name (Union[Unset, None, str]):  Default: ''.
+        engine (Union[Unset, None, str]):  Default: ''.
+        function (Union[Unset, None, str]):  Default: ''.
+        type (Union[Unset, None, str]):  Default: ''.
+        version (Union[Unset, None, str]):  Default: ''.
+
+    Returns:
+        Response[List[HttpServiceRecord]]
+    """
 
     return (
         await asyncio_detailed(

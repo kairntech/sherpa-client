@@ -7,7 +7,11 @@ T = TypeVar("T", bound="ShareMode")
 
 @attr.s(auto_attribs=True)
 class ShareMode:
-    """ """
+    """
+    Attributes:
+        read (bool):
+        write (bool):
+    """
 
     read: bool
     write: bool

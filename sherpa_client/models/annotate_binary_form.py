@@ -12,7 +12,11 @@ T = TypeVar("T", bound="AnnotateBinaryForm")
 
 @attr.s(auto_attribs=True)
 class AnnotateBinaryForm:
-    """ """
+    """
+    Attributes:
+        file (Union[Unset, File]):  binary file to be converted and annotated
+        plan (Union[Unset, ConvertAnnotationPlan]):
+    """
 
     file: Union[Unset, File] = UNSET
     plan: Union[Unset, ConvertAnnotationPlan] = UNSET

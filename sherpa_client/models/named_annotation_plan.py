@@ -10,7 +10,17 @@ T = TypeVar("T", bound="NamedAnnotationPlan")
 
 @attr.s(auto_attribs=True)
 class NamedAnnotationPlan:
-    """ """
+    """
+    Attributes:
+        label (str):
+        name (str):
+        parameters (AnnotationPlan):
+        created_at (Union[Unset, str]):
+        created_by (Union[Unset, str]):
+        favorite (Union[Unset, bool]):
+        modified_at (Union[Unset, str]):
+        modified_by (Union[Unset, str]):
+    """
 
     label: str
     name: str

@@ -10,7 +10,10 @@ T = TypeVar("T", bound="LaunchDocumentImportMultipartData")
 
 @attr.s(auto_attribs=True)
 class LaunchDocumentImportMultipartData:
-    """ """
+    """
+    Attributes:
+        file (Union[Unset, File]):
+    """
 
     file: Union[Unset, File] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -34,7 +37,9 @@ class LaunchDocumentImportMultipartData:
             file = self.file.to_tuple()
 
         field_dict: Dict[str, Any] = {}
-        field_dict.update({key: (None, str(value), "text/plain") for key, value in self.additional_properties.items()})
+        field_dict.update(
+            {key: (None, str(value).encode(), "text/plain") for key, value in self.additional_properties.items()}
+        )
         field_dict.update({})
         if file is not UNSET:
             field_dict["file"] = file

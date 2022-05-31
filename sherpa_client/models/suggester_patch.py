@@ -10,7 +10,11 @@ T = TypeVar("T", bound="SuggesterPatch")
 
 @attr.s(auto_attribs=True)
 class SuggesterPatch:
-    """ """
+    """
+    Attributes:
+        label (Union[Unset, str]):
+        parameters (Union[Unset, SuggesterPatchParameters]):
+    """
 
     label: Union[Unset, str] = UNSET
     parameters: Union[Unset, SuggesterPatchParameters] = UNSET

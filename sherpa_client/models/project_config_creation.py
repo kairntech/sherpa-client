@@ -10,7 +10,19 @@ T = TypeVar("T", bound="ProjectConfigCreation")
 
 @attr.s(auto_attribs=True)
 class ProjectConfigCreation:
-    """ """
+    """
+    Attributes:
+        description (Union[Unset, str]):
+        image_filename (Union[Unset, str]):
+        image_id (Union[Unset, str]):
+        image_url (Union[Unset, str]):
+        label (Union[Unset, str]):
+        lang (Union[Unset, str]):  Default: 'en'.
+        metafacets (Union[Unset, str]):
+        name (Union[Unset, str]):
+        nature (Union[Unset, str]):  Default: 'sequence_labelling'.
+        properties (Union[Unset, ProjectConfigCreationProperties]):
+    """
 
     description: Union[Unset, str] = UNSET
     image_filename: Union[Unset, str] = UNSET

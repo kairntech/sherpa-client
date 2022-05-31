@@ -9,7 +9,13 @@ T = TypeVar("T", bound="CorpusMetrics")
 
 @attr.s(auto_attribs=True)
 class CorpusMetrics:
-    """ """
+    """
+    Attributes:
+        corpus_size (int):
+        document_count (int):
+        document_facets (DocumentFacets):
+        segment_count (int):
+    """
 
     corpus_size: int
     document_count: int

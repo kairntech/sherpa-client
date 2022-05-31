@@ -10,7 +10,11 @@ T = TypeVar("T", bound="DeleteResponse")
 
 @attr.s(auto_attribs=True)
 class DeleteResponse:
-    """ """
+    """
+    Attributes:
+        removed_count (int):
+        remove_job (Union[Unset, SherpaJobBean]):
+    """
 
     removed_count: int
     remove_job: Union[Unset, SherpaJobBean] = UNSET

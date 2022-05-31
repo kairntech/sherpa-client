@@ -7,7 +7,11 @@ T = TypeVar("T", bound="Credentials")
 
 @attr.s(auto_attribs=True)
 class Credentials:
-    """ """
+    """
+    Attributes:
+        email (str):
+        password (str):
+    """
 
     email: str
     password: str

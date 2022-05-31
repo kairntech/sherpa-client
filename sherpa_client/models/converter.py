@@ -10,7 +10,11 @@ T = TypeVar("T", bound="Converter")
 
 @attr.s(auto_attribs=True)
 class Converter:
-    """ """
+    """
+    Attributes:
+        name (str): Name of the converter (e.g. tika)
+        parameters (Union[Unset, ConverterParameters]): Optional conversion parameters
+    """
 
     name: str
     parameters: Union[Unset, ConverterParameters] = UNSET

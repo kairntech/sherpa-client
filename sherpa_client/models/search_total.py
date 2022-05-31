@@ -9,7 +9,11 @@ T = TypeVar("T", bound="SearchTotal")
 
 @attr.s(auto_attribs=True)
 class SearchTotal:
-    """ """
+    """
+    Attributes:
+        relation (SearchTotalRelation):
+        value (int):
+    """
 
     relation: SearchTotalRelation
     value: int

@@ -20,24 +20,28 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/auth/login".format(client.base_url)
 
-    headers: Dict[str, Any] = client.get_headers()
+    headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
+
+    params: Dict[str, Any] = {}
+    params["projectFilter"] = project_filter
 
     json_project_access_mode: Union[Unset, None, str] = UNSET
     if not isinstance(project_access_mode, Unset):
         json_project_access_mode = project_access_mode.value if project_access_mode else None
 
-    params: Dict[str, Any] = {
-        "projectFilter": project_filter,
-        "projectAccessMode": json_project_access_mode,
-        "annotateOnly": annotate_only,
-        "loginOnly": login_only,
-    }
+    params["projectAccessMode"] = json_project_access_mode
+
+    params["annotateOnly"] = annotate_only
+
+    params["loginOnly"] = login_only
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     json_json_body = json_body.to_dict()
 
     return {
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
@@ -73,6 +77,19 @@ def sync_detailed(
     annotate_only: Union[Unset, None, bool] = False,
     login_only: Union[Unset, None, bool] = False,
 ) -> Response[BearerToken]:
+    """Request a bearer token
+
+    Args:
+        project_filter (Union[Unset, None, str]):
+        project_access_mode (Union[Unset, None, RequestJwtTokenProjectAccessMode]):
+        annotate_only (Union[Unset, None, bool]):
+        login_only (Union[Unset, None, bool]):
+        json_body (Credentials):
+
+    Returns:
+        Response[BearerToken]
+    """
+
     kwargs = _get_kwargs(
         client=client,
         json_body=json_body,
@@ -82,7 +99,7 @@ def sync_detailed(
         login_only=login_only,
     )
 
-    response = httpx.post(
+    response = httpx.request(
         verify=client.verify_ssl,
         **kwargs,
     )
@@ -99,7 +116,18 @@ def sync(
     annotate_only: Union[Unset, None, bool] = False,
     login_only: Union[Unset, None, bool] = False,
 ) -> Optional[BearerToken]:
-    """ """
+    """Request a bearer token
+
+    Args:
+        project_filter (Union[Unset, None, str]):
+        project_access_mode (Union[Unset, None, RequestJwtTokenProjectAccessMode]):
+        annotate_only (Union[Unset, None, bool]):
+        login_only (Union[Unset, None, bool]):
+        json_body (Credentials):
+
+    Returns:
+        Response[BearerToken]
+    """
 
     return sync_detailed(
         client=client,
@@ -120,6 +148,19 @@ async def asyncio_detailed(
     annotate_only: Union[Unset, None, bool] = False,
     login_only: Union[Unset, None, bool] = False,
 ) -> Response[BearerToken]:
+    """Request a bearer token
+
+    Args:
+        project_filter (Union[Unset, None, str]):
+        project_access_mode (Union[Unset, None, RequestJwtTokenProjectAccessMode]):
+        annotate_only (Union[Unset, None, bool]):
+        login_only (Union[Unset, None, bool]):
+        json_body (Credentials):
+
+    Returns:
+        Response[BearerToken]
+    """
+
     kwargs = _get_kwargs(
         client=client,
         json_body=json_body,
@@ -130,7 +171,7 @@ async def asyncio_detailed(
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.post(**kwargs)
+        response = await _client.request(**kwargs)
 
     return _build_response(response=response)
 
@@ -144,7 +185,18 @@ async def asyncio(
     annotate_only: Union[Unset, None, bool] = False,
     login_only: Union[Unset, None, bool] = False,
 ) -> Optional[BearerToken]:
-    """ """
+    """Request a bearer token
+
+    Args:
+        project_filter (Union[Unset, None, str]):
+        project_access_mode (Union[Unset, None, RequestJwtTokenProjectAccessMode]):
+        annotate_only (Union[Unset, None, bool]):
+        login_only (Union[Unset, None, bool]):
+        json_body (Credentials):
+
+    Returns:
+        Response[BearerToken]
+    """
 
     return (
         await asyncio_detailed(
