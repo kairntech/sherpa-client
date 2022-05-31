@@ -18,6 +18,7 @@ def _get_kwargs(
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
+    parallelize: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/plans/{planName}/_annotate_format_documents".format(
         client.base_url, projectName=project_name, planName=plan_name
@@ -34,6 +35,8 @@ def _get_kwargs(
     params["inlineText"] = inline_text
 
     params["debug"] = debug
+
+    params["parallelize"] = parallelize
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -81,6 +84,7 @@ def sync_detailed(
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
+    parallelize: Union[Unset, None, bool] = False,
 ) -> Response[File]:
     """annotate documents with multiple annotators and return formatted results in a zip
 
@@ -91,6 +95,7 @@ def sync_detailed(
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
+        parallelize (Union[Unset, None, bool]):
         json_body (List[InputDocument]):
 
     Returns:
@@ -106,6 +111,7 @@ def sync_detailed(
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
         debug=debug,
+        parallelize=parallelize,
     )
 
     response = httpx.request(
@@ -126,6 +132,7 @@ def sync(
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
+    parallelize: Union[Unset, None, bool] = False,
 ) -> Optional[File]:
     """annotate documents with multiple annotators and return formatted results in a zip
 
@@ -136,6 +143,7 @@ def sync(
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
+        parallelize (Union[Unset, None, bool]):
         json_body (List[InputDocument]):
 
     Returns:
@@ -151,6 +159,7 @@ def sync(
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
         debug=debug,
+        parallelize=parallelize,
     ).parsed
 
 
@@ -164,6 +173,7 @@ async def asyncio_detailed(
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
+    parallelize: Union[Unset, None, bool] = False,
 ) -> Response[File]:
     """annotate documents with multiple annotators and return formatted results in a zip
 
@@ -174,6 +184,7 @@ async def asyncio_detailed(
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
+        parallelize (Union[Unset, None, bool]):
         json_body (List[InputDocument]):
 
     Returns:
@@ -189,6 +200,7 @@ async def asyncio_detailed(
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
         debug=debug,
+        parallelize=parallelize,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -207,6 +219,7 @@ async def asyncio(
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
+    parallelize: Union[Unset, None, bool] = False,
 ) -> Optional[File]:
     """annotate documents with multiple annotators and return formatted results in a zip
 
@@ -217,6 +230,7 @@ async def asyncio(
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
+        parallelize (Union[Unset, None, bool]):
         json_body (List[InputDocument]):
 
     Returns:
@@ -233,5 +247,6 @@ async def asyncio(
             inline_label_ids=inline_label_ids,
             inline_text=inline_text,
             debug=debug,
+            parallelize=parallelize,
         )
     ).parsed

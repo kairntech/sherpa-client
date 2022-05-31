@@ -16,6 +16,7 @@ def _get_kwargs(
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
+    parallelize: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
     url = "{}/annotate/_annotate_documents".format(client.base_url)
@@ -31,6 +32,8 @@ def _get_kwargs(
     params["inlineText"] = inline_text
 
     params["debug"] = debug
+
+    params["parallelize"] = parallelize
 
     params["outputFields"] = output_fields
 
@@ -81,6 +84,7 @@ def sync_detailed(
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
+    parallelize: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Response[List[AnnotatedDocument]]:
     """annotate documents with many annotators
@@ -90,6 +94,7 @@ def sync_detailed(
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
+        parallelize (Union[Unset, None, bool]):
         output_fields (Union[Unset, None, str]):
         json_body (AnnotateDocumentsWithMany):
 
@@ -104,6 +109,7 @@ def sync_detailed(
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
         debug=debug,
+        parallelize=parallelize,
         output_fields=output_fields,
     )
 
@@ -123,6 +129,7 @@ def sync(
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
+    parallelize: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Optional[List[AnnotatedDocument]]:
     """annotate documents with many annotators
@@ -132,6 +139,7 @@ def sync(
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
+        parallelize (Union[Unset, None, bool]):
         output_fields (Union[Unset, None, str]):
         json_body (AnnotateDocumentsWithMany):
 
@@ -146,6 +154,7 @@ def sync(
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
         debug=debug,
+        parallelize=parallelize,
         output_fields=output_fields,
     ).parsed
 
@@ -158,6 +167,7 @@ async def asyncio_detailed(
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
+    parallelize: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Response[List[AnnotatedDocument]]:
     """annotate documents with many annotators
@@ -167,6 +177,7 @@ async def asyncio_detailed(
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
+        parallelize (Union[Unset, None, bool]):
         output_fields (Union[Unset, None, str]):
         json_body (AnnotateDocumentsWithMany):
 
@@ -181,6 +192,7 @@ async def asyncio_detailed(
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
         debug=debug,
+        parallelize=parallelize,
         output_fields=output_fields,
     )
 
@@ -198,6 +210,7 @@ async def asyncio(
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
+    parallelize: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Optional[List[AnnotatedDocument]]:
     """annotate documents with many annotators
@@ -207,6 +220,7 @@ async def asyncio(
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
+        parallelize (Union[Unset, None, bool]):
         output_fields (Union[Unset, None, str]):
         json_body (AnnotateDocumentsWithMany):
 
@@ -222,6 +236,7 @@ async def asyncio(
             inline_label_ids=inline_label_ids,
             inline_text=inline_text,
             debug=debug,
+            parallelize=parallelize,
             output_fields=output_fields,
         )
     ).parsed
