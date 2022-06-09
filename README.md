@@ -8,7 +8,7 @@ First, create a client and log in:
 from sherpa_client import SherpaClient
 
 client = SherpaClient(base_url="https://api.example.com")
-client.login(Credentials(email="login", password="pwd"))
+client.login_with_token(Credentials(email="login", password="pwd"))
 ```
 
 Now call your endpoint and use your models:
