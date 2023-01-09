@@ -1,9 +1,12 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
 
 import attr
 
-from ..models.http_service_metadata_operations import HttpServiceMetadataOperations
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.http_service_metadata_operations import HttpServiceMetadataOperations
+
 
 T = TypeVar("T", bound="HttpServiceMetadata")
 
@@ -40,7 +43,7 @@ class HttpServiceMetadata:
     functions: Union[Unset, str] = UNSET
     languages: Union[Unset, str] = UNSET
     natures: Union[Unset, str] = UNSET
-    operations: Union[Unset, HttpServiceMetadataOperations] = UNSET
+    operations: Union[Unset, "HttpServiceMetadataOperations"] = UNSET
     processors: Union[Unset, str] = UNSET
     term_importers: Union[Unset, str] = UNSET
     trigger: Union[Unset, str] = UNSET
@@ -102,6 +105,8 @@ class HttpServiceMetadata:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.http_service_metadata_operations import HttpServiceMetadataOperations
+
         d = src_dict.copy()
         api = d.pop("api")
 

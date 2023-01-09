@@ -1,10 +1,12 @@
-from typing import Any, Dict, List, Type, TypeVar, cast
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, cast
 
 import attr
 
-from ..models.engine_config import EngineConfig
-from ..models.model_metrics_options import ModelMetricsOptions
-from ..models.report import Report
+if TYPE_CHECKING:
+    from ..models.engine_config import EngineConfig
+    from ..models.model_metrics_options import ModelMetricsOptions
+    from ..models.report import Report
+
 
 T = TypeVar("T", bound="ModelMetrics")
 
@@ -27,13 +29,13 @@ class ModelMetrics:
     """
 
     classes: List[str]
-    config: EngineConfig
+    config: "EngineConfig"
     engine: str
     lang: str
     name: str
-    options: ModelMetricsOptions
+    options: "ModelMetricsOptions"
     quality: float
-    report: Report
+    report: "Report"
     status: str
     timestamp: int
     timestamp_end: int
@@ -76,6 +78,10 @@ class ModelMetrics:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.engine_config import EngineConfig
+        from ..models.model_metrics_options import ModelMetricsOptions
+        from ..models.report import Report
+
         d = src_dict.copy()
         classes = cast(List[str], d.pop("classes"))
 

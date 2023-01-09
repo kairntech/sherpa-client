@@ -1,10 +1,14 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.annotated_doc_annotation_properties import AnnotatedDocAnnotationProperties
-from ..models.annotation_term import AnnotationTerm
+from ..models.annotated_doc_annotation_creation_mode import AnnotatedDocAnnotationCreationMode
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.annotated_doc_annotation_properties import AnnotatedDocAnnotationProperties
+    from ..models.annotation_term import AnnotationTerm
+
 
 T = TypeVar("T", bound="AnnotatedDocAnnotation")
 
@@ -18,28 +22,34 @@ class AnnotatedDocAnnotation:
         label_name (str): Label name
         start (int): Start offset in document
         text (str): Covered text
+        creation_mode (Union[Unset, AnnotatedDocAnnotationCreationMode]): Creation mode
         label (Union[Unset, str]): Human-friendly label
         label_id (Union[Unset, str]): External label identifier
         properties (Union[Unset, AnnotatedDocAnnotationProperties]): Additional properties
         score (Union[Unset, float]): Score of the annotation
-        terms (Union[Unset, List[AnnotationTerm]]):
+        terms (Union[Unset, List['AnnotationTerm']]):
     """
 
     end: int
     label_name: str
     start: int
     text: str
+    creation_mode: Union[Unset, AnnotatedDocAnnotationCreationMode] = UNSET
     label: Union[Unset, str] = UNSET
     label_id: Union[Unset, str] = UNSET
-    properties: Union[Unset, AnnotatedDocAnnotationProperties] = UNSET
+    properties: Union[Unset, "AnnotatedDocAnnotationProperties"] = UNSET
     score: Union[Unset, float] = UNSET
-    terms: Union[Unset, List[AnnotationTerm]] = UNSET
+    terms: Union[Unset, List["AnnotationTerm"]] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         end = self.end
         label_name = self.label_name
         start = self.start
         text = self.text
+        creation_mode: Union[Unset, str] = UNSET
+        if not isinstance(self.creation_mode, Unset):
+            creation_mode = self.creation_mode.value
+
         label = self.label
         label_id = self.label_id
         properties: Union[Unset, Dict[str, Any]] = UNSET
@@ -64,6 +74,8 @@ class AnnotatedDocAnnotation:
                 "text": text,
             }
         )
+        if creation_mode is not UNSET:
+            field_dict["creationMode"] = creation_mode
         if label is not UNSET:
             field_dict["label"] = label
         if label_id is not UNSET:
@@ -79,6 +91,9 @@ class AnnotatedDocAnnotation:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.annotated_doc_annotation_properties import AnnotatedDocAnnotationProperties
+        from ..models.annotation_term import AnnotationTerm
+
         d = src_dict.copy()
         end = d.pop("end")
 
@@ -87,6 +102,13 @@ class AnnotatedDocAnnotation:
         start = d.pop("start")
 
         text = d.pop("text")
+
+        _creation_mode = d.pop("creationMode", UNSET)
+        creation_mode: Union[Unset, AnnotatedDocAnnotationCreationMode]
+        if isinstance(_creation_mode, Unset):
+            creation_mode = UNSET
+        else:
+            creation_mode = AnnotatedDocAnnotationCreationMode(_creation_mode)
 
         label = d.pop("label", UNSET)
 
@@ -113,6 +135,7 @@ class AnnotatedDocAnnotation:
             label_name=label_name,
             start=start,
             text=text,
+            creation_mode=creation_mode,
             label=label,
             label_id=label_id,
             properties=properties,

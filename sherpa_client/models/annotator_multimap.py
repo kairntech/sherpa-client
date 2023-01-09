@@ -1,8 +1,10 @@
-from typing import Any, Dict, List, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar
 
 import attr
 
-from ..models.annotator import Annotator
+if TYPE_CHECKING:
+    from ..models.annotator import Annotator
+
 
 T = TypeVar("T", bound="AnnotatorMultimap")
 
@@ -11,9 +13,10 @@ T = TypeVar("T", bound="AnnotatorMultimap")
 class AnnotatorMultimap:
     """ """
 
-    additional_properties: Dict[str, List[Annotator]] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, List["Annotator"]] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
+        pass
 
         field_dict: Dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
@@ -29,6 +32,8 @@ class AnnotatorMultimap:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.annotator import Annotator
+
         d = src_dict.copy()
         annotator_multimap = cls()
 
@@ -50,10 +55,10 @@ class AnnotatorMultimap:
     def additional_keys(self) -> List[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> List[Annotator]:
+    def __getitem__(self, key: str) -> List["Annotator"]:
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: List[Annotator]) -> None:
+    def __setitem__(self, key: str, value: List["Annotator"]) -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:

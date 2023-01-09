@@ -1,8 +1,10 @@
-from typing import Any, Dict, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
 
 import attr
 
-from ..models.document_facets import DocumentFacets
+if TYPE_CHECKING:
+    from ..models.document_facets import DocumentFacets
+
 
 T = TypeVar("T", bound="CorpusMetrics")
 
@@ -19,7 +21,7 @@ class CorpusMetrics:
 
     corpus_size: int
     document_count: int
-    document_facets: DocumentFacets
+    document_facets: "DocumentFacets"
     segment_count: int
 
     def to_dict(self) -> Dict[str, Any]:
@@ -43,6 +45,8 @@ class CorpusMetrics:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.document_facets import DocumentFacets
+
         d = src_dict.copy()
         corpus_size = d.pop("corpusSize")
 

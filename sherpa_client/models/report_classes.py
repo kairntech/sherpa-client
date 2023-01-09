@@ -1,8 +1,10 @@
-from typing import Any, Dict, List, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar
 
 import attr
 
-from ..models.quality_figures import QualityFigures
+if TYPE_CHECKING:
+    from ..models.quality_figures import QualityFigures
+
 
 T = TypeVar("T", bound="ReportClasses")
 
@@ -11,9 +13,10 @@ T = TypeVar("T", bound="ReportClasses")
 class ReportClasses:
     """ """
 
-    additional_properties: Dict[str, QualityFigures] = attr.ib(init=False, factory=dict)
+    additional_properties: Dict[str, "QualityFigures"] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
+        pass
 
         field_dict: Dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
@@ -25,6 +28,8 @@ class ReportClasses:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.quality_figures import QualityFigures
+
         d = src_dict.copy()
         report_classes = cls()
 
@@ -41,10 +46,10 @@ class ReportClasses:
     def additional_keys(self) -> List[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> QualityFigures:
+    def __getitem__(self, key: str) -> "QualityFigures":
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: QualityFigures) -> None:
+    def __setitem__(self, key: str, value: "QualityFigures") -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:

@@ -1,142 +1,107 @@
 [
    {
       "identifier": "a01",
-      "text": "atest01.\n\natest02.\n\natest03.\n\natest04.\n\natest05.\n\natest06.\n\natest07.\n\natest08.\n\natest09.\n\natest10.\n\natest11.\n\natest12.\n\natest13.\n\natest14.\n\natest15.\n\natest16.\n\natest17.\n\natest18.\n\natest19.\n\natest20.\n\n",
+      "text": "This is a test01.\n\nThis is a test02.\n\nThis is a test03.\n\nThis is a test04.\n\nThis is a test05.\n\nThis is a test06.\n\nThis is a test07.\n\nThis is a test08.\n\nThis is a test09.\n\nThis is a test10.\n\nThis is a test11.\n\nThis is a test12.\n\nThis is a test13.\n\nThis is a test14.\n\nThis is a test15.\n\nThis is a test16.\n\nThis is a test17.\n\nThis is a test18.\n\nThis is a test19.\n\nThis is a test20.\n\n",
       "annotations": [
          {
             "label": "ann1",
-            "start": 0,
-            "end": 5
-         },
-         {
-            "label": "ann1",
             "start": 10,
-            "end": 15
+            "end": 16
          },
          {
             "label": "ann1",
-            "start": 20,
-            "end": 25
-         },
-         {
-            "label": "ann1",
-            "start": 30,
+            "start": 29,
             "end": 35
          },
          {
             "label": "ann1",
-            "start": 40,
-            "end": 45
+            "start": 48,
+            "end": 54
          },
          {
             "label": "ann1",
-            "start": 50,
-            "end": 55
+            "start": 67,
+            "end": 73
          },
          {
             "label": "ann1",
-            "start": 60,
-            "end": 65
+            "start": 86,
+            "end": 92
          },
          {
             "label": "ann1",
-            "start": 70,
-            "end": 75
+            "start": 105,
+            "end": 111
          },
          {
             "label": "ann1",
-            "start": 80,
-            "end": 85
+            "start": 124,
+            "end": 130
          },
          {
             "label": "ann1",
-            "start": 90,
-            "end": 95
+            "start": 143,
+            "end": 149
          },
          {
             "label": "ann1",
-            "start": 100,
-            "end": 105
+            "start": 162,
+            "end": 168
          },
          {
             "label": "ann1",
-            "start": 110,
-            "end": 115
-         },
-         {
-            "label": "ann1",
-            "start": 120,
-            "end": 125
-         },
-         {
-            "label": "ann2",
-            "start": 130,
-            "end": 135
-         },
-         {
-            "label": "ann3",
-            "start": 135,
-            "end": 137
-         },
-         {
-            "label": "ann2",
-            "start": 140,
-            "end": 145
-         },
-         {
-            "label": "ann3",
-            "start": 145,
-            "end": 147
-         },
-         {
-            "label": "ann2",
-            "start": 150,
-            "end": 155
-         },
-         {
-            "label": "ann3",
-            "start": 155,
-            "end": 157
-         },
-         {
-            "label": "ann2",
-            "start": 160,
-            "end": 165
-         },
-         {
-            "label": "ann3",
-            "start": 165,
-            "end": 167
-         },
-         {
-            "label": "ann2",
-            "start": 170,
-            "end": 175
-         },
-         {
-            "label": "ann3",
-            "start": 175,
-            "end": 177
-         },
-         {
-            "label": "ann2",
-            "start": 180,
-            "end": 185
-         },
-         {
-            "label": "ann3",
-            "start": 185,
+            "start": 181,
             "end": 187
          },
          {
+            "label": "ann1",
+            "start": 200,
+            "end": 206
+         },
+         {
+            "label": "ann1",
+            "start": 219,
+            "end": 225
+         },
+         {
+            "label": "ann1",
+            "start": 238,
+            "end": 244
+         },
+         {
             "label": "ann2",
-            "start": 190,
-            "end": 195
+            "start": 257,
+            "end": 263
          },
          {
             "label": "ann3",
-            "start": 195,
-            "end": 197
+            "start": 276,
+            "end": 282
+         },
+         {
+            "label": "ann2",
+            "start": 295,
+            "end": 301
+         },
+         {
+            "label": "ann3",
+            "start": 314,
+            "end": 320
+         },
+         {
+            "label": "ann2",
+            "start": 333,
+            "end": 339
+         },
+         {
+            "label": "ann3",
+            "start": 352,
+            "end": 358
+         },
+         {
+            "label": "ann2",
+            "start": 371,
+            "end": 377
          }
       ]
    }

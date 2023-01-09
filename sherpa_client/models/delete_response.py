@@ -1,9 +1,12 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
 
 import attr
 
-from ..models.sherpa_job_bean import SherpaJobBean
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.sherpa_job_bean import SherpaJobBean
+
 
 T = TypeVar("T", bound="DeleteResponse")
 
@@ -17,7 +20,7 @@ class DeleteResponse:
     """
 
     removed_count: int
-    remove_job: Union[Unset, SherpaJobBean] = UNSET
+    remove_job: Union[Unset, "SherpaJobBean"] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         removed_count = self.removed_count
@@ -38,6 +41,8 @@ class DeleteResponse:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.sherpa_job_bean import SherpaJobBean
+
         d = src_dict.copy()
         removed_count = d.pop("removedCount")
 

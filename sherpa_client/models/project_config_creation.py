@@ -1,9 +1,12 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
 
 import attr
 
-from ..models.project_config_creation_properties import ProjectConfigCreationProperties
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.project_config_creation_properties import ProjectConfigCreationProperties
+
 
 T = TypeVar("T", bound="ProjectConfigCreation")
 
@@ -12,6 +15,7 @@ T = TypeVar("T", bound="ProjectConfigCreation")
 class ProjectConfigCreation:
     """
     Attributes:
+        collaborative_annotation (Union[Unset, bool]):
         description (Union[Unset, str]):
         image_filename (Union[Unset, str]):
         image_id (Union[Unset, str]):
@@ -24,6 +28,7 @@ class ProjectConfigCreation:
         properties (Union[Unset, ProjectConfigCreationProperties]):
     """
 
+    collaborative_annotation: Union[Unset, bool] = UNSET
     description: Union[Unset, str] = UNSET
     image_filename: Union[Unset, str] = UNSET
     image_id: Union[Unset, str] = UNSET
@@ -33,9 +38,10 @@ class ProjectConfigCreation:
     metafacets: Union[Unset, str] = UNSET
     name: Union[Unset, str] = UNSET
     nature: Union[Unset, str] = "sequence_labelling"
-    properties: Union[Unset, ProjectConfigCreationProperties] = UNSET
+    properties: Union[Unset, "ProjectConfigCreationProperties"] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
+        collaborative_annotation = self.collaborative_annotation
         description = self.description
         image_filename = self.image_filename
         image_id = self.image_id
@@ -51,6 +57,8 @@ class ProjectConfigCreation:
 
         field_dict: Dict[str, Any] = {}
         field_dict.update({})
+        if collaborative_annotation is not UNSET:
+            field_dict["collaborativeAnnotation"] = collaborative_annotation
         if description is not UNSET:
             field_dict["description"] = description
         if image_filename is not UNSET:
@@ -76,7 +84,11 @@ class ProjectConfigCreation:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.project_config_creation_properties import ProjectConfigCreationProperties
+
         d = src_dict.copy()
+        collaborative_annotation = d.pop("collaborativeAnnotation", UNSET)
+
         description = d.pop("description", UNSET)
 
         image_filename = d.pop("imageFilename", UNSET)
@@ -103,6 +115,7 @@ class ProjectConfigCreation:
             properties = ProjectConfigCreationProperties.from_dict(_properties)
 
         project_config_creation = cls(
+            collaborative_annotation=collaborative_annotation,
             description=description,
             image_filename=image_filename,
             image_id=image_id,

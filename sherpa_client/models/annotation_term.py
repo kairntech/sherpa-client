@@ -1,9 +1,12 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
 
 import attr
 
-from ..models.annotation_term_properties import AnnotationTermProperties
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.annotation_term_properties import AnnotationTermProperties
+
 
 T = TypeVar("T", bound="AnnotationTerm")
 
@@ -23,7 +26,7 @@ class AnnotationTerm:
     identifier: str
     lexicon: str
     preferred_form: Union[Unset, str] = UNSET
-    properties: Union[Unset, AnnotationTermProperties] = UNSET
+    properties: Union[Unset, "AnnotationTermProperties"] = UNSET
     score: Union[Unset, int] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
@@ -54,6 +57,8 @@ class AnnotationTerm:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.annotation_term_properties import AnnotationTermProperties
+
         d = src_dict.copy()
         identifier = d.pop("identifier")
 

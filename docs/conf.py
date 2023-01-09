@@ -18,7 +18,6 @@ import os
 
 import sherpa_client
 
-
 # -- Project information -----------------------------------------------------
 
 project = "sherpa_client"

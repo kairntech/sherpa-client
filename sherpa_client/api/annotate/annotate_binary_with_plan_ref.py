@@ -1,7 +1,9 @@
+from http import HTTPStatus
 from typing import Any, Dict, List, Optional, Union
 
 import httpx
 
+from ... import errors
 from ...client import Client
 from ...models.annotate_binary_with_plan_ref_multipart_data import AnnotateBinaryWithPlanRefMultipartData
 from ...models.annotated_document import AnnotatedDocument
@@ -56,8 +58,8 @@ def _get_kwargs(
     }
 
 
-def _parse_response(*, response: httpx.Response) -> Optional[List[AnnotatedDocument]]:
-    if response.status_code == 200:
+def _parse_response(*, client: Client, response: httpx.Response) -> Optional[List["AnnotatedDocument"]]:
+    if response.status_code == HTTPStatus.OK:
         response_200 = []
         _response_200 = response.json()
         for componentsschemas_annotated_document_array_item_data in _response_200:
@@ -68,15 +70,18 @@ def _parse_response(*, response: httpx.Response) -> Optional[List[AnnotatedDocum
             response_200.append(componentsschemas_annotated_document_array_item)
 
         return response_200
-    return None
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+    else:
+        return None
 
 
-def _build_response(*, response: httpx.Response) -> Response[List[AnnotatedDocument]]:
+def _build_response(*, client: Client, response: httpx.Response) -> Response[List["AnnotatedDocument"]]:
     return Response(
-        status_code=response.status_code,
+        status_code=HTTPStatus(response.status_code),
         content=response.content,
         headers=response.headers,
-        parsed=_parse_response(response=response),
+        parsed=_parse_response(client=client, response=response),
     )
 
 
@@ -92,7 +97,7 @@ def sync_detailed(
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
-) -> Response[List[AnnotatedDocument]]:
+) -> Response[List["AnnotatedDocument"]]:
     """annotate a binary document with multiple annotators
 
     Args:
@@ -106,8 +111,12 @@ def sync_detailed(
         output_fields (Union[Unset, None, str]):
         multipart_data (AnnotateBinaryWithPlanRefMultipartData):
 
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
     Returns:
-        Response[List[AnnotatedDocument]]
+        Response[List['AnnotatedDocument']]
     """
 
     kwargs = _get_kwargs(
@@ -128,7 +137,7 @@ def sync_detailed(
         **kwargs,
     )
 
-    return _build_response(response=response)
+    return _build_response(client=client, response=response)
 
 
 def sync(
@@ -143,7 +152,7 @@ def sync(
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
-) -> Optional[List[AnnotatedDocument]]:
+) -> Optional[List["AnnotatedDocument"]]:
     """annotate a binary document with multiple annotators
 
     Args:
@@ -157,8 +166,12 @@ def sync(
         output_fields (Union[Unset, None, str]):
         multipart_data (AnnotateBinaryWithPlanRefMultipartData):
 
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
     Returns:
-        Response[List[AnnotatedDocument]]
+        Response[List['AnnotatedDocument']]
     """
 
     return sync_detailed(
@@ -187,7 +200,7 @@ async def asyncio_detailed(
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
-) -> Response[List[AnnotatedDocument]]:
+) -> Response[List["AnnotatedDocument"]]:
     """annotate a binary document with multiple annotators
 
     Args:
@@ -201,8 +214,12 @@ async def asyncio_detailed(
         output_fields (Union[Unset, None, str]):
         multipart_data (AnnotateBinaryWithPlanRefMultipartData):
 
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
     Returns:
-        Response[List[AnnotatedDocument]]
+        Response[List['AnnotatedDocument']]
     """
 
     kwargs = _get_kwargs(
@@ -221,7 +238,7 @@ async def asyncio_detailed(
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
         response = await _client.request(**kwargs)
 
-    return _build_response(response=response)
+    return _build_response(client=client, response=response)
 
 
 async def asyncio(
@@ -236,7 +253,7 @@ async def asyncio(
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = UNSET,
-) -> Optional[List[AnnotatedDocument]]:
+) -> Optional[List["AnnotatedDocument"]]:
     """annotate a binary document with multiple annotators
 
     Args:
@@ -250,8 +267,12 @@ async def asyncio(
         output_fields (Union[Unset, None, str]):
         multipart_data (AnnotateBinaryWithPlanRefMultipartData):
 
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
     Returns:
-        Response[List[AnnotatedDocument]]
+        Response[List['AnnotatedDocument']]
     """
 
     return (

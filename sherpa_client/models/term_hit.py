@@ -1,8 +1,10 @@
-from typing import Any, Dict, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
 
 import attr
 
-from ..models.term_hit_term import TermHitTerm
+if TYPE_CHECKING:
+    from ..models.term_hit_term import TermHitTerm
+
 
 T = TypeVar("T", bound="TermHit")
 
@@ -16,7 +18,7 @@ class TermHit:
     """
 
     score: float
-    term: TermHitTerm
+    term: "TermHitTerm"
 
     def to_dict(self) -> Dict[str, Any]:
         score = self.score
@@ -34,6 +36,8 @@ class TermHit:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.term_hit_term import TermHitTerm
+
         d = src_dict.copy()
         score = d.pop("score")
 

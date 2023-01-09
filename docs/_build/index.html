@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sherpa-client &mdash; sherpa_client 0.10.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Changelog" href="CHANGELOG.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> sherpa_client
+          </a>
+              <div class="version">
+                0.10.5
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CHANGELOG.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/sherpa_client.html">sherpa_client package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">sherpa_client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>sherpa-client</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sherpa-client">
+<h1>sherpa-client<a class="headerlink" href="#sherpa-client" title="Permalink to this headline"></a></h1>
+<p>A client library for accessing Sherpa API documentation</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>First, create a client and log in:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sherpa_client</span> <span class="kn">import</span> <span class="n">SherpaClient</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">SherpaClient</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;https://api.example.com&quot;</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">Credentials</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s2">&quot;login&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;pwd&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Now call your endpoint and use your models:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sherpa_client.models</span> <span class="kn">import</span> <span class="n">MyDataModel</span>
+<span class="kn">from</span> <span class="nn">sherpa_client.api.my_tag</span> <span class="kn">import</span> <span class="n">get_my_data_model</span>
+<span class="kn">from</span> <span class="nn">sherpa_client.types</span> <span class="kn">import</span> <span class="n">Response</span>
+
+<span class="n">my_data</span><span class="p">:</span> <span class="n">MyDataModel</span> <span class="o">=</span> <span class="n">get_my_data_model</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+<span class="c1"># or if you need more info (e.g. status_code)</span>
+<span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">[</span><span class="n">MyDataModel</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_my_data_model</span><span class="o">.</span><span class="n">sync_detailed</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or do the same thing with an async version:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sherpa_client.models</span> <span class="kn">import</span> <span class="n">MyDataModel</span>
+<span class="kn">from</span> <span class="nn">sherpa_client.api.my_tag</span> <span class="kn">import</span> <span class="n">get_my_data_model</span>
+<span class="kn">from</span> <span class="nn">sherpa_client.types</span> <span class="kn">import</span> <span class="n">Response</span>
+
+<span class="n">my_data</span><span class="p">:</span> <span class="n">MyDataModel</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_my_data_model</span><span class="o">.</span><span class="n">asyncio</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+<span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">[</span><span class="n">MyDataModel</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_my_data_model</span><span class="o">.</span><span class="n">asyncio_detailed</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default, when you’re calling an HTTPS API it will attempt to verify that SSL is working correctly. Using certificate verification is highly recommended most of the time, but sometimes you may need to authenticate to a server (especially an internal server) using a custom certificate bundle.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">AuthenticatedClient</span><span class="p">(</span>
+    <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;https://internal_api.example.com&quot;</span><span class="p">,</span>
+    <span class="n">token</span><span class="o">=</span><span class="s2">&quot;SuperSecretToken&quot;</span><span class="p">,</span>
+    <span class="n">verify_ssl</span><span class="o">=</span><span class="s2">&quot;/path/to/certificate_bundle.pem&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also disable certificate validation altogether, but beware that <strong>this is a security risk</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">AuthenticatedClient</span><span class="p">(</span>
+    <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;https://internal_api.example.com&quot;</span><span class="p">,</span>
+    <span class="n">token</span><span class="o">=</span><span class="s2">&quot;SuperSecretToken&quot;</span><span class="p">,</span>
+    <span class="n">verify_ssl</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Things to know:</p>
+<ol class="arabic simple">
+<li><p>Every path/method combo becomes a Python module with four functions:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sync</span></code>: Blocking request that returns parsed data (if successful) or <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sync_detailed</span></code>: Blocking request that always returns a <code class="docutils literal notranslate"><span class="pre">Request</span></code>, optionally with <code class="docutils literal notranslate"><span class="pre">parsed</span></code> set if the request was successful.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">asyncio</span></code>: Like <code class="docutils literal notranslate"><span class="pre">sync</span></code> but the async instead of blocking</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">asyncio_detailed</span></code>: Like <code class="docutils literal notranslate"><span class="pre">sync_detailed</span></code> by async instead of blocking</p></li>
+</ol>
+</li>
+<li><p>All path/query params, and bodies become method arguments.</p></li>
+<li><p>If your endpoint had any tags on it, the first tag will be used as a module name for the function (my_tag above)</p></li>
+<li><p>Any endpoint which did not have a tag will be in <code class="docutils literal notranslate"><span class="pre">sherpa_client.api.default</span></code></p></li>
+</ol>
+</section>
+<section id="building-publishing-this-client">
+<h2>Building / publishing this Client<a class="headerlink" href="#building-publishing-this-client" title="Permalink to this headline"></a></h2>
+<p>This project uses <a class="reference external" href="https://python-poetry.org/">Poetry</a> to manage dependencies  and packaging.  Here are the basics:</p>
+<ol class="arabic simple">
+<li><p>Update the metadata in pyproject.toml (e.g. authors, version)</p></li>
+<li><p>If you’re using a private repository, configure it with Poetry</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">config</span> <span class="pre">repositories.&lt;your-repository-name&gt;</span> <span class="pre">&lt;url-to-your-repository&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">config</span> <span class="pre">http-basic.&lt;your-repository-name&gt;</span> <span class="pre">&lt;username&gt;</span> <span class="pre">&lt;password&gt;</span></code></p></li>
+</ol>
+</li>
+<li><p>Publish the client with <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">publish</span> <span class="pre">--build</span> <span class="pre">-r</span> <span class="pre">&lt;your-repository-name&gt;</span></code> or, if for public PyPI, just <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">publish</span> <span class="pre">--build</span></code></p></li>
+</ol>
+<p>If you want to install this client into another project without publishing it (e.g. for development) then:</p>
+<ol class="arabic simple">
+<li><p>If that project <strong>is using Poetry</strong>, you can simply do <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">add</span> <span class="pre">&lt;path-to-this-client&gt;</span></code> from that project</p></li>
+<li><p>If that project is not using Poetry:</p>
+<ol class="arabic simple">
+<li><p>Build a wheel with <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">build</span> <span class="pre">-f</span> <span class="pre">wheel</span></code></p></li>
+<li><p>Install that wheel from the other project <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&lt;path-to-wheel&gt;</span></code></p></li>
+</ol>
+</li>
+</ol>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="CHANGELOG.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Olivier Terrier.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

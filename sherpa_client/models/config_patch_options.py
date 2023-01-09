@@ -1,9 +1,12 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 import attr
 
-from ..models.classification_options import ClassificationOptions
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.classification_options import ClassificationOptions
+
 
 T = TypeVar("T", bound="ConfigPatchOptions")
 
@@ -13,12 +16,14 @@ class ConfigPatchOptions:
     """
     Attributes:
         classification (Union[Unset, ClassificationOptions]):
+        collaborative_annotation (Union[Unset, bool]):
         image (Union[Unset, str]):
         label (Union[Unset, str]):
         metafacets (Union[Unset, List[str]]):
     """
 
-    classification: Union[Unset, ClassificationOptions] = UNSET
+    classification: Union[Unset, "ClassificationOptions"] = UNSET
+    collaborative_annotation: Union[Unset, bool] = UNSET
     image: Union[Unset, str] = UNSET
     label: Union[Unset, str] = UNSET
     metafacets: Union[Unset, List[str]] = UNSET
@@ -28,6 +33,7 @@ class ConfigPatchOptions:
         if not isinstance(self.classification, Unset):
             classification = self.classification.to_dict()
 
+        collaborative_annotation = self.collaborative_annotation
         image = self.image
         label = self.label
         metafacets: Union[Unset, List[str]] = UNSET
@@ -38,6 +44,8 @@ class ConfigPatchOptions:
         field_dict.update({})
         if classification is not UNSET:
             field_dict["classification"] = classification
+        if collaborative_annotation is not UNSET:
+            field_dict["collaborativeAnnotation"] = collaborative_annotation
         if image is not UNSET:
             field_dict["image"] = image
         if label is not UNSET:
@@ -49,6 +57,8 @@ class ConfigPatchOptions:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.classification_options import ClassificationOptions
+
         d = src_dict.copy()
         _classification = d.pop("classification", UNSET)
         classification: Union[Unset, ClassificationOptions]
@@ -56,6 +66,8 @@ class ConfigPatchOptions:
             classification = UNSET
         else:
             classification = ClassificationOptions.from_dict(_classification)
+
+        collaborative_annotation = d.pop("collaborativeAnnotation", UNSET)
 
         image = d.pop("image", UNSET)
 
@@ -65,6 +77,7 @@ class ConfigPatchOptions:
 
         config_patch_options = cls(
             classification=classification,
+            collaborative_annotation=collaborative_annotation,
             image=image,
             label=label,
             metafacets=metafacets,

@@ -1,10 +1,13 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.converter import Converter
-from ..models.with_annotator import WithAnnotator
-from ..models.with_processor import WithProcessor
+if TYPE_CHECKING:
+    from ..models.converter import Converter
+    from ..models.with_annotator import WithAnnotator
+    from ..models.with_processor import WithProcessor
+    from ..models.with_sentencizer import WithSentencizer
+
 
 T = TypeVar("T", bound="ConvertAnnotationPlan")
 
@@ -14,19 +17,26 @@ class ConvertAnnotationPlan:
     """
     Attributes:
         converter (Converter):
-        pipeline (List[Union[WithAnnotator, WithProcessor]]):
+        pipeline (List[Union['WithAnnotator', 'WithProcessor', 'WithSentencizer']]):
     """
 
-    converter: Converter
-    pipeline: List[Union[WithAnnotator, WithProcessor]]
+    converter: "Converter"
+    pipeline: List[Union["WithAnnotator", "WithProcessor", "WithSentencizer"]]
 
     def to_dict(self) -> Dict[str, Any]:
+        from ..models.with_annotator import WithAnnotator
+        from ..models.with_processor import WithProcessor
+
         converter = self.converter.to_dict()
 
         pipeline = []
         for pipeline_item_data in self.pipeline:
+            pipeline_item: Dict[str, Any]
 
             if isinstance(pipeline_item_data, WithAnnotator):
+                pipeline_item = pipeline_item_data.to_dict()
+
+            elif isinstance(pipeline_item_data, WithProcessor):
                 pipeline_item = pipeline_item_data.to_dict()
 
             else:
@@ -46,6 +56,11 @@ class ConvertAnnotationPlan:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.converter import Converter
+        from ..models.with_annotator import WithAnnotator
+        from ..models.with_processor import WithProcessor
+        from ..models.with_sentencizer import WithSentencizer
+
         d = src_dict.copy()
         converter = Converter.from_dict(d.pop("converter"))
 
@@ -53,7 +68,7 @@ class ConvertAnnotationPlan:
         _pipeline = d.pop("pipeline")
         for pipeline_item_data in _pipeline:
 
-            def _parse_pipeline_item(data: object) -> Union[WithAnnotator, WithProcessor]:
+            def _parse_pipeline_item(data: object) -> Union["WithAnnotator", "WithProcessor", "WithSentencizer"]:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
@@ -62,11 +77,19 @@ class ConvertAnnotationPlan:
                     return pipeline_item_type_0
                 except:  # noqa: E722
                     pass
+                try:
+                    if not isinstance(data, dict):
+                        raise TypeError()
+                    pipeline_item_type_1 = WithProcessor.from_dict(data)
+
+                    return pipeline_item_type_1
+                except:  # noqa: E722
+                    pass
                 if not isinstance(data, dict):
                     raise TypeError()
-                pipeline_item_type_1 = WithProcessor.from_dict(data)
+                pipeline_item_type_2 = WithSentencizer.from_dict(data)
 
-                return pipeline_item_type_1
+                return pipeline_item_type_2
 
             pipeline_item = _parse_pipeline_item(pipeline_item_data)
 

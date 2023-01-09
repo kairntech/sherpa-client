@@ -1,11 +1,14 @@
 import json
 from io import BytesIO
-from typing import Any, Dict, Tuple, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, Tuple, Type, TypeVar, Union
 
 import attr
 
-from ..models.convert_format_annotation_plan import ConvertFormatAnnotationPlan
 from ..types import UNSET, File, FileJsonType, Unset
+
+if TYPE_CHECKING:
+    from ..models.convert_format_annotation_plan import ConvertFormatAnnotationPlan
+
 
 T = TypeVar("T", bound="FormatBinaryForm")
 
@@ -19,7 +22,7 @@ class FormatBinaryForm:
     """
 
     file: Union[Unset, File] = UNSET
-    plan: Union[Unset, ConvertFormatAnnotationPlan] = UNSET
+    plan: Union[Unset, "ConvertFormatAnnotationPlan"] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         file: Union[Unset, FileJsonType] = UNSET
@@ -59,6 +62,8 @@ class FormatBinaryForm:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.convert_format_annotation_plan import ConvertFormatAnnotationPlan
+
         d = src_dict.copy()
         _file = d.pop("file", UNSET)
         file: Union[Unset, File]

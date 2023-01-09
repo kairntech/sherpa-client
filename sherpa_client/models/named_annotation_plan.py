@@ -1,9 +1,12 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 import attr
 
-from ..models.annotation_plan import AnnotationPlan
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.annotation_plan import AnnotationPlan
+
 
 T = TypeVar("T", bound="NamedAnnotationPlan")
 
@@ -20,16 +23,18 @@ class NamedAnnotationPlan:
         favorite (Union[Unset, bool]):
         modified_at (Union[Unset, str]):
         modified_by (Union[Unset, str]):
+        tags (Union[Unset, List[str]]):
     """
 
     label: str
     name: str
-    parameters: AnnotationPlan
+    parameters: "AnnotationPlan"
     created_at: Union[Unset, str] = UNSET
     created_by: Union[Unset, str] = UNSET
     favorite: Union[Unset, bool] = UNSET
     modified_at: Union[Unset, str] = UNSET
     modified_by: Union[Unset, str] = UNSET
+    tags: Union[Unset, List[str]] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         label = self.label
@@ -41,6 +46,9 @@ class NamedAnnotationPlan:
         favorite = self.favorite
         modified_at = self.modified_at
         modified_by = self.modified_by
+        tags: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.tags, Unset):
+            tags = self.tags
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
@@ -60,11 +68,15 @@ class NamedAnnotationPlan:
             field_dict["modifiedAt"] = modified_at
         if modified_by is not UNSET:
             field_dict["modifiedBy"] = modified_by
+        if tags is not UNSET:
+            field_dict["tags"] = tags
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.annotation_plan import AnnotationPlan
+
         d = src_dict.copy()
         label = d.pop("label")
 
@@ -82,6 +94,8 @@ class NamedAnnotationPlan:
 
         modified_by = d.pop("modifiedBy", UNSET)
 
+        tags = cast(List[str], d.pop("tags", UNSET))
+
         named_annotation_plan = cls(
             label=label,
             name=name,
@@ -91,6 +105,7 @@ class NamedAnnotationPlan:
             favorite=favorite,
             modified_at=modified_at,
             modified_by=modified_by,
+            tags=tags,
         )
 
         return named_annotation_plan

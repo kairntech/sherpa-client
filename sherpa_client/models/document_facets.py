@@ -1,8 +1,10 @@
-from typing import Any, Dict, List, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar
 
 import attr
 
-from ..models.metadata_count import MetadataCount
+if TYPE_CHECKING:
+    from ..models.metadata_count import MetadataCount
+
 
 T = TypeVar("T", bound="DocumentFacets")
 
@@ -11,11 +13,11 @@ T = TypeVar("T", bound="DocumentFacets")
 class DocumentFacets:
     """
     Attributes:
-        facets (List[MetadataCount]):
+        facets (List['MetadataCount']):
         metadata (str):
     """
 
-    facets: List[MetadataCount]
+    facets: List["MetadataCount"]
     metadata: str
 
     def to_dict(self) -> Dict[str, Any]:
@@ -39,6 +41,8 @@ class DocumentFacets:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.metadata_count import MetadataCount
+
         d = src_dict.copy()
         facets = []
         _facets = d.pop("facets")

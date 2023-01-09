@@ -1,9 +1,12 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.segment import Segment
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.segment import Segment
+
 
 T = TypeVar("T", bound="SegmentContext")
 
@@ -14,12 +17,12 @@ class SegmentContext:
     Attributes:
         size (int):
         merged (Union[Unset, Segment]):
-        segments (Union[Unset, List[Segment]]):
+        segments (Union[Unset, List['Segment']]):
     """
 
     size: int
-    merged: Union[Unset, Segment] = UNSET
-    segments: Union[Unset, List[Segment]] = UNSET
+    merged: Union[Unset, "Segment"] = UNSET
+    segments: Union[Unset, List["Segment"]] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         size = self.size
@@ -50,6 +53,8 @@ class SegmentContext:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.segment import Segment
+
         d = src_dict.copy()
         size = d.pop("size")
 

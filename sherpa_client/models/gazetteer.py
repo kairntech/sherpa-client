@@ -1,8 +1,12 @@
-from typing import Any, Dict, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 import attr
 
-from ..models.gazetteer_parameters import GazetteerParameters
+from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.gazetteer_parameters import GazetteerParameters
+
 
 T = TypeVar("T", bound="Gazetteer")
 
@@ -20,6 +24,9 @@ class Gazetteer:
         running (bool):
         timestamp (int):
         uptodate (bool):
+        email_notification (Union[Unset, bool]):
+        favorite (Union[Unset, bool]):
+        tags (Union[Unset, List[str]]):
     """
 
     duration: int
@@ -27,10 +34,13 @@ class Gazetteer:
     label: str
     models: int
     name: str
-    parameters: GazetteerParameters
+    parameters: "GazetteerParameters"
     running: bool
     timestamp: int
     uptodate: bool
+    email_notification: Union[Unset, bool] = UNSET
+    favorite: Union[Unset, bool] = UNSET
+    tags: Union[Unset, List[str]] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         duration = self.duration
@@ -43,6 +53,11 @@ class Gazetteer:
         running = self.running
         timestamp = self.timestamp
         uptodate = self.uptodate
+        email_notification = self.email_notification
+        favorite = self.favorite
+        tags: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.tags, Unset):
+            tags = self.tags
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
@@ -58,11 +73,19 @@ class Gazetteer:
                 "uptodate": uptodate,
             }
         )
+        if email_notification is not UNSET:
+            field_dict["emailNotification"] = email_notification
+        if favorite is not UNSET:
+            field_dict["favorite"] = favorite
+        if tags is not UNSET:
+            field_dict["tags"] = tags
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.gazetteer_parameters import GazetteerParameters
+
         d = src_dict.copy()
         duration = d.pop("duration")
 
@@ -82,6 +105,12 @@ class Gazetteer:
 
         uptodate = d.pop("uptodate")
 
+        email_notification = d.pop("emailNotification", UNSET)
+
+        favorite = d.pop("favorite", UNSET)
+
+        tags = cast(List[str], d.pop("tags", UNSET))
+
         gazetteer = cls(
             duration=duration,
             engine=engine,
@@ -92,6 +121,9 @@ class Gazetteer:
             running=running,
             timestamp=timestamp,
             uptodate=uptodate,
+            email_notification=email_notification,
+            favorite=favorite,
+            tags=tags,
         )
 
         return gazetteer

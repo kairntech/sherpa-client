@@ -2,6 +2,7 @@ from typing import Any, Dict, Type, TypeVar, Union
 
 import attr
 
+from ..models.doc_category_creation_mode import DocCategoryCreationMode
 from ..models.doc_category_status import DocCategoryStatus
 from ..types import UNSET, Unset
 
@@ -17,6 +18,7 @@ class DocCategory:
         label_name (str): The label name
         created_by (Union[Unset, str]): User having created the category
         created_date (Union[Unset, str]): Creation date
+        creation_mode (Union[Unset, DocCategoryCreationMode]): Creation mode
         modified_date (Union[Unset, str]): Last modification date
         score (Union[Unset, float]): Score of the category
         status (Union[Unset, DocCategoryStatus]): Status of the category
@@ -26,6 +28,7 @@ class DocCategory:
     label_name: str
     created_by: Union[Unset, str] = UNSET
     created_date: Union[Unset, str] = UNSET
+    creation_mode: Union[Unset, DocCategoryCreationMode] = UNSET
     modified_date: Union[Unset, str] = UNSET
     score: Union[Unset, float] = UNSET
     status: Union[Unset, DocCategoryStatus] = UNSET
@@ -35,6 +38,10 @@ class DocCategory:
         label_name = self.label_name
         created_by = self.created_by
         created_date = self.created_date
+        creation_mode: Union[Unset, str] = UNSET
+        if not isinstance(self.creation_mode, Unset):
+            creation_mode = self.creation_mode.value
+
         modified_date = self.modified_date
         score = self.score
         status: Union[Unset, str] = UNSET
@@ -52,6 +59,8 @@ class DocCategory:
             field_dict["createdBy"] = created_by
         if created_date is not UNSET:
             field_dict["createdDate"] = created_date
+        if creation_mode is not UNSET:
+            field_dict["creationMode"] = creation_mode
         if modified_date is not UNSET:
             field_dict["modifiedDate"] = modified_date
         if score is not UNSET:
@@ -72,6 +81,13 @@ class DocCategory:
 
         created_date = d.pop("createdDate", UNSET)
 
+        _creation_mode = d.pop("creationMode", UNSET)
+        creation_mode: Union[Unset, DocCategoryCreationMode]
+        if isinstance(_creation_mode, Unset):
+            creation_mode = UNSET
+        else:
+            creation_mode = DocCategoryCreationMode(_creation_mode)
+
         modified_date = d.pop("modifiedDate", UNSET)
 
         score = d.pop("score", UNSET)
@@ -88,6 +104,7 @@ class DocCategory:
             label_name=label_name,
             created_by=created_by,
             created_date=created_date,
+            creation_mode=creation_mode,
             modified_date=modified_date,
             score=score,
             status=status,

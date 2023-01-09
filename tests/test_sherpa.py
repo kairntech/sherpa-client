@@ -6,22 +6,31 @@ from typing import List
 import pytest
 import shortuuid
 
+from sherpa_client.api.plans import create_plan
 from sherpa_client.api.annotate import annotate_text_with
 from sherpa_client.api.authentication import user_sign_out
 from sherpa_client.api.documents import export_documents_sample, get_document, launch_document_import
+from sherpa_client.api.experiments import get_experiments, launch_experiment
+from sherpa_client.api.gazetteers import create_gazetteer
+from sherpa_client.api.gazetteers import synchronize_gazetteer
 from sherpa_client.api.jobs import get_job
+from sherpa_client.api.labels import create_label
+from sherpa_client.api.lexicons import create_lexicon, create_term
 from sherpa_client.api.projects import create_project, delete_project, get_project_info, get_projects
 from sherpa_client.client import SherpaClient
 from sherpa_client.models import (
     AnnotatedDocument,
     Credentials,
     Document,
+    Experiment,
     LaunchDocumentImportMultipartData,
     ProjectBean,
     ProjectConfigCreation,
     ProjectStatus,
     SherpaJobBean,
-    SherpaJobBeanStatus,
+    SherpaJobBeanStatus, PartialLexicon, CreateLexiconResponse200, Term, CreateTermResponse200, NewGazetteer,
+    NewGazetteerParameters, EngineName, PartialLabel, Label,
+    NewNamedAnnotationPlan, AnnotationPlan, WithAnnotator
 )
 from sherpa_client.types import File
 
@@ -117,6 +126,17 @@ def test_import_documents(client, project):
                 assert "1 documents" in job_bean.status_message
 
 
+def test_get_document(client, project):
+    r = get_document.sync_detailed(project, "a01", client=client)
+    if r.is_success:
+        doc: Document = r.parsed
+        assert doc.text
+        assert doc.identifier == "a01"
+        assert doc.title == "a01"
+        assert len(doc.sentences) == 20
+        assert len(doc.annotations) == 20
+
+
 def test_export_documents_sample(client, project):
     r = export_documents_sample.sync_detailed(project, client=client, sample_size=1)
     if r.is_success:
@@ -127,13 +147,83 @@ def test_export_documents_sample(client, project):
         assert docs[0].title == "a01"
 
 
-def test_get_document(client, project):
-    r = get_document.sync_detailed(project, "a01", client=client)
+def test_get_experiments(client, project):
+    r = get_experiments.sync_detailed(project, client=client)
     if r.is_success:
-        doc: Document = r.parsed
-        assert doc.text
-        assert doc.identifier == "a01"
-        assert doc.title == "a01"
-        assert len(doc.sentences) == 20
-        assert len(doc.annotations) == 27
+        exps: List[Experiment] = r.parsed
+        assert len(exps) > 1
+        exp0 = exps[0]
+        assert exp0.label == "CRFSuite"
 
+
+def test_train_experiment(client, project):
+    r = launch_experiment.sync_detailed(project, "crfsuite", client=client)
+    if r.is_success:
+        job_bean: SherpaJobBean = r.parsed
+        job_bean = wait_for_completion(job_bean, client=client)
+        if is_success(job_bean):
+            assert "CRFSuite experiment" in job_bean.description
+            assert "done in" in job_bean.status_message
+
+
+def test_annotate_with_experiment(client, project):
+    r = annotate_text_with.sync_detailed(project, "crfsuite", client=client, text_body="This is a test99")
+    if r.is_success:
+        doc: AnnotatedDocument = r.parsed
+        assert len(doc.annotations) == 1
+        assert doc.annotations[0].text == "test99"
+
+
+def test_create_lexicon_and_gazetteer(client, project):
+    r = create_lexicon.sync_detailed(project, client=client, json_body=PartialLexicon(label="lex"))
+    if r.is_success:
+        res: CreateLexiconResponse200 = r.parsed
+        r = create_term.sync_detailed(project, "lex", client=client, json_body=Term(identifier="This"))
+        if r.is_success:
+            res: CreateTermResponse200 = r.parsed
+            r = create_label.sync_detailed(project, client=client,
+                                           json_body=PartialLabel(label="Term", name="term"))
+            if r.is_success:
+                lab: Label = r.parsed
+                r = create_gazetteer.sync_detailed(project, client=client,
+                                                   json_body=NewGazetteer(engine="PhraseMatcher", label="Gaz",
+                                                                          parameters=NewGazetteerParameters.from_dict(
+                                                                              {'parameters': {
+                                                                                  'terms': {'term': 'lex'}}})))
+                if r.is_success:
+                    eng: EngineName = r.parsed
+                    r = synchronize_gazetteer.sync_detailed(project, eng.name, client=client)
+                    if r.is_success:
+                        job_bean: SherpaJobBean = r.parsed
+                        job_bean = wait_for_completion(job_bean, client=client)
+                        if is_success(job_bean):
+                            assert "terms synchronization" in job_bean.description
+                            assert "done in" in job_bean.status_message
+
+
+def test_annotate_with_gazetteer(client, project):
+    r = annotate_text_with.sync_detailed(project, "gaz", client=client, text_body="This is a test99")
+    if r.is_success:
+        doc: AnnotatedDocument = r.parsed
+        assert len(doc.annotations) == 1
+        assert doc.annotations[0].text == "This"
+
+
+def test_create_plan(client, project):
+    r = create_plan.sync_detailed(project, client=client,
+                                  json_body=NewNamedAnnotationPlan(label="Plan", parameters=AnnotationPlan(pipeline=[
+                                      WithAnnotator(annotator="crfsuite"),
+                                      WithAnnotator(annotator="gaz")
+                                  ])))
+    if r.is_success:
+        eng: EngineName = r.parsed
+        assert eng.name == 'plan'
+
+
+def test_annotate_with_plan(client, project):
+    r = annotate_text_with.sync_detailed(project, "plan", client=client, text_body="This is a test99")
+    if r.is_success:
+        doc: AnnotatedDocument = r.parsed
+        assert len(doc.annotations) == 2
+        assert doc.annotations[0].text == "This"
+        assert doc.annotations[1].text == "test99"

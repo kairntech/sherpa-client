@@ -1,9 +1,11 @@
-from typing import Any, Dict, List, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar
 
 import attr
 
-from ..models.label_count import LabelCount
-from ..models.text_count import TextCount
+if TYPE_CHECKING:
+    from ..models.label_count import LabelCount
+    from ..models.text_count import TextCount
+
 
 T = TypeVar("T", bound="SuggestionFacets")
 
@@ -12,12 +14,12 @@ T = TypeVar("T", bound="SuggestionFacets")
 class SuggestionFacets:
     """
     Attributes:
-        labels (List[LabelCount]):
-        texts (List[TextCount]):
+        labels (List['LabelCount']):
+        texts (List['TextCount']):
     """
 
-    labels: List[LabelCount]
-    texts: List[TextCount]
+    labels: List["LabelCount"]
+    texts: List["TextCount"]
 
     def to_dict(self) -> Dict[str, Any]:
         labels = []
@@ -44,6 +46,9 @@ class SuggestionFacets:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.label_count import LabelCount
+        from ..models.text_count import TextCount
+
         d = src_dict.copy()
         labels = []
         _labels = d.pop("labels")

@@ -1,8 +1,6 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import Any, Dict, Type, TypeVar
 
 import attr
-
-from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="SimpleMetadata")
 
@@ -11,12 +9,12 @@ T = TypeVar("T", bound="SimpleMetadata")
 class SimpleMetadata:
     """
     Attributes:
-        name (str):
-        value (Union[Unset, str]):
+        name (str): name of the metadata
+        value (str): value of the metadata: leave empty or null to remove the metadata
     """
 
     name: str
-    value: Union[Unset, str] = UNSET
+    value: str
 
     def to_dict(self) -> Dict[str, Any]:
         name = self.name
@@ -26,10 +24,9 @@ class SimpleMetadata:
         field_dict.update(
             {
                 "name": name,
+                "value": value,
             }
         )
-        if value is not UNSET:
-            field_dict["value"] = value
 
         return field_dict
 
@@ -38,7 +35,7 @@ class SimpleMetadata:
         d = src_dict.copy()
         name = d.pop("name")
 
-        value = d.pop("value", UNSET)
+        value = d.pop("value")
 
         simple_metadata = cls(
             name=name,

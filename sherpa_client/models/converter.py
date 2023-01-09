@@ -1,9 +1,12 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
 
 import attr
 
-from ..models.converter_parameters import ConverterParameters
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.converter_parameters import ConverterParameters
+
 
 T = TypeVar("T", bound="Converter")
 
@@ -17,7 +20,7 @@ class Converter:
     """
 
     name: str
-    parameters: Union[Unset, ConverterParameters] = UNSET
+    parameters: Union[Unset, "ConverterParameters"] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         name = self.name
@@ -38,6 +41,8 @@ class Converter:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.converter_parameters import ConverterParameters
+
         d = src_dict.copy()
         name = d.pop("name")
 

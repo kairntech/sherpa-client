@@ -1,11 +1,14 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
 
 import attr
 
-from ..models.engine_config import EngineConfig
-from ..models.quality_figures import QualityFigures
-from ..models.report_classes import ReportClasses
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.engine_config import EngineConfig
+    from ..models.quality_figures import QualityFigures
+    from ..models.report_classes import ReportClasses
+
 
 T = TypeVar("T", bound="Report")
 
@@ -22,12 +25,12 @@ class Report:
         weighted_avg (Union[Unset, QualityFigures]):
     """
 
-    classes: ReportClasses
-    micro_avg: QualityFigures
-    config: Union[Unset, EngineConfig] = UNSET
-    macro_avg: Union[Unset, QualityFigures] = UNSET
-    samples_avg: Union[Unset, QualityFigures] = UNSET
-    weighted_avg: Union[Unset, QualityFigures] = UNSET
+    classes: "ReportClasses"
+    micro_avg: "QualityFigures"
+    config: Union[Unset, "EngineConfig"] = UNSET
+    macro_avg: Union[Unset, "QualityFigures"] = UNSET
+    samples_avg: Union[Unset, "QualityFigures"] = UNSET
+    weighted_avg: Union[Unset, "QualityFigures"] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         classes = self.classes.to_dict()
@@ -70,6 +73,10 @@ class Report:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.engine_config import EngineConfig
+        from ..models.quality_figures import QualityFigures
+        from ..models.report_classes import ReportClasses
+
         d = src_dict.copy()
         classes = ReportClasses.from_dict(d.pop("classes"))
 

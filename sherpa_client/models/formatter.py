@@ -1,9 +1,12 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
 
 import attr
 
-from ..models.formatter_parameters import FormatterParameters
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.formatter_parameters import FormatterParameters
+
 
 T = TypeVar("T", bound="Formatter")
 
@@ -17,7 +20,7 @@ class Formatter:
     """
 
     name: str
-    parameters: Union[Unset, FormatterParameters] = UNSET
+    parameters: Union[Unset, "FormatterParameters"] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         name = self.name
@@ -38,6 +41,8 @@ class Formatter:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.formatter_parameters import FormatterParameters
+
         d = src_dict.copy()
         name = d.pop("name")
 

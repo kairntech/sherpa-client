@@ -1,9 +1,12 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 import attr
 
-from ..models.sherpa_job_bean import SherpaJobBean
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.sherpa_job_bean import SherpaJobBean
+
 
 T = TypeVar("T", bound="EngineConfigImportSummary")
 
@@ -21,7 +24,7 @@ class EngineConfigImportSummary:
     configs: Union[Unset, List[str]] = UNSET
     ignored: Union[Unset, List[str]] = UNSET
     models: Union[Unset, int] = 0
-    pending_job: Union[Unset, SherpaJobBean] = UNSET
+    pending_job: Union[Unset, "SherpaJobBean"] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         configs: Union[Unset, List[str]] = UNSET
@@ -52,6 +55,8 @@ class EngineConfigImportSummary:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.sherpa_job_bean import SherpaJobBean
+
         d = src_dict.copy()
         configs = cast(List[str], d.pop("configs", UNSET))
 

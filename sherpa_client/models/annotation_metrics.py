@@ -1,10 +1,12 @@
-from typing import Any, Dict, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
 
 import attr
 
-from ..models.annotation_facets import AnnotationFacets
-from ..models.document_facets import DocumentFacets
-from ..models.suggestion_facets import SuggestionFacets
+if TYPE_CHECKING:
+    from ..models.annotation_facets import AnnotationFacets
+    from ..models.document_facets import DocumentFacets
+    from ..models.suggestion_facets import SuggestionFacets
+
 
 T = TypeVar("T", bound="AnnotationMetrics")
 
@@ -23,12 +25,12 @@ class AnnotationMetrics:
     """
 
     annotation_count: int
-    annotation_facets: AnnotationFacets
-    document_facets: DocumentFacets
+    annotation_facets: "AnnotationFacets"
+    document_facets: "DocumentFacets"
     documents_in_dataset: int
     segments_in_dataset: int
     suggestion_count: int
-    suggestion_facets: SuggestionFacets
+    suggestion_facets: "SuggestionFacets"
 
     def to_dict(self) -> Dict[str, Any]:
         annotation_count = self.annotation_count
@@ -58,6 +60,10 @@ class AnnotationMetrics:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.annotation_facets import AnnotationFacets
+        from ..models.document_facets import DocumentFacets
+        from ..models.suggestion_facets import SuggestionFacets
+
         d = src_dict.copy()
         annotation_count = d.pop("annotationCount")
 

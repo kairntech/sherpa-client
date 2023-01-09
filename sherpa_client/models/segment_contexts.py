@@ -1,8 +1,10 @@
-from typing import Any, Dict, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
 
 import attr
 
-from ..models.segment_context import SegmentContext
+if TYPE_CHECKING:
+    from ..models.segment_context import SegmentContext
+
 
 T = TypeVar("T", bound="SegmentContexts")
 
@@ -15,8 +17,8 @@ class SegmentContexts:
         before (SegmentContext):
     """
 
-    after: SegmentContext
-    before: SegmentContext
+    after: "SegmentContext"
+    before: "SegmentContext"
 
     def to_dict(self) -> Dict[str, Any]:
         after = self.after.to_dict()
@@ -35,6 +37,8 @@ class SegmentContexts:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.segment_context import SegmentContext
+
         d = src_dict.copy()
         after = SegmentContext.from_dict(d.pop("after"))
 

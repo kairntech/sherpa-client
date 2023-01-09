@@ -1,8 +1,10 @@
-from typing import Any, Dict, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
 
 import attr
 
-from ..models.document import Document
+if TYPE_CHECKING:
+    from ..models.document import Document
+
 
 T = TypeVar("T", bound="DocumentHit")
 
@@ -17,7 +19,7 @@ class DocumentHit:
     """
 
     id: str
-    document: Document
+    document: "Document"
     score: float
 
     def to_dict(self) -> Dict[str, Any]:
@@ -39,6 +41,8 @@ class DocumentHit:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.document import Document
+
         d = src_dict.copy()
         id = d.pop("_id")
 

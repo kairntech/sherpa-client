@@ -1,8 +1,10 @@
-from typing import Any, Dict, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
 
 import attr
 
-from ..models.term_importer_spec_parameters import TermImporterSpecParameters
+if TYPE_CHECKING:
+    from ..models.term_importer_spec_parameters import TermImporterSpecParameters
+
 
 T = TypeVar("T", bound="TermImporterSpec")
 
@@ -16,7 +18,7 @@ class TermImporterSpec:
     """
 
     format_: str
-    parameters: TermImporterSpecParameters
+    parameters: "TermImporterSpecParameters"
 
     def to_dict(self) -> Dict[str, Any]:
         format_ = self.format_
@@ -34,6 +36,8 @@ class TermImporterSpec:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.term_importer_spec_parameters import TermImporterSpecParameters
+
         d = src_dict.copy()
         format_ = d.pop("format")
 

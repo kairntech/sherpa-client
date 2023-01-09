@@ -1,9 +1,11 @@
-from typing import Any, Dict, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
 
 import attr
 
-from ..models.categories_facets import CategoriesFacets
-from ..models.document_facets import DocumentFacets
+if TYPE_CHECKING:
+    from ..models.categories_facets import CategoriesFacets
+    from ..models.document_facets import DocumentFacets
+
 
 T = TypeVar("T", bound="CategoryMetrics")
 
@@ -19,8 +21,8 @@ class CategoryMetrics:
     """
 
     categories_count: int
-    categories_facets: CategoriesFacets
-    document_facets: DocumentFacets
+    categories_facets: "CategoriesFacets"
+    document_facets: "DocumentFacets"
     documents_in_dataset: int
 
     def to_dict(self) -> Dict[str, Any]:
@@ -45,6 +47,9 @@ class CategoryMetrics:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.categories_facets import CategoriesFacets
+        from ..models.document_facets import DocumentFacets
+
         d = src_dict.copy()
         categories_count = d.pop("categoriesCount")
 

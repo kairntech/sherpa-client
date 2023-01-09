@@ -2,6 +2,7 @@ from typing import Any, Dict, Type, TypeVar, Union
 
 import attr
 
+from ..models.annotation_creation_mode import AnnotationCreationMode
 from ..models.annotation_status import AnnotationStatus
 from ..types import UNSET, Unset
 
@@ -18,6 +19,7 @@ class Annotation:
         label_name (str): The label name
         start (int): Start offset in document
         text (str): Covered text
+        creation_mode (Union[Unset, AnnotationCreationMode]): Creation mode
         status (Union[Unset, AnnotationStatus]): Status of the annotation
     """
 
@@ -26,6 +28,7 @@ class Annotation:
     label_name: str
     start: int
     text: str
+    creation_mode: Union[Unset, AnnotationCreationMode] = UNSET
     status: Union[Unset, AnnotationStatus] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
@@ -34,6 +37,10 @@ class Annotation:
         label_name = self.label_name
         start = self.start
         text = self.text
+        creation_mode: Union[Unset, str] = UNSET
+        if not isinstance(self.creation_mode, Unset):
+            creation_mode = self.creation_mode.value
+
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
             status = self.status.value
@@ -48,6 +55,8 @@ class Annotation:
                 "text": text,
             }
         )
+        if creation_mode is not UNSET:
+            field_dict["creationMode"] = creation_mode
         if status is not UNSET:
             field_dict["status"] = status
 
@@ -66,6 +75,13 @@ class Annotation:
 
         text = d.pop("text")
 
+        _creation_mode = d.pop("creationMode", UNSET)
+        creation_mode: Union[Unset, AnnotationCreationMode]
+        if isinstance(_creation_mode, Unset):
+            creation_mode = UNSET
+        else:
+            creation_mode = AnnotationCreationMode(_creation_mode)
+
         _status = d.pop("status", UNSET)
         status: Union[Unset, AnnotationStatus]
         if isinstance(_status, Unset):
@@ -79,6 +95,7 @@ class Annotation:
             label_name=label_name,
             start=start,
             text=text,
+            creation_mode=creation_mode,
             status=status,
         )
 

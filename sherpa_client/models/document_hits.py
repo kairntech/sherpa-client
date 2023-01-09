@@ -1,11 +1,14 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.aggregation import Aggregation
-from ..models.document_hit import DocumentHit
-from ..models.search_total import SearchTotal
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.aggregation import Aggregation
+    from ..models.document_hit import DocumentHit
+    from ..models.search_total import SearchTotal
+
 
 T = TypeVar("T", bound="DocumentHits")
 
@@ -14,15 +17,15 @@ T = TypeVar("T", bound="DocumentHits")
 class DocumentHits:
     """
     Attributes:
-        hits (List[DocumentHit]):
+        hits (List['DocumentHit']):
         total (SearchTotal):
-        aggregations (Union[Unset, List[Aggregation]]):
+        aggregations (Union[Unset, List['Aggregation']]):
         max_score (Union[Unset, float]):
     """
 
-    hits: List[DocumentHit]
-    total: SearchTotal
-    aggregations: Union[Unset, List[Aggregation]] = UNSET
+    hits: List["DocumentHit"]
+    total: "SearchTotal"
+    aggregations: Union[Unset, List["Aggregation"]] = UNSET
     max_score: Union[Unset, float] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
@@ -60,6 +63,10 @@ class DocumentHits:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.aggregation import Aggregation
+        from ..models.document_hit import DocumentHit
+        from ..models.search_total import SearchTotal
+
         d = src_dict.copy()
         hits = []
         _hits = d.pop("hits")

@@ -1,8 +1,10 @@
-from typing import Any, Dict, List, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar
 
 import attr
 
-from ..models.bucket import Bucket
+if TYPE_CHECKING:
+    from ..models.bucket import Bucket
+
 
 T = TypeVar("T", bound="Aggregation")
 
@@ -11,11 +13,11 @@ T = TypeVar("T", bound="Aggregation")
 class Aggregation:
     """
     Attributes:
-        buckets (List[Bucket]):
+        buckets (List['Bucket']):
         name (str):
     """
 
-    buckets: List[Bucket]
+    buckets: List["Bucket"]
     name: str
 
     def to_dict(self) -> Dict[str, Any]:
@@ -39,6 +41,8 @@ class Aggregation:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.bucket import Bucket
+
         d = src_dict.copy()
         buckets = []
         _buckets = d.pop("buckets")

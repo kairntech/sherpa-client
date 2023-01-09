@@ -1,10 +1,14 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.doc_annotation import DocAnnotation
-from ..models.segment_metadata import SegmentMetadata
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.doc_annotation import DocAnnotation
+    from ..models.doc_category import DocCategory
+    from ..models.segment_metadata import SegmentMetadata
+
 
 T = TypeVar("T", bound="Segment")
 
@@ -19,7 +23,8 @@ class Segment:
         identifier (str):
         start (int):
         text (str):
-        annotations (Union[Unset, List[DocAnnotation]]):
+        annotations (Union[Unset, List['DocAnnotation']]):
+        categories (Union[Unset, List['DocCategory']]):
         created_by (Union[Unset, str]): User having created the segment
         created_date (Union[Unset, str]): Creation date
         metadata (Union[Unset, SegmentMetadata]):
@@ -33,10 +38,11 @@ class Segment:
     identifier: str
     start: int
     text: str
-    annotations: Union[Unset, List[DocAnnotation]] = UNSET
+    annotations: Union[Unset, List["DocAnnotation"]] = UNSET
+    categories: Union[Unset, List["DocCategory"]] = UNSET
     created_by: Union[Unset, str] = UNSET
     created_date: Union[Unset, str] = UNSET
-    metadata: Union[Unset, SegmentMetadata] = UNSET
+    metadata: Union[Unset, "SegmentMetadata"] = UNSET
     modified_date: Union[Unset, str] = UNSET
     shift: Union[Unset, int] = UNSET
 
@@ -54,6 +60,14 @@ class Segment:
                 annotations_item = annotations_item_data.to_dict()
 
                 annotations.append(annotations_item)
+
+        categories: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.categories, Unset):
+            categories = []
+            for categories_item_data in self.categories:
+                categories_item = categories_item_data.to_dict()
+
+                categories.append(categories_item)
 
         created_by = self.created_by
         created_date = self.created_date
@@ -77,6 +91,8 @@ class Segment:
         )
         if annotations is not UNSET:
             field_dict["annotations"] = annotations
+        if categories is not UNSET:
+            field_dict["categories"] = categories
         if created_by is not UNSET:
             field_dict["createdBy"] = created_by
         if created_date is not UNSET:
@@ -92,6 +108,10 @@ class Segment:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.doc_annotation import DocAnnotation
+        from ..models.doc_category import DocCategory
+        from ..models.segment_metadata import SegmentMetadata
+
         d = src_dict.copy()
         document_identifier = d.pop("documentIdentifier")
 
@@ -111,6 +131,13 @@ class Segment:
             annotations_item = DocAnnotation.from_dict(annotations_item_data)
 
             annotations.append(annotations_item)
+
+        categories = []
+        _categories = d.pop("categories", UNSET)
+        for categories_item_data in _categories or []:
+            categories_item = DocCategory.from_dict(categories_item_data)
+
+            categories.append(categories_item)
 
         created_by = d.pop("createdBy", UNSET)
 
@@ -135,6 +162,7 @@ class Segment:
             start=start,
             text=text,
             annotations=annotations,
+            categories=categories,
             created_by=created_by,
             created_date=created_date,
             metadata=metadata,

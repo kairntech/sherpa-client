@@ -1,8 +1,10 @@
-from typing import Any, Dict, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
 
 import attr
 
-from ..models.segment import Segment
+if TYPE_CHECKING:
+    from ..models.segment import Segment
+
 
 T = TypeVar("T", bound="SegmentHit")
 
@@ -18,7 +20,7 @@ class SegmentHit:
 
     id: str
     score: float
-    segment: Segment
+    segment: "Segment"
 
     def to_dict(self) -> Dict[str, Any]:
         id = self.id
@@ -38,6 +40,8 @@ class SegmentHit:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.segment import Segment
+
         d = src_dict.copy()
         id = d.pop("_id")
 

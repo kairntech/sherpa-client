@@ -1,10 +1,13 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.search_total import SearchTotal
-from ..models.term_hit import TermHit
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.search_total import SearchTotal
+    from ..models.term_hit import TermHit
+
 
 T = TypeVar("T", bound="TermHits")
 
@@ -13,13 +16,13 @@ T = TypeVar("T", bound="TermHits")
 class TermHits:
     """
     Attributes:
-        hits (List[TermHit]):
+        hits (List['TermHit']):
         total (SearchTotal):
         max_score (Union[Unset, float]):
     """
 
-    hits: List[TermHit]
-    total: SearchTotal
+    hits: List["TermHit"]
+    total: "SearchTotal"
     max_score: Union[Unset, float] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
@@ -47,6 +50,9 @@ class TermHits:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.search_total import SearchTotal
+        from ..models.term_hit import TermHit
+
         d = src_dict.copy()
         hits = []
         _hits = d.pop("hits")

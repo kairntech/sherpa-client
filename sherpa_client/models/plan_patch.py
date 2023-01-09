@@ -1,9 +1,12 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 import attr
 
-from ..models.annotation_plan import AnnotationPlan
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.annotation_plan import AnnotationPlan
+
 
 T = TypeVar("T", bound="PlanPatch")
 
@@ -15,11 +18,13 @@ class PlanPatch:
         favorite (Union[Unset, bool]):
         label (Union[Unset, str]):
         parameters (Union[Unset, AnnotationPlan]):
+        tags (Union[Unset, List[str]]):
     """
 
     favorite: Union[Unset, bool] = UNSET
     label: Union[Unset, str] = UNSET
-    parameters: Union[Unset, AnnotationPlan] = UNSET
+    parameters: Union[Unset, "AnnotationPlan"] = UNSET
+    tags: Union[Unset, List[str]] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         favorite = self.favorite
@@ -27,6 +32,10 @@ class PlanPatch:
         parameters: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.parameters, Unset):
             parameters = self.parameters.to_dict()
+
+        tags: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.tags, Unset):
+            tags = self.tags
 
         field_dict: Dict[str, Any] = {}
         field_dict.update({})
@@ -36,11 +45,15 @@ class PlanPatch:
             field_dict["label"] = label
         if parameters is not UNSET:
             field_dict["parameters"] = parameters
+        if tags is not UNSET:
+            field_dict["tags"] = tags
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.annotation_plan import AnnotationPlan
+
         d = src_dict.copy()
         favorite = d.pop("favorite", UNSET)
 
@@ -53,10 +66,13 @@ class PlanPatch:
         else:
             parameters = AnnotationPlan.from_dict(_parameters)
 
+        tags = cast(List[str], d.pop("tags", UNSET))
+
         plan_patch = cls(
             favorite=favorite,
             label=label,
             parameters=parameters,
+            tags=tags,
         )
 
         return plan_patch

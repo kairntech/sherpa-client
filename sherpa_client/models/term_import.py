@@ -1,9 +1,11 @@
-from typing import Any, Dict, List, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar
 
 import attr
 
-from ..models.term_importer_spec import TermImporterSpec
-from ..models.uploaded_file import UploadedFile
+if TYPE_CHECKING:
+    from ..models.term_importer_spec import TermImporterSpec
+    from ..models.uploaded_file import UploadedFile
+
 
 T = TypeVar("T", bound="TermImport")
 
@@ -12,12 +14,12 @@ T = TypeVar("T", bound="TermImport")
 class TermImport:
     """
     Attributes:
-        files (List[UploadedFile]):
+        files (List['UploadedFile']):
         importer (TermImporterSpec):
     """
 
-    files: List[UploadedFile]
-    importer: TermImporterSpec
+    files: List["UploadedFile"]
+    importer: "TermImporterSpec"
 
     def to_dict(self) -> Dict[str, Any]:
         files = []
@@ -40,6 +42,9 @@ class TermImport:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.term_importer_spec import TermImporterSpec
+        from ..models.uploaded_file import UploadedFile
+
         d = src_dict.copy()
         files = []
         _files = d.pop("files")

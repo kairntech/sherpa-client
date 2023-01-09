@@ -1,9 +1,12 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
 
 import attr
 
-from ..models.http_service_metadata import HttpServiceMetadata
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.http_service_metadata import HttpServiceMetadata
+
 
 T = TypeVar("T", bound="HttpServiceRecord")
 
@@ -20,7 +23,7 @@ class HttpServiceRecord:
     """
 
     host: str
-    metadata: HttpServiceMetadata
+    metadata: "HttpServiceMetadata"
     name: str
     port: int
     ssl: Union[Unset, bool] = UNSET
@@ -49,6 +52,8 @@ class HttpServiceRecord:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.http_service_metadata import HttpServiceMetadata
+
         d = src_dict.copy()
         host = d.pop("host")
 

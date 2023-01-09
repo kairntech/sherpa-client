@@ -1,8 +1,10 @@
-from typing import Any, Dict, List, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar
 
 import attr
 
-from ..models.metadata_definition_entry import MetadataDefinitionEntry
+if TYPE_CHECKING:
+    from ..models.metadata_definition_entry import MetadataDefinitionEntry
+
 
 T = TypeVar("T", bound="MetadataDefinition")
 
@@ -11,10 +13,10 @@ T = TypeVar("T", bound="MetadataDefinition")
 class MetadataDefinition:
     """
     Attributes:
-        metadata (List[MetadataDefinitionEntry]):
+        metadata (List['MetadataDefinitionEntry']):
     """
 
-    metadata: List[MetadataDefinitionEntry]
+    metadata: List["MetadataDefinitionEntry"]
 
     def to_dict(self) -> Dict[str, Any]:
         metadata = []
@@ -34,6 +36,8 @@ class MetadataDefinition:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.metadata_definition_entry import MetadataDefinitionEntry
+
         d = src_dict.copy()
         metadata = []
         _metadata = d.pop("metadata")

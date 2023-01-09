@@ -2,6 +2,7 @@ from typing import Any, Dict, Type, TypeVar, Union
 
 import attr
 
+from ..models.doc_annotation_creation_mode import DocAnnotationCreationMode
 from ..models.doc_annotation_status import DocAnnotationStatus
 from ..types import UNSET, Unset
 
@@ -19,6 +20,7 @@ class DocAnnotation:
         text (str): Covered text
         created_by (Union[Unset, str]): User having created the annotation
         created_date (Union[Unset, str]): Creation date
+        creation_mode (Union[Unset, DocAnnotationCreationMode]): Creation mode
         identifier (Union[Unset, str]): Annotation identifier (only in 'html version')
         modified_date (Union[Unset, str]): Last modification date
         status (Union[Unset, DocAnnotationStatus]): Status of the annotation
@@ -30,6 +32,7 @@ class DocAnnotation:
     text: str
     created_by: Union[Unset, str] = UNSET
     created_date: Union[Unset, str] = UNSET
+    creation_mode: Union[Unset, DocAnnotationCreationMode] = UNSET
     identifier: Union[Unset, str] = UNSET
     modified_date: Union[Unset, str] = UNSET
     status: Union[Unset, DocAnnotationStatus] = UNSET
@@ -41,6 +44,10 @@ class DocAnnotation:
         text = self.text
         created_by = self.created_by
         created_date = self.created_date
+        creation_mode: Union[Unset, str] = UNSET
+        if not isinstance(self.creation_mode, Unset):
+            creation_mode = self.creation_mode.value
+
         identifier = self.identifier
         modified_date = self.modified_date
         status: Union[Unset, str] = UNSET
@@ -60,6 +67,8 @@ class DocAnnotation:
             field_dict["createdBy"] = created_by
         if created_date is not UNSET:
             field_dict["createdDate"] = created_date
+        if creation_mode is not UNSET:
+            field_dict["creationMode"] = creation_mode
         if identifier is not UNSET:
             field_dict["identifier"] = identifier
         if modified_date is not UNSET:
@@ -84,6 +93,13 @@ class DocAnnotation:
 
         created_date = d.pop("createdDate", UNSET)
 
+        _creation_mode = d.pop("creationMode", UNSET)
+        creation_mode: Union[Unset, DocAnnotationCreationMode]
+        if isinstance(_creation_mode, Unset):
+            creation_mode = UNSET
+        else:
+            creation_mode = DocAnnotationCreationMode(_creation_mode)
+
         identifier = d.pop("identifier", UNSET)
 
         modified_date = d.pop("modifiedDate", UNSET)
@@ -102,6 +118,7 @@ class DocAnnotation:
             text=text,
             created_by=created_by,
             created_date=created_date,
+            creation_mode=creation_mode,
             identifier=identifier,
             modified_date=modified_date,
             status=status,

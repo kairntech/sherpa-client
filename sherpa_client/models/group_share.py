@@ -1,8 +1,10 @@
-from typing import Any, Dict, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
 
 import attr
 
-from ..models.share_mode import ShareMode
+if TYPE_CHECKING:
+    from ..models.share_mode import ShareMode
+
 
 T = TypeVar("T", bound="GroupShare")
 
@@ -18,7 +20,7 @@ class GroupShare:
 
     can_revoke: bool
     group_name: str
-    mode: ShareMode
+    mode: "ShareMode"
 
     def to_dict(self) -> Dict[str, Any]:
         can_revoke = self.can_revoke
@@ -38,6 +40,8 @@ class GroupShare:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.share_mode import ShareMode
+
         d = src_dict.copy()
         can_revoke = d.pop("canRevoke")
 

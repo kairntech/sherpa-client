@@ -2,6 +2,7 @@ from typing import Any, Dict, Type, TypeVar, Union
 
 import attr
 
+from ..models.category_creation_mode import CategoryCreationMode
 from ..models.category_status import CategoryStatus
 from ..types import UNSET, Unset
 
@@ -15,18 +16,24 @@ class Category:
     Attributes:
         document_identifier (str): identifier of the document
         label_name (str): The label name
+        creation_mode (Union[Unset, CategoryCreationMode]): Creation mode
         score (Union[Unset, float]): Score of the category
         status (Union[Unset, CategoryStatus]): Status of the category
     """
 
     document_identifier: str
     label_name: str
+    creation_mode: Union[Unset, CategoryCreationMode] = UNSET
     score: Union[Unset, float] = UNSET
     status: Union[Unset, CategoryStatus] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         document_identifier = self.document_identifier
         label_name = self.label_name
+        creation_mode: Union[Unset, str] = UNSET
+        if not isinstance(self.creation_mode, Unset):
+            creation_mode = self.creation_mode.value
+
         score = self.score
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
@@ -39,6 +46,8 @@ class Category:
                 "labelName": label_name,
             }
         )
+        if creation_mode is not UNSET:
+            field_dict["creationMode"] = creation_mode
         if score is not UNSET:
             field_dict["score"] = score
         if status is not UNSET:
@@ -53,6 +62,13 @@ class Category:
 
         label_name = d.pop("labelName")
 
+        _creation_mode = d.pop("creationMode", UNSET)
+        creation_mode: Union[Unset, CategoryCreationMode]
+        if isinstance(_creation_mode, Unset):
+            creation_mode = UNSET
+        else:
+            creation_mode = CategoryCreationMode(_creation_mode)
+
         score = d.pop("score", UNSET)
 
         _status = d.pop("status", UNSET)
@@ -65,6 +81,7 @@ class Category:
         category = cls(
             document_identifier=document_identifier,
             label_name=label_name,
+            creation_mode=creation_mode,
             score=score,
             status=status,
         )

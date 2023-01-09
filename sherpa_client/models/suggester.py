@@ -1,8 +1,12 @@
-from typing import Any, Dict, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 import attr
 
-from ..models.suggester_parameters import SuggesterParameters
+from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.suggester_parameters import SuggesterParameters
+
 
 T = TypeVar("T", bound="Suggester")
 
@@ -21,6 +25,7 @@ class Suggester:
         running (bool):
         timestamp (int):
         uptodate (bool):
+        tags (Union[Unset, List[str]]):
     """
 
     duration: int
@@ -28,11 +33,12 @@ class Suggester:
     label: str
     models: int
     name: str
-    parameters: SuggesterParameters
+    parameters: "SuggesterParameters"
     quality: int
     running: bool
     timestamp: int
     uptodate: bool
+    tags: Union[Unset, List[str]] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         duration = self.duration
@@ -46,6 +52,9 @@ class Suggester:
         running = self.running
         timestamp = self.timestamp
         uptodate = self.uptodate
+        tags: Union[Unset, List[str]] = UNSET
+        if not isinstance(self.tags, Unset):
+            tags = self.tags
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
@@ -62,11 +71,15 @@ class Suggester:
                 "uptodate": uptodate,
             }
         )
+        if tags is not UNSET:
+            field_dict["tags"] = tags
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.suggester_parameters import SuggesterParameters
+
         d = src_dict.copy()
         duration = d.pop("duration")
 
@@ -88,6 +101,8 @@ class Suggester:
 
         uptodate = d.pop("uptodate")
 
+        tags = cast(List[str], d.pop("tags", UNSET))
+
         suggester = cls(
             duration=duration,
             engine=engine,
@@ -99,6 +114,7 @@ class Suggester:
             running=running,
             timestamp=timestamp,
             uptodate=uptodate,
+            tags=tags,
         )
 
         return suggester
