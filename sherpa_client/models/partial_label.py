@@ -12,6 +12,7 @@ class PartialLabel:
     """
     Attributes:
         color (Union[Unset, str]):
+        guideline (Union[Unset, str]):
         identifier (Union[Unset, str]):
         label (Union[Unset, str]):
         label_set_name (Union[Unset, str]):
@@ -19,6 +20,7 @@ class PartialLabel:
     """
 
     color: Union[Unset, str] = UNSET
+    guideline: Union[Unset, str] = UNSET
     identifier: Union[Unset, str] = UNSET
     label: Union[Unset, str] = UNSET
     label_set_name: Union[Unset, str] = UNSET
@@ -26,6 +28,7 @@ class PartialLabel:
 
     def to_dict(self) -> Dict[str, Any]:
         color = self.color
+        guideline = self.guideline
         identifier = self.identifier
         label = self.label
         label_set_name = self.label_set_name
@@ -35,6 +38,8 @@ class PartialLabel:
         field_dict.update({})
         if color is not UNSET:
             field_dict["color"] = color
+        if guideline is not UNSET:
+            field_dict["guideline"] = guideline
         if identifier is not UNSET:
             field_dict["identifier"] = identifier
         if label is not UNSET:
@@ -51,6 +56,8 @@ class PartialLabel:
         d = src_dict.copy()
         color = d.pop("color", UNSET)
 
+        guideline = d.pop("guideline", UNSET)
+
         identifier = d.pop("identifier", UNSET)
 
         label = d.pop("label", UNSET)
@@ -61,6 +68,7 @@ class PartialLabel:
 
         partial_label = cls(
             color=color,
+            guideline=guideline,
             identifier=identifier,
             label=label,
             label_set_name=label_set_name,

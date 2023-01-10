@@ -15,6 +15,7 @@ class Label:
         label (str):
         name (str):
         count (Union[Unset, int]):
+        guideline (Union[Unset, str]):
         identifier (Union[Unset, str]):
         label_set_name (Union[Unset, str]):
     """
@@ -23,6 +24,7 @@ class Label:
     label: str
     name: str
     count: Union[Unset, int] = UNSET
+    guideline: Union[Unset, str] = UNSET
     identifier: Union[Unset, str] = UNSET
     label_set_name: Union[Unset, str] = UNSET
 
@@ -31,6 +33,7 @@ class Label:
         label = self.label
         name = self.name
         count = self.count
+        guideline = self.guideline
         identifier = self.identifier
         label_set_name = self.label_set_name
 
@@ -44,6 +47,8 @@ class Label:
         )
         if count is not UNSET:
             field_dict["count"] = count
+        if guideline is not UNSET:
+            field_dict["guideline"] = guideline
         if identifier is not UNSET:
             field_dict["identifier"] = identifier
         if label_set_name is not UNSET:
@@ -62,6 +67,8 @@ class Label:
 
         count = d.pop("count", UNSET)
 
+        guideline = d.pop("guideline", UNSET)
+
         identifier = d.pop("identifier", UNSET)
 
         label_set_name = d.pop("labelSetName", UNSET)
@@ -71,6 +78,7 @@ class Label:
             label=label,
             name=name,
             count=count,
+            guideline=guideline,
             identifier=identifier,
             label_set_name=label_set_name,
         )

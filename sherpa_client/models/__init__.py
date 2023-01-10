@@ -59,6 +59,7 @@ from .converter_parameters import ConverterParameters
 from .corpus_metrics import CorpusMetrics
 from .create_lexicon_response_200 import CreateLexiconResponse200
 from .create_project_from_archive_multipart_data import CreateProjectFromArchiveMultipartData
+from .create_term_json_body import CreateTermJsonBody
 from .create_term_response_200 import CreateTermResponse200
 from .created_by_count import CreatedByCount
 from .creation_mode import CreationMode
@@ -206,10 +207,10 @@ from .suggester_parameters import SuggesterParameters
 from .suggester_patch import SuggesterPatch
 from .suggester_patch_parameters import SuggesterPatchParameters
 from .suggestion_facets import SuggestionFacets
-from .term import Term
 from .term_hit import TermHit
 from .term_hit_term import TermHitTerm
 from .term_hits import TermHits
+from .term_identifier import TermIdentifier
 from .term_import import TermImport
 from .term_importer_spec import TermImporterSpec
 from .term_importer_spec_parameters import TermImporterSpecParameters
@@ -294,6 +295,7 @@ __all__ = (
     "CreatedByCount",
     "CreateLexiconResponse200",
     "CreateProjectFromArchiveMultipartData",
+    "CreateTermJsonBody",
     "CreateTermResponse200",
     "CreationMode",
     "Credentials",
@@ -438,10 +440,10 @@ __all__ = (
     "SuggesterPatch",
     "SuggesterPatchParameters",
     "SuggestionFacets",
-    "Term",
     "TermHit",
     "TermHits",
     "TermHitTerm",
+    "TermIdentifier",
     "TermImport",
     "TermImporterSpec",
     "TermImporterSpecParameters",

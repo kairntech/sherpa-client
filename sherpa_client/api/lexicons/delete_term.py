@@ -5,8 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import Client
-from ...models.create_term_json_body import CreateTermJsonBody
-from ...models.create_term_response_200 import CreateTermResponse200
+from ...models.term_identifier import TermIdentifier
 from ...types import Response
 
 
@@ -15,9 +14,9 @@ def _get_kwargs(
     lexicon_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
+    json_body: TermIdentifier,
 ) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/lexicons/{lexiconName}".format(
+    url = "{}/projects/{projectName}/lexicons/{lexiconName}/_delete_term".format(
         client.base_url, projectName=project_name, lexiconName=lexicon_name
     )
 
@@ -36,18 +35,16 @@ def _get_kwargs(
     }
 
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[CreateTermResponse200]:
-    if response.status_code == HTTPStatus.OK:
-        response_200 = CreateTermResponse200.from_dict(response.json())
-
-        return response_200
+def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Any]:
+    if response.status_code == HTTPStatus.NO_CONTENT:
+        return None
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[CreateTermResponse200]:
+def _build_response(*, client: Client, response: httpx.Response) -> Response[Any]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -61,21 +58,21 @@ def sync_detailed(
     lexicon_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
-) -> Response[CreateTermResponse200]:
-    """Create a new term in the lexicon
+    json_body: TermIdentifier,
+) -> Response[Any]:
+    """Delete a term from a lexicon
 
     Args:
         project_name (str):
         lexicon_name (str):
-        json_body (CreateTermJsonBody):
+        json_body (TermIdentifier):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateTermResponse200]
+        Response[Any]
     """
 
     kwargs = _get_kwargs(
@@ -93,56 +90,26 @@ def sync_detailed(
     return _build_response(client=client, response=response)
 
 
-def sync(
-    project_name: str,
-    lexicon_name: str,
-    *,
-    client: Client,
-    json_body: CreateTermJsonBody,
-) -> Optional[CreateTermResponse200]:
-    """Create a new term in the lexicon
-
-    Args:
-        project_name (str):
-        lexicon_name (str):
-        json_body (CreateTermJsonBody):
-
-    Raises:
-        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
-        httpx.TimeoutException: If the request takes longer than Client.timeout.
-
-    Returns:
-        Response[CreateTermResponse200]
-    """
-
-    return sync_detailed(
-        project_name=project_name,
-        lexicon_name=lexicon_name,
-        client=client,
-        json_body=json_body,
-    ).parsed
-
-
 async def asyncio_detailed(
     project_name: str,
     lexicon_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
-) -> Response[CreateTermResponse200]:
-    """Create a new term in the lexicon
+    json_body: TermIdentifier,
+) -> Response[Any]:
+    """Delete a term from a lexicon
 
     Args:
         project_name (str):
         lexicon_name (str):
-        json_body (CreateTermJsonBody):
+        json_body (TermIdentifier):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateTermResponse200]
+        Response[Any]
     """
 
     kwargs = _get_kwargs(
@@ -156,35 +123,3 @@ async def asyncio_detailed(
         response = await _client.request(**kwargs)
 
     return _build_response(client=client, response=response)
-
-
-async def asyncio(
-    project_name: str,
-    lexicon_name: str,
-    *,
-    client: Client,
-    json_body: CreateTermJsonBody,
-) -> Optional[CreateTermResponse200]:
-    """Create a new term in the lexicon
-
-    Args:
-        project_name (str):
-        lexicon_name (str):
-        json_body (CreateTermJsonBody):
-
-    Raises:
-        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
-        httpx.TimeoutException: If the request takes longer than Client.timeout.
-
-    Returns:
-        Response[CreateTermResponse200]
-    """
-
-    return (
-        await asyncio_detailed(
-            project_name=project_name,
-            lexicon_name=lexicon_name,
-            client=client,
-            json_body=json_body,
-        )
-    ).parsed

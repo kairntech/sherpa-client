@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 import httpx
 
@@ -11,24 +11,49 @@ from ...types import UNSET, Response, Unset
 
 def _get_kwargs(
     project_name: str,
-    annotator: str,
     *,
     client: Client,
+    query: Union[Unset, None, str] = "",
+    query_filter: Union[Unset, None, str] = "",
+    simple_query: Union[Unset, None, bool] = False,
+    output_fields: Union[Unset, None, str] = "",
+    selected_facets: Union[Unset, None, List[str]] = UNSET,
+    annotator: str,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
+    restricted_on_dataset_segments: Union[Unset, None, bool] = False,
     email_notification: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/annotators/{annotator}/_annotate_corpus".format(
-        client.base_url, projectName=project_name, annotator=annotator
-    )
+    url = "{}/projects/{projectName}/documents/_search_and_annotate".format(client.base_url, projectName=project_name)
 
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
     params: Dict[str, Any] = {}
+    params["query"] = query
+
+    params["queryFilter"] = query_filter
+
+    params["simpleQuery"] = simple_query
+
+    params["outputFields"] = output_fields
+
+    json_selected_facets: Union[Unset, None, List[str]] = UNSET
+    if not isinstance(selected_facets, Unset):
+        if selected_facets is None:
+            json_selected_facets = None
+        else:
+            json_selected_facets = selected_facets
+
+    params["selectedFacets"] = json_selected_facets
+
+    params["annotator"] = annotator
+
     params["annotatorProject"] = annotator_project
 
     params["overwrite"] = overwrite
+
+    params["restrictedOnDatasetSegments"] = restricted_on_dataset_segments
 
     params["emailNotification"] = email_notification
 
@@ -66,20 +91,32 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[She
 
 def sync_detailed(
     project_name: str,
-    annotator: str,
     *,
     client: Client,
+    query: Union[Unset, None, str] = "",
+    query_filter: Union[Unset, None, str] = "",
+    simple_query: Union[Unset, None, bool] = False,
+    output_fields: Union[Unset, None, str] = "",
+    selected_facets: Union[Unset, None, List[str]] = UNSET,
+    annotator: str,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
+    restricted_on_dataset_segments: Union[Unset, None, bool] = False,
     email_notification: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
-    """Annotate the corpus with the given annotator
+    """Search for documents and apply an annotator on them
 
     Args:
         project_name (str):
+        query (Union[Unset, None, str]):  Default: ''.
+        query_filter (Union[Unset, None, str]):  Default: ''.
+        simple_query (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):  Default: ''.
+        selected_facets (Union[Unset, None, List[str]]):
         annotator (str):
         annotator_project (Union[Unset, None, str]):
         overwrite (Union[Unset, None, bool]):  Default: True.
+        restricted_on_dataset_segments (Union[Unset, None, bool]):
         email_notification (Union[Unset, None, bool]):
 
     Raises:
@@ -92,10 +129,16 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        annotator=annotator,
         client=client,
+        query=query,
+        query_filter=query_filter,
+        simple_query=simple_query,
+        output_fields=output_fields,
+        selected_facets=selected_facets,
+        annotator=annotator,
         annotator_project=annotator_project,
         overwrite=overwrite,
+        restricted_on_dataset_segments=restricted_on_dataset_segments,
         email_notification=email_notification,
     )
 
@@ -109,20 +152,32 @@ def sync_detailed(
 
 def sync(
     project_name: str,
-    annotator: str,
     *,
     client: Client,
+    query: Union[Unset, None, str] = "",
+    query_filter: Union[Unset, None, str] = "",
+    simple_query: Union[Unset, None, bool] = False,
+    output_fields: Union[Unset, None, str] = "",
+    selected_facets: Union[Unset, None, List[str]] = UNSET,
+    annotator: str,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
+    restricted_on_dataset_segments: Union[Unset, None, bool] = False,
     email_notification: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
-    """Annotate the corpus with the given annotator
+    """Search for documents and apply an annotator on them
 
     Args:
         project_name (str):
+        query (Union[Unset, None, str]):  Default: ''.
+        query_filter (Union[Unset, None, str]):  Default: ''.
+        simple_query (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):  Default: ''.
+        selected_facets (Union[Unset, None, List[str]]):
         annotator (str):
         annotator_project (Union[Unset, None, str]):
         overwrite (Union[Unset, None, bool]):  Default: True.
+        restricted_on_dataset_segments (Union[Unset, None, bool]):
         email_notification (Union[Unset, None, bool]):
 
     Raises:
@@ -135,30 +190,48 @@ def sync(
 
     return sync_detailed(
         project_name=project_name,
-        annotator=annotator,
         client=client,
+        query=query,
+        query_filter=query_filter,
+        simple_query=simple_query,
+        output_fields=output_fields,
+        selected_facets=selected_facets,
+        annotator=annotator,
         annotator_project=annotator_project,
         overwrite=overwrite,
+        restricted_on_dataset_segments=restricted_on_dataset_segments,
         email_notification=email_notification,
     ).parsed
 
 
 async def asyncio_detailed(
     project_name: str,
-    annotator: str,
     *,
     client: Client,
+    query: Union[Unset, None, str] = "",
+    query_filter: Union[Unset, None, str] = "",
+    simple_query: Union[Unset, None, bool] = False,
+    output_fields: Union[Unset, None, str] = "",
+    selected_facets: Union[Unset, None, List[str]] = UNSET,
+    annotator: str,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
+    restricted_on_dataset_segments: Union[Unset, None, bool] = False,
     email_notification: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
-    """Annotate the corpus with the given annotator
+    """Search for documents and apply an annotator on them
 
     Args:
         project_name (str):
+        query (Union[Unset, None, str]):  Default: ''.
+        query_filter (Union[Unset, None, str]):  Default: ''.
+        simple_query (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):  Default: ''.
+        selected_facets (Union[Unset, None, List[str]]):
         annotator (str):
         annotator_project (Union[Unset, None, str]):
         overwrite (Union[Unset, None, bool]):  Default: True.
+        restricted_on_dataset_segments (Union[Unset, None, bool]):
         email_notification (Union[Unset, None, bool]):
 
     Raises:
@@ -171,10 +244,16 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        annotator=annotator,
         client=client,
+        query=query,
+        query_filter=query_filter,
+        simple_query=simple_query,
+        output_fields=output_fields,
+        selected_facets=selected_facets,
+        annotator=annotator,
         annotator_project=annotator_project,
         overwrite=overwrite,
+        restricted_on_dataset_segments=restricted_on_dataset_segments,
         email_notification=email_notification,
     )
 
@@ -186,20 +265,32 @@ async def asyncio_detailed(
 
 async def asyncio(
     project_name: str,
-    annotator: str,
     *,
     client: Client,
+    query: Union[Unset, None, str] = "",
+    query_filter: Union[Unset, None, str] = "",
+    simple_query: Union[Unset, None, bool] = False,
+    output_fields: Union[Unset, None, str] = "",
+    selected_facets: Union[Unset, None, List[str]] = UNSET,
+    annotator: str,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
+    restricted_on_dataset_segments: Union[Unset, None, bool] = False,
     email_notification: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
-    """Annotate the corpus with the given annotator
+    """Search for documents and apply an annotator on them
 
     Args:
         project_name (str):
+        query (Union[Unset, None, str]):  Default: ''.
+        query_filter (Union[Unset, None, str]):  Default: ''.
+        simple_query (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):  Default: ''.
+        selected_facets (Union[Unset, None, List[str]]):
         annotator (str):
         annotator_project (Union[Unset, None, str]):
         overwrite (Union[Unset, None, bool]):  Default: True.
+        restricted_on_dataset_segments (Union[Unset, None, bool]):
         email_notification (Union[Unset, None, bool]):
 
     Raises:
@@ -213,10 +304,16 @@ async def asyncio(
     return (
         await asyncio_detailed(
             project_name=project_name,
-            annotator=annotator,
             client=client,
+            query=query,
+            query_filter=query_filter,
+            simple_query=simple_query,
+            output_fields=output_fields,
+            selected_facets=selected_facets,
+            annotator=annotator,
             annotator_project=annotator_project,
             overwrite=overwrite,
+            restricted_on_dataset_segments=restricted_on_dataset_segments,
             email_notification=email_notification,
         )
     ).parsed

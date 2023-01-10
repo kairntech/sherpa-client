@@ -2,11 +2,11 @@ from typing import Any, Dict, Type, TypeVar
 
 import attr
 
-T = TypeVar("T", bound="Term")
+T = TypeVar("T", bound="TermIdentifier")
 
 
 @attr.s(auto_attribs=True)
-class Term:
+class TermIdentifier:
     """
     Attributes:
         identifier (str):
@@ -31,8 +31,8 @@ class Term:
         d = src_dict.copy()
         identifier = d.pop("identifier")
 
-        term = cls(
+        term_identifier = cls(
             identifier=identifier,
         )
 
-        return term
+        return term_identifier

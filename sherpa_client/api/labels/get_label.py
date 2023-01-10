@@ -1,44 +1,46 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 import httpx
 
 from ... import errors
 from ...client import Client
-from ...models.create_term_json_body import CreateTermJsonBody
-from ...models.create_term_response_200 import CreateTermResponse200
-from ...types import Response
+from ...models.label import Label
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     project_name: str,
-    lexicon_name: str,
+    label_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
+    include_count: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/lexicons/{lexiconName}".format(
-        client.base_url, projectName=project_name, lexiconName=lexicon_name
+    url = "{}/projects/{projectName}/label/{labelName}".format(
+        client.base_url, projectName=project_name, labelName=label_name
     )
 
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    json_json_body = json_body.to_dict()
+    params: Dict[str, Any] = {}
+    params["includeCount"] = include_count
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
-        "method": "post",
+        "method": "get",
         "url": url,
         "headers": headers,
         "cookies": cookies,
         "timeout": client.get_timeout(),
-        "json": json_json_body,
+        "params": params,
     }
 
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[CreateTermResponse200]:
+def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Label]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = CreateTermResponse200.from_dict(response.json())
+        response_200 = Label.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -47,7 +49,7 @@ def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Cre
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[CreateTermResponse200]:
+def _build_response(*, client: Client, response: httpx.Response) -> Response[Label]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -58,31 +60,31 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Cre
 
 def sync_detailed(
     project_name: str,
-    lexicon_name: str,
+    label_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
-) -> Response[CreateTermResponse200]:
-    """Create a new term in the lexicon
+    include_count: Union[Unset, None, bool] = False,
+) -> Response[Label]:
+    """Get label
 
     Args:
         project_name (str):
-        lexicon_name (str):
-        json_body (CreateTermJsonBody):
+        label_name (str):
+        include_count (Union[Unset, None, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateTermResponse200]
+        Response[Label]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        lexicon_name=lexicon_name,
+        label_name=label_name,
         client=client,
-        json_body=json_body,
+        include_count=include_count,
     )
 
     response = httpx.request(
@@ -95,61 +97,61 @@ def sync_detailed(
 
 def sync(
     project_name: str,
-    lexicon_name: str,
+    label_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
-) -> Optional[CreateTermResponse200]:
-    """Create a new term in the lexicon
+    include_count: Union[Unset, None, bool] = False,
+) -> Optional[Label]:
+    """Get label
 
     Args:
         project_name (str):
-        lexicon_name (str):
-        json_body (CreateTermJsonBody):
+        label_name (str):
+        include_count (Union[Unset, None, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateTermResponse200]
+        Response[Label]
     """
 
     return sync_detailed(
         project_name=project_name,
-        lexicon_name=lexicon_name,
+        label_name=label_name,
         client=client,
-        json_body=json_body,
+        include_count=include_count,
     ).parsed
 
 
 async def asyncio_detailed(
     project_name: str,
-    lexicon_name: str,
+    label_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
-) -> Response[CreateTermResponse200]:
-    """Create a new term in the lexicon
+    include_count: Union[Unset, None, bool] = False,
+) -> Response[Label]:
+    """Get label
 
     Args:
         project_name (str):
-        lexicon_name (str):
-        json_body (CreateTermJsonBody):
+        label_name (str):
+        include_count (Union[Unset, None, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateTermResponse200]
+        Response[Label]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        lexicon_name=lexicon_name,
+        label_name=label_name,
         client=client,
-        json_body=json_body,
+        include_count=include_count,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -160,31 +162,31 @@ async def asyncio_detailed(
 
 async def asyncio(
     project_name: str,
-    lexicon_name: str,
+    label_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
-) -> Optional[CreateTermResponse200]:
-    """Create a new term in the lexicon
+    include_count: Union[Unset, None, bool] = False,
+) -> Optional[Label]:
+    """Get label
 
     Args:
         project_name (str):
-        lexicon_name (str):
-        json_body (CreateTermJsonBody):
+        label_name (str):
+        include_count (Union[Unset, None, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateTermResponse200]
+        Response[Label]
     """
 
     return (
         await asyncio_detailed(
             project_name=project_name,
-            lexicon_name=lexicon_name,
+            label_name=label_name,
             client=client,
-            json_body=json_body,
+            include_count=include_count,
         )
     ).parsed

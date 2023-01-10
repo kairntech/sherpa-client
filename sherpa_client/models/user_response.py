@@ -16,6 +16,7 @@ class UserResponse:
         created_at (Union[Unset, str]):
         created_by (Union[Unset, str]):
         default_group (Union[Unset, str]):
+        disabled (Union[Unset, bool]):
         email (Union[Unset, str]):
         groups (Union[Unset, List[str]]):
         permissions (Union[Unset, List[str]]):
@@ -27,6 +28,7 @@ class UserResponse:
     created_at: Union[Unset, str] = UNSET
     created_by: Union[Unset, str] = UNSET
     default_group: Union[Unset, str] = UNSET
+    disabled: Union[Unset, bool] = UNSET
     email: Union[Unset, str] = UNSET
     groups: Union[Unset, List[str]] = UNSET
     permissions: Union[Unset, List[str]] = UNSET
@@ -38,6 +40,7 @@ class UserResponse:
         created_at = self.created_at
         created_by = self.created_by
         default_group = self.default_group
+        disabled = self.disabled
         email = self.email
         groups: Union[Unset, List[str]] = UNSET
         if not isinstance(self.groups, Unset):
@@ -64,6 +67,8 @@ class UserResponse:
             field_dict["createdBy"] = created_by
         if default_group is not UNSET:
             field_dict["defaultGroup"] = default_group
+        if disabled is not UNSET:
+            field_dict["disabled"] = disabled
         if email is not UNSET:
             field_dict["email"] = email
         if groups is not UNSET:
@@ -88,6 +93,8 @@ class UserResponse:
 
         default_group = d.pop("defaultGroup", UNSET)
 
+        disabled = d.pop("disabled", UNSET)
+
         email = d.pop("email", UNSET)
 
         groups = cast(List[str], d.pop("groups", UNSET))
@@ -102,6 +109,7 @@ class UserResponse:
             created_at=created_at,
             created_by=created_by,
             default_group=default_group,
+            disabled=disabled,
             email=email,
             groups=groups,
             permissions=permissions,

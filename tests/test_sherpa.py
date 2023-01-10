@@ -6,31 +6,40 @@ from typing import List
 import pytest
 import shortuuid
 
-from sherpa_client.api.plans import create_plan
 from sherpa_client.api.annotate import annotate_text_with
 from sherpa_client.api.authentication import user_sign_out
 from sherpa_client.api.documents import export_documents_sample, get_document, launch_document_import
 from sherpa_client.api.experiments import get_experiments, launch_experiment
-from sherpa_client.api.gazetteers import create_gazetteer
-from sherpa_client.api.gazetteers import synchronize_gazetteer
+from sherpa_client.api.gazetteers import create_gazetteer, synchronize_gazetteer
 from sherpa_client.api.jobs import get_job
 from sherpa_client.api.labels import create_label
 from sherpa_client.api.lexicons import create_lexicon, create_term
+from sherpa_client.api.plans import create_plan
 from sherpa_client.api.projects import create_project, delete_project, get_project_info, get_projects
 from sherpa_client.client import SherpaClient
 from sherpa_client.models import (
     AnnotatedDocument,
+    AnnotationPlan,
+    CreateLexiconResponse200,
+    CreateTermResponse200,
     Credentials,
     Document,
+    EngineName,
     Experiment,
+    Label,
     LaunchDocumentImportMultipartData,
+    NewGazetteer,
+    NewGazetteerParameters,
+    NewNamedAnnotationPlan,
+    PartialLabel,
+    PartialLexicon,
     ProjectBean,
     ProjectConfigCreation,
     ProjectStatus,
     SherpaJobBean,
-    SherpaJobBeanStatus, PartialLexicon, CreateLexiconResponse200, Term, CreateTermResponse200, NewGazetteer,
-    NewGazetteerParameters, EngineName, PartialLabel, Label,
-    NewNamedAnnotationPlan, AnnotationPlan, WithAnnotator
+    SherpaJobBeanStatus,
+    Term,
+    WithAnnotator,
 )
 from sherpa_client.types import File
 
@@ -181,15 +190,18 @@ def test_create_lexicon_and_gazetteer(client, project):
         r = create_term.sync_detailed(project, "lex", client=client, json_body=Term(identifier="This"))
         if r.is_success:
             res: CreateTermResponse200 = r.parsed
-            r = create_label.sync_detailed(project, client=client,
-                                           json_body=PartialLabel(label="Term", name="term"))
+            r = create_label.sync_detailed(project, client=client, json_body=PartialLabel(label="Term", name="term"))
             if r.is_success:
                 lab: Label = r.parsed
-                r = create_gazetteer.sync_detailed(project, client=client,
-                                                   json_body=NewGazetteer(engine="PhraseMatcher", label="Gaz",
-                                                                          parameters=NewGazetteerParameters.from_dict(
-                                                                              {'parameters': {
-                                                                                  'terms': {'term': 'lex'}}})))
+                r = create_gazetteer.sync_detailed(
+                    project,
+                    client=client,
+                    json_body=NewGazetteer(
+                        engine="PhraseMatcher",
+                        label="Gaz",
+                        parameters=NewGazetteerParameters.from_dict({"parameters": {"terms": {"term": "lex"}}}),
+                    ),
+                )
                 if r.is_success:
                     eng: EngineName = r.parsed
                     r = synchronize_gazetteer.sync_detailed(project, eng.name, client=client)
@@ -210,14 +222,17 @@ def test_annotate_with_gazetteer(client, project):
 
 
 def test_create_plan(client, project):
-    r = create_plan.sync_detailed(project, client=client,
-                                  json_body=NewNamedAnnotationPlan(label="Plan", parameters=AnnotationPlan(pipeline=[
-                                      WithAnnotator(annotator="crfsuite"),
-                                      WithAnnotator(annotator="gaz")
-                                  ])))
+    r = create_plan.sync_detailed(
+        project,
+        client=client,
+        json_body=NewNamedAnnotationPlan(
+            label="Plan",
+            parameters=AnnotationPlan(pipeline=[WithAnnotator(annotator="crfsuite"), WithAnnotator(annotator="gaz")]),
+        ),
+    )
     if r.is_success:
         eng: EngineName = r.parsed
-        assert eng.name == 'plan'
+        assert eng.name == "plan"
 
 
 def test_annotate_with_plan(client, project):

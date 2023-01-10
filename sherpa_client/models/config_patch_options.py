@@ -17,14 +17,18 @@ class ConfigPatchOptions:
     Attributes:
         classification (Union[Unset, ClassificationOptions]):
         collaborative_annotation (Union[Unset, bool]):
-        image (Union[Unset, str]):
+        image_filename (Union[Unset, str]):
+        image_id (Union[Unset, str]):
+        image_url (Union[Unset, str]):
         label (Union[Unset, str]):
         metafacets (Union[Unset, List[str]]):
     """
 
     classification: Union[Unset, "ClassificationOptions"] = UNSET
     collaborative_annotation: Union[Unset, bool] = UNSET
-    image: Union[Unset, str] = UNSET
+    image_filename: Union[Unset, str] = UNSET
+    image_id: Union[Unset, str] = UNSET
+    image_url: Union[Unset, str] = UNSET
     label: Union[Unset, str] = UNSET
     metafacets: Union[Unset, List[str]] = UNSET
 
@@ -34,7 +38,9 @@ class ConfigPatchOptions:
             classification = self.classification.to_dict()
 
         collaborative_annotation = self.collaborative_annotation
-        image = self.image
+        image_filename = self.image_filename
+        image_id = self.image_id
+        image_url = self.image_url
         label = self.label
         metafacets: Union[Unset, List[str]] = UNSET
         if not isinstance(self.metafacets, Unset):
@@ -46,8 +52,12 @@ class ConfigPatchOptions:
             field_dict["classification"] = classification
         if collaborative_annotation is not UNSET:
             field_dict["collaborativeAnnotation"] = collaborative_annotation
-        if image is not UNSET:
-            field_dict["image"] = image
+        if image_filename is not UNSET:
+            field_dict["imageFilename"] = image_filename
+        if image_id is not UNSET:
+            field_dict["imageId"] = image_id
+        if image_url is not UNSET:
+            field_dict["imageUrl"] = image_url
         if label is not UNSET:
             field_dict["label"] = label
         if metafacets is not UNSET:
@@ -69,7 +79,11 @@ class ConfigPatchOptions:
 
         collaborative_annotation = d.pop("collaborativeAnnotation", UNSET)
 
-        image = d.pop("image", UNSET)
+        image_filename = d.pop("imageFilename", UNSET)
+
+        image_id = d.pop("imageId", UNSET)
+
+        image_url = d.pop("imageUrl", UNSET)
 
         label = d.pop("label", UNSET)
 
@@ -78,7 +92,9 @@ class ConfigPatchOptions:
         config_patch_options = cls(
             classification=classification,
             collaborative_annotation=collaborative_annotation,
-            image=image,
+            image_filename=image_filename,
+            image_id=image_id,
+            image_url=image_url,
             label=label,
             metafacets=metafacets,
         )

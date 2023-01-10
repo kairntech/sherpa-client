@@ -19,6 +19,8 @@ def _get_kwargs(
     project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
     annotate_only: Union[Unset, None, bool] = False,
     login_only: Union[Unset, None, bool] = False,
+    no_permissions: Union[Unset, None, bool] = False,
+    duration: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
     url = "{}/auth/login".format(client.base_url)
 
@@ -37,6 +39,10 @@ def _get_kwargs(
     params["annotateOnly"] = annotate_only
 
     params["loginOnly"] = login_only
+
+    params["noPermissions"] = no_permissions
+
+    params["duration"] = duration
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -81,6 +87,8 @@ def sync_detailed(
     project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
     annotate_only: Union[Unset, None, bool] = False,
     login_only: Union[Unset, None, bool] = False,
+    no_permissions: Union[Unset, None, bool] = False,
+    duration: Union[Unset, None, str] = UNSET,
 ) -> Response[BearerToken]:
     """Request a bearer token
 
@@ -89,6 +97,8 @@ def sync_detailed(
         project_access_mode (Union[Unset, None, RequestJwtTokenProjectAccessMode]):
         annotate_only (Union[Unset, None, bool]):
         login_only (Union[Unset, None, bool]):
+        no_permissions (Union[Unset, None, bool]):
+        duration (Union[Unset, None, str]):
         json_body (Credentials):
 
     Raises:
@@ -106,6 +116,8 @@ def sync_detailed(
         project_access_mode=project_access_mode,
         annotate_only=annotate_only,
         login_only=login_only,
+        no_permissions=no_permissions,
+        duration=duration,
     )
 
     response = httpx.request(
@@ -124,6 +136,8 @@ def sync(
     project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
     annotate_only: Union[Unset, None, bool] = False,
     login_only: Union[Unset, None, bool] = False,
+    no_permissions: Union[Unset, None, bool] = False,
+    duration: Union[Unset, None, str] = UNSET,
 ) -> Optional[BearerToken]:
     """Request a bearer token
 
@@ -132,6 +146,8 @@ def sync(
         project_access_mode (Union[Unset, None, RequestJwtTokenProjectAccessMode]):
         annotate_only (Union[Unset, None, bool]):
         login_only (Union[Unset, None, bool]):
+        no_permissions (Union[Unset, None, bool]):
+        duration (Union[Unset, None, str]):
         json_body (Credentials):
 
     Raises:
@@ -149,6 +165,8 @@ def sync(
         project_access_mode=project_access_mode,
         annotate_only=annotate_only,
         login_only=login_only,
+        no_permissions=no_permissions,
+        duration=duration,
     ).parsed
 
 
@@ -160,6 +178,8 @@ async def asyncio_detailed(
     project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
     annotate_only: Union[Unset, None, bool] = False,
     login_only: Union[Unset, None, bool] = False,
+    no_permissions: Union[Unset, None, bool] = False,
+    duration: Union[Unset, None, str] = UNSET,
 ) -> Response[BearerToken]:
     """Request a bearer token
 
@@ -168,6 +188,8 @@ async def asyncio_detailed(
         project_access_mode (Union[Unset, None, RequestJwtTokenProjectAccessMode]):
         annotate_only (Union[Unset, None, bool]):
         login_only (Union[Unset, None, bool]):
+        no_permissions (Union[Unset, None, bool]):
+        duration (Union[Unset, None, str]):
         json_body (Credentials):
 
     Raises:
@@ -185,6 +207,8 @@ async def asyncio_detailed(
         project_access_mode=project_access_mode,
         annotate_only=annotate_only,
         login_only=login_only,
+        no_permissions=no_permissions,
+        duration=duration,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -201,6 +225,8 @@ async def asyncio(
     project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
     annotate_only: Union[Unset, None, bool] = False,
     login_only: Union[Unset, None, bool] = False,
+    no_permissions: Union[Unset, None, bool] = False,
+    duration: Union[Unset, None, str] = UNSET,
 ) -> Optional[BearerToken]:
     """Request a bearer token
 
@@ -209,6 +235,8 @@ async def asyncio(
         project_access_mode (Union[Unset, None, RequestJwtTokenProjectAccessMode]):
         annotate_only (Union[Unset, None, bool]):
         login_only (Union[Unset, None, bool]):
+        no_permissions (Union[Unset, None, bool]):
+        duration (Union[Unset, None, str]):
         json_body (Credentials):
 
     Raises:
@@ -227,5 +255,7 @@ async def asyncio(
             project_access_mode=project_access_mode,
             annotate_only=annotate_only,
             login_only=login_only,
+            no_permissions=no_permissions,
+            duration=duration,
         )
     ).parsed
