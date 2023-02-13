@@ -1,36 +1,23 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional
 
 import httpx
 
 from ... import errors
 from ...client import Client
-from ...models.create_term_json_body import CreateTermJsonBody
-from ...models.create_term_response_200 import CreateTermResponse200
-from ...types import UNSET, Response, Unset
+from ...models.sherpa_job_bean import SherpaJobBean
+from ...types import Response
 
 
 def _get_kwargs(
     project_name: str,
-    lexicon_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
-    overwrite: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/lexicons/{lexiconName}".format(
-        client.base_url, projectName=project_name, lexiconName=lexicon_name
-    )
+    url = "{}/projects/{projectName}/segments/_recompute".format(client.base_url, projectName=project_name)
 
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
-
-    params: Dict[str, Any] = {}
-    params["overwrite"] = overwrite
-
-    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
-
-    json_json_body = json_body.to_dict()
 
     return {
         "method": "post",
@@ -38,14 +25,12 @@ def _get_kwargs(
         "headers": headers,
         "cookies": cookies,
         "timeout": client.get_timeout(),
-        "json": json_json_body,
-        "params": params,
     }
 
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[CreateTermResponse200]:
+def _parse_response(*, client: Client, response: httpx.Response) -> Optional[SherpaJobBean]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = CreateTermResponse200.from_dict(response.json())
+        response_200 = SherpaJobBean.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -54,7 +39,7 @@ def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Cre
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[CreateTermResponse200]:
+def _build_response(*, client: Client, response: httpx.Response) -> Response[SherpaJobBean]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -65,34 +50,25 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Cre
 
 def sync_detailed(
     project_name: str,
-    lexicon_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
-    overwrite: Union[Unset, None, bool] = False,
-) -> Response[CreateTermResponse200]:
-    """Create a new term in the lexicon
+) -> Response[SherpaJobBean]:
+    """Re-compute segments
 
     Args:
         project_name (str):
-        lexicon_name (str):
-        overwrite (Union[Unset, None, bool]):
-        json_body (CreateTermJsonBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateTermResponse200]
+        Response[SherpaJobBean]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        lexicon_name=lexicon_name,
         client=client,
-        json_body=json_body,
-        overwrite=overwrite,
     )
 
     response = httpx.request(
@@ -105,67 +81,49 @@ def sync_detailed(
 
 def sync(
     project_name: str,
-    lexicon_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
-    overwrite: Union[Unset, None, bool] = False,
-) -> Optional[CreateTermResponse200]:
-    """Create a new term in the lexicon
+) -> Optional[SherpaJobBean]:
+    """Re-compute segments
 
     Args:
         project_name (str):
-        lexicon_name (str):
-        overwrite (Union[Unset, None, bool]):
-        json_body (CreateTermJsonBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateTermResponse200]
+        Response[SherpaJobBean]
     """
 
     return sync_detailed(
         project_name=project_name,
-        lexicon_name=lexicon_name,
         client=client,
-        json_body=json_body,
-        overwrite=overwrite,
     ).parsed
 
 
 async def asyncio_detailed(
     project_name: str,
-    lexicon_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
-    overwrite: Union[Unset, None, bool] = False,
-) -> Response[CreateTermResponse200]:
-    """Create a new term in the lexicon
+) -> Response[SherpaJobBean]:
+    """Re-compute segments
 
     Args:
         project_name (str):
-        lexicon_name (str):
-        overwrite (Union[Unset, None, bool]):
-        json_body (CreateTermJsonBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateTermResponse200]
+        Response[SherpaJobBean]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        lexicon_name=lexicon_name,
         client=client,
-        json_body=json_body,
-        overwrite=overwrite,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -176,34 +134,25 @@ async def asyncio_detailed(
 
 async def asyncio(
     project_name: str,
-    lexicon_name: str,
     *,
     client: Client,
-    json_body: CreateTermJsonBody,
-    overwrite: Union[Unset, None, bool] = False,
-) -> Optional[CreateTermResponse200]:
-    """Create a new term in the lexicon
+) -> Optional[SherpaJobBean]:
+    """Re-compute segments
 
     Args:
         project_name (str):
-        lexicon_name (str):
-        overwrite (Union[Unset, None, bool]):
-        json_body (CreateTermJsonBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateTermResponse200]
+        Response[SherpaJobBean]
     """
 
     return (
         await asyncio_detailed(
             project_name=project_name,
-            lexicon_name=lexicon_name,
             client=client,
-            json_body=json_body,
-            overwrite=overwrite,
         )
     ).parsed

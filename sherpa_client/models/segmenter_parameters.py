@@ -2,12 +2,12 @@ from typing import Any, Dict, List, Type, TypeVar
 
 import attr
 
-T = TypeVar("T", bound="WithSentencizerParameters")
+T = TypeVar("T", bound="SegmenterParameters")
 
 
 @attr.s(auto_attribs=True)
-class WithSentencizerParameters:
-    """ """
+class SegmenterParameters:
+    """Optional conversion parameters"""
 
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
@@ -22,10 +22,10 @@ class WithSentencizerParameters:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        with_sentencizer_parameters = cls()
+        segmenter_parameters = cls()
 
-        with_sentencizer_parameters.additional_properties = d
-        return with_sentencizer_parameters
+        segmenter_parameters.additional_properties = d
+        return segmenter_parameters
 
     @property
     def additional_keys(self) -> List[str]:

@@ -26,6 +26,8 @@ def _get_kwargs(
     processor: Union[Unset, None, str] = "",
     formatter: Union[Unset, None, str] = "",
     converter: Union[Unset, None, str] = "",
+    segmenter: Union[Unset, None, str] = "",
+    language_guesser: Union[Unset, None, str] = "",
 ) -> Dict[str, Any]:
     url = "{}/service_values".format(client.base_url)
 
@@ -60,6 +62,10 @@ def _get_kwargs(
     params["formatter"] = formatter
 
     params["converter"] = converter
+
+    params["segmenter"] = segmenter
+
+    params["languageGuesser"] = language_guesser
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -119,6 +125,8 @@ def sync_detailed(
     processor: Union[Unset, None, str] = "",
     formatter: Union[Unset, None, str] = "",
     converter: Union[Unset, None, str] = "",
+    segmenter: Union[Unset, None, str] = "",
+    language_guesser: Union[Unset, None, str] = "",
 ) -> Response[List["GetServicesDistinctValuesResponse200Item"]]:
     """Filter the list of available services and return distinct values
 
@@ -137,6 +145,8 @@ def sync_detailed(
         processor (Union[Unset, None, str]):  Default: ''.
         formatter (Union[Unset, None, str]):  Default: ''.
         converter (Union[Unset, None, str]):  Default: ''.
+        segmenter (Union[Unset, None, str]):  Default: ''.
+        language_guesser (Union[Unset, None, str]):  Default: ''.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -162,6 +172,8 @@ def sync_detailed(
         processor=processor,
         formatter=formatter,
         converter=converter,
+        segmenter=segmenter,
+        language_guesser=language_guesser,
     )
 
     response = httpx.request(
@@ -189,6 +201,8 @@ def sync(
     processor: Union[Unset, None, str] = "",
     formatter: Union[Unset, None, str] = "",
     converter: Union[Unset, None, str] = "",
+    segmenter: Union[Unset, None, str] = "",
+    language_guesser: Union[Unset, None, str] = "",
 ) -> Optional[List["GetServicesDistinctValuesResponse200Item"]]:
     """Filter the list of available services and return distinct values
 
@@ -207,6 +221,8 @@ def sync(
         processor (Union[Unset, None, str]):  Default: ''.
         formatter (Union[Unset, None, str]):  Default: ''.
         converter (Union[Unset, None, str]):  Default: ''.
+        segmenter (Union[Unset, None, str]):  Default: ''.
+        language_guesser (Union[Unset, None, str]):  Default: ''.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -232,6 +248,8 @@ def sync(
         processor=processor,
         formatter=formatter,
         converter=converter,
+        segmenter=segmenter,
+        language_guesser=language_guesser,
     ).parsed
 
 
@@ -252,6 +270,8 @@ async def asyncio_detailed(
     processor: Union[Unset, None, str] = "",
     formatter: Union[Unset, None, str] = "",
     converter: Union[Unset, None, str] = "",
+    segmenter: Union[Unset, None, str] = "",
+    language_guesser: Union[Unset, None, str] = "",
 ) -> Response[List["GetServicesDistinctValuesResponse200Item"]]:
     """Filter the list of available services and return distinct values
 
@@ -270,6 +290,8 @@ async def asyncio_detailed(
         processor (Union[Unset, None, str]):  Default: ''.
         formatter (Union[Unset, None, str]):  Default: ''.
         converter (Union[Unset, None, str]):  Default: ''.
+        segmenter (Union[Unset, None, str]):  Default: ''.
+        language_guesser (Union[Unset, None, str]):  Default: ''.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -295,6 +317,8 @@ async def asyncio_detailed(
         processor=processor,
         formatter=formatter,
         converter=converter,
+        segmenter=segmenter,
+        language_guesser=language_guesser,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -320,6 +344,8 @@ async def asyncio(
     processor: Union[Unset, None, str] = "",
     formatter: Union[Unset, None, str] = "",
     converter: Union[Unset, None, str] = "",
+    segmenter: Union[Unset, None, str] = "",
+    language_guesser: Union[Unset, None, str] = "",
 ) -> Optional[List["GetServicesDistinctValuesResponse200Item"]]:
     """Filter the list of available services and return distinct values
 
@@ -338,6 +364,8 @@ async def asyncio(
         processor (Union[Unset, None, str]):  Default: ''.
         formatter (Union[Unset, None, str]):  Default: ''.
         converter (Union[Unset, None, str]):  Default: ''.
+        segmenter (Union[Unset, None, str]):  Default: ''.
+        language_guesser (Union[Unset, None, str]):  Default: ''.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -364,5 +392,7 @@ async def asyncio(
             processor=processor,
             formatter=formatter,
             converter=converter,
+            segmenter=segmenter,
+            language_guesser=language_guesser,
         )
     ).parsed

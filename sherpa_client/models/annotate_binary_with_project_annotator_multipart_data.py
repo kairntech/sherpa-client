@@ -5,11 +5,11 @@ import attr
 
 from ..types import UNSET, File, FileJsonType, Unset
 
-T = TypeVar("T", bound="AnnotateFormatBinaryWithPlanRefMultipartData")
+T = TypeVar("T", bound="AnnotateBinaryWithProjectAnnotatorMultipartData")
 
 
 @attr.s(auto_attribs=True)
-class AnnotateFormatBinaryWithPlanRefMultipartData:
+class AnnotateBinaryWithProjectAnnotatorMultipartData:
     """
     Attributes:
         file (Union[Unset, File]):
@@ -56,12 +56,12 @@ class AnnotateFormatBinaryWithPlanRefMultipartData:
         else:
             file = File(payload=BytesIO(_file))
 
-        annotate_format_binary_with_plan_ref_multipart_data = cls(
+        annotate_binary_with_project_annotator_multipart_data = cls(
             file=file,
         )
 
-        annotate_format_binary_with_plan_ref_multipart_data.additional_properties = d
-        return annotate_format_binary_with_plan_ref_multipart_data
+        annotate_binary_with_project_annotator_multipart_data.additional_properties = d
+        return annotate_binary_with_project_annotator_multipart_data
 
     @property
     def additional_keys(self) -> List[str]:

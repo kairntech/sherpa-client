@@ -3,16 +3,22 @@
 from .ack import Ack
 from .aggregation import Aggregation
 from .annotate_binary_form import AnnotateBinaryForm
-from .annotate_binary_with_plan_ref_multipart_data import AnnotateBinaryWithPlanRefMultipartData
-from .annotate_documents_with_many import AnnotateDocumentsWithMany
-from .annotate_format_binary_with_plan_ref_multipart_data import AnnotateFormatBinaryWithPlanRefMultipartData
-from .annotate_text_with_many import AnnotateTextWithMany
+from .annotate_binary_with_project_annotator_multipart_data import AnnotateBinaryWithProjectAnnotatorMultipartData
+from .annotate_binary_with_project_multipart_data import AnnotateBinaryWithProjectMultipartData
+from .annotate_documents_with_pipeline import AnnotateDocumentsWithPipeline
+from .annotate_format_binary_with_project_annotator_multipart_data import (
+    AnnotateFormatBinaryWithProjectAnnotatorMultipartData,
+)
+from .annotate_text_with_pipeline import AnnotateTextWithPipeline
+from .annotated_doc_alt_text import AnnotatedDocAltText
 from .annotated_doc_annotation import AnnotatedDocAnnotation
 from .annotated_doc_annotation_creation_mode import AnnotatedDocAnnotationCreationMode
 from .annotated_doc_annotation_properties import AnnotatedDocAnnotationProperties
 from .annotated_doc_category import AnnotatedDocCategory
 from .annotated_doc_category_creation_mode import AnnotatedDocCategoryCreationMode
 from .annotated_doc_category_properties import AnnotatedDocCategoryProperties
+from .annotated_doc_sentence import AnnotatedDocSentence
+from .annotated_doc_sentence_metadata import AnnotatedDocSentenceMetadata
 from .annotated_document import AnnotatedDocument
 from .annotated_document_metadata import AnnotatedDocumentMetadata
 from .annotation import Annotation
@@ -67,6 +73,10 @@ from .credentials import Credentials
 from .delete_group_result import DeleteGroupResult
 from .delete_response import DeleteResponse
 from .depends_on import DependsOn
+from .deprecated_annotate_binary_with_plan_ref_multipart_data import DeprecatedAnnotateBinaryWithPlanRefMultipartData
+from .deprecated_annotate_format_binary_with_plan_ref_multipart_data import (
+    DeprecatedAnnotateFormatBinaryWithPlanRefMultipartData,
+)
 from .doc_alt_text import DocAltText
 from .doc_annotation import DocAnnotation
 from .doc_annotation_creation_mode import DocAnnotationCreationMode
@@ -196,6 +206,8 @@ from .segment_contexts import SegmentContexts
 from .segment_hit import SegmentHit
 from .segment_hits import SegmentHits
 from .segment_metadata import SegmentMetadata
+from .segmenter import Segmenter
+from .segmenter_parameters import SegmenterParameters
 from .session_corpus_permission_change import SessionCorpusPermissionChange
 from .share_mode import ShareMode
 from .sherpa_job_bean import SherpaJobBean
@@ -227,29 +239,36 @@ from .user_session_state import UserSessionState
 from .with_annotator import WithAnnotator
 from .with_annotator_condition import WithAnnotatorCondition
 from .with_annotator_parameters import WithAnnotatorParameters
+from .with_language_guesser import WithLanguageGuesser
+from .with_language_guesser_condition import WithLanguageGuesserCondition
+from .with_language_guesser_parameters import WithLanguageGuesserParameters
 from .with_processor import WithProcessor
 from .with_processor_condition import WithProcessorCondition
 from .with_processor_parameters import WithProcessorParameters
-from .with_sentencizer import WithSentencizer
-from .with_sentencizer_condition import WithSentencizerCondition
-from .with_sentencizer_parameters import WithSentencizerParameters
+from .with_segmenter import WithSegmenter
+from .with_segmenter_condition import WithSegmenterCondition
+from .with_segmenter_parameters import WithSegmenterParameters
 
 __all__ = (
     "Ack",
     "Aggregation",
     "AnnotateBinaryForm",
-    "AnnotateBinaryWithPlanRefMultipartData",
+    "AnnotateBinaryWithProjectAnnotatorMultipartData",
+    "AnnotateBinaryWithProjectMultipartData",
+    "AnnotatedDocAltText",
     "AnnotatedDocAnnotation",
     "AnnotatedDocAnnotationCreationMode",
     "AnnotatedDocAnnotationProperties",
     "AnnotatedDocCategory",
     "AnnotatedDocCategoryCreationMode",
     "AnnotatedDocCategoryProperties",
+    "AnnotatedDocSentence",
+    "AnnotatedDocSentenceMetadata",
     "AnnotatedDocument",
     "AnnotatedDocumentMetadata",
-    "AnnotateDocumentsWithMany",
-    "AnnotateFormatBinaryWithPlanRefMultipartData",
-    "AnnotateTextWithMany",
+    "AnnotateDocumentsWithPipeline",
+    "AnnotateFormatBinaryWithProjectAnnotatorMultipartData",
+    "AnnotateTextWithPipeline",
     "Annotation",
     "AnnotationCreationMode",
     "AnnotationFacets",
@@ -302,6 +321,8 @@ __all__ = (
     "DeleteGroupResult",
     "DeleteResponse",
     "DependsOn",
+    "DeprecatedAnnotateBinaryWithPlanRefMultipartData",
+    "DeprecatedAnnotateFormatBinaryWithPlanRefMultipartData",
     "DocAltText",
     "DocAnnotation",
     "DocAnnotationCreationMode",
@@ -426,6 +447,8 @@ __all__ = (
     "Segment",
     "SegmentContext",
     "SegmentContexts",
+    "Segmenter",
+    "SegmenterParameters",
     "SegmentHit",
     "SegmentHits",
     "SegmentMetadata",
@@ -460,10 +483,13 @@ __all__ = (
     "WithAnnotator",
     "WithAnnotatorCondition",
     "WithAnnotatorParameters",
+    "WithLanguageGuesser",
+    "WithLanguageGuesserCondition",
+    "WithLanguageGuesserParameters",
     "WithProcessor",
     "WithProcessorCondition",
     "WithProcessorParameters",
-    "WithSentencizer",
-    "WithSentencizerCondition",
-    "WithSentencizerParameters",
+    "WithSegmenter",
+    "WithSegmenterCondition",
+    "WithSegmenterParameters",
 )

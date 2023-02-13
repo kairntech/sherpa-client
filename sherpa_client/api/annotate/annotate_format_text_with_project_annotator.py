@@ -1,27 +1,29 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional, Union
+from io import BytesIO
+from typing import Any, Dict, Optional, Union
 
 import httpx
 
 from ... import errors
 from ...client import Client
-from ...models.annotate_documents_with_many import AnnotateDocumentsWithMany
-from ...models.annotated_document import AnnotatedDocument
-from ...types import UNSET, Response, Unset
+from ...types import UNSET, File, Response, Unset
 
 
 def _get_kwargs(
+    project_name: str,
+    annotator: str,
     *,
     client: Client,
-    json_body: AnnotateDocumentsWithMany,
+    text_body: str,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
-    url = "{}/annotate/_annotate_documents".format(client.base_url)
+    url = "{}/annotate/projects/{projectName}/annotators/{annotator}/_annotate_format_text".format(
+        client.base_url, projectName=project_name, annotator=annotator
+    )
 
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
@@ -37,11 +39,9 @@ def _get_kwargs(
 
     params["parallelize"] = parallelize
 
-    params["outputFields"] = output_fields
-
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    json_json_body = json_body.to_dict()
+    headers.update({"Content-Type": "text/plain"})
 
     return {
         "method": "post",
@@ -49,21 +49,14 @@ def _get_kwargs(
         "headers": headers,
         "cookies": cookies,
         "timeout": client.get_timeout(),
-        "json": json_json_body,
+        "content": text_body,
         "params": params,
     }
 
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[List["AnnotatedDocument"]]:
+def _parse_response(*, client: Client, response: httpx.Response) -> Optional[File]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = []
-        _response_200 = response.json()
-        for componentsschemas_annotated_document_array_item_data in _response_200:
-            componentsschemas_annotated_document_array_item = AnnotatedDocument.from_dict(
-                componentsschemas_annotated_document_array_item_data
-            )
-
-            response_200.append(componentsschemas_annotated_document_array_item)
+        response_200 = File(payload=BytesIO(response.json()))
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -72,7 +65,7 @@ def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Lis
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[List["AnnotatedDocument"]]:
+def _build_response(*, client: Client, response: httpx.Response) -> Response[File]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -82,44 +75,46 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Lis
 
 
 def sync_detailed(
+    project_name: str,
+    annotator: str,
     *,
     client: Client,
-    json_body: AnnotateDocumentsWithMany,
+    text_body: str,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = UNSET,
-) -> Response[List["AnnotatedDocument"]]:
-    """annotate documents with many annotators
+) -> Response[File]:
+    """annotate a text and return a formatted result
 
     Args:
+        project_name (str):
+        annotator (str):
         inline_labels (Union[Unset, None, bool]):  Default: True.
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
-        output_fields (Union[Unset, None, str]):
-        json_body (AnnotateDocumentsWithMany):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['AnnotatedDocument']]
+        Response[File]
     """
 
     kwargs = _get_kwargs(
+        project_name=project_name,
+        annotator=annotator,
         client=client,
-        json_body=json_body,
+        text_body=text_body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
-        output_fields=output_fields,
     )
 
     response = httpx.request(
@@ -131,86 +126,90 @@ def sync_detailed(
 
 
 def sync(
+    project_name: str,
+    annotator: str,
     *,
     client: Client,
-    json_body: AnnotateDocumentsWithMany,
+    text_body: str,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = UNSET,
-) -> Optional[List["AnnotatedDocument"]]:
-    """annotate documents with many annotators
+) -> Optional[File]:
+    """annotate a text and return a formatted result
 
     Args:
+        project_name (str):
+        annotator (str):
         inline_labels (Union[Unset, None, bool]):  Default: True.
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
-        output_fields (Union[Unset, None, str]):
-        json_body (AnnotateDocumentsWithMany):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['AnnotatedDocument']]
+        Response[File]
     """
 
     return sync_detailed(
+        project_name=project_name,
+        annotator=annotator,
         client=client,
-        json_body=json_body,
+        text_body=text_body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
-        output_fields=output_fields,
     ).parsed
 
 
 async def asyncio_detailed(
+    project_name: str,
+    annotator: str,
     *,
     client: Client,
-    json_body: AnnotateDocumentsWithMany,
+    text_body: str,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = UNSET,
-) -> Response[List["AnnotatedDocument"]]:
-    """annotate documents with many annotators
+) -> Response[File]:
+    """annotate a text and return a formatted result
 
     Args:
+        project_name (str):
+        annotator (str):
         inline_labels (Union[Unset, None, bool]):  Default: True.
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
-        output_fields (Union[Unset, None, str]):
-        json_body (AnnotateDocumentsWithMany):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['AnnotatedDocument']]
+        Response[File]
     """
 
     kwargs = _get_kwargs(
+        project_name=project_name,
+        annotator=annotator,
         client=client,
-        json_body=json_body,
+        text_body=text_body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
-        output_fields=output_fields,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -220,44 +219,46 @@ async def asyncio_detailed(
 
 
 async def asyncio(
+    project_name: str,
+    annotator: str,
     *,
     client: Client,
-    json_body: AnnotateDocumentsWithMany,
+    text_body: str,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = UNSET,
-) -> Optional[List["AnnotatedDocument"]]:
-    """annotate documents with many annotators
+) -> Optional[File]:
+    """annotate a text and return a formatted result
 
     Args:
+        project_name (str):
+        annotator (str):
         inline_labels (Union[Unset, None, bool]):  Default: True.
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
-        output_fields (Union[Unset, None, str]):
-        json_body (AnnotateDocumentsWithMany):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['AnnotatedDocument']]
+        Response[File]
     """
 
     return (
         await asyncio_detailed(
+            project_name=project_name,
+            annotator=annotator,
             client=client,
-            json_body=json_body,
+            text_body=text_body,
             inline_labels=inline_labels,
             inline_label_ids=inline_label_ids,
             inline_text=inline_text,
             debug=debug,
             parallelize=parallelize,
-            output_fields=output_fields,
         )
     ).parsed

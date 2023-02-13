@@ -24,10 +24,12 @@ class HttpServiceMetadata:
         extensions (Union[Unset, str]):
         formatters (Union[Unset, str]):
         functions (Union[Unset, str]):
+        language_guessers (Union[Unset, str]):
         languages (Union[Unset, str]):
         natures (Union[Unset, str]):
         operations (Union[Unset, HttpServiceMetadataOperations]):
         processors (Union[Unset, str]):
+        segmenters (Union[Unset, str]):
         term_importers (Union[Unset, str]):
         trigger (Union[Unset, str]):
     """
@@ -41,10 +43,12 @@ class HttpServiceMetadata:
     extensions: Union[Unset, str] = UNSET
     formatters: Union[Unset, str] = UNSET
     functions: Union[Unset, str] = UNSET
+    language_guessers: Union[Unset, str] = UNSET
     languages: Union[Unset, str] = UNSET
     natures: Union[Unset, str] = UNSET
     operations: Union[Unset, "HttpServiceMetadataOperations"] = UNSET
     processors: Union[Unset, str] = UNSET
+    segmenters: Union[Unset, str] = UNSET
     term_importers: Union[Unset, str] = UNSET
     trigger: Union[Unset, str] = UNSET
 
@@ -58,6 +62,7 @@ class HttpServiceMetadata:
         extensions = self.extensions
         formatters = self.formatters
         functions = self.functions
+        language_guessers = self.language_guessers
         languages = self.languages
         natures = self.natures
         operations: Union[Unset, Dict[str, Any]] = UNSET
@@ -65,6 +70,7 @@ class HttpServiceMetadata:
             operations = self.operations.to_dict()
 
         processors = self.processors
+        segmenters = self.segmenters
         term_importers = self.term_importers
         trigger = self.trigger
 
@@ -88,6 +94,8 @@ class HttpServiceMetadata:
             field_dict["formatters"] = formatters
         if functions is not UNSET:
             field_dict["functions"] = functions
+        if language_guessers is not UNSET:
+            field_dict["languageGuessers"] = language_guessers
         if languages is not UNSET:
             field_dict["languages"] = languages
         if natures is not UNSET:
@@ -96,6 +104,8 @@ class HttpServiceMetadata:
             field_dict["operations"] = operations
         if processors is not UNSET:
             field_dict["processors"] = processors
+        if segmenters is not UNSET:
+            field_dict["segmenters"] = segmenters
         if term_importers is not UNSET:
             field_dict["termImporters"] = term_importers
         if trigger is not UNSET:
@@ -126,6 +136,8 @@ class HttpServiceMetadata:
 
         functions = d.pop("functions", UNSET)
 
+        language_guessers = d.pop("languageGuessers", UNSET)
+
         languages = d.pop("languages", UNSET)
 
         natures = d.pop("natures", UNSET)
@@ -138,6 +150,8 @@ class HttpServiceMetadata:
             operations = HttpServiceMetadataOperations.from_dict(_operations)
 
         processors = d.pop("processors", UNSET)
+
+        segmenters = d.pop("segmenters", UNSET)
 
         term_importers = d.pop("termImporters", UNSET)
 
@@ -153,10 +167,12 @@ class HttpServiceMetadata:
             extensions=extensions,
             formatters=formatters,
             functions=functions,
+            language_guessers=language_guessers,
             languages=languages,
             natures=natures,
             operations=operations,
             processors=processors,
+            segmenters=segmenters,
             term_importers=term_importers,
             trigger=trigger,
         )

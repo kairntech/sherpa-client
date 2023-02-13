@@ -19,6 +19,7 @@ class SherpaJobBeanType(str, Enum):
     SPLIT_CORPUS = "SPLIT_CORPUS"
     BACKUP_USER_SESSION = "BACKUP_USER_SESSION"
     ADD_CATEGORY = "ADD_CATEGORY"
+    PROJECT_SEGMENTATION = "PROJECT_SEGMENTATION"
 
     def __str__(self) -> str:
         return str(self.value)

@@ -6,21 +6,22 @@ import httpx
 
 from ... import errors
 from ...client import Client
-from ...models.format_documents_with_many import FormatDocumentsWithMany
+from ...models.format_binary_form import FormatBinaryForm
 from ...types import UNSET, File, Response, Unset
 
 
 def _get_kwargs(
     *,
     client: Client,
-    json_body: FormatDocumentsWithMany,
+    multipart_data: FormatBinaryForm,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    project_context: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
-    url = "{}/annotate/_annotate_format_documents".format(client.base_url)
+    url = "{}/annotate/_annotate_format_binary".format(client.base_url)
 
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
@@ -36,9 +37,11 @@ def _get_kwargs(
 
     params["parallelize"] = parallelize
 
+    params["projectContext"] = project_context
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    json_json_body = json_body.to_dict()
+    multipart_multipart_data = multipart_data.to_multipart()
 
     return {
         "method": "post",
@@ -46,7 +49,7 @@ def _get_kwargs(
         "headers": headers,
         "cookies": cookies,
         "timeout": client.get_timeout(),
-        "json": json_json_body,
+        "files": multipart_multipart_data,
         "params": params,
     }
 
@@ -74,14 +77,15 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Fil
 def sync_detailed(
     *,
     client: Client,
-    json_body: FormatDocumentsWithMany,
+    multipart_data: FormatBinaryForm,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    project_context: Union[Unset, None, str] = UNSET,
 ) -> Response[File]:
-    """annotate documents with multiple annotators and return formatted results in a zip
+    """annotate a binary document with a pipeline and return a formatted result
 
     Args:
         inline_labels (Union[Unset, None, bool]):  Default: True.
@@ -89,7 +93,8 @@ def sync_detailed(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
-        json_body (FormatDocumentsWithMany):
+        project_context (Union[Unset, None, str]):
+        multipart_data (FormatBinaryForm):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -101,12 +106,13 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         client=client,
-        json_body=json_body,
+        multipart_data=multipart_data,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        project_context=project_context,
     )
 
     response = httpx.request(
@@ -120,14 +126,15 @@ def sync_detailed(
 def sync(
     *,
     client: Client,
-    json_body: FormatDocumentsWithMany,
+    multipart_data: FormatBinaryForm,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    project_context: Union[Unset, None, str] = UNSET,
 ) -> Optional[File]:
-    """annotate documents with multiple annotators and return formatted results in a zip
+    """annotate a binary document with a pipeline and return a formatted result
 
     Args:
         inline_labels (Union[Unset, None, bool]):  Default: True.
@@ -135,7 +142,8 @@ def sync(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
-        json_body (FormatDocumentsWithMany):
+        project_context (Union[Unset, None, str]):
+        multipart_data (FormatBinaryForm):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -147,26 +155,28 @@ def sync(
 
     return sync_detailed(
         client=client,
-        json_body=json_body,
+        multipart_data=multipart_data,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        project_context=project_context,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
     client: Client,
-    json_body: FormatDocumentsWithMany,
+    multipart_data: FormatBinaryForm,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    project_context: Union[Unset, None, str] = UNSET,
 ) -> Response[File]:
-    """annotate documents with multiple annotators and return formatted results in a zip
+    """annotate a binary document with a pipeline and return a formatted result
 
     Args:
         inline_labels (Union[Unset, None, bool]):  Default: True.
@@ -174,7 +184,8 @@ async def asyncio_detailed(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
-        json_body (FormatDocumentsWithMany):
+        project_context (Union[Unset, None, str]):
+        multipart_data (FormatBinaryForm):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -186,12 +197,13 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         client=client,
-        json_body=json_body,
+        multipart_data=multipart_data,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        project_context=project_context,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -203,14 +215,15 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: Client,
-    json_body: FormatDocumentsWithMany,
+    multipart_data: FormatBinaryForm,
     inline_labels: Union[Unset, None, bool] = True,
     inline_label_ids: Union[Unset, None, bool] = True,
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    project_context: Union[Unset, None, str] = UNSET,
 ) -> Optional[File]:
-    """annotate documents with multiple annotators and return formatted results in a zip
+    """annotate a binary document with a pipeline and return a formatted result
 
     Args:
         inline_labels (Union[Unset, None, bool]):  Default: True.
@@ -218,7 +231,8 @@ async def asyncio(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
-        json_body (FormatDocumentsWithMany):
+        project_context (Union[Unset, None, str]):
+        multipart_data (FormatBinaryForm):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -231,11 +245,12 @@ async def asyncio(
     return (
         await asyncio_detailed(
             client=client,
-            json_body=json_body,
+            multipart_data=multipart_data,
             inline_labels=inline_labels,
             inline_label_ids=inline_label_ids,
             inline_text=inline_text,
             debug=debug,
             parallelize=parallelize,
+            project_context=project_context,
         )
     ).parsed

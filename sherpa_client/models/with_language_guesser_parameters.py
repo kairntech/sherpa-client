@@ -2,11 +2,11 @@ from typing import Any, Dict, List, Type, TypeVar
 
 import attr
 
-T = TypeVar("T", bound="WithSentencizerCondition")
+T = TypeVar("T", bound="WithLanguageGuesserParameters")
 
 
 @attr.s(auto_attribs=True)
-class WithSentencizerCondition:
+class WithLanguageGuesserParameters:
     """ """
 
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -22,10 +22,10 @@ class WithSentencizerCondition:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        with_sentencizer_condition = cls()
+        with_language_guesser_parameters = cls()
 
-        with_sentencizer_condition.additional_properties = d
-        return with_sentencizer_condition
+        with_language_guesser_parameters.additional_properties = d
+        return with_language_guesser_parameters
 
     @property
     def additional_keys(self) -> List[str]:

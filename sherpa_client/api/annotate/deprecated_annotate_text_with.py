@@ -1,17 +1,17 @@
 from http import HTTPStatus
-from io import BytesIO
 from typing import Any, Dict, Optional, Union
 
 import httpx
 
 from ... import errors
 from ...client import Client
-from ...types import UNSET, File, Response, Unset
+from ...models.annotated_document import AnnotatedDocument
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     project_name: str,
-    plan_name: str,
+    annotator: str,
     *,
     client: Client,
     text_body: str,
@@ -20,9 +20,10 @@ def _get_kwargs(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    output_fields: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/plans/{planName}/_annotate_format_text".format(
-        client.base_url, projectName=project_name, planName=plan_name
+    url = "{}/projects/{projectName}/annotators/{annotator}/_annotate".format(
+        client.base_url, projectName=project_name, annotator=annotator
     )
 
     headers: Dict[str, str] = client.get_headers()
@@ -39,6 +40,8 @@ def _get_kwargs(
 
     params["parallelize"] = parallelize
 
+    params["outputFields"] = output_fields
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     headers.update({"Content-Type": "text/plain"})
@@ -54,9 +57,9 @@ def _get_kwargs(
     }
 
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[File]:
+def _parse_response(*, client: Client, response: httpx.Response) -> Optional[AnnotatedDocument]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = File(payload=BytesIO(response.json()))
+        response_200 = AnnotatedDocument.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -65,7 +68,7 @@ def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Fil
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[File]:
+def _build_response(*, client: Client, response: httpx.Response) -> Response[AnnotatedDocument]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -76,7 +79,7 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Fil
 
 def sync_detailed(
     project_name: str,
-    plan_name: str,
+    annotator: str,
     *,
     client: Client,
     text_body: str,
@@ -85,29 +88,32 @@ def sync_detailed(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
-) -> Response[File]:
-    """annotate a text with multiple annotators and return a formatted result
+    output_fields: Union[Unset, None, str] = UNSET,
+) -> Response[AnnotatedDocument]:
+    """Annotate text with the given annotator (replaced with
+    /annotate/projects/{projectName}/annotators/{annotator}/_annotate)
 
     Args:
         project_name (str):
-        plan_name (str):
+        annotator (str):
         inline_labels (Union[Unset, None, bool]):  Default: True.
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[File]
+        Response[AnnotatedDocument]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        plan_name=plan_name,
+        annotator=annotator,
         client=client,
         text_body=text_body,
         inline_labels=inline_labels,
@@ -115,6 +121,7 @@ def sync_detailed(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        output_fields=output_fields,
     )
 
     response = httpx.request(
@@ -127,7 +134,7 @@ def sync_detailed(
 
 def sync(
     project_name: str,
-    plan_name: str,
+    annotator: str,
     *,
     client: Client,
     text_body: str,
@@ -136,29 +143,32 @@ def sync(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
-) -> Optional[File]:
-    """annotate a text with multiple annotators and return a formatted result
+    output_fields: Union[Unset, None, str] = UNSET,
+) -> Optional[AnnotatedDocument]:
+    """Annotate text with the given annotator (replaced with
+    /annotate/projects/{projectName}/annotators/{annotator}/_annotate)
 
     Args:
         project_name (str):
-        plan_name (str):
+        annotator (str):
         inline_labels (Union[Unset, None, bool]):  Default: True.
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[File]
+        Response[AnnotatedDocument]
     """
 
     return sync_detailed(
         project_name=project_name,
-        plan_name=plan_name,
+        annotator=annotator,
         client=client,
         text_body=text_body,
         inline_labels=inline_labels,
@@ -166,12 +176,13 @@ def sync(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        output_fields=output_fields,
     ).parsed
 
 
 async def asyncio_detailed(
     project_name: str,
-    plan_name: str,
+    annotator: str,
     *,
     client: Client,
     text_body: str,
@@ -180,29 +191,32 @@ async def asyncio_detailed(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
-) -> Response[File]:
-    """annotate a text with multiple annotators and return a formatted result
+    output_fields: Union[Unset, None, str] = UNSET,
+) -> Response[AnnotatedDocument]:
+    """Annotate text with the given annotator (replaced with
+    /annotate/projects/{projectName}/annotators/{annotator}/_annotate)
 
     Args:
         project_name (str):
-        plan_name (str):
+        annotator (str):
         inline_labels (Union[Unset, None, bool]):  Default: True.
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[File]
+        Response[AnnotatedDocument]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        plan_name=plan_name,
+        annotator=annotator,
         client=client,
         text_body=text_body,
         inline_labels=inline_labels,
@@ -210,6 +224,7 @@ async def asyncio_detailed(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        output_fields=output_fields,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -220,7 +235,7 @@ async def asyncio_detailed(
 
 async def asyncio(
     project_name: str,
-    plan_name: str,
+    annotator: str,
     *,
     client: Client,
     text_body: str,
@@ -229,30 +244,33 @@ async def asyncio(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
-) -> Optional[File]:
-    """annotate a text with multiple annotators and return a formatted result
+    output_fields: Union[Unset, None, str] = UNSET,
+) -> Optional[AnnotatedDocument]:
+    """Annotate text with the given annotator (replaced with
+    /annotate/projects/{projectName}/annotators/{annotator}/_annotate)
 
     Args:
         project_name (str):
-        plan_name (str):
+        annotator (str):
         inline_labels (Union[Unset, None, bool]):  Default: True.
         inline_label_ids (Union[Unset, None, bool]):  Default: True.
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[File]
+        Response[AnnotatedDocument]
     """
 
     return (
         await asyncio_detailed(
             project_name=project_name,
-            plan_name=plan_name,
+            annotator=annotator,
             client=client,
             text_body=text_body,
             inline_labels=inline_labels,
@@ -260,5 +278,6 @@ async def asyncio(
             inline_text=inline_text,
             debug=debug,
             parallelize=parallelize,
+            output_fields=output_fields,
         )
     ).parsed

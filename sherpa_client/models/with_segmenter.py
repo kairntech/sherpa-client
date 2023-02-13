@@ -8,42 +8,42 @@ if TYPE_CHECKING:
     from ..models.apply_to import ApplyTo
     from ..models.depends_on import DependsOn
     from ..models.next_step import NextStep
-    from ..models.with_sentencizer_condition import WithSentencizerCondition
-    from ..models.with_sentencizer_parameters import WithSentencizerParameters
+    from ..models.with_segmenter_condition import WithSegmenterCondition
+    from ..models.with_segmenter_parameters import WithSegmenterParameters
 
 
-T = TypeVar("T", bound="WithSentencizer")
+T = TypeVar("T", bound="WithSegmenter")
 
 
 @attr.s(auto_attribs=True)
-class WithSentencizer:
+class WithSegmenter:
     """
     Attributes:
-        sentencizer (str):
+        segmenter (str):
         apply_to (Union[Unset, ApplyTo]):
-        condition (Union[Unset, WithSentencizerCondition]):
+        condition (Union[Unset, WithSegmenterCondition]):
         depends_on (Union[Unset, DependsOn]):
         disabled (Union[Unset, bool]):
         group (Union[Unset, str]):
         id (Union[Unset, str]):
         next_steps (Union[Unset, List['NextStep']]):
-        parameters (Union[Unset, WithSentencizerParameters]):
+        parameters (Union[Unset, WithSegmenterParameters]):
         project_name (Union[Unset, str]):
     """
 
-    sentencizer: str
+    segmenter: str
     apply_to: Union[Unset, "ApplyTo"] = UNSET
-    condition: Union[Unset, "WithSentencizerCondition"] = UNSET
+    condition: Union[Unset, "WithSegmenterCondition"] = UNSET
     depends_on: Union[Unset, "DependsOn"] = UNSET
     disabled: Union[Unset, bool] = UNSET
     group: Union[Unset, str] = UNSET
     id: Union[Unset, str] = UNSET
     next_steps: Union[Unset, List["NextStep"]] = UNSET
-    parameters: Union[Unset, "WithSentencizerParameters"] = UNSET
+    parameters: Union[Unset, "WithSegmenterParameters"] = UNSET
     project_name: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        sentencizer = self.sentencizer
+        segmenter = self.segmenter
         apply_to: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.apply_to, Unset):
             apply_to = self.apply_to.to_dict()
@@ -76,7 +76,7 @@ class WithSentencizer:
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "sentencizer": sentencizer,
+                "segmenter": segmenter,
             }
         )
         if apply_to is not UNSET:
@@ -105,11 +105,11 @@ class WithSentencizer:
         from ..models.apply_to import ApplyTo
         from ..models.depends_on import DependsOn
         from ..models.next_step import NextStep
-        from ..models.with_sentencizer_condition import WithSentencizerCondition
-        from ..models.with_sentencizer_parameters import WithSentencizerParameters
+        from ..models.with_segmenter_condition import WithSegmenterCondition
+        from ..models.with_segmenter_parameters import WithSegmenterParameters
 
         d = src_dict.copy()
-        sentencizer = d.pop("sentencizer")
+        segmenter = d.pop("segmenter")
 
         _apply_to = d.pop("applyTo", UNSET)
         apply_to: Union[Unset, ApplyTo]
@@ -119,11 +119,11 @@ class WithSentencizer:
             apply_to = ApplyTo.from_dict(_apply_to)
 
         _condition = d.pop("condition", UNSET)
-        condition: Union[Unset, WithSentencizerCondition]
+        condition: Union[Unset, WithSegmenterCondition]
         if isinstance(_condition, Unset):
             condition = UNSET
         else:
-            condition = WithSentencizerCondition.from_dict(_condition)
+            condition = WithSegmenterCondition.from_dict(_condition)
 
         _depends_on = d.pop("dependsOn", UNSET)
         depends_on: Union[Unset, DependsOn]
@@ -146,16 +146,16 @@ class WithSentencizer:
             next_steps.append(next_steps_item)
 
         _parameters = d.pop("parameters", UNSET)
-        parameters: Union[Unset, WithSentencizerParameters]
+        parameters: Union[Unset, WithSegmenterParameters]
         if isinstance(_parameters, Unset):
             parameters = UNSET
         else:
-            parameters = WithSentencizerParameters.from_dict(_parameters)
+            parameters = WithSegmenterParameters.from_dict(_parameters)
 
         project_name = d.pop("projectName", UNSET)
 
-        with_sentencizer = cls(
-            sentencizer=sentencizer,
+        with_segmenter = cls(
+            segmenter=segmenter,
             apply_to=apply_to,
             condition=condition,
             depends_on=depends_on,
@@ -167,4 +167,4 @@ class WithSentencizer:
             project_name=project_name,
         )
 
-        return with_sentencizer
+        return with_segmenter
