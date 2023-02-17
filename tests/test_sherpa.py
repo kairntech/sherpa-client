@@ -6,7 +6,7 @@ from typing import List
 import pytest
 import shortuuid
 
-from sherpa_client.api.annotate import annotate_text_with
+from sherpa_client.api.annotate import annotate_text_with_project_annotator
 from sherpa_client.api.authentication import user_sign_out
 from sherpa_client.api.documents import export_documents_sample, get_document, launch_document_import
 from sherpa_client.api.experiments import get_experiments, launch_experiment
@@ -21,6 +21,7 @@ from sherpa_client.models import (
     AnnotatedDocument,
     AnnotationPlan,
     CreateLexiconResponse200,
+    CreateTermJsonBody,
     CreateTermResponse200,
     Credentials,
     Document,
@@ -38,7 +39,6 @@ from sherpa_client.models import (
     ProjectStatus,
     SherpaJobBean,
     SherpaJobBeanStatus,
-    Term,
     WithAnnotator,
 )
 from sherpa_client.types import File
@@ -54,6 +54,22 @@ def client():
         creds = Credentials.from_dict(creds)
         client = SherpaClient(base_url=url, timeout=300)
         client.login_with_cookie(creds)
+        # setup_stuff
+        yield client
+    # teardown_stuff
+    ack = user_sign_out.sync_detailed(client=client)
+
+
+@pytest.fixture(autouse=True, scope="session")
+def bearer_client():
+    testdir = Path(__file__).parent / "data"
+    json_file = testdir / "credentials.json"
+    with json_file.open("r") as fin:
+        creds = json.load(fin)
+        url = creds.pop("url")
+        creds = Credentials.from_dict(creds)
+        client = SherpaClient(base_url=url, timeout=300)
+        client.login_with_token(creds, annotate_only=True)
         # setup_stuff
         yield client
     # teardown_stuff
@@ -96,10 +112,14 @@ def wait_for_completion(job_bean: SherpaJobBean, client=client):
     return job_bean
 
 
-def test_login(client):
+def test_login_with_token(client):
     assert client.session_cookies is not None
     assert "vertx-web.session" in client.session_cookies
     assert "vertx-web.session" in client.get_cookies()
+
+
+def test_login(bearer_client):
+    assert bearer_client.token is not None
 
 
 def test_get_project_info(client, project):
@@ -176,7 +196,9 @@ def test_train_experiment(client, project):
 
 
 def test_annotate_with_experiment(client, project):
-    r = annotate_text_with.sync_detailed(project, "crfsuite", client=client, text_body="This is a test99")
+    r = annotate_text_with_project_annotator.sync_detailed(
+        project, "crfsuite", client=client, text_body="This is a test99"
+    )
     if r.is_success:
         doc: AnnotatedDocument = r.parsed
         assert len(doc.annotations) == 1
@@ -187,7 +209,9 @@ def test_create_lexicon_and_gazetteer(client, project):
     r = create_lexicon.sync_detailed(project, client=client, json_body=PartialLexicon(label="lex"))
     if r.is_success:
         res: CreateLexiconResponse200 = r.parsed
-        r = create_term.sync_detailed(project, "lex", client=client, json_body=Term(identifier="This"))
+        r = create_term.sync_detailed(
+            project, "lex", client=client, json_body=CreateTermJsonBody.from_dict({"identifier": "This"})
+        )
         if r.is_success:
             res: CreateTermResponse200 = r.parsed
             r = create_label.sync_detailed(project, client=client, json_body=PartialLabel(label="Term", name="term"))
@@ -214,7 +238,7 @@ def test_create_lexicon_and_gazetteer(client, project):
 
 
 def test_annotate_with_gazetteer(client, project):
-    r = annotate_text_with.sync_detailed(project, "gaz", client=client, text_body="This is a test99")
+    r = annotate_text_with_project_annotator.sync_detailed(project, "gaz", client=client, text_body="This is a test99")
     if r.is_success:
         doc: AnnotatedDocument = r.parsed
         assert len(doc.annotations) == 1
@@ -236,7 +260,7 @@ def test_create_plan(client, project):
 
 
 def test_annotate_with_plan(client, project):
-    r = annotate_text_with.sync_detailed(project, "plan", client=client, text_body="This is a test99")
+    r = annotate_text_with_project_annotator.sync_detailed(project, "plan", client=client, text_body="This is a test99")
     if r.is_success:
         doc: AnnotatedDocument = r.parsed
         assert len(doc.annotations) == 2

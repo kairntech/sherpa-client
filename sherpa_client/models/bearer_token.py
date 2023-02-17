@@ -1,6 +1,8 @@
-from typing import Any, Dict, Type, TypeVar
+from typing import Any, Dict, Type, TypeVar, Union
 
 import attr
+
+from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="BearerToken")
 
@@ -10,23 +12,24 @@ class BearerToken:
     """
     Attributes:
         access_token (str):
-        username (str):
+        email (Union[Unset, str]):
     """
 
     access_token: str
-    username: str
+    email: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         access_token = self.access_token
-        username = self.username
+        email = self.email
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
                 "access_token": access_token,
-                "username": username,
             }
         )
+        if email is not UNSET:
+            field_dict["email"] = email
 
         return field_dict
 
@@ -35,11 +38,11 @@ class BearerToken:
         d = src_dict.copy()
         access_token = d.pop("access_token")
 
-        username = d.pop("username")
+        email = d.pop("email", UNSET)
 
         bearer_token = cls(
             access_token=access_token,
-            username=username,
+            email=email,
         )
 
         return bearer_token
