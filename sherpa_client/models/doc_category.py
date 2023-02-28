@@ -14,27 +14,26 @@ class DocCategory:
     """A document category
 
     Attributes:
-        identifier (str): Category identifier
         label_name (str): The label name
         created_by (Union[Unset, str]): User having created the category
         created_date (Union[Unset, str]): Creation date
         creation_mode (Union[Unset, DocCategoryCreationMode]): Creation mode
+        identifier (Union[Unset, str]): Category identifier
         modified_date (Union[Unset, str]): Last modification date
         score (Union[Unset, float]): Score of the category
         status (Union[Unset, DocCategoryStatus]): Status of the category
     """
 
-    identifier: str
     label_name: str
     created_by: Union[Unset, str] = UNSET
     created_date: Union[Unset, str] = UNSET
     creation_mode: Union[Unset, DocCategoryCreationMode] = UNSET
+    identifier: Union[Unset, str] = UNSET
     modified_date: Union[Unset, str] = UNSET
     score: Union[Unset, float] = UNSET
     status: Union[Unset, DocCategoryStatus] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
-        identifier = self.identifier
         label_name = self.label_name
         created_by = self.created_by
         created_date = self.created_date
@@ -42,6 +41,7 @@ class DocCategory:
         if not isinstance(self.creation_mode, Unset):
             creation_mode = self.creation_mode.value
 
+        identifier = self.identifier
         modified_date = self.modified_date
         score = self.score
         status: Union[Unset, str] = UNSET
@@ -51,7 +51,6 @@ class DocCategory:
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "identifier": identifier,
                 "labelName": label_name,
             }
         )
@@ -61,6 +60,8 @@ class DocCategory:
             field_dict["createdDate"] = created_date
         if creation_mode is not UNSET:
             field_dict["creationMode"] = creation_mode
+        if identifier is not UNSET:
+            field_dict["identifier"] = identifier
         if modified_date is not UNSET:
             field_dict["modifiedDate"] = modified_date
         if score is not UNSET:
@@ -73,8 +74,6 @@ class DocCategory:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        identifier = d.pop("identifier")
-
         label_name = d.pop("labelName")
 
         created_by = d.pop("createdBy", UNSET)
@@ -88,6 +87,8 @@ class DocCategory:
         else:
             creation_mode = DocCategoryCreationMode(_creation_mode)
 
+        identifier = d.pop("identifier", UNSET)
+
         modified_date = d.pop("modifiedDate", UNSET)
 
         score = d.pop("score", UNSET)
@@ -100,11 +101,11 @@ class DocCategory:
             status = DocCategoryStatus(_status)
 
         doc_category = cls(
-            identifier=identifier,
             label_name=label_name,
             created_by=created_by,
             created_date=created_date,
             creation_mode=creation_mode,
+            identifier=identifier,
             modified_date=modified_date,
             score=score,
             status=status,
