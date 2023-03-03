@@ -1,10 +1,14 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
 
 import attr
 
 from ..models.doc_category_creation_mode import DocCategoryCreationMode
 from ..models.doc_category_status import DocCategoryStatus
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.doc_category_properties import DocCategoryProperties
+
 
 T = TypeVar("T", bound="DocCategory")
 
@@ -14,12 +18,13 @@ class DocCategory:
     """A document category
 
     Attributes:
+        identifier (str): Category identifier
         label_name (str): The label name
         created_by (Union[Unset, str]): User having created the category
         created_date (Union[Unset, str]): Creation date
         creation_mode (Union[Unset, DocCategoryCreationMode]): Creation mode
-        identifier (Union[Unset, str]): Category identifier
         modified_date (Union[Unset, str]): Last modification date
+        properties (Union[Unset, DocCategoryProperties]): Additional properties
         score (Union[Unset, float]): Score of the category
         status (Union[Unset, DocCategoryStatus]): Status of the category
     """
@@ -30,6 +35,7 @@ class DocCategory:
     creation_mode: Union[Unset, DocCategoryCreationMode] = UNSET
     identifier: Union[Unset, str] = UNSET
     modified_date: Union[Unset, str] = UNSET
+    properties: Union[Unset, "DocCategoryProperties"] = UNSET
     score: Union[Unset, float] = UNSET
     status: Union[Unset, DocCategoryStatus] = UNSET
 
@@ -43,6 +49,10 @@ class DocCategory:
 
         identifier = self.identifier
         modified_date = self.modified_date
+        properties: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.properties, Unset):
+            properties = self.properties.to_dict()
+
         score = self.score
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
@@ -64,6 +74,8 @@ class DocCategory:
             field_dict["identifier"] = identifier
         if modified_date is not UNSET:
             field_dict["modifiedDate"] = modified_date
+        if properties is not UNSET:
+            field_dict["properties"] = properties
         if score is not UNSET:
             field_dict["score"] = score
         if status is not UNSET:
@@ -73,6 +85,8 @@ class DocCategory:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.doc_category_properties import DocCategoryProperties
+
         d = src_dict.copy()
         label_name = d.pop("labelName")
 
@@ -91,6 +105,13 @@ class DocCategory:
 
         modified_date = d.pop("modifiedDate", UNSET)
 
+        _properties = d.pop("properties", UNSET)
+        properties: Union[Unset, DocCategoryProperties]
+        if isinstance(_properties, Unset):
+            properties = UNSET
+        else:
+            properties = DocCategoryProperties.from_dict(_properties)
+
         score = d.pop("score", UNSET)
 
         _status = d.pop("status", UNSET)
@@ -107,6 +128,7 @@ class DocCategory:
             creation_mode=creation_mode,
             identifier=identifier,
             modified_date=modified_date,
+            properties=properties,
             score=score,
             status=status,
         )

@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from ..models.formatter import Formatter
     from ..models.segmenter import Segmenter
     from ..models.with_annotator import WithAnnotator
+    from ..models.with_converter import WithConverter
     from ..models.with_language_guesser import WithLanguageGuesser
     from ..models.with_processor import WithProcessor
     from ..models.with_segmenter import WithSegmenter
@@ -22,13 +23,14 @@ class ConvertFormatAnnotationPlan:
     """
     Attributes:
         formatter (Formatter):
-        pipeline (List[Union['WithAnnotator', 'WithLanguageGuesser', 'WithProcessor', 'WithSegmenter']]):
+        pipeline (List[Union['WithAnnotator', 'WithConverter', 'WithLanguageGuesser', 'WithProcessor',
+            'WithSegmenter']]):
         converter (Union[Unset, Converter]):
         segmenter (Union[Unset, Segmenter]):
     """
 
     formatter: "Formatter"
-    pipeline: List[Union["WithAnnotator", "WithLanguageGuesser", "WithProcessor", "WithSegmenter"]]
+    pipeline: List[Union["WithAnnotator", "WithConverter", "WithLanguageGuesser", "WithProcessor", "WithSegmenter"]]
     converter: Union[Unset, "Converter"] = UNSET
     segmenter: Union[Unset, "Segmenter"] = UNSET
 
@@ -36,6 +38,7 @@ class ConvertFormatAnnotationPlan:
         from ..models.with_annotator import WithAnnotator
         from ..models.with_language_guesser import WithLanguageGuesser
         from ..models.with_processor import WithProcessor
+        from ..models.with_segmenter import WithSegmenter
 
         formatter = self.formatter.to_dict()
 
@@ -50,6 +53,9 @@ class ConvertFormatAnnotationPlan:
                 pipeline_item = pipeline_item_data.to_dict()
 
             elif isinstance(pipeline_item_data, WithLanguageGuesser):
+                pipeline_item = pipeline_item_data.to_dict()
+
+            elif isinstance(pipeline_item_data, WithSegmenter):
                 pipeline_item = pipeline_item_data.to_dict()
 
             else:
@@ -85,6 +91,7 @@ class ConvertFormatAnnotationPlan:
         from ..models.formatter import Formatter
         from ..models.segmenter import Segmenter
         from ..models.with_annotator import WithAnnotator
+        from ..models.with_converter import WithConverter
         from ..models.with_language_guesser import WithLanguageGuesser
         from ..models.with_processor import WithProcessor
         from ..models.with_segmenter import WithSegmenter
@@ -98,7 +105,7 @@ class ConvertFormatAnnotationPlan:
 
             def _parse_pipeline_item(
                 data: object,
-            ) -> Union["WithAnnotator", "WithLanguageGuesser", "WithProcessor", "WithSegmenter"]:
+            ) -> Union["WithAnnotator", "WithConverter", "WithLanguageGuesser", "WithProcessor", "WithSegmenter"]:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
@@ -123,11 +130,19 @@ class ConvertFormatAnnotationPlan:
                     return pipeline_item_type_2
                 except:  # noqa: E722
                     pass
+                try:
+                    if not isinstance(data, dict):
+                        raise TypeError()
+                    pipeline_item_type_3 = WithSegmenter.from_dict(data)
+
+                    return pipeline_item_type_3
+                except:  # noqa: E722
+                    pass
                 if not isinstance(data, dict):
                     raise TypeError()
-                pipeline_item_type_3 = WithSegmenter.from_dict(data)
+                pipeline_item_type_4 = WithConverter.from_dict(data)
 
-                return pipeline_item_type_3
+                return pipeline_item_type_4
 
             pipeline_item = _parse_pipeline_item(pipeline_item_data)
 

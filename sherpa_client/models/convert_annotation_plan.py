@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from ..models.converter import Converter
     from ..models.segmenter import Segmenter
     from ..models.with_annotator import WithAnnotator
+    from ..models.with_converter import WithConverter
     from ..models.with_language_guesser import WithLanguageGuesser
     from ..models.with_processor import WithProcessor
     from ..models.with_segmenter import WithSegmenter
@@ -20,12 +21,13 @@ T = TypeVar("T", bound="ConvertAnnotationPlan")
 class ConvertAnnotationPlan:
     """
     Attributes:
-        pipeline (List[Union['WithAnnotator', 'WithLanguageGuesser', 'WithProcessor', 'WithSegmenter']]):
+        pipeline (List[Union['WithAnnotator', 'WithConverter', 'WithLanguageGuesser', 'WithProcessor',
+            'WithSegmenter']]):
         converter (Union[Unset, Converter]):
         segmenter (Union[Unset, Segmenter]):
     """
 
-    pipeline: List[Union["WithAnnotator", "WithLanguageGuesser", "WithProcessor", "WithSegmenter"]]
+    pipeline: List[Union["WithAnnotator", "WithConverter", "WithLanguageGuesser", "WithProcessor", "WithSegmenter"]]
     converter: Union[Unset, "Converter"] = UNSET
     segmenter: Union[Unset, "Segmenter"] = UNSET
 
@@ -33,6 +35,7 @@ class ConvertAnnotationPlan:
         from ..models.with_annotator import WithAnnotator
         from ..models.with_language_guesser import WithLanguageGuesser
         from ..models.with_processor import WithProcessor
+        from ..models.with_segmenter import WithSegmenter
 
         pipeline = []
         for pipeline_item_data in self.pipeline:
@@ -45,6 +48,9 @@ class ConvertAnnotationPlan:
                 pipeline_item = pipeline_item_data.to_dict()
 
             elif isinstance(pipeline_item_data, WithLanguageGuesser):
+                pipeline_item = pipeline_item_data.to_dict()
+
+            elif isinstance(pipeline_item_data, WithSegmenter):
                 pipeline_item = pipeline_item_data.to_dict()
 
             else:
@@ -78,6 +84,7 @@ class ConvertAnnotationPlan:
         from ..models.converter import Converter
         from ..models.segmenter import Segmenter
         from ..models.with_annotator import WithAnnotator
+        from ..models.with_converter import WithConverter
         from ..models.with_language_guesser import WithLanguageGuesser
         from ..models.with_processor import WithProcessor
         from ..models.with_segmenter import WithSegmenter
@@ -89,7 +96,7 @@ class ConvertAnnotationPlan:
 
             def _parse_pipeline_item(
                 data: object,
-            ) -> Union["WithAnnotator", "WithLanguageGuesser", "WithProcessor", "WithSegmenter"]:
+            ) -> Union["WithAnnotator", "WithConverter", "WithLanguageGuesser", "WithProcessor", "WithSegmenter"]:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
@@ -114,11 +121,19 @@ class ConvertAnnotationPlan:
                     return pipeline_item_type_2
                 except:  # noqa: E722
                     pass
+                try:
+                    if not isinstance(data, dict):
+                        raise TypeError()
+                    pipeline_item_type_3 = WithSegmenter.from_dict(data)
+
+                    return pipeline_item_type_3
+                except:  # noqa: E722
+                    pass
                 if not isinstance(data, dict):
                     raise TypeError()
-                pipeline_item_type_3 = WithSegmenter.from_dict(data)
+                pipeline_item_type_4 = WithConverter.from_dict(data)
 
-                return pipeline_item_type_3
+                return pipeline_item_type_4
 
             pipeline_item = _parse_pipeline_item(pipeline_item_data)
 

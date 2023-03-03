@@ -1,10 +1,15 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
 from ..models.doc_annotation_creation_mode import DocAnnotationCreationMode
 from ..models.doc_annotation_status import DocAnnotationStatus
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.annotation_term import AnnotationTerm
+    from ..models.doc_annotation_properties import DocAnnotationProperties
+
 
 T = TypeVar("T", bound="DocAnnotation")
 
@@ -23,7 +28,9 @@ class DocAnnotation:
         creation_mode (Union[Unset, DocAnnotationCreationMode]): Creation mode
         identifier (Union[Unset, str]): Annotation identifier (only in 'html version')
         modified_date (Union[Unset, str]): Last modification date
+        properties (Union[Unset, DocAnnotationProperties]): Additional properties
         status (Union[Unset, DocAnnotationStatus]): Status of the annotation
+        terms (Union[Unset, List['AnnotationTerm']]):
     """
 
     end: int
@@ -35,7 +42,9 @@ class DocAnnotation:
     creation_mode: Union[Unset, DocAnnotationCreationMode] = UNSET
     identifier: Union[Unset, str] = UNSET
     modified_date: Union[Unset, str] = UNSET
+    properties: Union[Unset, "DocAnnotationProperties"] = UNSET
     status: Union[Unset, DocAnnotationStatus] = UNSET
+    terms: Union[Unset, List["AnnotationTerm"]] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         end = self.end
@@ -50,9 +59,21 @@ class DocAnnotation:
 
         identifier = self.identifier
         modified_date = self.modified_date
+        properties: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.properties, Unset):
+            properties = self.properties.to_dict()
+
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
             status = self.status.value
+
+        terms: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.terms, Unset):
+            terms = []
+            for terms_item_data in self.terms:
+                terms_item = terms_item_data.to_dict()
+
+                terms.append(terms_item)
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
@@ -73,13 +94,20 @@ class DocAnnotation:
             field_dict["identifier"] = identifier
         if modified_date is not UNSET:
             field_dict["modifiedDate"] = modified_date
+        if properties is not UNSET:
+            field_dict["properties"] = properties
         if status is not UNSET:
             field_dict["status"] = status
+        if terms is not UNSET:
+            field_dict["terms"] = terms
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.annotation_term import AnnotationTerm
+        from ..models.doc_annotation_properties import DocAnnotationProperties
+
         d = src_dict.copy()
         end = d.pop("end")
 
@@ -104,12 +132,26 @@ class DocAnnotation:
 
         modified_date = d.pop("modifiedDate", UNSET)
 
+        _properties = d.pop("properties", UNSET)
+        properties: Union[Unset, DocAnnotationProperties]
+        if isinstance(_properties, Unset):
+            properties = UNSET
+        else:
+            properties = DocAnnotationProperties.from_dict(_properties)
+
         _status = d.pop("status", UNSET)
         status: Union[Unset, DocAnnotationStatus]
         if isinstance(_status, Unset):
             status = UNSET
         else:
             status = DocAnnotationStatus(_status)
+
+        terms = []
+        _terms = d.pop("terms", UNSET)
+        for terms_item_data in _terms or []:
+            terms_item = AnnotationTerm.from_dict(terms_item_data)
+
+            terms.append(terms_item)
 
         doc_annotation = cls(
             end=end,
@@ -121,7 +163,9 @@ class DocAnnotation:
             creation_mode=creation_mode,
             identifier=identifier,
             modified_date=modified_date,
+            properties=properties,
             status=status,
+            terms=terms,
         )
 
         return doc_annotation

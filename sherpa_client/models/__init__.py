@@ -2,6 +2,7 @@
 
 from .ack import Ack
 from .aggregation import Aggregation
+from .alt_text import AltText
 from .annotate_binary_form import AnnotateBinaryForm
 from .annotate_binary_with_project_annotator_multipart_data import AnnotateBinaryWithProjectAnnotatorMultipartData
 from .annotate_binary_with_project_multipart_data import AnnotateBinaryWithProjectMultipartData
@@ -61,6 +62,7 @@ from .create_term_response_200 import CreateTermResponse200
 from .created_by_count import CreatedByCount
 from .credentials import Credentials
 from .delete_group_result import DeleteGroupResult
+from .delete_many_response import DeleteManyResponse
 from .delete_response import DeleteResponse
 from .depends_on import DependsOn
 from .deprecated_annotate_binary_with_plan_ref_multipart_data import DeprecatedAnnotateBinaryWithPlanRefMultipartData
@@ -70,9 +72,11 @@ from .deprecated_annotate_format_binary_with_plan_ref_multipart_data import (
 from .doc_alt_text import DocAltText
 from .doc_annotation import DocAnnotation
 from .doc_annotation_creation_mode import DocAnnotationCreationMode
+from .doc_annotation_properties import DocAnnotationProperties
 from .doc_annotation_status import DocAnnotationStatus
 from .doc_category import DocCategory
 from .doc_category_creation_mode import DocCategoryCreationMode
+from .doc_category_properties import DocCategoryProperties
 from .doc_category_status import DocCategoryStatus
 from .doc_sentence import DocSentence
 from .doc_sentence_metadata import DocSentenceMetadata
@@ -89,6 +93,8 @@ from .experiment import Experiment
 from .experiment_parameters import ExperimentParameters
 from .experiment_patch import ExperimentPatch
 from .experiment_patch_parameters import ExperimentPatchParameters
+from .external_databases import ExternalDatabases
+from .external_resources import ExternalResources
 from .format_binary_form import FormatBinaryForm
 from .format_documents_with_many import FormatDocumentsWithMany
 from .format_text_with_many import FormatTextWithMany
@@ -109,6 +115,8 @@ from .import_archive_multipart_data import ImportArchiveMultipartData
 from .import_models_multipart_data import ImportModelsMultipartData
 from .input_document import InputDocument
 from .input_document_metadata import InputDocumentMetadata
+from .item_count import ItemCount
+from .item_ref import ItemRef
 from .label import Label
 from .label_count import LabelCount
 from .label_names import LabelNames
@@ -193,6 +201,9 @@ from .user_response import UserResponse
 from .with_annotator import WithAnnotator
 from .with_annotator_condition import WithAnnotatorCondition
 from .with_annotator_parameters import WithAnnotatorParameters
+from .with_converter import WithConverter
+from .with_converter_condition import WithConverterCondition
+from .with_converter_parameters import WithConverterParameters
 from .with_language_guesser import WithLanguageGuesser
 from .with_language_guesser_condition import WithLanguageGuesserCondition
 from .with_language_guesser_parameters import WithLanguageGuesserParameters
@@ -206,6 +217,7 @@ from .with_segmenter_parameters import WithSegmenterParameters
 __all__ = (
     "Ack",
     "Aggregation",
+    "AltText",
     "AnnotateBinaryForm",
     "AnnotateBinaryWithProjectAnnotatorMultipartData",
     "AnnotateBinaryWithProjectMultipartData",
@@ -263,6 +275,7 @@ __all__ = (
     "CreateTermResponse200",
     "Credentials",
     "DeleteGroupResult",
+    "DeleteManyResponse",
     "DeleteResponse",
     "DependsOn",
     "DeprecatedAnnotateBinaryWithPlanRefMultipartData",
@@ -270,9 +283,11 @@ __all__ = (
     "DocAltText",
     "DocAnnotation",
     "DocAnnotationCreationMode",
+    "DocAnnotationProperties",
     "DocAnnotationStatus",
     "DocCategory",
     "DocCategoryCreationMode",
+    "DocCategoryProperties",
     "DocCategoryStatus",
     "DocSentence",
     "DocSentenceMetadata",
@@ -289,6 +304,8 @@ __all__ = (
     "ExperimentParameters",
     "ExperimentPatch",
     "ExperimentPatchParameters",
+    "ExternalDatabases",
+    "ExternalResources",
     "FormatBinaryForm",
     "FormatDocumentsWithMany",
     "Formatter",
@@ -309,6 +326,8 @@ __all__ = (
     "ImportModelsMultipartData",
     "InputDocument",
     "InputDocumentMetadata",
+    "ItemCount",
+    "ItemRef",
     "Label",
     "LabelCount",
     "LabelNames",
@@ -391,6 +410,9 @@ __all__ = (
     "WithAnnotator",
     "WithAnnotatorCondition",
     "WithAnnotatorParameters",
+    "WithConverter",
+    "WithConverterCondition",
+    "WithConverterParameters",
     "WithLanguageGuesser",
     "WithLanguageGuesserCondition",
     "WithLanguageGuesserParameters",
