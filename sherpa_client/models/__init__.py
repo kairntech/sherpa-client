@@ -37,15 +37,6 @@ from .annotator_multimap import AnnotatorMultimap
 from .apply_to import ApplyTo
 from .bearer_token import BearerToken
 from .bucket import Bucket
-from .campaign import Campaign
-from .campaign_id import CampaignId
-from .campaign_patch import CampaignPatch
-from .campaign_roles_change import CampaignRolesChange
-from .campaign_session import CampaignSession
-from .campaign_session_mode import CampaignSessionMode
-from .campaign_user_group import CampaignUserGroup
-from .campaign_user_session import CampaignUserSession
-from .campaign_user_session_state import CampaignUserSessionState
 from .categories_facets import CategoriesFacets
 from .category import Category
 from .category_action import CategoryAction
@@ -68,7 +59,6 @@ from .create_project_from_archive_multipart_data import CreateProjectFromArchive
 from .create_term_json_body import CreateTermJsonBody
 from .create_term_response_200 import CreateTermResponse200
 from .created_by_count import CreatedByCount
-from .creation_mode import CreationMode
 from .credentials import Credentials
 from .delete_group_result import DeleteGroupResult
 from .delete_response import DeleteResponse
@@ -91,7 +81,6 @@ from .document_facets import DocumentFacets
 from .document_hit import DocumentHit
 from .document_hits import DocumentHits
 from .document_metadata import DocumentMetadata
-from .email_notifications import EmailNotifications
 from .engine_config import EngineConfig
 from .engine_config_import_summary import EngineConfigImportSummary
 from .engine_name import EngineName
@@ -109,15 +98,6 @@ from .gazetteer import Gazetteer
 from .gazetteer_parameters import GazetteerParameters
 from .gazetteer_patch import GazetteerPatch
 from .gazetteer_patch_parameters import GazetteerPatchParameters
-from .generated_label_hint import GeneratedLabelHint
-from .get_app_state_response_200 import GetAppStateResponse200
-from .get_engine_parameters_schema_response_200 import GetEngineParametersSchemaResponse200
-from .get_generated_label_names_response_200_item import GetGeneratedLabelNamesResponse200Item
-from .get_project_engine_parameters_schema_response_200 import GetProjectEngineParametersSchemaResponse200
-from .get_project_messages_scopes_item import GetProjectMessagesScopesItem
-from .get_segment_context_context_output import GetSegmentContextContextOutput
-from .get_services_distinct_values_response_200_item import GetServicesDistinctValuesResponse200Item
-from .get_suggestions_response_200 import GetSuggestionsResponse200
 from .group_desc import GroupDesc
 from .group_name import GroupName
 from .group_patch import GroupPatch
@@ -129,9 +109,6 @@ from .import_archive_multipart_data import ImportArchiveMultipartData
 from .import_models_multipart_data import ImportModelsMultipartData
 from .input_document import InputDocument
 from .input_document_metadata import InputDocumentMetadata
-from .input_label import InputLabel
-from .job_status import JobStatus
-from .job_type import JobType
 from .label import Label
 from .label_count import LabelCount
 from .label_names import LabelNames
@@ -144,34 +121,19 @@ from .launch_project_restoration_from_backup_multipart_data import LaunchProject
 from .launch_uploaded_document_import_segmentation_policy import LaunchUploadedDocumentImportSegmentationPolicy
 from .lexicon import Lexicon
 from .lexicon_update import LexiconUpdate
-from .localized_message import LocalizedMessage
 from .maybe_create_projects_and_import_models_from_archive_multipart_data import (
     MaybeCreateProjectsAndImportModelsFromArchiveMultipartData,
 )
-from .message import Message
-from .message_id import MessageId
-from .message_localized import MessageLocalized
-from .message_mark import MessageMark
-from .message_patch import MessagePatch
-from .message_patch_localized import MessagePatchLocalized
 from .metadata_count import MetadataCount
-from .metadata_definition import MetadataDefinition
-from .metadata_definition_entry import MetadataDefinitionEntry
 from .model_metrics import ModelMetrics
 from .model_metrics_options import ModelMetricsOptions
 from .models_metrics import ModelsMetrics
 from .named_annotation_plan import NamedAnnotationPlan
-from .new_campaign import NewCampaign
-from .new_campaign_session import NewCampaignSession
-from .new_campaign_session_mode import NewCampaignSessionMode
-from .new_campaign_user_session import NewCampaignUserSession
 from .new_experiment import NewExperiment
 from .new_experiment_parameters import NewExperimentParameters
 from .new_gazetteer import NewGazetteer
 from .new_gazetteer_parameters import NewGazetteerParameters
 from .new_group_desc import NewGroupDesc
-from .new_message import NewMessage
-from .new_message_localized import NewMessageLocalized
 from .new_named_annotation_plan import NewNamedAnnotationPlan
 from .new_role import NewRole
 from .new_suggester import NewSuggester
@@ -192,7 +154,6 @@ from .project_property import ProjectProperty
 from .project_status import ProjectStatus
 from .projects_annotators import ProjectsAnnotators
 from .quality_figures import QualityFigures
-from .relation import Relation
 from .report import Report
 from .report_classes import ReportClasses
 from .request_jwt_token_project_access_mode import RequestJwtTokenProjectAccessMode
@@ -201,14 +162,11 @@ from .role_update import RoleUpdate
 from .search_total import SearchTotal
 from .search_total_relation import SearchTotalRelation
 from .segment import Segment
-from .segment_context import SegmentContext
-from .segment_contexts import SegmentContexts
 from .segment_hit import SegmentHit
 from .segment_hits import SegmentHits
 from .segment_metadata import SegmentMetadata
 from .segmenter import Segmenter
 from .segmenter_parameters import SegmenterParameters
-from .session_corpus_permission_change import SessionCorpusPermissionChange
 from .share_mode import ShareMode
 from .sherpa_job_bean import SherpaJobBean
 from .sherpa_job_bean_status import SherpaJobBeanStatus
@@ -227,15 +185,11 @@ from .term_import import TermImport
 from .term_importer_spec import TermImporterSpec
 from .term_importer_spec_parameters import TermImporterSpecParameters
 from .text_count import TextCount
-from .upload_files_multipart_data import UploadFilesMultipartData
 from .uploaded_file import UploadedFile
-from .uploaded_file_info import UploadedFileInfo
 from .user_permissions_update import UserPermissionsUpdate
 from .user_profile import UserProfile
 from .user_profile_update import UserProfileUpdate
 from .user_response import UserResponse
-from .user_session_action_action import UserSessionActionAction
-from .user_session_state import UserSessionState
 from .with_annotator import WithAnnotator
 from .with_annotator_condition import WithAnnotatorCondition
 from .with_annotator_parameters import WithAnnotatorParameters
@@ -285,15 +239,6 @@ __all__ = (
     "ApplyTo",
     "BearerToken",
     "Bucket",
-    "Campaign",
-    "CampaignId",
-    "CampaignPatch",
-    "CampaignRolesChange",
-    "CampaignSession",
-    "CampaignSessionMode",
-    "CampaignUserGroup",
-    "CampaignUserSession",
-    "CampaignUserSessionState",
     "CategoriesFacets",
     "Category",
     "CategoryAction",
@@ -316,7 +261,6 @@ __all__ = (
     "CreateProjectFromArchiveMultipartData",
     "CreateTermJsonBody",
     "CreateTermResponse200",
-    "CreationMode",
     "Credentials",
     "DeleteGroupResult",
     "DeleteResponse",
@@ -337,7 +281,6 @@ __all__ = (
     "DocumentHit",
     "DocumentHits",
     "DocumentMetadata",
-    "EmailNotifications",
     "EngineConfig",
     "EngineConfigImportSummary",
     "EngineName",
@@ -355,15 +298,6 @@ __all__ = (
     "GazetteerParameters",
     "GazetteerPatch",
     "GazetteerPatchParameters",
-    "GeneratedLabelHint",
-    "GetAppStateResponse200",
-    "GetEngineParametersSchemaResponse200",
-    "GetGeneratedLabelNamesResponse200Item",
-    "GetProjectEngineParametersSchemaResponse200",
-    "GetProjectMessagesScopesItem",
-    "GetSegmentContextContextOutput",
-    "GetServicesDistinctValuesResponse200Item",
-    "GetSuggestionsResponse200",
     "GroupDesc",
     "GroupName",
     "GroupPatch",
@@ -375,9 +309,6 @@ __all__ = (
     "ImportModelsMultipartData",
     "InputDocument",
     "InputDocumentMetadata",
-    "InputLabel",
-    "JobStatus",
-    "JobType",
     "Label",
     "LabelCount",
     "LabelNames",
@@ -390,32 +321,17 @@ __all__ = (
     "LaunchUploadedDocumentImportSegmentationPolicy",
     "Lexicon",
     "LexiconUpdate",
-    "LocalizedMessage",
     "MaybeCreateProjectsAndImportModelsFromArchiveMultipartData",
-    "Message",
-    "MessageId",
-    "MessageLocalized",
-    "MessageMark",
-    "MessagePatch",
-    "MessagePatchLocalized",
     "MetadataCount",
-    "MetadataDefinition",
-    "MetadataDefinitionEntry",
     "ModelMetrics",
     "ModelMetricsOptions",
     "ModelsMetrics",
     "NamedAnnotationPlan",
-    "NewCampaign",
-    "NewCampaignSession",
-    "NewCampaignSessionMode",
-    "NewCampaignUserSession",
     "NewExperiment",
     "NewExperimentParameters",
     "NewGazetteer",
     "NewGazetteerParameters",
     "NewGroupDesc",
-    "NewMessage",
-    "NewMessageLocalized",
     "NewNamedAnnotationPlan",
     "NewRole",
     "NewSuggester",
@@ -436,7 +352,6 @@ __all__ = (
     "ProjectsAnnotators",
     "ProjectStatus",
     "QualityFigures",
-    "Relation",
     "Report",
     "ReportClasses",
     "RequestJwtTokenProjectAccessMode",
@@ -445,14 +360,11 @@ __all__ = (
     "SearchTotal",
     "SearchTotalRelation",
     "Segment",
-    "SegmentContext",
-    "SegmentContexts",
     "Segmenter",
     "SegmenterParameters",
     "SegmentHit",
     "SegmentHits",
     "SegmentMetadata",
-    "SessionCorpusPermissionChange",
     "ShareMode",
     "SherpaJobBean",
     "SherpaJobBeanStatus",
@@ -472,14 +384,10 @@ __all__ = (
     "TermImporterSpecParameters",
     "TextCount",
     "UploadedFile",
-    "UploadedFileInfo",
-    "UploadFilesMultipartData",
     "UserPermissionsUpdate",
     "UserProfile",
     "UserProfileUpdate",
     "UserResponse",
-    "UserSessionActionAction",
-    "UserSessionState",
     "WithAnnotator",
     "WithAnnotatorCondition",
     "WithAnnotatorParameters",
