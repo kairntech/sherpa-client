@@ -193,7 +193,9 @@ from .term_import import TermImport
 from .term_importer_spec import TermImporterSpec
 from .term_importer_spec_parameters import TermImporterSpecParameters
 from .text_count import TextCount
+from .upload_files_multipart_data import UploadFilesMultipartData
 from .uploaded_file import UploadedFile
+from .uploaded_file_info import UploadedFileInfo
 from .user_permissions_update import UserPermissionsUpdate
 from .user_profile import UserProfile
 from .user_profile_update import UserProfileUpdate
@@ -403,6 +405,8 @@ __all__ = (
     "TermImporterSpecParameters",
     "TextCount",
     "UploadedFile",
+    "UploadedFileInfo",
+    "UploadFilesMultipartData",
     "UserPermissionsUpdate",
     "UserProfile",
     "UserProfileUpdate",
