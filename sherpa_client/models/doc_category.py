@@ -18,11 +18,11 @@ class DocCategory:
     """A document category
 
     Attributes:
-        identifier (str): Category identifier
         label_name (str): The label name
         created_by (Union[Unset, str]): User having created the category
         created_date (Union[Unset, str]): Creation date
         creation_mode (Union[Unset, DocCategoryCreationMode]): Creation mode
+        identifier (Union[Unset, str]): Category identifier
         modified_date (Union[Unset, str]): Last modification date
         properties (Union[Unset, DocCategoryProperties]): Additional properties
         score (Union[Unset, float]): Score of the category

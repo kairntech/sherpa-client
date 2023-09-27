@@ -18,6 +18,7 @@ def _get_kwargs(
     simple_query: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
     annotator: str,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
@@ -46,6 +47,8 @@ def _get_kwargs(
             json_selected_facets = selected_facets
 
     params["selectedFacets"] = json_selected_facets
+
+    params["invertSearch"] = invert_search
 
     params["annotator"] = annotator
 
@@ -98,6 +101,7 @@ def sync_detailed(
     simple_query: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
     annotator: str,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
@@ -113,6 +117,7 @@ def sync_detailed(
         simple_query (Union[Unset, None, bool]):
         output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
+        invert_search (Union[Unset, None, bool]):
         annotator (str):
         annotator_project (Union[Unset, None, str]):
         overwrite (Union[Unset, None, bool]):  Default: True.
@@ -135,6 +140,7 @@ def sync_detailed(
         simple_query=simple_query,
         output_fields=output_fields,
         selected_facets=selected_facets,
+        invert_search=invert_search,
         annotator=annotator,
         annotator_project=annotator_project,
         overwrite=overwrite,
@@ -159,6 +165,7 @@ def sync(
     simple_query: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
     annotator: str,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
@@ -174,6 +181,7 @@ def sync(
         simple_query (Union[Unset, None, bool]):
         output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
+        invert_search (Union[Unset, None, bool]):
         annotator (str):
         annotator_project (Union[Unset, None, str]):
         overwrite (Union[Unset, None, bool]):  Default: True.
@@ -196,6 +204,7 @@ def sync(
         simple_query=simple_query,
         output_fields=output_fields,
         selected_facets=selected_facets,
+        invert_search=invert_search,
         annotator=annotator,
         annotator_project=annotator_project,
         overwrite=overwrite,
@@ -213,6 +222,7 @@ async def asyncio_detailed(
     simple_query: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
     annotator: str,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
@@ -228,6 +238,7 @@ async def asyncio_detailed(
         simple_query (Union[Unset, None, bool]):
         output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
+        invert_search (Union[Unset, None, bool]):
         annotator (str):
         annotator_project (Union[Unset, None, str]):
         overwrite (Union[Unset, None, bool]):  Default: True.
@@ -250,6 +261,7 @@ async def asyncio_detailed(
         simple_query=simple_query,
         output_fields=output_fields,
         selected_facets=selected_facets,
+        invert_search=invert_search,
         annotator=annotator,
         annotator_project=annotator_project,
         overwrite=overwrite,
@@ -272,6 +284,7 @@ async def asyncio(
     simple_query: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
     annotator: str,
     annotator_project: Union[Unset, None, str] = UNSET,
     overwrite: Union[Unset, None, bool] = True,
@@ -287,6 +300,7 @@ async def asyncio(
         simple_query (Union[Unset, None, bool]):
         output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
+        invert_search (Union[Unset, None, bool]):
         annotator (str):
         annotator_project (Union[Unset, None, str]):
         overwrite (Union[Unset, None, bool]):  Default: True.
@@ -310,6 +324,7 @@ async def asyncio(
             simple_query=simple_query,
             output_fields=output_fields,
             selected_facets=selected_facets,
+            invert_search=invert_search,
             annotator=annotator,
             annotator_project=annotator_project,
             overwrite=overwrite,

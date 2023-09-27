@@ -24,6 +24,7 @@ class HttpServiceMetadata:
         extensions (Union[Unset, str]):
         formatters (Union[Unset, str]):
         functions (Union[Unset, str]):
+        keep_alive (Union[Unset, bool]):
         language_guessers (Union[Unset, str]):
         languages (Union[Unset, str]):
         natures (Union[Unset, str]):
@@ -43,6 +44,7 @@ class HttpServiceMetadata:
     extensions: Union[Unset, str] = UNSET
     formatters: Union[Unset, str] = UNSET
     functions: Union[Unset, str] = UNSET
+    keep_alive: Union[Unset, bool] = UNSET
     language_guessers: Union[Unset, str] = UNSET
     languages: Union[Unset, str] = UNSET
     natures: Union[Unset, str] = UNSET
@@ -62,6 +64,7 @@ class HttpServiceMetadata:
         extensions = self.extensions
         formatters = self.formatters
         functions = self.functions
+        keep_alive = self.keep_alive
         language_guessers = self.language_guessers
         languages = self.languages
         natures = self.natures
@@ -94,6 +97,8 @@ class HttpServiceMetadata:
             field_dict["formatters"] = formatters
         if functions is not UNSET:
             field_dict["functions"] = functions
+        if keep_alive is not UNSET:
+            field_dict["keepAlive"] = keep_alive
         if language_guessers is not UNSET:
             field_dict["languageGuessers"] = language_guessers
         if languages is not UNSET:
@@ -136,6 +141,8 @@ class HttpServiceMetadata:
 
         functions = d.pop("functions", UNSET)
 
+        keep_alive = d.pop("keepAlive", UNSET)
+
         language_guessers = d.pop("languageGuessers", UNSET)
 
         languages = d.pop("languages", UNSET)
@@ -167,6 +174,7 @@ class HttpServiceMetadata:
             extensions=extensions,
             formatters=formatters,
             functions=functions,
+            keep_alive=keep_alive,
             language_guessers=language_guessers,
             languages=languages,
             natures=natures,

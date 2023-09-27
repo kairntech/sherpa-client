@@ -20,14 +20,14 @@ class AnnotationTerm:
         lexicon (str): Lexicon of the term
         preferred_form (Union[Unset, str]): Preferred form of the term
         properties (Union[Unset, AnnotationTermProperties]): Properties of the term
-        score (Union[Unset, int]): Score of the term
+        score (Union[Unset, float]): Score of the term
     """
 
     identifier: str
     lexicon: str
     preferred_form: Union[Unset, str] = UNSET
     properties: Union[Unset, "AnnotationTermProperties"] = UNSET
-    score: Union[Unset, int] = UNSET
+    score: Union[Unset, float] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         identifier = self.identifier

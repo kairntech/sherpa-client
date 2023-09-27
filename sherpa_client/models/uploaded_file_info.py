@@ -2,28 +2,24 @@ from typing import Any, Dict, Type, TypeVar
 
 import attr
 
-T = TypeVar("T", bound="NextStep")
+T = TypeVar("T", bound="UploadedFileInfo")
 
 
 @attr.s(auto_attribs=True)
-class NextStep:
+class UploadedFileInfo:
     """
     Attributes:
-        hint (str):
         id (str):
     """
 
-    hint: str
     id: str
 
     def to_dict(self) -> Dict[str, Any]:
-        hint = self.hint
         id = self.id
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
-                "hint": hint,
                 "id": id,
             }
         )
@@ -33,13 +29,10 @@ class NextStep:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        hint = d.pop("hint")
-
         id = d.pop("id")
 
-        next_step = cls(
-            hint=hint,
+        uploaded_file_info = cls(
             id=id,
         )
 
-        return next_step
+        return uploaded_file_info

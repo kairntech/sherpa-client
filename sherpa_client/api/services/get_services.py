@@ -14,6 +14,7 @@ def _get_kwargs(
     client: Client,
     name: Union[Unset, None, str] = "",
     api: Union[Unset, None, str] = "",
+    keep_alive: Union[Unset, None, bool] = UNSET,
     engine: Union[Unset, None, str] = "",
     function: Union[Unset, None, str] = "",
     language: Union[Unset, None, str] = "",
@@ -37,6 +38,8 @@ def _get_kwargs(
     params["name"] = name
 
     params["api"] = api
+
+    params["keepAlive"] = keep_alive
 
     params["engine"] = engine
 
@@ -108,6 +111,7 @@ def sync_detailed(
     client: Client,
     name: Union[Unset, None, str] = "",
     api: Union[Unset, None, str] = "",
+    keep_alive: Union[Unset, None, bool] = UNSET,
     engine: Union[Unset, None, str] = "",
     function: Union[Unset, None, str] = "",
     language: Union[Unset, None, str] = "",
@@ -127,6 +131,7 @@ def sync_detailed(
     Args:
         name (Union[Unset, None, str]):  Default: ''.
         api (Union[Unset, None, str]):  Default: ''.
+        keep_alive (Union[Unset, None, bool]):
         engine (Union[Unset, None, str]):  Default: ''.
         function (Union[Unset, None, str]):  Default: ''.
         language (Union[Unset, None, str]):  Default: ''.
@@ -153,6 +158,7 @@ def sync_detailed(
         client=client,
         name=name,
         api=api,
+        keep_alive=keep_alive,
         engine=engine,
         function=function,
         language=language,
@@ -181,6 +187,7 @@ def sync(
     client: Client,
     name: Union[Unset, None, str] = "",
     api: Union[Unset, None, str] = "",
+    keep_alive: Union[Unset, None, bool] = UNSET,
     engine: Union[Unset, None, str] = "",
     function: Union[Unset, None, str] = "",
     language: Union[Unset, None, str] = "",
@@ -200,6 +207,7 @@ def sync(
     Args:
         name (Union[Unset, None, str]):  Default: ''.
         api (Union[Unset, None, str]):  Default: ''.
+        keep_alive (Union[Unset, None, bool]):
         engine (Union[Unset, None, str]):  Default: ''.
         function (Union[Unset, None, str]):  Default: ''.
         language (Union[Unset, None, str]):  Default: ''.
@@ -226,6 +234,7 @@ def sync(
         client=client,
         name=name,
         api=api,
+        keep_alive=keep_alive,
         engine=engine,
         function=function,
         language=language,
@@ -247,6 +256,7 @@ async def asyncio_detailed(
     client: Client,
     name: Union[Unset, None, str] = "",
     api: Union[Unset, None, str] = "",
+    keep_alive: Union[Unset, None, bool] = UNSET,
     engine: Union[Unset, None, str] = "",
     function: Union[Unset, None, str] = "",
     language: Union[Unset, None, str] = "",
@@ -266,6 +276,7 @@ async def asyncio_detailed(
     Args:
         name (Union[Unset, None, str]):  Default: ''.
         api (Union[Unset, None, str]):  Default: ''.
+        keep_alive (Union[Unset, None, bool]):
         engine (Union[Unset, None, str]):  Default: ''.
         function (Union[Unset, None, str]):  Default: ''.
         language (Union[Unset, None, str]):  Default: ''.
@@ -292,6 +303,7 @@ async def asyncio_detailed(
         client=client,
         name=name,
         api=api,
+        keep_alive=keep_alive,
         engine=engine,
         function=function,
         language=language,
@@ -318,6 +330,7 @@ async def asyncio(
     client: Client,
     name: Union[Unset, None, str] = "",
     api: Union[Unset, None, str] = "",
+    keep_alive: Union[Unset, None, bool] = UNSET,
     engine: Union[Unset, None, str] = "",
     function: Union[Unset, None, str] = "",
     language: Union[Unset, None, str] = "",
@@ -337,6 +350,7 @@ async def asyncio(
     Args:
         name (Union[Unset, None, str]):  Default: ''.
         api (Union[Unset, None, str]):  Default: ''.
+        keep_alive (Union[Unset, None, bool]):
         engine (Union[Unset, None, str]):  Default: ''.
         function (Union[Unset, None, str]):  Default: ''.
         language (Union[Unset, None, str]):  Default: ''.
@@ -364,6 +378,7 @@ async def asyncio(
             client=client,
             name=name,
             api=api,
+            keep_alive=keep_alive,
             engine=engine,
             function=function,
             language=language,

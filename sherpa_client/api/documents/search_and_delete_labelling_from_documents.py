@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import Client
-from ...models.term_hits import TermHits
+from ...models.sherpa_job_bean import SherpaJobBean
 from ...types import UNSET, Response, Unset
 
 
@@ -14,17 +14,17 @@ def _get_kwargs(
     *,
     client: Client,
     query: Union[Unset, None, str] = "",
-    from_: Union[Unset, None, int] = 0,
-    size: Union[Unset, None, int] = 10,
-    highlight: Union[Unset, None, bool] = False,
-    facet: Union[Unset, None, bool] = False,
     query_filter: Union[Unset, None, str] = "",
-    output_fields: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
+    output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
+    labels: Union[Unset, None, List[str]] = UNSET,
+    created_by: Union[Unset, None, List[str]] = UNSET,
 ) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/lexicons/_search".format(client.base_url, projectName=project_name)
+    url = "{}/projects/{projectName}/documents/_search_and_delete_labelling".format(
+        client.base_url, projectName=project_name
+    )
 
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
@@ -32,19 +32,11 @@ def _get_kwargs(
     params: Dict[str, Any] = {}
     params["query"] = query
 
-    params["from"] = from_
-
-    params["size"] = size
-
-    params["highlight"] = highlight
-
-    params["facet"] = facet
-
     params["queryFilter"] = query_filter
 
-    params["outputFields"] = output_fields
-
     params["simpleQuery"] = simple_query
+
+    params["outputFields"] = output_fields
 
     json_selected_facets: Union[Unset, None, List[str]] = UNSET
     if not isinstance(selected_facets, Unset):
@@ -56,6 +48,24 @@ def _get_kwargs(
     params["selectedFacets"] = json_selected_facets
 
     params["invertSearch"] = invert_search
+
+    json_labels: Union[Unset, None, List[str]] = UNSET
+    if not isinstance(labels, Unset):
+        if labels is None:
+            json_labels = None
+        else:
+            json_labels = labels
+
+    params["labels"] = json_labels
+
+    json_created_by: Union[Unset, None, List[str]] = UNSET
+    if not isinstance(created_by, Unset):
+        if created_by is None:
+            json_created_by = None
+        else:
+            json_created_by = created_by
+
+    params["createdBy"] = json_created_by
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -69,9 +79,9 @@ def _get_kwargs(
     }
 
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[TermHits]:
+def _parse_response(*, client: Client, response: httpx.Response) -> Optional[SherpaJobBean]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = TermHits.from_dict(response.json())
+        response_200 = SherpaJobBean.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -80,7 +90,7 @@ def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Ter
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[TermHits]:
+def _build_response(*, client: Client, response: httpx.Response) -> Response[SherpaJobBean]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -94,52 +104,46 @@ def sync_detailed(
     *,
     client: Client,
     query: Union[Unset, None, str] = "",
-    from_: Union[Unset, None, int] = 0,
-    size: Union[Unset, None, int] = 10,
-    highlight: Union[Unset, None, bool] = False,
-    facet: Union[Unset, None, bool] = False,
     query_filter: Union[Unset, None, str] = "",
-    output_fields: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
+    output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
-) -> Response[TermHits]:
-    """Search for terms
+    labels: Union[Unset, None, List[str]] = UNSET,
+    created_by: Union[Unset, None, List[str]] = UNSET,
+) -> Response[SherpaJobBean]:
+    """Search for documents and delete annotations or categories from all of them
 
     Args:
         project_name (str):
         query (Union[Unset, None, str]):  Default: ''.
-        from_ (Union[Unset, None, int]):
-        size (Union[Unset, None, int]):  Default: 10.
-        highlight (Union[Unset, None, bool]):
-        facet (Union[Unset, None, bool]):
         query_filter (Union[Unset, None, str]):  Default: ''.
-        output_fields (Union[Unset, None, str]):  Default: ''.
         simple_query (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
+        labels (Union[Unset, None, List[str]]):
+        created_by (Union[Unset, None, List[str]]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TermHits]
+        Response[SherpaJobBean]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
         query=query,
-        from_=from_,
-        size=size,
-        highlight=highlight,
-        facet=facet,
         query_filter=query_filter,
-        output_fields=output_fields,
         simple_query=simple_query,
+        output_fields=output_fields,
         selected_facets=selected_facets,
         invert_search=invert_search,
+        labels=labels,
+        created_by=created_by,
     )
 
     response = httpx.request(
@@ -155,52 +159,46 @@ def sync(
     *,
     client: Client,
     query: Union[Unset, None, str] = "",
-    from_: Union[Unset, None, int] = 0,
-    size: Union[Unset, None, int] = 10,
-    highlight: Union[Unset, None, bool] = False,
-    facet: Union[Unset, None, bool] = False,
     query_filter: Union[Unset, None, str] = "",
-    output_fields: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
+    output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
-) -> Optional[TermHits]:
-    """Search for terms
+    labels: Union[Unset, None, List[str]] = UNSET,
+    created_by: Union[Unset, None, List[str]] = UNSET,
+) -> Optional[SherpaJobBean]:
+    """Search for documents and delete annotations or categories from all of them
 
     Args:
         project_name (str):
         query (Union[Unset, None, str]):  Default: ''.
-        from_ (Union[Unset, None, int]):
-        size (Union[Unset, None, int]):  Default: 10.
-        highlight (Union[Unset, None, bool]):
-        facet (Union[Unset, None, bool]):
         query_filter (Union[Unset, None, str]):  Default: ''.
-        output_fields (Union[Unset, None, str]):  Default: ''.
         simple_query (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
+        labels (Union[Unset, None, List[str]]):
+        created_by (Union[Unset, None, List[str]]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TermHits]
+        Response[SherpaJobBean]
     """
 
     return sync_detailed(
         project_name=project_name,
         client=client,
         query=query,
-        from_=from_,
-        size=size,
-        highlight=highlight,
-        facet=facet,
         query_filter=query_filter,
-        output_fields=output_fields,
         simple_query=simple_query,
+        output_fields=output_fields,
         selected_facets=selected_facets,
         invert_search=invert_search,
+        labels=labels,
+        created_by=created_by,
     ).parsed
 
 
@@ -209,52 +207,46 @@ async def asyncio_detailed(
     *,
     client: Client,
     query: Union[Unset, None, str] = "",
-    from_: Union[Unset, None, int] = 0,
-    size: Union[Unset, None, int] = 10,
-    highlight: Union[Unset, None, bool] = False,
-    facet: Union[Unset, None, bool] = False,
     query_filter: Union[Unset, None, str] = "",
-    output_fields: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
+    output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
-) -> Response[TermHits]:
-    """Search for terms
+    labels: Union[Unset, None, List[str]] = UNSET,
+    created_by: Union[Unset, None, List[str]] = UNSET,
+) -> Response[SherpaJobBean]:
+    """Search for documents and delete annotations or categories from all of them
 
     Args:
         project_name (str):
         query (Union[Unset, None, str]):  Default: ''.
-        from_ (Union[Unset, None, int]):
-        size (Union[Unset, None, int]):  Default: 10.
-        highlight (Union[Unset, None, bool]):
-        facet (Union[Unset, None, bool]):
         query_filter (Union[Unset, None, str]):  Default: ''.
-        output_fields (Union[Unset, None, str]):  Default: ''.
         simple_query (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
+        labels (Union[Unset, None, List[str]]):
+        created_by (Union[Unset, None, List[str]]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TermHits]
+        Response[SherpaJobBean]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
         query=query,
-        from_=from_,
-        size=size,
-        highlight=highlight,
-        facet=facet,
         query_filter=query_filter,
-        output_fields=output_fields,
         simple_query=simple_query,
+        output_fields=output_fields,
         selected_facets=selected_facets,
         invert_search=invert_search,
+        labels=labels,
+        created_by=created_by,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -268,37 +260,33 @@ async def asyncio(
     *,
     client: Client,
     query: Union[Unset, None, str] = "",
-    from_: Union[Unset, None, int] = 0,
-    size: Union[Unset, None, int] = 10,
-    highlight: Union[Unset, None, bool] = False,
-    facet: Union[Unset, None, bool] = False,
     query_filter: Union[Unset, None, str] = "",
-    output_fields: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
+    output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
-) -> Optional[TermHits]:
-    """Search for terms
+    labels: Union[Unset, None, List[str]] = UNSET,
+    created_by: Union[Unset, None, List[str]] = UNSET,
+) -> Optional[SherpaJobBean]:
+    """Search for documents and delete annotations or categories from all of them
 
     Args:
         project_name (str):
         query (Union[Unset, None, str]):  Default: ''.
-        from_ (Union[Unset, None, int]):
-        size (Union[Unset, None, int]):  Default: 10.
-        highlight (Union[Unset, None, bool]):
-        facet (Union[Unset, None, bool]):
         query_filter (Union[Unset, None, str]):  Default: ''.
-        output_fields (Union[Unset, None, str]):  Default: ''.
         simple_query (Union[Unset, None, bool]):
+        output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
+        labels (Union[Unset, None, List[str]]):
+        created_by (Union[Unset, None, List[str]]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TermHits]
+        Response[SherpaJobBean]
     """
 
     return (
@@ -306,14 +294,12 @@ async def asyncio(
             project_name=project_name,
             client=client,
             query=query,
-            from_=from_,
-            size=size,
-            highlight=highlight,
-            facet=facet,
             query_filter=query_filter,
-            output_fields=output_fields,
             simple_query=simple_query,
+            output_fields=output_fields,
             selected_facets=selected_facets,
             invert_search=invert_search,
+            labels=labels,
+            created_by=created_by,
         )
     ).parsed

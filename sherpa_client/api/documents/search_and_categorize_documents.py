@@ -20,6 +20,7 @@ def _get_kwargs(
     simple_query: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/documents/_search_and_categorize".format(client.base_url, projectName=project_name)
 
@@ -43,6 +44,8 @@ def _get_kwargs(
             json_selected_facets = selected_facets
 
     params["selectedFacets"] = json_selected_facets
+
+    params["invertSearch"] = invert_search
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -89,6 +92,7 @@ def sync_detailed(
     simple_query: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
     """Search for documents and add/remove a category to/from all of them
 
@@ -99,6 +103,7 @@ def sync_detailed(
         simple_query (Union[Unset, None, bool]):
         output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
+        invert_search (Union[Unset, None, bool]):
         json_body (CategoryAction):
 
     Raises:
@@ -118,6 +123,7 @@ def sync_detailed(
         simple_query=simple_query,
         output_fields=output_fields,
         selected_facets=selected_facets,
+        invert_search=invert_search,
     )
 
     response = httpx.request(
@@ -138,6 +144,7 @@ def sync(
     simple_query: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """Search for documents and add/remove a category to/from all of them
 
@@ -148,6 +155,7 @@ def sync(
         simple_query (Union[Unset, None, bool]):
         output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
+        invert_search (Union[Unset, None, bool]):
         json_body (CategoryAction):
 
     Raises:
@@ -167,6 +175,7 @@ def sync(
         simple_query=simple_query,
         output_fields=output_fields,
         selected_facets=selected_facets,
+        invert_search=invert_search,
     ).parsed
 
 
@@ -180,6 +189,7 @@ async def asyncio_detailed(
     simple_query: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
     """Search for documents and add/remove a category to/from all of them
 
@@ -190,6 +200,7 @@ async def asyncio_detailed(
         simple_query (Union[Unset, None, bool]):
         output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
+        invert_search (Union[Unset, None, bool]):
         json_body (CategoryAction):
 
     Raises:
@@ -209,6 +220,7 @@ async def asyncio_detailed(
         simple_query=simple_query,
         output_fields=output_fields,
         selected_facets=selected_facets,
+        invert_search=invert_search,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -227,6 +239,7 @@ async def asyncio(
     simple_query: Union[Unset, None, bool] = False,
     output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """Search for documents and add/remove a category to/from all of them
 
@@ -237,6 +250,7 @@ async def asyncio(
         simple_query (Union[Unset, None, bool]):
         output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
+        invert_search (Union[Unset, None, bool]):
         json_body (CategoryAction):
 
     Raises:
@@ -257,5 +271,6 @@ async def asyncio(
             simple_query=simple_query,
             output_fields=output_fields,
             selected_facets=selected_facets,
+            invert_search=invert_search,
         )
     ).parsed

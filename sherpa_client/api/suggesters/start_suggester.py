@@ -6,7 +6,7 @@ import httpx
 from ... import errors
 from ...client import Client
 from ...models.ack import Ack
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
@@ -14,6 +14,7 @@ def _get_kwargs(
     name: str,
     *,
     client: Client,
+    force_training: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/suggesters/{name}/_start".format(
         client.base_url, projectName=project_name, name=name
@@ -22,12 +23,18 @@ def _get_kwargs(
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
+    params: Dict[str, Any] = {}
+    params["forceTraining"] = force_training
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
     return {
         "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
         "timeout": client.get_timeout(),
+        "params": params,
     }
 
 
@@ -59,12 +66,14 @@ def sync_detailed(
     name: str,
     *,
     client: Client,
+    force_training: Union[Unset, None, bool] = False,
 ) -> Response[Union[Ack, Any]]:
     """Start a suggester
 
     Args:
         project_name (str):
         name (str):
+        force_training (Union[Unset, None, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -78,6 +87,7 @@ def sync_detailed(
         project_name=project_name,
         name=name,
         client=client,
+        force_training=force_training,
     )
 
     response = httpx.request(
@@ -93,12 +103,14 @@ def sync(
     name: str,
     *,
     client: Client,
+    force_training: Union[Unset, None, bool] = False,
 ) -> Optional[Union[Ack, Any]]:
     """Start a suggester
 
     Args:
         project_name (str):
         name (str):
+        force_training (Union[Unset, None, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -112,6 +124,7 @@ def sync(
         project_name=project_name,
         name=name,
         client=client,
+        force_training=force_training,
     ).parsed
 
 
@@ -120,12 +133,14 @@ async def asyncio_detailed(
     name: str,
     *,
     client: Client,
+    force_training: Union[Unset, None, bool] = False,
 ) -> Response[Union[Ack, Any]]:
     """Start a suggester
 
     Args:
         project_name (str):
         name (str):
+        force_training (Union[Unset, None, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,6 +154,7 @@ async def asyncio_detailed(
         project_name=project_name,
         name=name,
         client=client,
+        force_training=force_training,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -152,12 +168,14 @@ async def asyncio(
     name: str,
     *,
     client: Client,
+    force_training: Union[Unset, None, bool] = False,
 ) -> Optional[Union[Ack, Any]]:
     """Start a suggester
 
     Args:
         project_name (str):
         name (str):
+        force_training (Union[Unset, None, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -172,5 +190,6 @@ async def asyncio(
             project_name=project_name,
             name=name,
             client=client,
+            force_training=force_training,
         )
     ).parsed

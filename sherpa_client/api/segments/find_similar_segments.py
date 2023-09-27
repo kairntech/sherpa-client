@@ -24,6 +24,7 @@ def _get_kwargs(
     output_fields: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
     html_version: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/segments/_similar".format(client.base_url, projectName=project_name)
@@ -60,6 +61,8 @@ def _get_kwargs(
             json_selected_facets = selected_facets
 
     params["selectedFacets"] = json_selected_facets
+
+    params["invertSearch"] = invert_search
 
     params["htmlVersion"] = html_version
 
@@ -110,6 +113,7 @@ def sync_detailed(
     output_fields: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
     html_version: Union[Unset, None, bool] = False,
 ) -> Response[SegmentHits]:
     """Search for similar segments
@@ -127,6 +131,7 @@ def sync_detailed(
         output_fields (Union[Unset, None, str]):  Default: ''.
         simple_query (Union[Unset, None, bool]):
         selected_facets (Union[Unset, None, List[str]]):
+        invert_search (Union[Unset, None, bool]):
         html_version (Union[Unset, None, bool]):
 
     Raises:
@@ -151,6 +156,7 @@ def sync_detailed(
         output_fields=output_fields,
         simple_query=simple_query,
         selected_facets=selected_facets,
+        invert_search=invert_search,
         html_version=html_version,
     )
 
@@ -177,6 +183,7 @@ def sync(
     output_fields: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
     html_version: Union[Unset, None, bool] = False,
 ) -> Optional[SegmentHits]:
     """Search for similar segments
@@ -194,6 +201,7 @@ def sync(
         output_fields (Union[Unset, None, str]):  Default: ''.
         simple_query (Union[Unset, None, bool]):
         selected_facets (Union[Unset, None, List[str]]):
+        invert_search (Union[Unset, None, bool]):
         html_version (Union[Unset, None, bool]):
 
     Raises:
@@ -218,6 +226,7 @@ def sync(
         output_fields=output_fields,
         simple_query=simple_query,
         selected_facets=selected_facets,
+        invert_search=invert_search,
         html_version=html_version,
     ).parsed
 
@@ -237,6 +246,7 @@ async def asyncio_detailed(
     output_fields: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
     html_version: Union[Unset, None, bool] = False,
 ) -> Response[SegmentHits]:
     """Search for similar segments
@@ -254,6 +264,7 @@ async def asyncio_detailed(
         output_fields (Union[Unset, None, str]):  Default: ''.
         simple_query (Union[Unset, None, bool]):
         selected_facets (Union[Unset, None, List[str]]):
+        invert_search (Union[Unset, None, bool]):
         html_version (Union[Unset, None, bool]):
 
     Raises:
@@ -278,6 +289,7 @@ async def asyncio_detailed(
         output_fields=output_fields,
         simple_query=simple_query,
         selected_facets=selected_facets,
+        invert_search=invert_search,
         html_version=html_version,
     )
 
@@ -302,6 +314,7 @@ async def asyncio(
     output_fields: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
+    invert_search: Union[Unset, None, bool] = False,
     html_version: Union[Unset, None, bool] = False,
 ) -> Optional[SegmentHits]:
     """Search for similar segments
@@ -319,6 +332,7 @@ async def asyncio(
         output_fields (Union[Unset, None, str]):  Default: ''.
         simple_query (Union[Unset, None, bool]):
         selected_facets (Union[Unset, None, List[str]]):
+        invert_search (Union[Unset, None, bool]):
         html_version (Union[Unset, None, bool]):
 
     Raises:
@@ -344,6 +358,7 @@ async def asyncio(
             output_fields=output_fields,
             simple_query=simple_query,
             selected_facets=selected_facets,
+            invert_search=invert_search,
             html_version=html_version,
         )
     ).parsed

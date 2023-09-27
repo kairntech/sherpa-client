@@ -64,7 +64,6 @@ from .credentials import Credentials
 from .delete_group_result import DeleteGroupResult
 from .delete_many_response import DeleteManyResponse
 from .delete_response import DeleteResponse
-from .depends_on import DependsOn
 from .deprecated_annotate_binary_with_plan_ref_multipart_data import DeprecatedAnnotateBinaryWithPlanRefMultipartData
 from .deprecated_annotate_format_binary_with_plan_ref_multipart_data import (
     DeprecatedAnnotateFormatBinaryWithPlanRefMultipartData,
@@ -104,6 +103,7 @@ from .gazetteer import Gazetteer
 from .gazetteer_parameters import GazetteerParameters
 from .gazetteer_patch import GazetteerPatch
 from .gazetteer_patch_parameters import GazetteerPatchParameters
+from .get_term_response_200 import GetTermResponse200
 from .group_desc import GroupDesc
 from .group_name import GroupName
 from .group_patch import GroupPatch
@@ -113,6 +113,14 @@ from .http_service_metadata_operations import HttpServiceMetadataOperations
 from .http_service_record import HttpServiceRecord
 from .import_archive_multipart_data import ImportArchiveMultipartData
 from .import_models_multipart_data import ImportModelsMultipartData
+from .imported_doc_annotation import ImportedDocAnnotation
+from .imported_doc_annotation_creation_mode import ImportedDocAnnotationCreationMode
+from .imported_doc_annotation_properties import ImportedDocAnnotationProperties
+from .imported_doc_category import ImportedDocCategory
+from .imported_doc_category_creation_mode import ImportedDocCategoryCreationMode
+from .imported_doc_category_properties import ImportedDocCategoryProperties
+from .imported_document import ImportedDocument
+from .imported_document_metadata import ImportedDocumentMetadata
 from .input_document import InputDocument
 from .input_document_metadata import InputDocumentMetadata
 from .item_count import ItemCount
@@ -125,6 +133,7 @@ from .label_set_update import LabelSetUpdate
 from .label_update import LabelUpdate
 from .launch_document_import_multipart_data import LaunchDocumentImportMultipartData
 from .launch_document_import_segmentation_policy import LaunchDocumentImportSegmentationPolicy
+from .launch_json_documents_import_segmentation_policy import LaunchJsonDocumentsImportSegmentationPolicy
 from .launch_project_restoration_from_backup_multipart_data import LaunchProjectRestorationFromBackupMultipartData
 from .launch_uploaded_document_import_segmentation_policy import LaunchUploadedDocumentImportSegmentationPolicy
 from .lexicon import Lexicon
@@ -147,7 +156,6 @@ from .new_role import NewRole
 from .new_suggester import NewSuggester
 from .new_suggester_parameters import NewSuggesterParameters
 from .new_user import NewUser
-from .next_step import NextStep
 from .operation_count import OperationCount
 from .partial_label import PartialLabel
 from .partial_lexicon import PartialLexicon
@@ -279,7 +287,6 @@ __all__ = (
     "DeleteGroupResult",
     "DeleteManyResponse",
     "DeleteResponse",
-    "DependsOn",
     "DeprecatedAnnotateBinaryWithPlanRefMultipartData",
     "DeprecatedAnnotateFormatBinaryWithPlanRefMultipartData",
     "DocAltText",
@@ -317,6 +324,7 @@ __all__ = (
     "GazetteerParameters",
     "GazetteerPatch",
     "GazetteerPatchParameters",
+    "GetTermResponse200",
     "GroupDesc",
     "GroupName",
     "GroupPatch",
@@ -325,6 +333,14 @@ __all__ = (
     "HttpServiceMetadataOperations",
     "HttpServiceRecord",
     "ImportArchiveMultipartData",
+    "ImportedDocAnnotation",
+    "ImportedDocAnnotationCreationMode",
+    "ImportedDocAnnotationProperties",
+    "ImportedDocCategory",
+    "ImportedDocCategoryCreationMode",
+    "ImportedDocCategoryProperties",
+    "ImportedDocument",
+    "ImportedDocumentMetadata",
     "ImportModelsMultipartData",
     "InputDocument",
     "InputDocumentMetadata",
@@ -338,6 +354,7 @@ __all__ = (
     "LabelUpdate",
     "LaunchDocumentImportMultipartData",
     "LaunchDocumentImportSegmentationPolicy",
+    "LaunchJsonDocumentsImportSegmentationPolicy",
     "LaunchProjectRestorationFromBackupMultipartData",
     "LaunchUploadedDocumentImportSegmentationPolicy",
     "Lexicon",
@@ -358,7 +375,6 @@ __all__ = (
     "NewSuggester",
     "NewSuggesterParameters",
     "NewUser",
-    "NextStep",
     "OperationCount",
     "PartialLabel",
     "PartialLexicon",
