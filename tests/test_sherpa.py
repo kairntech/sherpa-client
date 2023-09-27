@@ -13,7 +13,7 @@ from sherpa_client.api.experiments import get_experiments, launch_experiment
 from sherpa_client.api.gazetteers import create_gazetteer, synchronize_gazetteer
 from sherpa_client.api.jobs import get_job
 from sherpa_client.api.labels import create_label
-from sherpa_client.api.lexicons import create_lexicon, create_term
+from sherpa_client.api.lexicons import create_lexicon, create_term, delete_terms_by_lexicon_name, get_lexicon
 from sherpa_client.api.plans import create_plan
 from sherpa_client.api.projects import create_project, delete_project, get_project_info, get_projects
 from sherpa_client.client import SherpaClient
@@ -29,6 +29,7 @@ from sherpa_client.models import (
     Experiment,
     Label,
     LaunchDocumentImportMultipartData,
+	Lexicon,
     NewGazetteer,
     NewGazetteerParameters,
     NewNamedAnnotationPlan,
@@ -266,3 +267,16 @@ def test_annotate_with_plan(client, project):
         assert len(doc.annotations) == 2
         assert doc.annotations[0].text == "This"
         assert doc.annotations[1].text == "test99"
+
+
+def test_clear_lexicon(client, project):
+    r = get_lexicon.sync_detailed(project, "lex", client=client, compute_metrics=True)
+    if r.is_success:
+        lexicon: Lexicon = r.parsed
+        assert lexicon.terms > 0
+    r = delete_terms_by_lexicon_name.sync_detailed(project, "lex", client=client)
+    if r.is_success:
+        r = get_lexicon.sync_detailed(project, "lex", client=client, compute_metrics=True)
+        if r.is_success:
+            lexicon: Lexicon = r.parsed
+            assert lexicon.terms == 0
