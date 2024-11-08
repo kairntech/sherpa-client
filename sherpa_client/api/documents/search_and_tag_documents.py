@@ -18,7 +18,6 @@ def _get_kwargs(
     query: Union[Unset, None, str] = "",
     query_filter: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
@@ -33,8 +32,6 @@ def _get_kwargs(
     params["queryFilter"] = query_filter
 
     params["simpleQuery"] = simple_query
-
-    params["outputFields"] = output_fields
 
     json_selected_facets: Union[Unset, None, List[str]] = UNSET
     if not isinstance(selected_facets, Unset):
@@ -90,7 +87,6 @@ def sync_detailed(
     query: Union[Unset, None, str] = "",
     query_filter: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
@@ -101,7 +97,6 @@ def sync_detailed(
         query (Union[Unset, None, str]):  Default: ''.
         query_filter (Union[Unset, None, str]):  Default: ''.
         simple_query (Union[Unset, None, bool]):
-        output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
         json_body (SimpleMetadata):
@@ -121,7 +116,6 @@ def sync_detailed(
         query=query,
         query_filter=query_filter,
         simple_query=simple_query,
-        output_fields=output_fields,
         selected_facets=selected_facets,
         invert_search=invert_search,
     )
@@ -142,7 +136,6 @@ def sync(
     query: Union[Unset, None, str] = "",
     query_filter: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
@@ -153,7 +146,6 @@ def sync(
         query (Union[Unset, None, str]):  Default: ''.
         query_filter (Union[Unset, None, str]):  Default: ''.
         simple_query (Union[Unset, None, bool]):
-        output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
         json_body (SimpleMetadata):
@@ -173,7 +165,6 @@ def sync(
         query=query,
         query_filter=query_filter,
         simple_query=simple_query,
-        output_fields=output_fields,
         selected_facets=selected_facets,
         invert_search=invert_search,
     ).parsed
@@ -187,7 +178,6 @@ async def asyncio_detailed(
     query: Union[Unset, None, str] = "",
     query_filter: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
@@ -198,7 +188,6 @@ async def asyncio_detailed(
         query (Union[Unset, None, str]):  Default: ''.
         query_filter (Union[Unset, None, str]):  Default: ''.
         simple_query (Union[Unset, None, bool]):
-        output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
         json_body (SimpleMetadata):
@@ -218,7 +207,6 @@ async def asyncio_detailed(
         query=query,
         query_filter=query_filter,
         simple_query=simple_query,
-        output_fields=output_fields,
         selected_facets=selected_facets,
         invert_search=invert_search,
     )
@@ -237,7 +225,6 @@ async def asyncio(
     query: Union[Unset, None, str] = "",
     query_filter: Union[Unset, None, str] = "",
     simple_query: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = "",
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
@@ -248,7 +235,6 @@ async def asyncio(
         query (Union[Unset, None, str]):  Default: ''.
         query_filter (Union[Unset, None, str]):  Default: ''.
         simple_query (Union[Unset, None, bool]):
-        output_fields (Union[Unset, None, str]):  Default: ''.
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
         json_body (SimpleMetadata):
@@ -269,7 +255,6 @@ async def asyncio(
             query=query,
             query_filter=query_filter,
             simple_query=simple_query,
-            output_fields=output_fields,
             selected_facets=selected_facets,
             invert_search=invert_search,
         )

@@ -27,12 +27,14 @@ class HttpServiceMetadata:
         keep_alive (Union[Unset, bool]):
         language_guessers (Union[Unset, str]):
         languages (Union[Unset, str]):
+        name (Union[Unset, str]):
         natures (Union[Unset, str]):
         operations (Union[Unset, HttpServiceMetadataOperations]):
         processors (Union[Unset, str]):
         segmenters (Union[Unset, str]):
         term_importers (Union[Unset, str]):
         trigger (Union[Unset, str]):
+        vectorizers (Union[Unset, str]):
     """
 
     api: str
@@ -47,12 +49,14 @@ class HttpServiceMetadata:
     keep_alive: Union[Unset, bool] = UNSET
     language_guessers: Union[Unset, str] = UNSET
     languages: Union[Unset, str] = UNSET
+    name: Union[Unset, str] = UNSET
     natures: Union[Unset, str] = UNSET
     operations: Union[Unset, "HttpServiceMetadataOperations"] = UNSET
     processors: Union[Unset, str] = UNSET
     segmenters: Union[Unset, str] = UNSET
     term_importers: Union[Unset, str] = UNSET
     trigger: Union[Unset, str] = UNSET
+    vectorizers: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         api = self.api
@@ -67,6 +71,7 @@ class HttpServiceMetadata:
         keep_alive = self.keep_alive
         language_guessers = self.language_guessers
         languages = self.languages
+        name = self.name
         natures = self.natures
         operations: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.operations, Unset):
@@ -76,6 +81,7 @@ class HttpServiceMetadata:
         segmenters = self.segmenters
         term_importers = self.term_importers
         trigger = self.trigger
+        vectorizers = self.vectorizers
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
@@ -103,6 +109,8 @@ class HttpServiceMetadata:
             field_dict["languageGuessers"] = language_guessers
         if languages is not UNSET:
             field_dict["languages"] = languages
+        if name is not UNSET:
+            field_dict["name"] = name
         if natures is not UNSET:
             field_dict["natures"] = natures
         if operations is not UNSET:
@@ -115,6 +123,8 @@ class HttpServiceMetadata:
             field_dict["termImporters"] = term_importers
         if trigger is not UNSET:
             field_dict["trigger"] = trigger
+        if vectorizers is not UNSET:
+            field_dict["vectorizers"] = vectorizers
 
         return field_dict
 
@@ -147,6 +157,8 @@ class HttpServiceMetadata:
 
         languages = d.pop("languages", UNSET)
 
+        name = d.pop("name", UNSET)
+
         natures = d.pop("natures", UNSET)
 
         _operations = d.pop("operations", UNSET)
@@ -164,6 +176,8 @@ class HttpServiceMetadata:
 
         trigger = d.pop("trigger", UNSET)
 
+        vectorizers = d.pop("vectorizers", UNSET)
+
         http_service_metadata = cls(
             api=api,
             compatibility=compatibility,
@@ -177,12 +191,14 @@ class HttpServiceMetadata:
             keep_alive=keep_alive,
             language_guessers=language_guessers,
             languages=languages,
+            name=name,
             natures=natures,
             operations=operations,
             processors=processors,
             segmenters=segmenters,
             term_importers=term_importers,
             trigger=trigger,
+            vectorizers=vectorizers,
         )
 
         return http_service_metadata

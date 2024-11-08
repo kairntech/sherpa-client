@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from ..models.annotated_doc_category import AnnotatedDocCategory
     from ..models.annotated_doc_sentence import AnnotatedDocSentence
     from ..models.annotated_document_metadata import AnnotatedDocumentMetadata
+    from ..models.named_vector import NamedVector
 
 
 T = TypeVar("T", bound="AnnotatedDocument")
@@ -27,6 +28,7 @@ class AnnotatedDocument:
         metadata (Union[Unset, AnnotatedDocumentMetadata]): document metadata
         sentences (Union[Unset, List['AnnotatedDocSentence']]):
         title (Union[Unset, str]): document title
+        vectors (Union[Unset, List['NamedVector']]):
     """
 
     text: str
@@ -37,6 +39,7 @@ class AnnotatedDocument:
     metadata: Union[Unset, "AnnotatedDocumentMetadata"] = UNSET
     sentences: Union[Unset, List["AnnotatedDocSentence"]] = UNSET
     title: Union[Unset, str] = UNSET
+    vectors: Union[Unset, List["NamedVector"]] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         text = self.text
@@ -78,6 +81,13 @@ class AnnotatedDocument:
                 sentences.append(sentences_item)
 
         title = self.title
+        vectors: Union[Unset, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.vectors, Unset):
+            vectors = []
+            for vectors_item_data in self.vectors:
+                vectors_item = vectors_item_data.to_dict()
+
+                vectors.append(vectors_item)
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
@@ -99,6 +109,8 @@ class AnnotatedDocument:
             field_dict["sentences"] = sentences
         if title is not UNSET:
             field_dict["title"] = title
+        if vectors is not UNSET:
+            field_dict["vectors"] = vectors
 
         return field_dict
 
@@ -109,6 +121,7 @@ class AnnotatedDocument:
         from ..models.annotated_doc_category import AnnotatedDocCategory
         from ..models.annotated_doc_sentence import AnnotatedDocSentence
         from ..models.annotated_document_metadata import AnnotatedDocumentMetadata
+        from ..models.named_vector import NamedVector
 
         d = src_dict.copy()
         text = d.pop("text")
@@ -152,6 +165,13 @@ class AnnotatedDocument:
 
         title = d.pop("title", UNSET)
 
+        vectors = []
+        _vectors = d.pop("vectors", UNSET)
+        for vectors_item_data in _vectors or []:
+            vectors_item = NamedVector.from_dict(vectors_item_data)
+
+            vectors.append(vectors_item)
+
         annotated_document = cls(
             text=text,
             alt_texts=alt_texts,
@@ -161,6 +181,7 @@ class AnnotatedDocument:
             metadata=metadata,
             sentences=sentences,
             title=title,
+            vectors=vectors,
         )
 
         return annotated_document

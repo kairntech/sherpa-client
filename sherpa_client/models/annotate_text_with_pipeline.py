@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from ..models.with_language_guesser import WithLanguageGuesser
     from ..models.with_processor import WithProcessor
     from ..models.with_segmenter import WithSegmenter
+    from ..models.with_vectorizer import WithVectorizer
 
 
 T = TypeVar("T", bound="AnnotateTextWithPipeline")
@@ -17,16 +18,21 @@ T = TypeVar("T", bound="AnnotateTextWithPipeline")
 class AnnotateTextWithPipeline:
     """
     Attributes:
-        pipeline (List[Union['WithAnnotator', 'WithConverter', 'WithLanguageGuesser', 'WithProcessor',
-            'WithSegmenter']]):
+        pipeline (List[Union['WithAnnotator', 'WithConverter', 'WithLanguageGuesser', 'WithProcessor', 'WithSegmenter',
+            'WithVectorizer']]):
         text (str): Text to be annotated
     """
 
-    pipeline: List[Union["WithAnnotator", "WithConverter", "WithLanguageGuesser", "WithProcessor", "WithSegmenter"]]
+    pipeline: List[
+        Union[
+            "WithAnnotator", "WithConverter", "WithLanguageGuesser", "WithProcessor", "WithSegmenter", "WithVectorizer"
+        ]
+    ]
     text: str
 
     def to_dict(self) -> Dict[str, Any]:
         from ..models.with_annotator import WithAnnotator
+        from ..models.with_converter import WithConverter
         from ..models.with_language_guesser import WithLanguageGuesser
         from ..models.with_processor import WithProcessor
         from ..models.with_segmenter import WithSegmenter
@@ -45,6 +51,9 @@ class AnnotateTextWithPipeline:
                 pipeline_item = pipeline_item_data.to_dict()
 
             elif isinstance(pipeline_item_data, WithSegmenter):
+                pipeline_item = pipeline_item_data.to_dict()
+
+            elif isinstance(pipeline_item_data, WithConverter):
                 pipeline_item = pipeline_item_data.to_dict()
 
             else:
@@ -71,6 +80,7 @@ class AnnotateTextWithPipeline:
         from ..models.with_language_guesser import WithLanguageGuesser
         from ..models.with_processor import WithProcessor
         from ..models.with_segmenter import WithSegmenter
+        from ..models.with_vectorizer import WithVectorizer
 
         d = src_dict.copy()
         pipeline = []
@@ -79,7 +89,14 @@ class AnnotateTextWithPipeline:
 
             def _parse_pipeline_item(
                 data: object,
-            ) -> Union["WithAnnotator", "WithConverter", "WithLanguageGuesser", "WithProcessor", "WithSegmenter"]:
+            ) -> Union[
+                "WithAnnotator",
+                "WithConverter",
+                "WithLanguageGuesser",
+                "WithProcessor",
+                "WithSegmenter",
+                "WithVectorizer",
+            ]:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
@@ -112,11 +129,19 @@ class AnnotateTextWithPipeline:
                     return pipeline_item_type_3
                 except:  # noqa: E722
                     pass
+                try:
+                    if not isinstance(data, dict):
+                        raise TypeError()
+                    pipeline_item_type_4 = WithConverter.from_dict(data)
+
+                    return pipeline_item_type_4
+                except:  # noqa: E722
+                    pass
                 if not isinstance(data, dict):
                     raise TypeError()
-                pipeline_item_type_4 = WithConverter.from_dict(data)
+                pipeline_item_type_5 = WithVectorizer.from_dict(data)
 
-                return pipeline_item_type_4
+                return pipeline_item_type_5
 
             pipeline_item = _parse_pipeline_item(pipeline_item_data)
 

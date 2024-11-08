@@ -20,12 +20,14 @@ class AnnotatedDocSentence:
         start (int):
         categories (Union[Unset, List['AnnotatedDocCategory']]):
         metadata (Union[Unset, AnnotatedDocSentenceMetadata]):
+        text (Union[Unset, str]):
     """
 
     end: int
     start: int
     categories: Union[Unset, List["AnnotatedDocCategory"]] = UNSET
     metadata: Union[Unset, "AnnotatedDocSentenceMetadata"] = UNSET
+    text: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         end = self.end
@@ -42,6 +44,8 @@ class AnnotatedDocSentence:
         if not isinstance(self.metadata, Unset):
             metadata = self.metadata.to_dict()
 
+        text = self.text
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
@@ -53,6 +57,8 @@ class AnnotatedDocSentence:
             field_dict["categories"] = categories
         if metadata is not UNSET:
             field_dict["metadata"] = metadata
+        if text is not UNSET:
+            field_dict["text"] = text
 
         return field_dict
 
@@ -80,11 +86,14 @@ class AnnotatedDocSentence:
         else:
             metadata = AnnotatedDocSentenceMetadata.from_dict(_metadata)
 
+        text = d.pop("text", UNSET)
+
         annotated_doc_sentence = cls(
             end=end,
             start=start,
             categories=categories,
             metadata=metadata,
+            text=text,
         )
 
         return annotated_doc_sentence

@@ -5,6 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import Client
+from ...models.find_similar_segments_search_type import FindSimilarSegmentsSearchType
 from ...models.segment_hits import SegmentHits
 from ...types import UNSET, Response, Unset
 
@@ -25,6 +26,10 @@ def _get_kwargs(
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
+    search_type: Union[Unset, None, FindSimilarSegmentsSearchType] = FindSimilarSegmentsSearchType.TEXT,
+    native_rrf: Union[Unset, None, bool] = UNSET,
+    vectorizer: Union[Unset, None, str] = UNSET,
+    vector_query: Union[Unset, None, str] = "",
     html_version: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/segments/_similar".format(client.base_url, projectName=project_name)
@@ -63,6 +68,18 @@ def _get_kwargs(
     params["selectedFacets"] = json_selected_facets
 
     params["invertSearch"] = invert_search
+
+    json_search_type: Union[Unset, None, str] = UNSET
+    if not isinstance(search_type, Unset):
+        json_search_type = search_type.value if search_type else None
+
+    params["searchType"] = json_search_type
+
+    params["nativeRRF"] = native_rrf
+
+    params["vectorizer"] = vectorizer
+
+    params["vectorQuery"] = vector_query
 
     params["htmlVersion"] = html_version
 
@@ -114,6 +131,10 @@ def sync_detailed(
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
+    search_type: Union[Unset, None, FindSimilarSegmentsSearchType] = FindSimilarSegmentsSearchType.TEXT,
+    native_rrf: Union[Unset, None, bool] = UNSET,
+    vectorizer: Union[Unset, None, str] = UNSET,
+    vector_query: Union[Unset, None, str] = "",
     html_version: Union[Unset, None, bool] = False,
 ) -> Response[SegmentHits]:
     """Search for similar segments
@@ -132,6 +153,11 @@ def sync_detailed(
         simple_query (Union[Unset, None, bool]):
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
+        search_type (Union[Unset, None, FindSimilarSegmentsSearchType]):  Default:
+            FindSimilarSegmentsSearchType.TEXT.
+        native_rrf (Union[Unset, None, bool]):
+        vectorizer (Union[Unset, None, str]):
+        vector_query (Union[Unset, None, str]):  Default: ''.
         html_version (Union[Unset, None, bool]):
 
     Raises:
@@ -157,6 +183,10 @@ def sync_detailed(
         simple_query=simple_query,
         selected_facets=selected_facets,
         invert_search=invert_search,
+        search_type=search_type,
+        native_rrf=native_rrf,
+        vectorizer=vectorizer,
+        vector_query=vector_query,
         html_version=html_version,
     )
 
@@ -184,6 +214,10 @@ def sync(
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
+    search_type: Union[Unset, None, FindSimilarSegmentsSearchType] = FindSimilarSegmentsSearchType.TEXT,
+    native_rrf: Union[Unset, None, bool] = UNSET,
+    vectorizer: Union[Unset, None, str] = UNSET,
+    vector_query: Union[Unset, None, str] = "",
     html_version: Union[Unset, None, bool] = False,
 ) -> Optional[SegmentHits]:
     """Search for similar segments
@@ -202,6 +236,11 @@ def sync(
         simple_query (Union[Unset, None, bool]):
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
+        search_type (Union[Unset, None, FindSimilarSegmentsSearchType]):  Default:
+            FindSimilarSegmentsSearchType.TEXT.
+        native_rrf (Union[Unset, None, bool]):
+        vectorizer (Union[Unset, None, str]):
+        vector_query (Union[Unset, None, str]):  Default: ''.
         html_version (Union[Unset, None, bool]):
 
     Raises:
@@ -227,6 +266,10 @@ def sync(
         simple_query=simple_query,
         selected_facets=selected_facets,
         invert_search=invert_search,
+        search_type=search_type,
+        native_rrf=native_rrf,
+        vectorizer=vectorizer,
+        vector_query=vector_query,
         html_version=html_version,
     ).parsed
 
@@ -247,6 +290,10 @@ async def asyncio_detailed(
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
+    search_type: Union[Unset, None, FindSimilarSegmentsSearchType] = FindSimilarSegmentsSearchType.TEXT,
+    native_rrf: Union[Unset, None, bool] = UNSET,
+    vectorizer: Union[Unset, None, str] = UNSET,
+    vector_query: Union[Unset, None, str] = "",
     html_version: Union[Unset, None, bool] = False,
 ) -> Response[SegmentHits]:
     """Search for similar segments
@@ -265,6 +312,11 @@ async def asyncio_detailed(
         simple_query (Union[Unset, None, bool]):
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
+        search_type (Union[Unset, None, FindSimilarSegmentsSearchType]):  Default:
+            FindSimilarSegmentsSearchType.TEXT.
+        native_rrf (Union[Unset, None, bool]):
+        vectorizer (Union[Unset, None, str]):
+        vector_query (Union[Unset, None, str]):  Default: ''.
         html_version (Union[Unset, None, bool]):
 
     Raises:
@@ -290,6 +342,10 @@ async def asyncio_detailed(
         simple_query=simple_query,
         selected_facets=selected_facets,
         invert_search=invert_search,
+        search_type=search_type,
+        native_rrf=native_rrf,
+        vectorizer=vectorizer,
+        vector_query=vector_query,
         html_version=html_version,
     )
 
@@ -315,6 +371,10 @@ async def asyncio(
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
+    search_type: Union[Unset, None, FindSimilarSegmentsSearchType] = FindSimilarSegmentsSearchType.TEXT,
+    native_rrf: Union[Unset, None, bool] = UNSET,
+    vectorizer: Union[Unset, None, str] = UNSET,
+    vector_query: Union[Unset, None, str] = "",
     html_version: Union[Unset, None, bool] = False,
 ) -> Optional[SegmentHits]:
     """Search for similar segments
@@ -333,6 +393,11 @@ async def asyncio(
         simple_query (Union[Unset, None, bool]):
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
+        search_type (Union[Unset, None, FindSimilarSegmentsSearchType]):  Default:
+            FindSimilarSegmentsSearchType.TEXT.
+        native_rrf (Union[Unset, None, bool]):
+        vectorizer (Union[Unset, None, str]):
+        vector_query (Union[Unset, None, str]):  Default: ''.
         html_version (Union[Unset, None, bool]):
 
     Raises:
@@ -359,6 +424,10 @@ async def asyncio(
             simple_query=simple_query,
             selected_facets=selected_facets,
             invert_search=invert_search,
+            search_type=search_type,
+            native_rrf=native_rrf,
+            vectorizer=vectorizer,
+            vector_query=vector_query,
             html_version=html_version,
         )
     ).parsed

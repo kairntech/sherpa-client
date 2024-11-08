@@ -5,9 +5,9 @@ import httpx
 
 from ... import errors
 from ...client import Client
-from ...models.named_annotation_plan import NamedAnnotationPlan
+from ...models.plan_operation_response import PlanOperationResponse
 from ...models.plan_patch import PlanPatch
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
@@ -16,11 +16,17 @@ def _get_kwargs(
     *,
     client: Client,
     json_body: PlanPatch,
+    dry_run: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/plans/{name}".format(client.base_url, projectName=project_name, name=name)
 
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
+
+    params: Dict[str, Any] = {}
+    params["dryRun"] = dry_run
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     json_json_body = json_body.to_dict()
 
@@ -31,12 +37,13 @@ def _get_kwargs(
         "cookies": cookies,
         "timeout": client.get_timeout(),
         "json": json_json_body,
+        "params": params,
     }
 
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Union[Any, NamedAnnotationPlan]]:
+def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Union[Any, PlanOperationResponse]]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = NamedAnnotationPlan.from_dict(response.json())
+        response_200 = PlanOperationResponse.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.NOT_FOUND:
@@ -48,7 +55,7 @@ def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Uni
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[Union[Any, NamedAnnotationPlan]]:
+def _build_response(*, client: Client, response: httpx.Response) -> Response[Union[Any, PlanOperationResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -63,12 +70,14 @@ def sync_detailed(
     *,
     client: Client,
     json_body: PlanPatch,
-) -> Response[Union[Any, NamedAnnotationPlan]]:
+    dry_run: Union[Unset, None, bool] = False,
+) -> Response[Union[Any, PlanOperationResponse]]:
     """Partially update a plan
 
     Args:
         project_name (str):
         name (str):
+        dry_run (Union[Unset, None, bool]):
         json_body (PlanPatch):
 
     Raises:
@@ -76,7 +85,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, NamedAnnotationPlan]]
+        Response[Union[Any, PlanOperationResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -84,6 +93,7 @@ def sync_detailed(
         name=name,
         client=client,
         json_body=json_body,
+        dry_run=dry_run,
     )
 
     response = httpx.request(
@@ -100,12 +110,14 @@ def sync(
     *,
     client: Client,
     json_body: PlanPatch,
-) -> Optional[Union[Any, NamedAnnotationPlan]]:
+    dry_run: Union[Unset, None, bool] = False,
+) -> Optional[Union[Any, PlanOperationResponse]]:
     """Partially update a plan
 
     Args:
         project_name (str):
         name (str):
+        dry_run (Union[Unset, None, bool]):
         json_body (PlanPatch):
 
     Raises:
@@ -113,7 +125,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, NamedAnnotationPlan]]
+        Response[Union[Any, PlanOperationResponse]]
     """
 
     return sync_detailed(
@@ -121,6 +133,7 @@ def sync(
         name=name,
         client=client,
         json_body=json_body,
+        dry_run=dry_run,
     ).parsed
 
 
@@ -130,12 +143,14 @@ async def asyncio_detailed(
     *,
     client: Client,
     json_body: PlanPatch,
-) -> Response[Union[Any, NamedAnnotationPlan]]:
+    dry_run: Union[Unset, None, bool] = False,
+) -> Response[Union[Any, PlanOperationResponse]]:
     """Partially update a plan
 
     Args:
         project_name (str):
         name (str):
+        dry_run (Union[Unset, None, bool]):
         json_body (PlanPatch):
 
     Raises:
@@ -143,7 +158,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, NamedAnnotationPlan]]
+        Response[Union[Any, PlanOperationResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -151,6 +166,7 @@ async def asyncio_detailed(
         name=name,
         client=client,
         json_body=json_body,
+        dry_run=dry_run,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -165,12 +181,14 @@ async def asyncio(
     *,
     client: Client,
     json_body: PlanPatch,
-) -> Optional[Union[Any, NamedAnnotationPlan]]:
+    dry_run: Union[Unset, None, bool] = False,
+) -> Optional[Union[Any, PlanOperationResponse]]:
     """Partially update a plan
 
     Args:
         project_name (str):
         name (str):
+        dry_run (Union[Unset, None, bool]):
         json_body (PlanPatch):
 
     Raises:
@@ -178,7 +196,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, NamedAnnotationPlan]]
+        Response[Union[Any, PlanOperationResponse]]
     """
 
     return (
@@ -187,5 +205,6 @@ async def asyncio(
             name=name,
             client=client,
             json_body=json_body,
+            dry_run=dry_run,
         )
     ).parsed

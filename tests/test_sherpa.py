@@ -29,7 +29,7 @@ from sherpa_client.models import (
     Experiment,
     Label,
     LaunchDocumentImportMultipartData,
-	Lexicon,
+    Lexicon,
     NewGazetteer,
     NewGazetteerParameters,
     NewNamedAnnotationPlan,

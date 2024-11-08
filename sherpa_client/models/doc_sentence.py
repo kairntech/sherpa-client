@@ -20,12 +20,14 @@ class DocSentence:
         start (int):
         categories (Union[Unset, List['DocCategory']]):
         metadata (Union[Unset, DocSentenceMetadata]):
+        text (Union[Unset, str]):
     """
 
     end: int
     start: int
     categories: Union[Unset, List["DocCategory"]] = UNSET
     metadata: Union[Unset, "DocSentenceMetadata"] = UNSET
+    text: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         end = self.end
@@ -42,6 +44,8 @@ class DocSentence:
         if not isinstance(self.metadata, Unset):
             metadata = self.metadata.to_dict()
 
+        text = self.text
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(
             {
@@ -53,6 +57,8 @@ class DocSentence:
             field_dict["categories"] = categories
         if metadata is not UNSET:
             field_dict["metadata"] = metadata
+        if text is not UNSET:
+            field_dict["text"] = text
 
         return field_dict
 
@@ -80,11 +86,14 @@ class DocSentence:
         else:
             metadata = DocSentenceMetadata.from_dict(_metadata)
 
+        text = d.pop("text", UNSET)
+
         doc_sentence = cls(
             end=end,
             start=start,
             categories=categories,
             metadata=metadata,
+            text=text,
         )
 
         return doc_sentence

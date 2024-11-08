@@ -6,32 +6,30 @@ import httpx
 from ... import errors
 from ...client import Client
 from ...models.delete_response import DeleteResponse
-from ...types import UNSET, Response
+from ...models.label_names import LabelNames
+from ...types import Response
 
 
 def _get_kwargs(
     project_name: str,
     *,
     client: Client,
-    names: str,
+    json_body: LabelNames,
 ) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/plans".format(client.base_url, projectName=project_name)
+    url = "{}/projects/{projectName}/labels/_merge".format(client.base_url, projectName=project_name)
 
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
 
-    params: Dict[str, Any] = {}
-    params["names"] = names
-
-    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+    json_json_body = json_body.to_dict()
 
     return {
-        "method": "delete",
+        "method": "post",
         "url": url,
         "headers": headers,
         "cookies": cookies,
         "timeout": client.get_timeout(),
-        "params": params,
+        "json": json_json_body,
     }
 
 
@@ -59,13 +57,13 @@ def sync_detailed(
     project_name: str,
     *,
     client: Client,
-    names: str,
+    json_body: LabelNames,
 ) -> Response[DeleteResponse]:
-    """Delete plans
+    """Merge labels together
 
     Args:
         project_name (str):
-        names (str):
+        json_body (LabelNames):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -78,7 +76,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
-        names=names,
+        json_body=json_body,
     )
 
     response = httpx.request(
@@ -93,13 +91,13 @@ def sync(
     project_name: str,
     *,
     client: Client,
-    names: str,
+    json_body: LabelNames,
 ) -> Optional[DeleteResponse]:
-    """Delete plans
+    """Merge labels together
 
     Args:
         project_name (str):
-        names (str):
+        json_body (LabelNames):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -112,7 +110,7 @@ def sync(
     return sync_detailed(
         project_name=project_name,
         client=client,
-        names=names,
+        json_body=json_body,
     ).parsed
 
 
@@ -120,13 +118,13 @@ async def asyncio_detailed(
     project_name: str,
     *,
     client: Client,
-    names: str,
+    json_body: LabelNames,
 ) -> Response[DeleteResponse]:
-    """Delete plans
+    """Merge labels together
 
     Args:
         project_name (str):
-        names (str):
+        json_body (LabelNames):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,7 +137,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         project_name=project_name,
         client=client,
-        names=names,
+        json_body=json_body,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -152,13 +150,13 @@ async def asyncio(
     project_name: str,
     *,
     client: Client,
-    names: str,
+    json_body: LabelNames,
 ) -> Optional[DeleteResponse]:
-    """Delete plans
+    """Merge labels together
 
     Args:
         project_name (str):
-        names (str):
+        json_body (LabelNames):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -172,6 +170,6 @@ async def asyncio(
         await asyncio_detailed(
             project_name=project_name,
             client=client,
-            names=names,
+            json_body=json_body,
         )
     ).parsed

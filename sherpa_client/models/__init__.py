@@ -61,6 +61,8 @@ from .create_term_json_body import CreateTermJsonBody
 from .create_term_response_200 import CreateTermResponse200
 from .created_by_count import CreatedByCount
 from .credentials import Credentials
+from .default_annotation_plan import DefaultAnnotationPlan
+from .default_processor_context import DefaultProcessorContext
 from .delete_group_result import DeleteGroupResult
 from .delete_many_response import DeleteManyResponse
 from .delete_response import DeleteResponse
@@ -94,6 +96,8 @@ from .experiment_patch import ExperimentPatch
 from .experiment_patch_parameters import ExperimentPatchParameters
 from .external_databases import ExternalDatabases
 from .external_resources import ExternalResources
+from .filtering_params import FilteringParams
+from .find_similar_segments_search_type import FindSimilarSegmentsSearchType
 from .format_binary_form import FormatBinaryForm
 from .format_documents_with_many import FormatDocumentsWithMany
 from .format_text_with_many import FormatTextWithMany
@@ -121,6 +125,7 @@ from .imported_doc_category_creation_mode import ImportedDocCategoryCreationMode
 from .imported_doc_category_properties import ImportedDocCategoryProperties
 from .imported_document import ImportedDocument
 from .imported_document_metadata import ImportedDocumentMetadata
+from .index_document_indexes_item import IndexDocumentIndexesItem
 from .input_document import InputDocument
 from .input_document_metadata import InputDocumentMetadata
 from .item_count import ItemCount
@@ -146,6 +151,9 @@ from .model_metrics import ModelMetrics
 from .model_metrics_options import ModelMetricsOptions
 from .models_metrics import ModelsMetrics
 from .named_annotation_plan import NamedAnnotationPlan
+from .named_vector import NamedVector
+from .named_vector_creation_mode import NamedVectorCreationMode
+from .named_vector_properties import NamedVectorProperties
 from .new_experiment import NewExperiment
 from .new_experiment_parameters import NewExperimentParameters
 from .new_gazetteer import NewGazetteer
@@ -157,8 +165,10 @@ from .new_suggester import NewSuggester
 from .new_suggester_parameters import NewSuggesterParameters
 from .new_user import NewUser
 from .operation_count import OperationCount
+from .output_params import OutputParams
 from .partial_label import PartialLabel
 from .partial_lexicon import PartialLexicon
+from .plan_operation_response import PlanOperationResponse
 from .plan_patch import PlanPatch
 from .project_annotators import ProjectAnnotators
 from .project_bean import ProjectBean
@@ -170,11 +180,18 @@ from .project_property import ProjectProperty
 from .project_status import ProjectStatus
 from .projects_annotators import ProjectsAnnotators
 from .quality_figures import QualityFigures
+from .question_answering_params import QuestionAnsweringParams
 from .report import Report
 from .report_classes import ReportClasses
 from .request_jwt_token_project_access_mode import RequestJwtTokenProjectAccessMode
 from .role_desc import RoleDesc
 from .role_update import RoleUpdate
+from .search_documents_search_type import SearchDocumentsSearchType
+from .search_params import SearchParams
+from .search_params_type import SearchParamsType
+from .search_request import SearchRequest
+from .search_segments_search_type import SearchSegmentsSearchType
+from .search_terms_search_type import SearchTermsSearchType
 from .search_total import SearchTotal
 from .search_total_relation import SearchTotalRelation
 from .segment import Segment
@@ -208,6 +225,8 @@ from .user_permissions_update import UserPermissionsUpdate
 from .user_profile import UserProfile
 from .user_profile_update import UserProfileUpdate
 from .user_response import UserResponse
+from .vector_params import VectorParams
+from .vector_params_native_rrf import VectorParamsNativeRRF
 from .with_annotator import WithAnnotator
 from .with_annotator_condition import WithAnnotatorCondition
 from .with_annotator_parameters import WithAnnotatorParameters
@@ -223,6 +242,9 @@ from .with_processor_parameters import WithProcessorParameters
 from .with_segmenter import WithSegmenter
 from .with_segmenter_condition import WithSegmenterCondition
 from .with_segmenter_parameters import WithSegmenterParameters
+from .with_vectorizer import WithVectorizer
+from .with_vectorizer_condition import WithVectorizerCondition
+from .with_vectorizer_parameters import WithVectorizerParameters
 
 __all__ = (
     "Ack",
@@ -284,6 +306,8 @@ __all__ = (
     "CreateTermJsonBody",
     "CreateTermResponse200",
     "Credentials",
+    "DefaultAnnotationPlan",
+    "DefaultProcessorContext",
     "DeleteGroupResult",
     "DeleteManyResponse",
     "DeleteResponse",
@@ -315,6 +339,8 @@ __all__ = (
     "ExperimentPatchParameters",
     "ExternalDatabases",
     "ExternalResources",
+    "FilteringParams",
+    "FindSimilarSegmentsSearchType",
     "FormatBinaryForm",
     "FormatDocumentsWithMany",
     "Formatter",
@@ -342,6 +368,7 @@ __all__ = (
     "ImportedDocument",
     "ImportedDocumentMetadata",
     "ImportModelsMultipartData",
+    "IndexDocumentIndexesItem",
     "InputDocument",
     "InputDocumentMetadata",
     "ItemCount",
@@ -365,6 +392,9 @@ __all__ = (
     "ModelMetricsOptions",
     "ModelsMetrics",
     "NamedAnnotationPlan",
+    "NamedVector",
+    "NamedVectorCreationMode",
+    "NamedVectorProperties",
     "NewExperiment",
     "NewExperimentParameters",
     "NewGazetteer",
@@ -376,8 +406,10 @@ __all__ = (
     "NewSuggesterParameters",
     "NewUser",
     "OperationCount",
+    "OutputParams",
     "PartialLabel",
     "PartialLexicon",
+    "PlanOperationResponse",
     "PlanPatch",
     "ProjectAnnotators",
     "ProjectBean",
@@ -389,11 +421,18 @@ __all__ = (
     "ProjectsAnnotators",
     "ProjectStatus",
     "QualityFigures",
+    "QuestionAnsweringParams",
     "Report",
     "ReportClasses",
     "RequestJwtTokenProjectAccessMode",
     "RoleDesc",
     "RoleUpdate",
+    "SearchDocumentsSearchType",
+    "SearchParams",
+    "SearchParamsType",
+    "SearchRequest",
+    "SearchSegmentsSearchType",
+    "SearchTermsSearchType",
     "SearchTotal",
     "SearchTotalRelation",
     "Segment",
@@ -427,6 +466,8 @@ __all__ = (
     "UserProfile",
     "UserProfileUpdate",
     "UserResponse",
+    "VectorParams",
+    "VectorParamsNativeRRF",
     "WithAnnotator",
     "WithAnnotatorCondition",
     "WithAnnotatorParameters",
@@ -442,4 +483,7 @@ __all__ = (
     "WithSegmenter",
     "WithSegmenterCondition",
     "WithSegmenterParameters",
+    "WithVectorizer",
+    "WithVectorizerCondition",
+    "WithVectorizerParameters",
 )

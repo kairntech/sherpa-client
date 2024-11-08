@@ -27,7 +27,9 @@ def _get_kwargs(
     formatter: Union[Unset, None, str] = "",
     converter: Union[Unset, None, str] = "",
     segmenter: Union[Unset, None, str] = "",
+    vectorizer: Union[Unset, None, str] = "",
     language_guesser: Union[Unset, None, str] = "",
+    include_embedded_services: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
     url = "{}/services".format(client.base_url)
 
@@ -65,7 +67,11 @@ def _get_kwargs(
 
     params["segmenter"] = segmenter
 
+    params["vectorizer"] = vectorizer
+
     params["languageGuesser"] = language_guesser
+
+    params["includeEmbeddedServices"] = include_embedded_services
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -124,7 +130,9 @@ def sync_detailed(
     formatter: Union[Unset, None, str] = "",
     converter: Union[Unset, None, str] = "",
     segmenter: Union[Unset, None, str] = "",
+    vectorizer: Union[Unset, None, str] = "",
     language_guesser: Union[Unset, None, str] = "",
+    include_embedded_services: Union[Unset, None, bool] = False,
 ) -> Response[List["HttpServiceRecord"]]:
     """Filter the list of available services
 
@@ -144,7 +152,9 @@ def sync_detailed(
         formatter (Union[Unset, None, str]):  Default: ''.
         converter (Union[Unset, None, str]):  Default: ''.
         segmenter (Union[Unset, None, str]):  Default: ''.
+        vectorizer (Union[Unset, None, str]):  Default: ''.
         language_guesser (Union[Unset, None, str]):  Default: ''.
+        include_embedded_services (Union[Unset, None, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -171,7 +181,9 @@ def sync_detailed(
         formatter=formatter,
         converter=converter,
         segmenter=segmenter,
+        vectorizer=vectorizer,
         language_guesser=language_guesser,
+        include_embedded_services=include_embedded_services,
     )
 
     response = httpx.request(
@@ -200,7 +212,9 @@ def sync(
     formatter: Union[Unset, None, str] = "",
     converter: Union[Unset, None, str] = "",
     segmenter: Union[Unset, None, str] = "",
+    vectorizer: Union[Unset, None, str] = "",
     language_guesser: Union[Unset, None, str] = "",
+    include_embedded_services: Union[Unset, None, bool] = False,
 ) -> Optional[List["HttpServiceRecord"]]:
     """Filter the list of available services
 
@@ -220,7 +234,9 @@ def sync(
         formatter (Union[Unset, None, str]):  Default: ''.
         converter (Union[Unset, None, str]):  Default: ''.
         segmenter (Union[Unset, None, str]):  Default: ''.
+        vectorizer (Union[Unset, None, str]):  Default: ''.
         language_guesser (Union[Unset, None, str]):  Default: ''.
+        include_embedded_services (Union[Unset, None, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -247,7 +263,9 @@ def sync(
         formatter=formatter,
         converter=converter,
         segmenter=segmenter,
+        vectorizer=vectorizer,
         language_guesser=language_guesser,
+        include_embedded_services=include_embedded_services,
     ).parsed
 
 
@@ -269,7 +287,9 @@ async def asyncio_detailed(
     formatter: Union[Unset, None, str] = "",
     converter: Union[Unset, None, str] = "",
     segmenter: Union[Unset, None, str] = "",
+    vectorizer: Union[Unset, None, str] = "",
     language_guesser: Union[Unset, None, str] = "",
+    include_embedded_services: Union[Unset, None, bool] = False,
 ) -> Response[List["HttpServiceRecord"]]:
     """Filter the list of available services
 
@@ -289,7 +309,9 @@ async def asyncio_detailed(
         formatter (Union[Unset, None, str]):  Default: ''.
         converter (Union[Unset, None, str]):  Default: ''.
         segmenter (Union[Unset, None, str]):  Default: ''.
+        vectorizer (Union[Unset, None, str]):  Default: ''.
         language_guesser (Union[Unset, None, str]):  Default: ''.
+        include_embedded_services (Union[Unset, None, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -316,7 +338,9 @@ async def asyncio_detailed(
         formatter=formatter,
         converter=converter,
         segmenter=segmenter,
+        vectorizer=vectorizer,
         language_guesser=language_guesser,
+        include_embedded_services=include_embedded_services,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -343,7 +367,9 @@ async def asyncio(
     formatter: Union[Unset, None, str] = "",
     converter: Union[Unset, None, str] = "",
     segmenter: Union[Unset, None, str] = "",
+    vectorizer: Union[Unset, None, str] = "",
     language_guesser: Union[Unset, None, str] = "",
+    include_embedded_services: Union[Unset, None, bool] = False,
 ) -> Optional[List["HttpServiceRecord"]]:
     """Filter the list of available services
 
@@ -363,7 +389,9 @@ async def asyncio(
         formatter (Union[Unset, None, str]):  Default: ''.
         converter (Union[Unset, None, str]):  Default: ''.
         segmenter (Union[Unset, None, str]):  Default: ''.
+        vectorizer (Union[Unset, None, str]):  Default: ''.
         language_guesser (Union[Unset, None, str]):  Default: ''.
+        include_embedded_services (Union[Unset, None, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -391,6 +419,8 @@ async def asyncio(
             formatter=formatter,
             converter=converter,
             segmenter=segmenter,
+            vectorizer=vectorizer,
             language_guesser=language_guesser,
+            include_embedded_services=include_embedded_services,
         )
     ).parsed

@@ -5,6 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import Client
+from ...models.search_terms_search_type import SearchTermsSearchType
 from ...models.term_hits import TermHits
 from ...types import UNSET, Response, Unset
 
@@ -23,6 +24,10 @@ def _get_kwargs(
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
+    search_type: Union[Unset, None, SearchTermsSearchType] = SearchTermsSearchType.TEXT,
+    native_rrf: Union[Unset, None, bool] = UNSET,
+    vectorizer: Union[Unset, None, str] = UNSET,
+    vector_query: Union[Unset, None, str] = "",
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/lexicons/_search".format(client.base_url, projectName=project_name)
 
@@ -56,6 +61,18 @@ def _get_kwargs(
     params["selectedFacets"] = json_selected_facets
 
     params["invertSearch"] = invert_search
+
+    json_search_type: Union[Unset, None, str] = UNSET
+    if not isinstance(search_type, Unset):
+        json_search_type = search_type.value if search_type else None
+
+    params["searchType"] = json_search_type
+
+    params["nativeRRF"] = native_rrf
+
+    params["vectorizer"] = vectorizer
+
+    params["vectorQuery"] = vector_query
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -103,6 +120,10 @@ def sync_detailed(
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
+    search_type: Union[Unset, None, SearchTermsSearchType] = SearchTermsSearchType.TEXT,
+    native_rrf: Union[Unset, None, bool] = UNSET,
+    vectorizer: Union[Unset, None, str] = UNSET,
+    vector_query: Union[Unset, None, str] = "",
 ) -> Response[TermHits]:
     """Search for terms
 
@@ -118,6 +139,11 @@ def sync_detailed(
         simple_query (Union[Unset, None, bool]):
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
+        search_type (Union[Unset, None, SearchTermsSearchType]):  Default:
+            SearchTermsSearchType.TEXT.
+        native_rrf (Union[Unset, None, bool]):
+        vectorizer (Union[Unset, None, str]):
+        vector_query (Union[Unset, None, str]):  Default: ''.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -140,6 +166,10 @@ def sync_detailed(
         simple_query=simple_query,
         selected_facets=selected_facets,
         invert_search=invert_search,
+        search_type=search_type,
+        native_rrf=native_rrf,
+        vectorizer=vectorizer,
+        vector_query=vector_query,
     )
 
     response = httpx.request(
@@ -164,6 +194,10 @@ def sync(
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
+    search_type: Union[Unset, None, SearchTermsSearchType] = SearchTermsSearchType.TEXT,
+    native_rrf: Union[Unset, None, bool] = UNSET,
+    vectorizer: Union[Unset, None, str] = UNSET,
+    vector_query: Union[Unset, None, str] = "",
 ) -> Optional[TermHits]:
     """Search for terms
 
@@ -179,6 +213,11 @@ def sync(
         simple_query (Union[Unset, None, bool]):
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
+        search_type (Union[Unset, None, SearchTermsSearchType]):  Default:
+            SearchTermsSearchType.TEXT.
+        native_rrf (Union[Unset, None, bool]):
+        vectorizer (Union[Unset, None, str]):
+        vector_query (Union[Unset, None, str]):  Default: ''.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -201,6 +240,10 @@ def sync(
         simple_query=simple_query,
         selected_facets=selected_facets,
         invert_search=invert_search,
+        search_type=search_type,
+        native_rrf=native_rrf,
+        vectorizer=vectorizer,
+        vector_query=vector_query,
     ).parsed
 
 
@@ -218,6 +261,10 @@ async def asyncio_detailed(
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
+    search_type: Union[Unset, None, SearchTermsSearchType] = SearchTermsSearchType.TEXT,
+    native_rrf: Union[Unset, None, bool] = UNSET,
+    vectorizer: Union[Unset, None, str] = UNSET,
+    vector_query: Union[Unset, None, str] = "",
 ) -> Response[TermHits]:
     """Search for terms
 
@@ -233,6 +280,11 @@ async def asyncio_detailed(
         simple_query (Union[Unset, None, bool]):
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
+        search_type (Union[Unset, None, SearchTermsSearchType]):  Default:
+            SearchTermsSearchType.TEXT.
+        native_rrf (Union[Unset, None, bool]):
+        vectorizer (Union[Unset, None, str]):
+        vector_query (Union[Unset, None, str]):  Default: ''.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -255,6 +307,10 @@ async def asyncio_detailed(
         simple_query=simple_query,
         selected_facets=selected_facets,
         invert_search=invert_search,
+        search_type=search_type,
+        native_rrf=native_rrf,
+        vectorizer=vectorizer,
+        vector_query=vector_query,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -277,6 +333,10 @@ async def asyncio(
     simple_query: Union[Unset, None, bool] = False,
     selected_facets: Union[Unset, None, List[str]] = UNSET,
     invert_search: Union[Unset, None, bool] = False,
+    search_type: Union[Unset, None, SearchTermsSearchType] = SearchTermsSearchType.TEXT,
+    native_rrf: Union[Unset, None, bool] = UNSET,
+    vectorizer: Union[Unset, None, str] = UNSET,
+    vector_query: Union[Unset, None, str] = "",
 ) -> Optional[TermHits]:
     """Search for terms
 
@@ -292,6 +352,11 @@ async def asyncio(
         simple_query (Union[Unset, None, bool]):
         selected_facets (Union[Unset, None, List[str]]):
         invert_search (Union[Unset, None, bool]):
+        search_type (Union[Unset, None, SearchTermsSearchType]):  Default:
+            SearchTermsSearchType.TEXT.
+        native_rrf (Union[Unset, None, bool]):
+        vectorizer (Union[Unset, None, str]):
+        vector_query (Union[Unset, None, str]):  Default: ''.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -315,5 +380,9 @@ async def asyncio(
             simple_query=simple_query,
             selected_facets=selected_facets,
             invert_search=invert_search,
+            search_type=search_type,
+            native_rrf=native_rrf,
+            vectorizer=vectorizer,
+            vector_query=vector_query,
         )
     ).parsed

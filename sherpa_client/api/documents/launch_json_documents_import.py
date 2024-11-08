@@ -22,6 +22,7 @@ def _get_kwargs(
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
+    wait: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/documents/_import_documents".format(client.base_url, projectName=project_name)
 
@@ -40,6 +41,8 @@ def _get_kwargs(
     params["splitCorpus"] = split_corpus
 
     params["cleanText"] = clean_text
+
+    params["wait"] = wait
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -91,6 +94,7 @@ def sync_detailed(
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
+    wait: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
 
@@ -101,6 +105,7 @@ def sync_detailed(
             Default: LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
+        wait (Union[Unset, None, bool]):
         json_body (List['ImportedDocument']):
 
     Raises:
@@ -119,6 +124,7 @@ def sync_detailed(
         segmentation_policy=segmentation_policy,
         split_corpus=split_corpus,
         clean_text=clean_text,
+        wait=wait,
     )
 
     response = httpx.request(
@@ -140,6 +146,7 @@ def sync(
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
+    wait: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
 
@@ -150,6 +157,7 @@ def sync(
             Default: LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
+        wait (Union[Unset, None, bool]):
         json_body (List['ImportedDocument']):
 
     Raises:
@@ -168,6 +176,7 @@ def sync(
         segmentation_policy=segmentation_policy,
         split_corpus=split_corpus,
         clean_text=clean_text,
+        wait=wait,
     ).parsed
 
 
@@ -182,6 +191,7 @@ async def asyncio_detailed(
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
+    wait: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
 
@@ -192,6 +202,7 @@ async def asyncio_detailed(
             Default: LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
+        wait (Union[Unset, None, bool]):
         json_body (List['ImportedDocument']):
 
     Raises:
@@ -210,6 +221,7 @@ async def asyncio_detailed(
         segmentation_policy=segmentation_policy,
         split_corpus=split_corpus,
         clean_text=clean_text,
+        wait=wait,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -229,6 +241,7 @@ async def asyncio(
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
+    wait: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
 
@@ -239,6 +252,7 @@ async def asyncio(
             Default: LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
+        wait (Union[Unset, None, bool]):
         json_body (List['ImportedDocument']):
 
     Raises:
@@ -258,5 +272,6 @@ async def asyncio(
             segmentation_policy=segmentation_policy,
             split_corpus=split_corpus,
             clean_text=clean_text,
+            wait=wait,
         )
     ).parsed

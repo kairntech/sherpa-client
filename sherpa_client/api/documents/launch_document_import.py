@@ -23,6 +23,7 @@ def _get_kwargs(
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
+    wait: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/documents".format(client.base_url, projectName=project_name)
 
@@ -43,6 +44,8 @@ def _get_kwargs(
     params["cleanText"] = clean_text
 
     params["generateCategoriesFromSourceFolder"] = generate_categories_from_source_folder
+
+    params["wait"] = wait
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -91,6 +94,7 @@ def sync_detailed(
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
+    wait: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
 
@@ -102,6 +106,7 @@ def sync_detailed(
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
         generate_categories_from_source_folder (Union[Unset, None, bool]):
+        wait (Union[Unset, None, bool]):
         multipart_data (LaunchDocumentImportMultipartData):
 
     Raises:
@@ -121,6 +126,7 @@ def sync_detailed(
         split_corpus=split_corpus,
         clean_text=clean_text,
         generate_categories_from_source_folder=generate_categories_from_source_folder,
+        wait=wait,
     )
 
     response = httpx.request(
@@ -143,6 +149,7 @@ def sync(
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
+    wait: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
 
@@ -154,6 +161,7 @@ def sync(
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
         generate_categories_from_source_folder (Union[Unset, None, bool]):
+        wait (Union[Unset, None, bool]):
         multipart_data (LaunchDocumentImportMultipartData):
 
     Raises:
@@ -173,6 +181,7 @@ def sync(
         split_corpus=split_corpus,
         clean_text=clean_text,
         generate_categories_from_source_folder=generate_categories_from_source_folder,
+        wait=wait,
     ).parsed
 
 
@@ -188,6 +197,7 @@ async def asyncio_detailed(
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
+    wait: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
 
@@ -199,6 +209,7 @@ async def asyncio_detailed(
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
         generate_categories_from_source_folder (Union[Unset, None, bool]):
+        wait (Union[Unset, None, bool]):
         multipart_data (LaunchDocumentImportMultipartData):
 
     Raises:
@@ -218,6 +229,7 @@ async def asyncio_detailed(
         split_corpus=split_corpus,
         clean_text=clean_text,
         generate_categories_from_source_folder=generate_categories_from_source_folder,
+        wait=wait,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -238,6 +250,7 @@ async def asyncio(
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
+    wait: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
 
@@ -249,6 +262,7 @@ async def asyncio(
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
         generate_categories_from_source_folder (Union[Unset, None, bool]):
+        wait (Union[Unset, None, bool]):
         multipart_data (LaunchDocumentImportMultipartData):
 
     Raises:
@@ -269,5 +283,6 @@ async def asyncio(
             split_corpus=split_corpus,
             clean_text=clean_text,
             generate_categories_from_source_folder=generate_categories_from_source_folder,
+            wait=wait,
         )
     ).parsed

@@ -17,6 +17,8 @@ class ConfigPatchOptions:
     Attributes:
         classification (Union[Unset, ClassificationOptions]):
         collaborative_annotation (Union[Unset, bool]):
+        created_date (Union[Unset, str]):
+        description (Union[Unset, str]):
         image_filename (Union[Unset, str]):
         image_id (Union[Unset, str]):
         image_url (Union[Unset, str]):
@@ -26,6 +28,8 @@ class ConfigPatchOptions:
 
     classification: Union[Unset, "ClassificationOptions"] = UNSET
     collaborative_annotation: Union[Unset, bool] = UNSET
+    created_date: Union[Unset, str] = UNSET
+    description: Union[Unset, str] = UNSET
     image_filename: Union[Unset, str] = UNSET
     image_id: Union[Unset, str] = UNSET
     image_url: Union[Unset, str] = UNSET
@@ -38,6 +42,8 @@ class ConfigPatchOptions:
             classification = self.classification.to_dict()
 
         collaborative_annotation = self.collaborative_annotation
+        created_date = self.created_date
+        description = self.description
         image_filename = self.image_filename
         image_id = self.image_id
         image_url = self.image_url
@@ -52,6 +58,10 @@ class ConfigPatchOptions:
             field_dict["classification"] = classification
         if collaborative_annotation is not UNSET:
             field_dict["collaborativeAnnotation"] = collaborative_annotation
+        if created_date is not UNSET:
+            field_dict["createdDate"] = created_date
+        if description is not UNSET:
+            field_dict["description"] = description
         if image_filename is not UNSET:
             field_dict["imageFilename"] = image_filename
         if image_id is not UNSET:
@@ -79,6 +89,10 @@ class ConfigPatchOptions:
 
         collaborative_annotation = d.pop("collaborativeAnnotation", UNSET)
 
+        created_date = d.pop("createdDate", UNSET)
+
+        description = d.pop("description", UNSET)
+
         image_filename = d.pop("imageFilename", UNSET)
 
         image_id = d.pop("imageId", UNSET)
@@ -92,6 +106,8 @@ class ConfigPatchOptions:
         config_patch_options = cls(
             classification=classification,
             collaborative_annotation=collaborative_annotation,
+            created_date=created_date,
+            description=description,
             image_filename=image_filename,
             image_id=image_id,
             image_url=image_url,
