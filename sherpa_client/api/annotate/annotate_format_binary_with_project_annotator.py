@@ -23,6 +23,7 @@ def _get_kwargs(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
     url = "{}/annotate/projects/{projectName}/annotators/{annotator}/_annotate_format_binary".format(
         client.base_url, projectName=project_name, annotator=annotator
@@ -41,6 +42,8 @@ def _get_kwargs(
     params["debug"] = debug
 
     params["parallelize"] = parallelize
+
+    params["errorPolicy"] = error_policy
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -88,6 +91,7 @@ def sync_detailed(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
 ) -> Response[File]:
     """annotate a binary document and return a formatted result
 
@@ -99,6 +103,7 @@ def sync_detailed(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         multipart_data (AnnotateFormatBinaryWithProjectAnnotatorMultipartData):
 
     Raises:
@@ -119,6 +124,7 @@ def sync_detailed(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        error_policy=error_policy,
     )
 
     response = httpx.request(
@@ -140,6 +146,7 @@ def sync(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
 ) -> Optional[File]:
     """annotate a binary document and return a formatted result
 
@@ -151,6 +158,7 @@ def sync(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         multipart_data (AnnotateFormatBinaryWithProjectAnnotatorMultipartData):
 
     Raises:
@@ -171,6 +179,7 @@ def sync(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        error_policy=error_policy,
     ).parsed
 
 
@@ -185,6 +194,7 @@ async def asyncio_detailed(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
 ) -> Response[File]:
     """annotate a binary document and return a formatted result
 
@@ -196,6 +206,7 @@ async def asyncio_detailed(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         multipart_data (AnnotateFormatBinaryWithProjectAnnotatorMultipartData):
 
     Raises:
@@ -216,6 +227,7 @@ async def asyncio_detailed(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        error_policy=error_policy,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -235,6 +247,7 @@ async def asyncio(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
 ) -> Optional[File]:
     """annotate a binary document and return a formatted result
 
@@ -246,6 +259,7 @@ async def asyncio(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         multipart_data (AnnotateFormatBinaryWithProjectAnnotatorMultipartData):
 
     Raises:
@@ -267,5 +281,6 @@ async def asyncio(
             inline_text=inline_text,
             debug=debug,
             parallelize=parallelize,
+            error_policy=error_policy,
         )
     ).parsed

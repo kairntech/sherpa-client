@@ -23,6 +23,7 @@ def _get_kwargs(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
     url = "{}/annotate/projects/{projectName}/annotators/{annotator}/_annotate_binary".format(
@@ -42,6 +43,8 @@ def _get_kwargs(
     params["debug"] = debug
 
     params["parallelize"] = parallelize
+
+    params["errorPolicy"] = error_policy
 
     params["outputFields"] = output_fields
 
@@ -98,6 +101,7 @@ def sync_detailed(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Response[List["AnnotatedDocument"]]:
     """annotate a binary document with a project annotator
@@ -110,6 +114,7 @@ def sync_detailed(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         output_fields (Union[Unset, None, str]):
         multipart_data (AnnotateBinaryWithProjectAnnotatorMultipartData):
 
@@ -131,6 +136,7 @@ def sync_detailed(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        error_policy=error_policy,
         output_fields=output_fields,
     )
 
@@ -153,6 +159,7 @@ def sync(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Optional[List["AnnotatedDocument"]]:
     """annotate a binary document with a project annotator
@@ -165,6 +172,7 @@ def sync(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         output_fields (Union[Unset, None, str]):
         multipart_data (AnnotateBinaryWithProjectAnnotatorMultipartData):
 
@@ -186,6 +194,7 @@ def sync(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        error_policy=error_policy,
         output_fields=output_fields,
     ).parsed
 
@@ -201,6 +210,7 @@ async def asyncio_detailed(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Response[List["AnnotatedDocument"]]:
     """annotate a binary document with a project annotator
@@ -213,6 +223,7 @@ async def asyncio_detailed(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         output_fields (Union[Unset, None, str]):
         multipart_data (AnnotateBinaryWithProjectAnnotatorMultipartData):
 
@@ -234,6 +245,7 @@ async def asyncio_detailed(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        error_policy=error_policy,
         output_fields=output_fields,
     )
 
@@ -254,6 +266,7 @@ async def asyncio(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
     output_fields: Union[Unset, None, str] = UNSET,
 ) -> Optional[List["AnnotatedDocument"]]:
     """annotate a binary document with a project annotator
@@ -266,6 +279,7 @@ async def asyncio(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         output_fields (Union[Unset, None, str]):
         multipart_data (AnnotateBinaryWithProjectAnnotatorMultipartData):
 
@@ -288,6 +302,7 @@ async def asyncio(
             inline_text=inline_text,
             debug=debug,
             parallelize=parallelize,
+            error_policy=error_policy,
             output_fields=output_fields,
         )
     ).parsed

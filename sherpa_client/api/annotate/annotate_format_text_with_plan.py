@@ -19,6 +19,7 @@ def _get_kwargs(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
     project_context: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
     url = "{}/annotate/_annotate_format_text".format(client.base_url)
@@ -36,6 +37,8 @@ def _get_kwargs(
     params["debug"] = debug
 
     params["parallelize"] = parallelize
+
+    params["errorPolicy"] = error_policy
 
     params["projectContext"] = project_context
 
@@ -83,6 +86,7 @@ def sync_detailed(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
     project_context: Union[Unset, None, str] = UNSET,
 ) -> Response[File]:
     """annotate a text with a pipeline and return a formatted result
@@ -93,6 +97,7 @@ def sync_detailed(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         project_context (Union[Unset, None, str]):
         json_body (FormatTextWithMany):
 
@@ -112,6 +117,7 @@ def sync_detailed(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        error_policy=error_policy,
         project_context=project_context,
     )
 
@@ -132,6 +138,7 @@ def sync(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
     project_context: Union[Unset, None, str] = UNSET,
 ) -> Optional[File]:
     """annotate a text with a pipeline and return a formatted result
@@ -142,6 +149,7 @@ def sync(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         project_context (Union[Unset, None, str]):
         json_body (FormatTextWithMany):
 
@@ -161,6 +169,7 @@ def sync(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        error_policy=error_policy,
         project_context=project_context,
     ).parsed
 
@@ -174,6 +183,7 @@ async def asyncio_detailed(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
     project_context: Union[Unset, None, str] = UNSET,
 ) -> Response[File]:
     """annotate a text with a pipeline and return a formatted result
@@ -184,6 +194,7 @@ async def asyncio_detailed(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         project_context (Union[Unset, None, str]):
         json_body (FormatTextWithMany):
 
@@ -203,6 +214,7 @@ async def asyncio_detailed(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        error_policy=error_policy,
         project_context=project_context,
     )
 
@@ -221,6 +233,7 @@ async def asyncio(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
     project_context: Union[Unset, None, str] = UNSET,
 ) -> Optional[File]:
     """annotate a text with a pipeline and return a formatted result
@@ -231,6 +244,7 @@ async def asyncio(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         project_context (Union[Unset, None, str]):
         json_body (FormatTextWithMany):
 
@@ -251,6 +265,7 @@ async def asyncio(
             inline_text=inline_text,
             debug=debug,
             parallelize=parallelize,
+            error_policy=error_policy,
             project_context=project_context,
         )
     ).parsed

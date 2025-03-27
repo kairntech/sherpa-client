@@ -90,6 +90,7 @@ def project(client):
         json_body=ProjectConfigCreation(
             name=pname, label="SHERPA-CLIENT", description="Test project for sherpa-client"
         ),
+        group_name="kairntech",
     )
     # setup_stuff
     if r.is_success:

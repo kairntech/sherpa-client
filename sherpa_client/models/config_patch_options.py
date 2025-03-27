@@ -24,6 +24,7 @@ class ConfigPatchOptions:
         image_url (Union[Unset, str]):
         label (Union[Unset, str]):
         metafacets (Union[Unset, List[str]]):
+        route_on_open_project (Union[Unset, str]):
     """
 
     classification: Union[Unset, "ClassificationOptions"] = UNSET
@@ -35,6 +36,7 @@ class ConfigPatchOptions:
     image_url: Union[Unset, str] = UNSET
     label: Union[Unset, str] = UNSET
     metafacets: Union[Unset, List[str]] = UNSET
+    route_on_open_project: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         classification: Union[Unset, Dict[str, Any]] = UNSET
@@ -51,6 +53,8 @@ class ConfigPatchOptions:
         metafacets: Union[Unset, List[str]] = UNSET
         if not isinstance(self.metafacets, Unset):
             metafacets = self.metafacets
+
+        route_on_open_project = self.route_on_open_project
 
         field_dict: Dict[str, Any] = {}
         field_dict.update({})
@@ -72,6 +76,8 @@ class ConfigPatchOptions:
             field_dict["label"] = label
         if metafacets is not UNSET:
             field_dict["metafacets"] = metafacets
+        if route_on_open_project is not UNSET:
+            field_dict["routeOnOpenProject"] = route_on_open_project
 
         return field_dict
 
@@ -103,6 +109,8 @@ class ConfigPatchOptions:
 
         metafacets = cast(List[str], d.pop("metafacets", UNSET))
 
+        route_on_open_project = d.pop("routeOnOpenProject", UNSET)
+
         config_patch_options = cls(
             classification=classification,
             collaborative_annotation=collaborative_annotation,
@@ -113,6 +121,7 @@ class ConfigPatchOptions:
             image_url=image_url,
             label=label,
             metafacets=metafacets,
+            route_on_open_project=route_on_open_project,
         )
 
         return config_patch_options

@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 import httpx
 
@@ -14,7 +14,7 @@ def _get_kwargs(
     *,
     client: Client,
     json_body: NewUser,
-    group_name: Union[Unset, None, str] = UNSET,
+    group_name: Union[Unset, None, List[str]] = UNSET,
 ) -> Dict[str, Any]:
     url = "{}/users".format(client.base_url)
 
@@ -22,7 +22,14 @@ def _get_kwargs(
     cookies: Dict[str, Any] = client.get_cookies()
 
     params: Dict[str, Any] = {}
-    params["groupName"] = group_name
+    json_group_name: Union[Unset, None, List[str]] = UNSET
+    if not isinstance(group_name, Unset):
+        if group_name is None:
+            json_group_name = None
+        else:
+            json_group_name = group_name
+
+    params["groupName"] = json_group_name
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -63,12 +70,12 @@ def sync_detailed(
     *,
     client: Client,
     json_body: NewUser,
-    group_name: Union[Unset, None, str] = UNSET,
+    group_name: Union[Unset, None, List[str]] = UNSET,
 ) -> Response[UserResponse]:
     """Add user
 
     Args:
-        group_name (Union[Unset, None, str]):
+        group_name (Union[Unset, None, List[str]]):
         json_body (NewUser):
 
     Raises:
@@ -97,12 +104,12 @@ def sync(
     *,
     client: Client,
     json_body: NewUser,
-    group_name: Union[Unset, None, str] = UNSET,
+    group_name: Union[Unset, None, List[str]] = UNSET,
 ) -> Optional[UserResponse]:
     """Add user
 
     Args:
-        group_name (Union[Unset, None, str]):
+        group_name (Union[Unset, None, List[str]]):
         json_body (NewUser):
 
     Raises:
@@ -124,12 +131,12 @@ async def asyncio_detailed(
     *,
     client: Client,
     json_body: NewUser,
-    group_name: Union[Unset, None, str] = UNSET,
+    group_name: Union[Unset, None, List[str]] = UNSET,
 ) -> Response[UserResponse]:
     """Add user
 
     Args:
-        group_name (Union[Unset, None, str]):
+        group_name (Union[Unset, None, List[str]]):
         json_body (NewUser):
 
     Raises:
@@ -156,12 +163,12 @@ async def asyncio(
     *,
     client: Client,
     json_body: NewUser,
-    group_name: Union[Unset, None, str] = UNSET,
+    group_name: Union[Unset, None, List[str]] = UNSET,
 ) -> Optional[UserResponse]:
     """Add user
 
     Args:
-        group_name (Union[Unset, None, str]):
+        group_name (Union[Unset, None, List[str]]):
         json_body (NewUser):
 
     Raises:

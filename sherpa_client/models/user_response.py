@@ -1,8 +1,12 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 import attr
 
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.simple_group_membership_desc import SimpleGroupMembershipDesc
+
 
 T = TypeVar("T", bound="UserResponse")
 
@@ -15,10 +19,9 @@ class UserResponse:
         username (str):
         created_at (Union[Unset, str]):
         created_by (Union[Unset, str]):
-        default_group (Union[Unset, str]):
         disabled (Union[Unset, bool]):
         email (Union[Unset, str]):
-        groups (Union[Unset, List[str]]):
+        groups (Union[Unset, List['SimpleGroupMembershipDesc']]):
         permissions (Union[Unset, List[str]]):
         roles (Union[Unset, List[str]]):
     """
@@ -27,10 +30,9 @@ class UserResponse:
     username: str
     created_at: Union[Unset, str] = UNSET
     created_by: Union[Unset, str] = UNSET
-    default_group: Union[Unset, str] = UNSET
     disabled: Union[Unset, bool] = UNSET
     email: Union[Unset, str] = UNSET
-    groups: Union[Unset, List[str]] = UNSET
+    groups: Union[Unset, List["SimpleGroupMembershipDesc"]] = UNSET
     permissions: Union[Unset, List[str]] = UNSET
     roles: Union[Unset, List[str]] = UNSET
 
@@ -39,12 +41,15 @@ class UserResponse:
         username = self.username
         created_at = self.created_at
         created_by = self.created_by
-        default_group = self.default_group
         disabled = self.disabled
         email = self.email
-        groups: Union[Unset, List[str]] = UNSET
+        groups: Union[Unset, List[Dict[str, Any]]] = UNSET
         if not isinstance(self.groups, Unset):
-            groups = self.groups
+            groups = []
+            for groups_item_data in self.groups:
+                groups_item = groups_item_data.to_dict()
+
+                groups.append(groups_item)
 
         permissions: Union[Unset, List[str]] = UNSET
         if not isinstance(self.permissions, Unset):
@@ -65,8 +70,6 @@ class UserResponse:
             field_dict["createdAt"] = created_at
         if created_by is not UNSET:
             field_dict["createdBy"] = created_by
-        if default_group is not UNSET:
-            field_dict["defaultGroup"] = default_group
         if disabled is not UNSET:
             field_dict["disabled"] = disabled
         if email is not UNSET:
@@ -82,6 +85,8 @@ class UserResponse:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.simple_group_membership_desc import SimpleGroupMembershipDesc
+
         d = src_dict.copy()
         profilename = d.pop("profilename")
 
@@ -91,13 +96,16 @@ class UserResponse:
 
         created_by = d.pop("createdBy", UNSET)
 
-        default_group = d.pop("defaultGroup", UNSET)
-
         disabled = d.pop("disabled", UNSET)
 
         email = d.pop("email", UNSET)
 
-        groups = cast(List[str], d.pop("groups", UNSET))
+        groups = []
+        _groups = d.pop("groups", UNSET)
+        for groups_item_data in _groups or []:
+            groups_item = SimpleGroupMembershipDesc.from_dict(groups_item_data)
+
+            groups.append(groups_item)
 
         permissions = cast(List[str], d.pop("permissions", UNSET))
 
@@ -108,7 +116,6 @@ class UserResponse:
             username=username,
             created_at=created_at,
             created_by=created_by,
-            default_group=default_group,
             disabled=disabled,
             email=email,
             groups=groups,

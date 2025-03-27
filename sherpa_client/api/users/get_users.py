@@ -1,11 +1,11 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, Optional, Union
 
 import httpx
 
 from ... import errors
 from ...client import Client
-from ...models.user_response import UserResponse
+from ...models.users_response import UsersResponse
 from ...types import UNSET, Response, Unset
 
 
@@ -37,16 +37,9 @@ def _get_kwargs(
     }
 
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[List["UserResponse"]]:
+def _parse_response(*, client: Client, response: httpx.Response) -> Optional[UsersResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = []
-        _response_200 = response.json()
-        for componentsschemas_user_response_array_item_data in _response_200:
-            componentsschemas_user_response_array_item = UserResponse.from_dict(
-                componentsschemas_user_response_array_item_data
-            )
-
-            response_200.append(componentsschemas_user_response_array_item)
+        response_200 = UsersResponse.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -55,7 +48,7 @@ def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Lis
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[List["UserResponse"]]:
+def _build_response(*, client: Client, response: httpx.Response) -> Response[UsersResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -69,7 +62,7 @@ def sync_detailed(
     client: Client,
     group_name: Union[Unset, None, str] = UNSET,
     admin_data: Union[Unset, None, bool] = False,
-) -> Response[List["UserResponse"]]:
+) -> Response[UsersResponse]:
     """Get users
 
     Args:
@@ -81,7 +74,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['UserResponse']]
+        Response[UsersResponse]
     """
 
     kwargs = _get_kwargs(
@@ -103,7 +96,7 @@ def sync(
     client: Client,
     group_name: Union[Unset, None, str] = UNSET,
     admin_data: Union[Unset, None, bool] = False,
-) -> Optional[List["UserResponse"]]:
+) -> Optional[UsersResponse]:
     """Get users
 
     Args:
@@ -115,7 +108,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['UserResponse']]
+        Response[UsersResponse]
     """
 
     return sync_detailed(
@@ -130,7 +123,7 @@ async def asyncio_detailed(
     client: Client,
     group_name: Union[Unset, None, str] = UNSET,
     admin_data: Union[Unset, None, bool] = False,
-) -> Response[List["UserResponse"]]:
+) -> Response[UsersResponse]:
     """Get users
 
     Args:
@@ -142,7 +135,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['UserResponse']]
+        Response[UsersResponse]
     """
 
     kwargs = _get_kwargs(
@@ -162,7 +155,7 @@ async def asyncio(
     client: Client,
     group_name: Union[Unset, None, str] = UNSET,
     admin_data: Union[Unset, None, bool] = False,
-) -> Optional[List["UserResponse"]]:
+) -> Optional[UsersResponse]:
     """Get users
 
     Args:
@@ -174,7 +167,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['UserResponse']]
+        Response[UsersResponse]
     """
 
     return (

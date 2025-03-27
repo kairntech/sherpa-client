@@ -23,6 +23,8 @@ def _get_kwargs(
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
+    group_name: Union[Unset, None, str] = UNSET,
+    idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/documents".format(client.base_url, projectName=project_name)
@@ -44,6 +46,10 @@ def _get_kwargs(
     params["cleanText"] = clean_text
 
     params["generateCategoriesFromSourceFolder"] = generate_categories_from_source_folder
+
+    params["groupName"] = group_name
+
+    params["idpGroupIdentifier"] = idp_group_identifier
 
     params["wait"] = wait
 
@@ -94,6 +100,8 @@ def sync_detailed(
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
+    group_name: Union[Unset, None, str] = UNSET,
+    idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
@@ -106,6 +114,8 @@ def sync_detailed(
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
         generate_categories_from_source_folder (Union[Unset, None, bool]):
+        group_name (Union[Unset, None, str]):
+        idp_group_identifier (Union[Unset, None, str]):
         wait (Union[Unset, None, bool]):
         multipart_data (LaunchDocumentImportMultipartData):
 
@@ -126,6 +136,8 @@ def sync_detailed(
         split_corpus=split_corpus,
         clean_text=clean_text,
         generate_categories_from_source_folder=generate_categories_from_source_folder,
+        group_name=group_name,
+        idp_group_identifier=idp_group_identifier,
         wait=wait,
     )
 
@@ -149,6 +161,8 @@ def sync(
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
+    group_name: Union[Unset, None, str] = UNSET,
+    idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
@@ -161,6 +175,8 @@ def sync(
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
         generate_categories_from_source_folder (Union[Unset, None, bool]):
+        group_name (Union[Unset, None, str]):
+        idp_group_identifier (Union[Unset, None, str]):
         wait (Union[Unset, None, bool]):
         multipart_data (LaunchDocumentImportMultipartData):
 
@@ -181,6 +197,8 @@ def sync(
         split_corpus=split_corpus,
         clean_text=clean_text,
         generate_categories_from_source_folder=generate_categories_from_source_folder,
+        group_name=group_name,
+        idp_group_identifier=idp_group_identifier,
         wait=wait,
     ).parsed
 
@@ -197,6 +215,8 @@ async def asyncio_detailed(
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
+    group_name: Union[Unset, None, str] = UNSET,
+    idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
@@ -209,6 +229,8 @@ async def asyncio_detailed(
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
         generate_categories_from_source_folder (Union[Unset, None, bool]):
+        group_name (Union[Unset, None, str]):
+        idp_group_identifier (Union[Unset, None, str]):
         wait (Union[Unset, None, bool]):
         multipart_data (LaunchDocumentImportMultipartData):
 
@@ -229,6 +251,8 @@ async def asyncio_detailed(
         split_corpus=split_corpus,
         clean_text=clean_text,
         generate_categories_from_source_folder=generate_categories_from_source_folder,
+        group_name=group_name,
+        idp_group_identifier=idp_group_identifier,
         wait=wait,
     )
 
@@ -250,6 +274,8 @@ async def asyncio(
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
+    group_name: Union[Unset, None, str] = UNSET,
+    idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
@@ -262,6 +288,8 @@ async def asyncio(
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
         generate_categories_from_source_folder (Union[Unset, None, bool]):
+        group_name (Union[Unset, None, str]):
+        idp_group_identifier (Union[Unset, None, str]):
         wait (Union[Unset, None, bool]):
         multipart_data (LaunchDocumentImportMultipartData):
 
@@ -283,6 +311,8 @@ async def asyncio(
             split_corpus=split_corpus,
             clean_text=clean_text,
             generate_categories_from_source_folder=generate_categories_from_source_folder,
+            group_name=group_name,
+            idp_group_identifier=idp_group_identifier,
             wait=wait,
         )
     ).parsed

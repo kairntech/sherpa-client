@@ -6,6 +6,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.http_service_metadata_operations import HttpServiceMetadataOperations
+    from ..models.http_service_metadata_service import HttpServiceMetadataService
 
 
 T = TypeVar("T", bound="HttpServiceMetadata")
@@ -32,6 +33,7 @@ class HttpServiceMetadata:
         operations (Union[Unset, HttpServiceMetadataOperations]):
         processors (Union[Unset, str]):
         segmenters (Union[Unset, str]):
+        service (Union[Unset, HttpServiceMetadataService]):
         term_importers (Union[Unset, str]):
         trigger (Union[Unset, str]):
         vectorizers (Union[Unset, str]):
@@ -54,6 +56,7 @@ class HttpServiceMetadata:
     operations: Union[Unset, "HttpServiceMetadataOperations"] = UNSET
     processors: Union[Unset, str] = UNSET
     segmenters: Union[Unset, str] = UNSET
+    service: Union[Unset, "HttpServiceMetadataService"] = UNSET
     term_importers: Union[Unset, str] = UNSET
     trigger: Union[Unset, str] = UNSET
     vectorizers: Union[Unset, str] = UNSET
@@ -79,6 +82,10 @@ class HttpServiceMetadata:
 
         processors = self.processors
         segmenters = self.segmenters
+        service: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.service, Unset):
+            service = self.service.to_dict()
+
         term_importers = self.term_importers
         trigger = self.trigger
         vectorizers = self.vectorizers
@@ -119,6 +126,8 @@ class HttpServiceMetadata:
             field_dict["processors"] = processors
         if segmenters is not UNSET:
             field_dict["segmenters"] = segmenters
+        if service is not UNSET:
+            field_dict["service"] = service
         if term_importers is not UNSET:
             field_dict["termImporters"] = term_importers
         if trigger is not UNSET:
@@ -131,6 +140,7 @@ class HttpServiceMetadata:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.http_service_metadata_operations import HttpServiceMetadataOperations
+        from ..models.http_service_metadata_service import HttpServiceMetadataService
 
         d = src_dict.copy()
         api = d.pop("api")
@@ -172,6 +182,13 @@ class HttpServiceMetadata:
 
         segmenters = d.pop("segmenters", UNSET)
 
+        _service = d.pop("service", UNSET)
+        service: Union[Unset, HttpServiceMetadataService]
+        if isinstance(_service, Unset):
+            service = UNSET
+        else:
+            service = HttpServiceMetadataService.from_dict(_service)
+
         term_importers = d.pop("termImporters", UNSET)
 
         trigger = d.pop("trigger", UNSET)
@@ -196,6 +213,7 @@ class HttpServiceMetadata:
             operations=operations,
             processors=processors,
             segmenters=segmenters,
+            service=service,
             term_importers=term_importers,
             trigger=trigger,
             vectorizers=vectorizers,

@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import Client
-from ...models.group_share import GroupShare
+from ...models.simple_group_desc import SimpleGroupDesc
 from ...types import Response
 
 
@@ -14,7 +14,7 @@ def _get_kwargs(
     *,
     client: Client,
 ) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/shares/users".format(client.base_url, projectName=project_name)
+    url = "{}/projects/{projectName}/origins".format(client.base_url, projectName=project_name)
 
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
@@ -28,16 +28,16 @@ def _get_kwargs(
     }
 
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[List["GroupShare"]]:
+def _parse_response(*, client: Client, response: httpx.Response) -> Optional[List["SimpleGroupDesc"]]:
     if response.status_code == HTTPStatus.OK:
         response_200 = []
         _response_200 = response.json()
-        for componentsschemas_group_share_array_item_data in _response_200:
-            componentsschemas_group_share_array_item = GroupShare.from_dict(
-                componentsschemas_group_share_array_item_data
+        for componentsschemas_simple_group_desc_array_item_data in _response_200:
+            componentsschemas_simple_group_desc_array_item = SimpleGroupDesc.from_dict(
+                componentsschemas_simple_group_desc_array_item_data
             )
 
-            response_200.append(componentsschemas_group_share_array_item)
+            response_200.append(componentsschemas_simple_group_desc_array_item)
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -46,7 +46,7 @@ def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Lis
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[List["GroupShare"]]:
+def _build_response(*, client: Client, response: httpx.Response) -> Response[List["SimpleGroupDesc"]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -59,8 +59,8 @@ def sync_detailed(
     project_name: str,
     *,
     client: Client,
-) -> Response[List["GroupShare"]]:
-    """List of user shares of the project
+) -> Response[List["SimpleGroupDesc"]]:
+    """get the list of document origins in this project
 
     Args:
         project_name (str):
@@ -70,7 +70,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['GroupShare']]
+        Response[List['SimpleGroupDesc']]
     """
 
     kwargs = _get_kwargs(
@@ -90,8 +90,8 @@ def sync(
     project_name: str,
     *,
     client: Client,
-) -> Optional[List["GroupShare"]]:
-    """List of user shares of the project
+) -> Optional[List["SimpleGroupDesc"]]:
+    """get the list of document origins in this project
 
     Args:
         project_name (str):
@@ -101,7 +101,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['GroupShare']]
+        Response[List['SimpleGroupDesc']]
     """
 
     return sync_detailed(
@@ -114,8 +114,8 @@ async def asyncio_detailed(
     project_name: str,
     *,
     client: Client,
-) -> Response[List["GroupShare"]]:
-    """List of user shares of the project
+) -> Response[List["SimpleGroupDesc"]]:
+    """get the list of document origins in this project
 
     Args:
         project_name (str):
@@ -125,7 +125,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['GroupShare']]
+        Response[List['SimpleGroupDesc']]
     """
 
     kwargs = _get_kwargs(
@@ -143,8 +143,8 @@ async def asyncio(
     project_name: str,
     *,
     client: Client,
-) -> Optional[List["GroupShare"]]:
-    """List of user shares of the project
+) -> Optional[List["SimpleGroupDesc"]]:
+    """get the list of document origins in this project
 
     Args:
         project_name (str):
@@ -154,7 +154,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['GroupShare']]
+        Response[List['SimpleGroupDesc']]
     """
 
     return (

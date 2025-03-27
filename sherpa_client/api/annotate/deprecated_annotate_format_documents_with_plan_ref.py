@@ -21,6 +21,7 @@ def _get_kwargs(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/plans/{planName}/_annotate_format_documents".format(
         client.base_url, projectName=project_name, planName=plan_name
@@ -39,6 +40,8 @@ def _get_kwargs(
     params["debug"] = debug
 
     params["parallelize"] = parallelize
+
+    params["errorPolicy"] = error_policy
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -90,6 +93,7 @@ def sync_detailed(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
 ) -> Response[File]:
     """annotate documents with multiple annotators and return formatted results in a zip (replaced with
     /projects/{projectName}/annotators/{annotator}/_annotate_format_text)
@@ -102,6 +106,7 @@ def sync_detailed(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         json_body (List['InputDocument']):
 
     Raises:
@@ -122,6 +127,7 @@ def sync_detailed(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        error_policy=error_policy,
     )
 
     response = httpx.request(
@@ -143,6 +149,7 @@ def sync(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
 ) -> Optional[File]:
     """annotate documents with multiple annotators and return formatted results in a zip (replaced with
     /projects/{projectName}/annotators/{annotator}/_annotate_format_text)
@@ -155,6 +162,7 @@ def sync(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         json_body (List['InputDocument']):
 
     Raises:
@@ -175,6 +183,7 @@ def sync(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        error_policy=error_policy,
     ).parsed
 
 
@@ -189,6 +198,7 @@ async def asyncio_detailed(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
 ) -> Response[File]:
     """annotate documents with multiple annotators and return formatted results in a zip (replaced with
     /projects/{projectName}/annotators/{annotator}/_annotate_format_text)
@@ -201,6 +211,7 @@ async def asyncio_detailed(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         json_body (List['InputDocument']):
 
     Raises:
@@ -221,6 +232,7 @@ async def asyncio_detailed(
         inline_text=inline_text,
         debug=debug,
         parallelize=parallelize,
+        error_policy=error_policy,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -240,6 +252,7 @@ async def asyncio(
     inline_text: Union[Unset, None, bool] = True,
     debug: Union[Unset, None, bool] = False,
     parallelize: Union[Unset, None, bool] = False,
+    error_policy: Union[Unset, None, str] = UNSET,
 ) -> Optional[File]:
     """annotate documents with multiple annotators and return formatted results in a zip (replaced with
     /projects/{projectName}/annotators/{annotator}/_annotate_format_text)
@@ -252,6 +265,7 @@ async def asyncio(
         inline_text (Union[Unset, None, bool]):  Default: True.
         debug (Union[Unset, None, bool]):
         parallelize (Union[Unset, None, bool]):
+        error_policy (Union[Unset, None, str]):
         json_body (List['InputDocument']):
 
     Raises:
@@ -273,5 +287,6 @@ async def asyncio(
             inline_text=inline_text,
             debug=debug,
             parallelize=parallelize,
+            error_policy=error_policy,
         )
     ).parsed

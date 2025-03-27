@@ -22,6 +22,8 @@ def _get_kwargs(
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
+    group_name: Union[Unset, None, str] = UNSET,
+    idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
 ) -> Dict[str, Any]:
     url = "{}/projects/{projectName}/documents/_import_documents".format(client.base_url, projectName=project_name)
@@ -41,6 +43,10 @@ def _get_kwargs(
     params["splitCorpus"] = split_corpus
 
     params["cleanText"] = clean_text
+
+    params["groupName"] = group_name
+
+    params["idpGroupIdentifier"] = idp_group_identifier
 
     params["wait"] = wait
 
@@ -94,6 +100,8 @@ def sync_detailed(
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
+    group_name: Union[Unset, None, str] = UNSET,
+    idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
@@ -105,6 +113,8 @@ def sync_detailed(
             Default: LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
+        group_name (Union[Unset, None, str]):
+        idp_group_identifier (Union[Unset, None, str]):
         wait (Union[Unset, None, bool]):
         json_body (List['ImportedDocument']):
 
@@ -124,6 +134,8 @@ def sync_detailed(
         segmentation_policy=segmentation_policy,
         split_corpus=split_corpus,
         clean_text=clean_text,
+        group_name=group_name,
+        idp_group_identifier=idp_group_identifier,
         wait=wait,
     )
 
@@ -146,6 +158,8 @@ def sync(
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
+    group_name: Union[Unset, None, str] = UNSET,
+    idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
@@ -157,6 +171,8 @@ def sync(
             Default: LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
+        group_name (Union[Unset, None, str]):
+        idp_group_identifier (Union[Unset, None, str]):
         wait (Union[Unset, None, bool]):
         json_body (List['ImportedDocument']):
 
@@ -176,6 +192,8 @@ def sync(
         segmentation_policy=segmentation_policy,
         split_corpus=split_corpus,
         clean_text=clean_text,
+        group_name=group_name,
+        idp_group_identifier=idp_group_identifier,
         wait=wait,
     ).parsed
 
@@ -191,6 +209,8 @@ async def asyncio_detailed(
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
+    group_name: Union[Unset, None, str] = UNSET,
+    idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
 ) -> Response[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
@@ -202,6 +222,8 @@ async def asyncio_detailed(
             Default: LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
+        group_name (Union[Unset, None, str]):
+        idp_group_identifier (Union[Unset, None, str]):
         wait (Union[Unset, None, bool]):
         json_body (List['ImportedDocument']):
 
@@ -221,6 +243,8 @@ async def asyncio_detailed(
         segmentation_policy=segmentation_policy,
         split_corpus=split_corpus,
         clean_text=clean_text,
+        group_name=group_name,
+        idp_group_identifier=idp_group_identifier,
         wait=wait,
     )
 
@@ -241,6 +265,8 @@ async def asyncio(
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
     clean_text: Union[Unset, None, bool] = True,
+    group_name: Union[Unset, None, str] = UNSET,
+    idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
@@ -252,6 +278,8 @@ async def asyncio(
             Default: LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
         clean_text (Union[Unset, None, bool]):  Default: True.
+        group_name (Union[Unset, None, str]):
+        idp_group_identifier (Union[Unset, None, str]):
         wait (Union[Unset, None, bool]):
         json_body (List['ImportedDocument']):
 
@@ -272,6 +300,8 @@ async def asyncio(
             segmentation_policy=segmentation_policy,
             split_corpus=split_corpus,
             clean_text=clean_text,
+            group_name=group_name,
+            idp_group_identifier=idp_group_identifier,
             wait=wait,
         )
     ).parsed

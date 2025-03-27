@@ -7,6 +7,8 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.classification_config import ClassificationConfig
     from ..models.project_open_session import ProjectOpenSession
+    from ..models.simple_group import SimpleGroup
+    from ..models.simple_user import SimpleUser
 
 
 T = TypeVar("T", bound="ProjectBean")
@@ -31,14 +33,15 @@ class ProjectBean:
         dev_patches (Union[Unset, List[str]]):
         documents (Union[Unset, int]):
         engines (Union[Unset, List[str]]):
-        group_name (Union[Unset, str]):
+        group (Union[Unset, SimpleGroup]):
         has_split (Union[Unset, bool]):
         metafacets (Union[Unset, List[Any]]):
         nature (Union[Unset, str]):
         open_session (Union[Unset, ProjectOpenSession]):
-        owner (Union[Unset, str]):
+        owner (Union[Unset, SimpleUser]):
         private (Union[Unset, bool]):
         read_only (Union[Unset, bool]):
+        route_on_open_project (Union[Unset, str]):
         segments (Union[Unset, int]):
         shared (Union[Unset, bool]):
         terms (Union[Unset, int]):
@@ -60,14 +63,15 @@ class ProjectBean:
     dev_patches: Union[Unset, List[str]] = UNSET
     documents: Union[Unset, int] = UNSET
     engines: Union[Unset, List[str]] = UNSET
-    group_name: Union[Unset, str] = UNSET
+    group: Union[Unset, "SimpleGroup"] = UNSET
     has_split: Union[Unset, bool] = UNSET
     metafacets: Union[Unset, List[Any]] = UNSET
     nature: Union[Unset, str] = UNSET
     open_session: Union[Unset, "ProjectOpenSession"] = UNSET
-    owner: Union[Unset, str] = UNSET
+    owner: Union[Unset, "SimpleUser"] = UNSET
     private: Union[Unset, bool] = UNSET
     read_only: Union[Unset, bool] = UNSET
+    route_on_open_project: Union[Unset, str] = UNSET
     segments: Union[Unset, int] = UNSET
     shared: Union[Unset, bool] = UNSET
     terms: Union[Unset, int] = UNSET
@@ -104,7 +108,10 @@ class ProjectBean:
         if not isinstance(self.engines, Unset):
             engines = self.engines
 
-        group_name = self.group_name
+        group: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.group, Unset):
+            group = self.group.to_dict()
+
         has_split = self.has_split
         metafacets: Union[Unset, List[Any]] = UNSET
         if not isinstance(self.metafacets, Unset):
@@ -115,9 +122,13 @@ class ProjectBean:
         if not isinstance(self.open_session, Unset):
             open_session = self.open_session.to_dict()
 
-        owner = self.owner
+        owner: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.owner, Unset):
+            owner = self.owner.to_dict()
+
         private = self.private
         read_only = self.read_only
+        route_on_open_project = self.route_on_open_project
         segments = self.segments
         shared = self.shared
         terms = self.terms
@@ -154,8 +165,8 @@ class ProjectBean:
             field_dict["documents"] = documents
         if engines is not UNSET:
             field_dict["engines"] = engines
-        if group_name is not UNSET:
-            field_dict["groupName"] = group_name
+        if group is not UNSET:
+            field_dict["group"] = group
         if has_split is not UNSET:
             field_dict["hasSplit"] = has_split
         if metafacets is not UNSET:
@@ -170,6 +181,8 @@ class ProjectBean:
             field_dict["private"] = private
         if read_only is not UNSET:
             field_dict["readOnly"] = read_only
+        if route_on_open_project is not UNSET:
+            field_dict["routeOnOpenProject"] = route_on_open_project
         if segments is not UNSET:
             field_dict["segments"] = segments
         if shared is not UNSET:
@@ -185,6 +198,8 @@ class ProjectBean:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         from ..models.classification_config import ClassificationConfig
         from ..models.project_open_session import ProjectOpenSession
+        from ..models.simple_group import SimpleGroup
+        from ..models.simple_user import SimpleUser
 
         d = src_dict.copy()
         image = d.pop("image")
@@ -222,7 +237,12 @@ class ProjectBean:
 
         engines = cast(List[str], d.pop("engines", UNSET))
 
-        group_name = d.pop("groupName", UNSET)
+        _group = d.pop("group", UNSET)
+        group: Union[Unset, SimpleGroup]
+        if isinstance(_group, Unset):
+            group = UNSET
+        else:
+            group = SimpleGroup.from_dict(_group)
 
         has_split = d.pop("hasSplit", UNSET)
 
@@ -237,11 +257,18 @@ class ProjectBean:
         else:
             open_session = ProjectOpenSession.from_dict(_open_session)
 
-        owner = d.pop("owner", UNSET)
+        _owner = d.pop("owner", UNSET)
+        owner: Union[Unset, SimpleUser]
+        if isinstance(_owner, Unset):
+            owner = UNSET
+        else:
+            owner = SimpleUser.from_dict(_owner)
 
         private = d.pop("private", UNSET)
 
         read_only = d.pop("readOnly", UNSET)
+
+        route_on_open_project = d.pop("routeOnOpenProject", UNSET)
 
         segments = d.pop("segments", UNSET)
 
@@ -267,7 +294,7 @@ class ProjectBean:
             dev_patches=dev_patches,
             documents=documents,
             engines=engines,
-            group_name=group_name,
+            group=group,
             has_split=has_split,
             metafacets=metafacets,
             nature=nature,
@@ -275,6 +302,7 @@ class ProjectBean:
             owner=owner,
             private=private,
             read_only=read_only,
+            route_on_open_project=route_on_open_project,
             segments=segments,
             shared=shared,
             terms=terms,
