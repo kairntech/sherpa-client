@@ -12,15 +12,15 @@ class BearerToken:
     """
     Attributes:
         access_token (str):
-        email (Union[Unset, str]):
+        username (Union[Unset, str]):
     """
 
     access_token: str
-    email: Union[Unset, str] = UNSET
+    username: Union[Unset, str] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
         access_token = self.access_token
-        email = self.email
+        username = self.username
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(
@@ -28,8 +28,8 @@ class BearerToken:
                 "access_token": access_token,
             }
         )
-        if email is not UNSET:
-            field_dict["email"] = email
+        if username is not UNSET:
+            field_dict["email"] = username
 
         return field_dict
 
@@ -38,11 +38,11 @@ class BearerToken:
         d = src_dict.copy()
         access_token = d.pop("access_token")
 
-        email = d.pop("email", UNSET)
+        username = d.pop("username", UNSET)
 
         bearer_token = cls(
             access_token=access_token,
-            email=email,
+            username=username,
         )
 
         return bearer_token
