@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sherpa-client"
-version = "0.14.2"
+version = "0.14.3"
 description = "A client library for accessing Sherpa API (Manta release)"
 
 authors = []

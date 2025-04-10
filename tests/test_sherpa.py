@@ -77,6 +77,22 @@ def bearer_client():
     ack = user_sign_out.sync_detailed(client=client)
 
 
+@pytest.fixture(autouse=True, scope="session")
+def apikey_client():
+    testdir = Path(__file__).parent / "data"
+    json_file = testdir / "credentials.json"
+    with json_file.open("r") as fin:
+        creds = json.load(fin)
+        url = creds.pop("url")
+        key = creds.pop("key")
+        client = SherpaClient(base_url=url, timeout=300)
+        client.login_with_apikey("X-Kairntech-key", key)
+        # setup_stuff
+        yield client
+    # teardown_stuff
+    ack = user_sign_out.sync_detailed(client=client)
+
+
 def is_success(job_bean):
     return job_bean and job_bean.status == SherpaJobBeanStatus.COMPLETED
 
@@ -122,6 +138,13 @@ def test_login_with_token(client):
 
 def test_login(bearer_client):
     assert bearer_client.token is not None
+
+
+def test_login_with_apikey(apikey_client):
+    assert apikey_client.token is not None
+    assert apikey_client.auth_header_name is not None
+    r = get_projects.sync_detailed(client=apikey_client)
+    r = get_projects.sync_detailed(client=apikey_client)
 
 
 def test_get_project_info(client, project):
