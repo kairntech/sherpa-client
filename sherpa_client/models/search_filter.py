@@ -21,9 +21,9 @@ class SearchFilter:
     """
 
     field: Union[Unset, str] = "text"
-    filter_selector: Union[Unset, SearchFilterFilterSelector] = (
-        SearchFilterFilterSelector.MUST
-    )
+    filter_selector: Union[
+        Unset, SearchFilterFilterSelector
+    ] = SearchFilterFilterSelector.MUST
     filter_type: Union[Unset, SearchFilterFilterType] = SearchFilterFilterType.QUERY
     value: Union[Unset, str] = ""
 

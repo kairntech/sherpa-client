@@ -1,9 +1,7 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
-
-from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="BearerToken")
 
@@ -13,11 +11,11 @@ class BearerToken:
     """
     Attributes:
         access_token (str):
-        email (Union[Unset, str]):
+        email (str):
     """
 
     access_token: str
-    email: Union[Unset, str] = UNSET
+    email: str
 
     def to_dict(self) -> dict[str, Any]:
         access_token = self.access_token
@@ -28,10 +26,9 @@ class BearerToken:
         field_dict.update(
             {
                 "access_token": access_token,
+                "email": email,
             }
         )
-        if email is not UNSET:
-            field_dict["email"] = email
 
         return field_dict
 
@@ -40,7 +37,7 @@ class BearerToken:
         d = dict(src_dict)
         access_token = d.pop("access_token")
 
-        email = d.pop("email", UNSET)
+        email = d.pop("email")
 
         bearer_token = cls(
             access_token=access_token,

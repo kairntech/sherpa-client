@@ -19,6 +19,7 @@ T = TypeVar("T", bound="ProjectBean")
 class ProjectBean:
     """
     Attributes:
+        description (str):
         image (str):
         label (str):
         lang (str):
@@ -30,7 +31,6 @@ class ProjectBean:
         components (Union[Unset, list[str]]):
         created_by (Union[Unset, str]):
         created_date (Union[Unset, str]):
-        description (Union[Unset, str]):
         dev_patches (Union[Unset, list[str]]):
         documents (Union[Unset, int]):
         engines (Union[Unset, list[str]]):
@@ -49,6 +49,7 @@ class ProjectBean:
         version (Union[Unset, str]):
     """
 
+    description: str
     image: str
     label: str
     lang: str
@@ -60,7 +61,6 @@ class ProjectBean:
     components: Union[Unset, list[str]] = UNSET
     created_by: Union[Unset, str] = UNSET
     created_date: Union[Unset, str] = UNSET
-    description: Union[Unset, str] = UNSET
     dev_patches: Union[Unset, list[str]] = UNSET
     documents: Union[Unset, int] = UNSET
     engines: Union[Unset, list[str]] = UNSET
@@ -79,6 +79,8 @@ class ProjectBean:
     version: Union[Unset, str] = UNSET
 
     def to_dict(self) -> dict[str, Any]:
+        description = self.description
+
         image = self.image
 
         label = self.label
@@ -106,8 +108,6 @@ class ProjectBean:
         created_by = self.created_by
 
         created_date = self.created_date
-
-        description = self.description
 
         dev_patches: Union[Unset, list[str]] = UNSET
         if not isinstance(self.dev_patches, Unset):
@@ -156,6 +156,7 @@ class ProjectBean:
         field_dict: dict[str, Any] = {}
         field_dict.update(
             {
+                "description": description,
                 "image": image,
                 "label": label,
                 "lang": lang,
@@ -176,8 +177,6 @@ class ProjectBean:
             field_dict["createdBy"] = created_by
         if created_date is not UNSET:
             field_dict["createdDate"] = created_date
-        if description is not UNSET:
-            field_dict["description"] = description
         if dev_patches is not UNSET:
             field_dict["devPatches"] = dev_patches
         if documents is not UNSET:
@@ -221,6 +220,8 @@ class ProjectBean:
         from ..models.simple_user import SimpleUser
 
         d = dict(src_dict)
+        description = d.pop("description")
+
         image = d.pop("image")
 
         label = d.pop("label")
@@ -247,8 +248,6 @@ class ProjectBean:
         created_by = d.pop("createdBy", UNSET)
 
         created_date = d.pop("createdDate", UNSET)
-
-        description = d.pop("description", UNSET)
 
         dev_patches = cast(list[str], d.pop("devPatches", UNSET))
 
@@ -298,6 +297,7 @@ class ProjectBean:
         version = d.pop("version", UNSET)
 
         project_bean = cls(
+            description=description,
             image=image,
             label=label,
             lang=lang,
@@ -309,7 +309,6 @@ class ProjectBean:
             components=components,
             created_by=created_by,
             created_date=created_date,
-            description=description,
             dev_patches=dev_patches,
             documents=documents,
             engines=engines,

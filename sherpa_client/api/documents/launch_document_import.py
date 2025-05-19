@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.launch_document_import_body import LaunchDocumentImportBody
+from ...models.launch_document_import_clean_text import LaunchDocumentImportCleanText
 from ...models.launch_document_import_segmentation_policy import (
     LaunchDocumentImportSegmentationPolicy,
 )
@@ -22,7 +23,9 @@ def _get_kwargs(
         Unset, LaunchDocumentImportSegmentationPolicy
     ] = LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, bool] = False,
-    clean_text: Union[Unset, bool] = True,
+    clean_text: Union[
+        Unset, LaunchDocumentImportCleanText
+    ] = LaunchDocumentImportCleanText.DEFAULT,
     generate_categories_from_source_folder: Union[Unset, bool] = False,
     group_name: Union[Unset, str] = UNSET,
     idp_group_identifier: Union[Unset, str] = UNSET,
@@ -42,11 +45,15 @@ def _get_kwargs(
 
     params["splitCorpus"] = split_corpus
 
-    params["cleanText"] = clean_text
+    json_clean_text: Union[Unset, str] = UNSET
+    if not isinstance(clean_text, Unset):
+        json_clean_text = clean_text.value
 
-    params["generateCategoriesFromSourceFolder"] = (
-        generate_categories_from_source_folder
-    )
+    params["cleanText"] = json_clean_text
+
+    params[
+        "generateCategoriesFromSourceFolder"
+    ] = generate_categories_from_source_folder
 
     params["groupName"] = group_name
 
@@ -106,7 +113,9 @@ def sync_detailed(
         Unset, LaunchDocumentImportSegmentationPolicy
     ] = LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, bool] = False,
-    clean_text: Union[Unset, bool] = True,
+    clean_text: Union[
+        Unset, LaunchDocumentImportCleanText
+    ] = LaunchDocumentImportCleanText.DEFAULT,
     generate_categories_from_source_folder: Union[Unset, bool] = False,
     group_name: Union[Unset, str] = UNSET,
     idp_group_identifier: Union[Unset, str] = UNSET,
@@ -120,7 +129,8 @@ def sync_detailed(
         segmentation_policy (Union[Unset, LaunchDocumentImportSegmentationPolicy]):  Default:
             LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, bool]):  Default: False.
-        clean_text (Union[Unset, bool]):  Default: True.
+        clean_text (Union[Unset, LaunchDocumentImportCleanText]):  Default:
+            LaunchDocumentImportCleanText.DEFAULT.
         generate_categories_from_source_folder (Union[Unset, bool]):  Default: False.
         group_name (Union[Unset, str]):
         idp_group_identifier (Union[Unset, str]):
@@ -165,7 +175,9 @@ def sync(
         Unset, LaunchDocumentImportSegmentationPolicy
     ] = LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, bool] = False,
-    clean_text: Union[Unset, bool] = True,
+    clean_text: Union[
+        Unset, LaunchDocumentImportCleanText
+    ] = LaunchDocumentImportCleanText.DEFAULT,
     generate_categories_from_source_folder: Union[Unset, bool] = False,
     group_name: Union[Unset, str] = UNSET,
     idp_group_identifier: Union[Unset, str] = UNSET,
@@ -179,7 +191,8 @@ def sync(
         segmentation_policy (Union[Unset, LaunchDocumentImportSegmentationPolicy]):  Default:
             LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, bool]):  Default: False.
-        clean_text (Union[Unset, bool]):  Default: True.
+        clean_text (Union[Unset, LaunchDocumentImportCleanText]):  Default:
+            LaunchDocumentImportCleanText.DEFAULT.
         generate_categories_from_source_folder (Union[Unset, bool]):  Default: False.
         group_name (Union[Unset, str]):
         idp_group_identifier (Union[Unset, str]):
@@ -219,7 +232,9 @@ async def asyncio_detailed(
         Unset, LaunchDocumentImportSegmentationPolicy
     ] = LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, bool] = False,
-    clean_text: Union[Unset, bool] = True,
+    clean_text: Union[
+        Unset, LaunchDocumentImportCleanText
+    ] = LaunchDocumentImportCleanText.DEFAULT,
     generate_categories_from_source_folder: Union[Unset, bool] = False,
     group_name: Union[Unset, str] = UNSET,
     idp_group_identifier: Union[Unset, str] = UNSET,
@@ -233,7 +248,8 @@ async def asyncio_detailed(
         segmentation_policy (Union[Unset, LaunchDocumentImportSegmentationPolicy]):  Default:
             LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, bool]):  Default: False.
-        clean_text (Union[Unset, bool]):  Default: True.
+        clean_text (Union[Unset, LaunchDocumentImportCleanText]):  Default:
+            LaunchDocumentImportCleanText.DEFAULT.
         generate_categories_from_source_folder (Union[Unset, bool]):  Default: False.
         group_name (Union[Unset, str]):
         idp_group_identifier (Union[Unset, str]):
@@ -276,7 +292,9 @@ async def asyncio(
         Unset, LaunchDocumentImportSegmentationPolicy
     ] = LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, bool] = False,
-    clean_text: Union[Unset, bool] = True,
+    clean_text: Union[
+        Unset, LaunchDocumentImportCleanText
+    ] = LaunchDocumentImportCleanText.DEFAULT,
     generate_categories_from_source_folder: Union[Unset, bool] = False,
     group_name: Union[Unset, str] = UNSET,
     idp_group_identifier: Union[Unset, str] = UNSET,
@@ -290,7 +308,8 @@ async def asyncio(
         segmentation_policy (Union[Unset, LaunchDocumentImportSegmentationPolicy]):  Default:
             LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, bool]):  Default: False.
-        clean_text (Union[Unset, bool]):  Default: True.
+        clean_text (Union[Unset, LaunchDocumentImportCleanText]):  Default:
+            LaunchDocumentImportCleanText.DEFAULT.
         generate_categories_from_source_folder (Union[Unset, bool]):  Default: False.
         group_name (Union[Unset, str]):
         idp_group_identifier (Union[Unset, str]):

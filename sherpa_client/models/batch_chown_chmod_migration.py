@@ -38,9 +38,9 @@ class BatchChownChmodMigration:
             }
         )
         if share_project_with_previous_owner is not UNSET:
-            field_dict["shareProjectWithPreviousOwner"] = (
-                share_project_with_previous_owner
-            )
+            field_dict[
+                "shareProjectWithPreviousOwner"
+            ] = share_project_with_previous_owner
 
         return field_dict
 

@@ -1,4 +1,4 @@
-"""Contains all the data models used in inputs/outputs"""
+""" Contains all the data models used in inputs/outputs """
 
 from .ack import Ack
 from .aggregation import Aggregation
@@ -167,14 +167,19 @@ from .label_set import LabelSet
 from .label_set_update import LabelSetUpdate
 from .label_update import LabelUpdate
 from .launch_document_import_body import LaunchDocumentImportBody
+from .launch_document_import_clean_text import LaunchDocumentImportCleanText
 from .launch_document_import_segmentation_policy import (
     LaunchDocumentImportSegmentationPolicy,
 )
+from .launch_json_documents_import_clean_text import LaunchJsonDocumentsImportCleanText
 from .launch_json_documents_import_segmentation_policy import (
     LaunchJsonDocumentsImportSegmentationPolicy,
 )
 from .launch_project_restoration_from_backup_body import (
     LaunchProjectRestorationFromBackupBody,
+)
+from .launch_uploaded_document_import_clean_text import (
+    LaunchUploadedDocumentImportCleanText,
 )
 from .launch_uploaded_document_import_segmentation_policy import (
     LaunchUploadedDocumentImportSegmentationPolicy,
@@ -491,9 +496,12 @@ __all__ = (
     "LabelSetUpdate",
     "LabelUpdate",
     "LaunchDocumentImportBody",
+    "LaunchDocumentImportCleanText",
     "LaunchDocumentImportSegmentationPolicy",
+    "LaunchJsonDocumentsImportCleanText",
     "LaunchJsonDocumentsImportSegmentationPolicy",
     "LaunchProjectRestorationFromBackupBody",
+    "LaunchUploadedDocumentImportCleanText",
     "LaunchUploadedDocumentImportSegmentationPolicy",
     "Lexicon",
     "LexiconUpdate",

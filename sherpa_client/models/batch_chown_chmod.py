@@ -55,9 +55,9 @@ class BatchChownChmod:
         if virtual_target_users is not UNSET:
             field_dict["virtualTargetUsers"] = virtual_target_users
         if virtual_target_users_from_migration is not UNSET:
-            field_dict["virtualTargetUsersFromMigration"] = (
-                virtual_target_users_from_migration
-            )
+            field_dict[
+                "virtualTargetUsersFromMigration"
+            ] = virtual_target_users_from_migration
         if warn_non_chowned_projects is not UNSET:
             field_dict["warnNonChownedProjects"] = warn_non_chowned_projects
 
