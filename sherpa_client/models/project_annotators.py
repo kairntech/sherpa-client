@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.annotator import Annotator
@@ -9,47 +10,43 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="ProjectAnnotators")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ProjectAnnotators:
     """
     Attributes:
-        gazetteer (List['Annotator']):
-        learner (List['Annotator']):
-        plan (List['Annotator']):
-        suggester (List['Annotator']):
+        gazetteer (list['Annotator']):
+        learner (list['Annotator']):
+        plan (list['Annotator']):
+        suggester (list['Annotator']):
     """
 
-    gazetteer: List["Annotator"]
-    learner: List["Annotator"]
-    plan: List["Annotator"]
-    suggester: List["Annotator"]
+    gazetteer: list["Annotator"]
+    learner: list["Annotator"]
+    plan: list["Annotator"]
+    suggester: list["Annotator"]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         gazetteer = []
         for gazetteer_item_data in self.gazetteer:
             gazetteer_item = gazetteer_item_data.to_dict()
-
             gazetteer.append(gazetteer_item)
 
         learner = []
         for learner_item_data in self.learner:
             learner_item = learner_item_data.to_dict()
-
             learner.append(learner_item)
 
         plan = []
         for plan_item_data in self.plan:
             plan_item = plan_item_data.to_dict()
-
             plan.append(plan_item)
 
         suggester = []
         for suggester_item_data in self.suggester:
             suggester_item = suggester_item_data.to_dict()
-
             suggester.append(suggester_item)
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "gazetteer": gazetteer,
@@ -62,10 +59,10 @@ class ProjectAnnotators:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.annotator import Annotator
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         gazetteer = []
         _gazetteer = d.pop("gazetteer")
         for gazetteer_item_data in _gazetteer:

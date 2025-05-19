@@ -1,27 +1,28 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="LabelNames")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class LabelNames:
     """
     Attributes:
-        names (Union[Unset, List[str]]):
+        names (Union[Unset, list[str]]):
     """
 
-    names: Union[Unset, List[str]] = UNSET
+    names: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        names: Union[Unset, List[str]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        names: Union[Unset, list[str]] = UNSET
         if not isinstance(self.names, Unset):
             names = self.names
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if names is not UNSET:
             field_dict["names"] = names
@@ -29,9 +30,9 @@ class LabelNames:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
-        names = cast(List[str], d.pop("names", UNSET))
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
+        names = cast(list[str], d.pop("names", UNSET))
 
         label_names = cls(
             names=names,

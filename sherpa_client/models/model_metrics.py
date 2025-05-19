@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, cast
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.engine_config import EngineConfig
@@ -11,11 +12,11 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="ModelMetrics")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ModelMetrics:
     """
     Attributes:
-        classes (List[str]):
+        classes (list[str]):
         config (EngineConfig):
         engine (str):
         lang (str):
@@ -28,7 +29,7 @@ class ModelMetrics:
         timestamp_end (int):
     """
 
-    classes: List[str]
+    classes: list[str]
     config: "EngineConfig"
     engine: str
     lang: str
@@ -40,24 +41,30 @@ class ModelMetrics:
     timestamp: int
     timestamp_end: int
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         classes = self.classes
 
         config = self.config.to_dict()
 
         engine = self.engine
+
         lang = self.lang
+
         name = self.name
+
         options = self.options.to_dict()
 
         quality = self.quality
+
         report = self.report.to_dict()
 
         status = self.status
+
         timestamp = self.timestamp
+
         timestamp_end = self.timestamp_end
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "classes": classes,
@@ -77,13 +84,13 @@ class ModelMetrics:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.engine_config import EngineConfig
         from ..models.model_metrics_options import ModelMetricsOptions
         from ..models.report import Report
 
-        d = src_dict.copy()
-        classes = cast(List[str], d.pop("classes"))
+        d = dict(src_dict)
+        classes = cast(list[str], d.pop("classes"))
 
         config = EngineConfig.from_dict(d.pop("config"))
 

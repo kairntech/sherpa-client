@@ -1,14 +1,16 @@
-""" Contains all the data models used in inputs/outputs """
+"""Contains all the data models used in inputs/outputs"""
 
 from .ack import Ack
 from .aggregation import Aggregation
 from .alt_text import AltText
 from .annotate_binary_form import AnnotateBinaryForm
-from .annotate_binary_with_project_annotator_multipart_data import AnnotateBinaryWithProjectAnnotatorMultipartData
-from .annotate_binary_with_project_multipart_data import AnnotateBinaryWithProjectMultipartData
+from .annotate_binary_with_project_annotator_body import (
+    AnnotateBinaryWithProjectAnnotatorBody,
+)
+from .annotate_binary_with_project_body import AnnotateBinaryWithProjectBody
 from .annotate_documents_with_pipeline import AnnotateDocumentsWithPipeline
-from .annotate_format_binary_with_project_annotator_multipart_data import (
-    AnnotateFormatBinaryWithProjectAnnotatorMultipartData,
+from .annotate_format_binary_with_project_annotator_body import (
+    AnnotateFormatBinaryWithProjectAnnotatorBody,
 )
 from .annotate_text_with_pipeline import AnnotateTextWithPipeline
 from .annotated_doc_alt_text import AnnotatedDocAltText
@@ -40,7 +42,9 @@ from .apply_to import ApplyTo
 from .batch_chown_chmod import BatchChownChmod
 from .batch_chown_chmod_migration import BatchChownChmodMigration
 from .batch_chown_chmod_result import BatchChownChmodResult
-from .batch_chown_chmod_virtual_target_users_item import BatchChownChmodVirtualTargetUsersItem
+from .batch_chown_chmod_virtual_target_users_item import (
+    BatchChownChmodVirtualTargetUsersItem,
+)
 from .batch_errors import BatchErrors
 from .batch_migration_operation import BatchMigrationOperation
 from .batch_migration_operation_users import BatchMigrationOperationUsers
@@ -65,11 +69,11 @@ from .converter import Converter
 from .converter_parameters import ConverterParameters
 from .corpus_metrics import CorpusMetrics
 from .create_lexicon_response_200 import CreateLexiconResponse200
-from .create_project_from_archive_multipart_data import CreateProjectFromArchiveMultipartData
-from .create_term_json_body import CreateTermJsonBody
+from .create_project_from_archive_body import CreateProjectFromArchiveBody
+from .create_term_body import CreateTermBody
 from .create_term_response_200 import CreateTermResponse200
 from .create_theme_form import CreateThemeForm
-from .create_theme_from_archive_multipart_data import CreateThemeFromArchiveMultipartData
+from .create_theme_from_archive_body import CreateThemeFromArchiveBody
 from .created_by_count import CreatedByCount
 from .credentials import Credentials
 from .default_annotation_plan import DefaultAnnotationPlan
@@ -77,9 +81,11 @@ from .default_processor_context import DefaultProcessorContext
 from .delete_group_result import DeleteGroupResult
 from .delete_many_response import DeleteManyResponse
 from .delete_response import DeleteResponse
-from .deprecated_annotate_binary_with_plan_ref_multipart_data import DeprecatedAnnotateBinaryWithPlanRefMultipartData
-from .deprecated_annotate_format_binary_with_plan_ref_multipart_data import (
-    DeprecatedAnnotateFormatBinaryWithPlanRefMultipartData,
+from .deprecated_annotate_binary_with_plan_ref_body import (
+    DeprecatedAnnotateBinaryWithPlanRefBody,
+)
+from .deprecated_annotate_format_binary_with_plan_ref_body import (
+    DeprecatedAnnotateFormatBinaryWithPlanRefBody,
 )
 from .doc_alt_text import DocAltText
 from .doc_annotation import DocAnnotation
@@ -139,8 +145,8 @@ from .http_service_metadata import HttpServiceMetadata
 from .http_service_metadata_operations import HttpServiceMetadataOperations
 from .http_service_metadata_service import HttpServiceMetadataService
 from .http_service_record import HttpServiceRecord
-from .import_archive_multipart_data import ImportArchiveMultipartData
-from .import_models_multipart_data import ImportModelsMultipartData
+from .import_archive_body import ImportArchiveBody
+from .import_models_body import ImportModelsBody
 from .imported_doc_annotation import ImportedDocAnnotation
 from .imported_doc_annotation_creation_mode import ImportedDocAnnotationCreationMode
 from .imported_doc_annotation_properties import ImportedDocAnnotationProperties
@@ -160,16 +166,24 @@ from .label_names import LabelNames
 from .label_set import LabelSet
 from .label_set_update import LabelSetUpdate
 from .label_update import LabelUpdate
-from .launch_document_import_multipart_data import LaunchDocumentImportMultipartData
-from .launch_document_import_segmentation_policy import LaunchDocumentImportSegmentationPolicy
-from .launch_json_documents_import_segmentation_policy import LaunchJsonDocumentsImportSegmentationPolicy
-from .launch_project_restoration_from_backup_multipart_data import LaunchProjectRestorationFromBackupMultipartData
-from .launch_uploaded_document_import_segmentation_policy import LaunchUploadedDocumentImportSegmentationPolicy
+from .launch_document_import_body import LaunchDocumentImportBody
+from .launch_document_import_segmentation_policy import (
+    LaunchDocumentImportSegmentationPolicy,
+)
+from .launch_json_documents_import_segmentation_policy import (
+    LaunchJsonDocumentsImportSegmentationPolicy,
+)
+from .launch_project_restoration_from_backup_body import (
+    LaunchProjectRestorationFromBackupBody,
+)
+from .launch_uploaded_document_import_segmentation_policy import (
+    LaunchUploadedDocumentImportSegmentationPolicy,
+)
 from .lexicon import Lexicon
 from .lexicon_update import LexiconUpdate
 from .localized_message import LocalizedMessage
-from .maybe_create_projects_and_import_models_from_archive_multipart_data import (
-    MaybeCreateProjectsAndImportModelsFromArchiveMultipartData,
+from .maybe_create_projects_and_import_models_from_archive_body import (
+    MaybeCreateProjectsAndImportModelsFromArchiveBody,
 )
 from .message import Message
 from .message_audience import MessageAudience
@@ -223,7 +237,9 @@ from .project_user_share import ProjectUserShare
 from .projects_annotators import ProjectsAnnotators
 from .quality_figures import QualityFigures
 from .question_answering_params import QuestionAnsweringParams
-from .question_answering_params_language_detection import QuestionAnsweringParamsLanguageDetection
+from .question_answering_params_language_detection import (
+    QuestionAnsweringParamsLanguageDetection,
+)
 from .report import Report
 from .report_classes import ReportClasses
 from .request_jwt_token_project_access_mode import RequestJwtTokenProjectAccessMode
@@ -282,7 +298,7 @@ from .theme_id import ThemeId
 from .theme_media import ThemeMedia
 from .theme_update import ThemeUpdate
 from .update_theme_form import UpdateThemeForm
-from .upload_files_multipart_data import UploadFilesMultipartData
+from .upload_files_body import UploadFilesBody
 from .uploaded_file import UploadedFile
 from .uploaded_file_info import UploadedFileInfo
 from .user_group_ref import UserGroupRef
@@ -322,8 +338,8 @@ __all__ = (
     "Aggregation",
     "AltText",
     "AnnotateBinaryForm",
-    "AnnotateBinaryWithProjectAnnotatorMultipartData",
-    "AnnotateBinaryWithProjectMultipartData",
+    "AnnotateBinaryWithProjectAnnotatorBody",
+    "AnnotateBinaryWithProjectBody",
     "AnnotatedDocAltText",
     "AnnotatedDocAnnotation",
     "AnnotatedDocAnnotationCreationMode",
@@ -336,7 +352,7 @@ __all__ = (
     "AnnotatedDocument",
     "AnnotatedDocumentMetadata",
     "AnnotateDocumentsWithPipeline",
-    "AnnotateFormatBinaryWithProjectAnnotatorMultipartData",
+    "AnnotateFormatBinaryWithProjectAnnotatorBody",
     "AnnotateTextWithPipeline",
     "Annotation",
     "AnnotationCreationMode",
@@ -382,19 +398,19 @@ __all__ = (
     "CorpusMetrics",
     "CreatedByCount",
     "CreateLexiconResponse200",
-    "CreateProjectFromArchiveMultipartData",
-    "CreateTermJsonBody",
+    "CreateProjectFromArchiveBody",
+    "CreateTermBody",
     "CreateTermResponse200",
     "CreateThemeForm",
-    "CreateThemeFromArchiveMultipartData",
+    "CreateThemeFromArchiveBody",
     "Credentials",
     "DefaultAnnotationPlan",
     "DefaultProcessorContext",
     "DeleteGroupResult",
     "DeleteManyResponse",
     "DeleteResponse",
-    "DeprecatedAnnotateBinaryWithPlanRefMultipartData",
-    "DeprecatedAnnotateFormatBinaryWithPlanRefMultipartData",
+    "DeprecatedAnnotateBinaryWithPlanRefBody",
+    "DeprecatedAnnotateFormatBinaryWithPlanRefBody",
     "DocAltText",
     "DocAnnotation",
     "DocAnnotationCreationMode",
@@ -453,7 +469,7 @@ __all__ = (
     "HttpServiceMetadataOperations",
     "HttpServiceMetadataService",
     "HttpServiceRecord",
-    "ImportArchiveMultipartData",
+    "ImportArchiveBody",
     "ImportedDocAnnotation",
     "ImportedDocAnnotationCreationMode",
     "ImportedDocAnnotationProperties",
@@ -462,7 +478,7 @@ __all__ = (
     "ImportedDocCategoryProperties",
     "ImportedDocument",
     "ImportedDocumentMetadata",
-    "ImportModelsMultipartData",
+    "ImportModelsBody",
     "IndexDocumentIndexesItem",
     "InputDocument",
     "InputDocumentMetadata",
@@ -474,15 +490,15 @@ __all__ = (
     "LabelSet",
     "LabelSetUpdate",
     "LabelUpdate",
-    "LaunchDocumentImportMultipartData",
+    "LaunchDocumentImportBody",
     "LaunchDocumentImportSegmentationPolicy",
     "LaunchJsonDocumentsImportSegmentationPolicy",
-    "LaunchProjectRestorationFromBackupMultipartData",
+    "LaunchProjectRestorationFromBackupBody",
     "LaunchUploadedDocumentImportSegmentationPolicy",
     "Lexicon",
     "LexiconUpdate",
     "LocalizedMessage",
-    "MaybeCreateProjectsAndImportModelsFromArchiveMultipartData",
+    "MaybeCreateProjectsAndImportModelsFromArchiveBody",
     "Message",
     "MessageAudience",
     "MessageId",
@@ -596,7 +612,7 @@ __all__ = (
     "UpdateThemeForm",
     "UploadedFile",
     "UploadedFileInfo",
-    "UploadFilesMultipartData",
+    "UploadFilesBody",
     "UserGroupRef",
     "UserPermissionsUpdate",
     "UserProfile",

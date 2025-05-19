@@ -1,45 +1,44 @@
 from http import HTTPStatus
 from io import BytesIO
-from typing import Any, Dict, Optional
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...types import File, Response
 
 
 def _get_kwargs(
     theme_id: str,
-    *,
-    client: Client,
-) -> Dict[str, Any]:
-    url = "{}/themes/{themeId}/_export".format(client.base_url, themeId=theme_id)
+) -> dict[str, Any]:
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
+        "url": "/themes/{theme_id}/_export".format(
+            theme_id=theme_id,
+        ),
     }
 
+    return _kwargs
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[File]:
-    if response.status_code == HTTPStatus.OK:
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[File]:
+    if response.status_code == 200:
         response_200 = File(payload=BytesIO(response.content))
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[File]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[File]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -51,7 +50,7 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Fil
 def sync_detailed(
     theme_id: str,
     *,
-    client: Client,
+    client: Union[AuthenticatedClient, Client],
 ) -> Response[File]:
     """export the theme
 
@@ -68,11 +67,9 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         theme_id=theme_id,
-        client=client,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -82,7 +79,7 @@ def sync_detailed(
 def sync(
     theme_id: str,
     *,
-    client: Client,
+    client: Union[AuthenticatedClient, Client],
 ) -> Optional[File]:
     """export the theme
 
@@ -94,7 +91,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[File]
+        File
     """
 
     return sync_detailed(
@@ -106,7 +103,7 @@ def sync(
 async def asyncio_detailed(
     theme_id: str,
     *,
-    client: Client,
+    client: Union[AuthenticatedClient, Client],
 ) -> Response[File]:
     """export the theme
 
@@ -123,11 +120,9 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         theme_id=theme_id,
-        client=client,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -135,7 +130,7 @@ async def asyncio_detailed(
 async def asyncio(
     theme_id: str,
     *,
-    client: Client,
+    client: Union[AuthenticatedClient, Client],
 ) -> Optional[File]:
     """export the theme
 
@@ -147,7 +142,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[File]
+        File
     """
 
     return (

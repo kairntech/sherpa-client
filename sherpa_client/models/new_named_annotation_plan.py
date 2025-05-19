@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,28 +12,29 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="NewNamedAnnotationPlan")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class NewNamedAnnotationPlan:
     """
     Attributes:
         label (str):
         parameters (AnnotationPlan):
-        tags (Union[Unset, List[str]]):
+        tags (Union[Unset, list[str]]):
     """
 
     label: str
     parameters: "AnnotationPlan"
-    tags: Union[Unset, List[str]] = UNSET
+    tags: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         label = self.label
+
         parameters = self.parameters.to_dict()
 
-        tags: Union[Unset, List[str]] = UNSET
+        tags: Union[Unset, list[str]] = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "label": label,
@@ -45,15 +47,15 @@ class NewNamedAnnotationPlan:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.annotation_plan import AnnotationPlan
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         label = d.pop("label")
 
         parameters = AnnotationPlan.from_dict(d.pop("parameters"))
 
-        tags = cast(List[str], d.pop("tags", UNSET))
+        tags = cast(list[str], d.pop("tags", UNSET))
 
         new_named_annotation_plan = cls(
             label=label,

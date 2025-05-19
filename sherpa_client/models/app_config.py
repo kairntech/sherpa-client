@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="AppConfig")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class AppConfig:
     """
     Attributes:
@@ -26,20 +27,20 @@ class AppConfig:
     media: Union[Unset, "ThemeMedia"] = UNSET
     signin: Union[Unset, "SigninConfig"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        general: Union[Unset, Dict[str, Any]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        general: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.general, Unset):
             general = self.general.to_dict()
 
-        media: Union[Unset, Dict[str, Any]] = UNSET
+        media: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.media, Unset):
             media = self.media.to_dict()
 
-        signin: Union[Unset, Dict[str, Any]] = UNSET
+        signin: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.signin, Unset):
             signin = self.signin.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if general is not UNSET:
             field_dict["general"] = general
@@ -51,12 +52,12 @@ class AppConfig:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.general_config import GeneralConfig
         from ..models.signin_config import SigninConfig
         from ..models.theme_media import ThemeMedia
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         _general = d.pop("general", UNSET)
         general: Union[Unset, GeneralConfig]
         if isinstance(_general, Unset):

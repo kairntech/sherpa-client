@@ -1,6 +1,8 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
     from ..models.quality_figures import QualityFigures
@@ -9,28 +11,28 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="ReportClasses")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ReportClasses:
     """ """
 
-    additional_properties: Dict[str, "QualityFigures"] = attr.ib(init=False, factory=dict)
+    additional_properties: dict[str, "QualityFigures"] = _attrs_field(
+        init=False, factory=dict
+    )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         pass
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
             field_dict[prop_name] = prop.to_dict()
-
-        field_dict.update({})
 
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.quality_figures import QualityFigures
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         report_classes = cls()
 
         additional_properties = {}
@@ -43,7 +45,7 @@ class ReportClasses:
         return report_classes
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> "QualityFigures":

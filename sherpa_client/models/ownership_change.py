@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.user_group_ref import UserGroupRef
@@ -9,7 +10,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="OwnershipChange")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class OwnershipChange:
     """
     Attributes:
@@ -22,13 +23,14 @@ class OwnershipChange:
     project_name: str
     to: "UserGroupRef"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         from_ = self.from_.to_dict()
 
         project_name = self.project_name
+
         to = self.to.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "from": from_,
@@ -40,10 +42,10 @@ class OwnershipChange:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.user_group_ref import UserGroupRef
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         from_ = UserGroupRef.from_dict(d.pop("from"))
 
         project_name = d.pop("projectName")

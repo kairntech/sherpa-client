@@ -1,6 +1,7 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..models.group_desc_mapping_discriminator import GroupDescMappingDiscriminator
 from ..types import UNSET, Unset
@@ -8,7 +9,7 @@ from ..types import UNSET, Unset
 T = TypeVar("T", bound="GroupDesc")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class GroupDesc:
     """
     Attributes:
@@ -16,7 +17,7 @@ class GroupDesc:
         login_allowed (bool):
         max_users (int):
         name (str):
-        attached_roles (Union[Unset, List[str]]):
+        attached_roles (Union[Unset, list[str]]):
         created_at (Union[Unset, str]):
         created_by (Union[Unset, str]):
         identifier (Union[Unset, str]):
@@ -26,14 +27,14 @@ class GroupDesc:
         max_projects_per_user (Union[Unset, int]):
         modified_at (Union[Unset, str]):
         modified_by (Union[Unset, str]):
-        system_attached_roles (Union[Unset, List[str]]):
+        system_attached_roles (Union[Unset, list[str]]):
     """
 
     label: str
     login_allowed: bool
     max_users: int
     name: str
-    attached_roles: Union[Unset, List[str]] = UNSET
+    attached_roles: Union[Unset, list[str]] = UNSET
     created_at: Union[Unset, str] = UNSET
     created_by: Union[Unset, str] = UNSET
     identifier: Union[Unset, str] = UNSET
@@ -43,34 +44,46 @@ class GroupDesc:
     max_projects_per_user: Union[Unset, int] = UNSET
     modified_at: Union[Unset, str] = UNSET
     modified_by: Union[Unset, str] = UNSET
-    system_attached_roles: Union[Unset, List[str]] = UNSET
+    system_attached_roles: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         label = self.label
+
         login_allowed = self.login_allowed
+
         max_users = self.max_users
+
         name = self.name
-        attached_roles: Union[Unset, List[str]] = UNSET
+
+        attached_roles: Union[Unset, list[str]] = UNSET
         if not isinstance(self.attached_roles, Unset):
             attached_roles = self.attached_roles
 
         created_at = self.created_at
+
         created_by = self.created_by
+
         identifier = self.identifier
+
         mapping_discriminator: Union[Unset, str] = UNSET
         if not isinstance(self.mapping_discriminator, Unset):
             mapping_discriminator = self.mapping_discriminator.value
 
         max_docs_per_project = self.max_docs_per_project
+
         max_projects = self.max_projects
+
         max_projects_per_user = self.max_projects_per_user
+
         modified_at = self.modified_at
+
         modified_by = self.modified_by
-        system_attached_roles: Union[Unset, List[str]] = UNSET
+
+        system_attached_roles: Union[Unset, list[str]] = UNSET
         if not isinstance(self.system_attached_roles, Unset):
             system_attached_roles = self.system_attached_roles
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "label": label,
@@ -105,8 +118,8 @@ class GroupDesc:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         label = d.pop("label")
 
         login_allowed = d.pop("loginAllowed")
@@ -115,7 +128,7 @@ class GroupDesc:
 
         name = d.pop("name")
 
-        attached_roles = cast(List[str], d.pop("attachedRoles", UNSET))
+        attached_roles = cast(list[str], d.pop("attachedRoles", UNSET))
 
         created_at = d.pop("createdAt", UNSET)
 
@@ -128,7 +141,9 @@ class GroupDesc:
         if isinstance(_mapping_discriminator, Unset):
             mapping_discriminator = UNSET
         else:
-            mapping_discriminator = GroupDescMappingDiscriminator(_mapping_discriminator)
+            mapping_discriminator = GroupDescMappingDiscriminator(
+                _mapping_discriminator
+            )
 
         max_docs_per_project = d.pop("maxDocsPerProject", UNSET)
 
@@ -140,7 +155,7 @@ class GroupDesc:
 
         modified_by = d.pop("modifiedBy", UNSET)
 
-        system_attached_roles = cast(List[str], d.pop("systemAttachedRoles", UNSET))
+        system_attached_roles = cast(list[str], d.pop("systemAttachedRoles", UNSET))
 
         group_desc = cls(
             label=label,

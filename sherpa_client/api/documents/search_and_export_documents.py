@@ -1,10 +1,10 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.document import Document
 from ...types import UNSET, Response, Unset
 
@@ -12,32 +12,25 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     project_name: str,
     *,
-    client: Client,
-    query: Union[Unset, None, str] = "",
-    query_filter: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = "",
-) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/documents/_search_and_export".format(client.base_url, projectName=project_name)
+    query: Union[Unset, str] = "",
+    query_filter: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
+    output_fields: Union[Unset, str] = "",
+) -> dict[str, Any]:
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["query"] = query
 
     params["queryFilter"] = query_filter
 
     params["simpleQuery"] = simple_query
 
-    json_selected_facets: Union[Unset, None, List[str]] = UNSET
+    json_selected_facets: Union[Unset, list[str]] = UNSET
     if not isinstance(selected_facets, Unset):
-        if selected_facets is None:
-            json_selected_facets = None
-        else:
-            json_selected_facets = selected_facets
+        json_selected_facets = selected_facets
 
     params["selectedFacets"] = json_selected_facets
 
@@ -47,33 +40,40 @@ def _get_kwargs(
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
+        "url": "/projects/{project_name}/documents/_search_and_export".format(
+            project_name=project_name,
+        ),
         "params": params,
     }
 
+    return _kwargs
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[List["Document"]]:
-    if response.status_code == HTTPStatus.OK:
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[list["Document"]]:
+    if response.status_code == 200:
         response_200 = []
         _response_200 = response.json()
         for componentsschemas_document_array_item_data in _response_200:
-            componentsschemas_document_array_item = Document.from_dict(componentsschemas_document_array_item_data)
+            componentsschemas_document_array_item = Document.from_dict(
+                componentsschemas_document_array_item_data
+            )
 
             response_200.append(componentsschemas_document_array_item)
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[List["Document"]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[list["Document"]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -85,36 +85,35 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Lis
 def sync_detailed(
     project_name: str,
     *,
-    client: Client,
-    query: Union[Unset, None, str] = "",
-    query_filter: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = "",
-) -> Response[List["Document"]]:
+    client: Union[AuthenticatedClient, Client],
+    query: Union[Unset, str] = "",
+    query_filter: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
+    output_fields: Union[Unset, str] = "",
+) -> Response[list["Document"]]:
     """Search for documents and export them
 
     Args:
         project_name (str):
-        query (Union[Unset, None, str]):  Default: ''.
-        query_filter (Union[Unset, None, str]):  Default: ''.
-        simple_query (Union[Unset, None, bool]):
-        selected_facets (Union[Unset, None, List[str]]):
-        invert_search (Union[Unset, None, bool]):
-        output_fields (Union[Unset, None, str]):  Default: ''.
+        query (Union[Unset, str]):  Default: ''.
+        query_filter (Union[Unset, str]):  Default: ''.
+        simple_query (Union[Unset, bool]):  Default: False.
+        selected_facets (Union[Unset, list[str]]):
+        invert_search (Union[Unset, bool]):  Default: False.
+        output_fields (Union[Unset, str]):  Default: ''.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['Document']]
+        Response[list['Document']]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
         query=query,
         query_filter=query_filter,
         simple_query=simple_query,
@@ -123,8 +122,7 @@ def sync_detailed(
         output_fields=output_fields,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -134,31 +132,31 @@ def sync_detailed(
 def sync(
     project_name: str,
     *,
-    client: Client,
-    query: Union[Unset, None, str] = "",
-    query_filter: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = "",
-) -> Optional[List["Document"]]:
+    client: Union[AuthenticatedClient, Client],
+    query: Union[Unset, str] = "",
+    query_filter: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
+    output_fields: Union[Unset, str] = "",
+) -> Optional[list["Document"]]:
     """Search for documents and export them
 
     Args:
         project_name (str):
-        query (Union[Unset, None, str]):  Default: ''.
-        query_filter (Union[Unset, None, str]):  Default: ''.
-        simple_query (Union[Unset, None, bool]):
-        selected_facets (Union[Unset, None, List[str]]):
-        invert_search (Union[Unset, None, bool]):
-        output_fields (Union[Unset, None, str]):  Default: ''.
+        query (Union[Unset, str]):  Default: ''.
+        query_filter (Union[Unset, str]):  Default: ''.
+        simple_query (Union[Unset, bool]):  Default: False.
+        selected_facets (Union[Unset, list[str]]):
+        invert_search (Union[Unset, bool]):  Default: False.
+        output_fields (Union[Unset, str]):  Default: ''.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['Document']]
+        list['Document']
     """
 
     return sync_detailed(
@@ -176,36 +174,35 @@ def sync(
 async def asyncio_detailed(
     project_name: str,
     *,
-    client: Client,
-    query: Union[Unset, None, str] = "",
-    query_filter: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = "",
-) -> Response[List["Document"]]:
+    client: Union[AuthenticatedClient, Client],
+    query: Union[Unset, str] = "",
+    query_filter: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
+    output_fields: Union[Unset, str] = "",
+) -> Response[list["Document"]]:
     """Search for documents and export them
 
     Args:
         project_name (str):
-        query (Union[Unset, None, str]):  Default: ''.
-        query_filter (Union[Unset, None, str]):  Default: ''.
-        simple_query (Union[Unset, None, bool]):
-        selected_facets (Union[Unset, None, List[str]]):
-        invert_search (Union[Unset, None, bool]):
-        output_fields (Union[Unset, None, str]):  Default: ''.
+        query (Union[Unset, str]):  Default: ''.
+        query_filter (Union[Unset, str]):  Default: ''.
+        simple_query (Union[Unset, bool]):  Default: False.
+        selected_facets (Union[Unset, list[str]]):
+        invert_search (Union[Unset, bool]):  Default: False.
+        output_fields (Union[Unset, str]):  Default: ''.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['Document']]
+        Response[list['Document']]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
         query=query,
         query_filter=query_filter,
         simple_query=simple_query,
@@ -214,8 +211,7 @@ async def asyncio_detailed(
         output_fields=output_fields,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -223,31 +219,31 @@ async def asyncio_detailed(
 async def asyncio(
     project_name: str,
     *,
-    client: Client,
-    query: Union[Unset, None, str] = "",
-    query_filter: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
-    output_fields: Union[Unset, None, str] = "",
-) -> Optional[List["Document"]]:
+    client: Union[AuthenticatedClient, Client],
+    query: Union[Unset, str] = "",
+    query_filter: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
+    output_fields: Union[Unset, str] = "",
+) -> Optional[list["Document"]]:
     """Search for documents and export them
 
     Args:
         project_name (str):
-        query (Union[Unset, None, str]):  Default: ''.
-        query_filter (Union[Unset, None, str]):  Default: ''.
-        simple_query (Union[Unset, None, bool]):
-        selected_facets (Union[Unset, None, List[str]]):
-        invert_search (Union[Unset, None, bool]):
-        output_fields (Union[Unset, None, str]):  Default: ''.
+        query (Union[Unset, str]):  Default: ''.
+        query_filter (Union[Unset, str]):  Default: ''.
+        simple_query (Union[Unset, bool]):  Default: False.
+        selected_facets (Union[Unset, list[str]]):
+        invert_search (Union[Unset, bool]):  Default: False.
+        output_fields (Union[Unset, str]):  Default: ''.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['Document']]
+        list['Document']
     """
 
     return (

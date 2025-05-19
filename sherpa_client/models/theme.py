@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,7 +12,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="Theme")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Theme:
     """
     Attributes:
@@ -32,17 +33,22 @@ class Theme:
     modified_at: Union[Unset, str] = UNSET
     modified_by: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         config = self.config.to_dict()
 
         id = self.id
+
         label = self.label
+
         created_at = self.created_at
+
         created_by = self.created_by
+
         modified_at = self.modified_at
+
         modified_by = self.modified_by
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "config": config,
@@ -62,10 +68,10 @@ class Theme:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.theme_config import ThemeConfig
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         config = ThemeConfig.from_dict(d.pop("config"))
 
         id = d.pop("id")

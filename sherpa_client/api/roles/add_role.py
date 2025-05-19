@@ -1,10 +1,10 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.new_role import NewRole
 from ...models.role_desc import RoleDesc
 from ...types import UNSET, Response, Unset
@@ -12,48 +12,51 @@ from ...types import UNSET, Response, Unset
 
 def _get_kwargs(
     *,
-    client: Client,
-    json_body: NewRole,
-    group_name: Union[Unset, None, str] = "",
-    restricted: Union[Unset, None, bool] = False,
-) -> Dict[str, Any]:
-    url = "{}/roles".format(client.base_url)
+    body: NewRole,
+    group_name: Union[Unset, str] = "",
+    restricted: Union[Unset, bool] = False,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["groupName"] = group_name
 
     params["restricted"] = restricted
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
-        "json": json_json_body,
+        "url": "/roles",
         "params": params,
     }
 
+    _body = body.to_dict()
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[RoleDesc]:
-    if response.status_code == HTTPStatus.OK:
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[RoleDesc]:
+    if response.status_code == 200:
         response_200 = RoleDesc.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[RoleDesc]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[RoleDesc]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -64,17 +67,17 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Rol
 
 def sync_detailed(
     *,
-    client: Client,
-    json_body: NewRole,
-    group_name: Union[Unset, None, str] = "",
-    restricted: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    body: NewRole,
+    group_name: Union[Unset, str] = "",
+    restricted: Union[Unset, bool] = False,
 ) -> Response[RoleDesc]:
     """Create role
 
     Args:
-        group_name (Union[Unset, None, str]):  Default: ''.
-        restricted (Union[Unset, None, bool]):
-        json_body (NewRole):
+        group_name (Union[Unset, str]):  Default: ''.
+        restricted (Union[Unset, bool]):  Default: False.
+        body (NewRole):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -85,14 +88,12 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        json_body=json_body,
+        body=body,
         group_name=group_name,
         restricted=restricted,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -101,29 +102,29 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Client,
-    json_body: NewRole,
-    group_name: Union[Unset, None, str] = "",
-    restricted: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    body: NewRole,
+    group_name: Union[Unset, str] = "",
+    restricted: Union[Unset, bool] = False,
 ) -> Optional[RoleDesc]:
     """Create role
 
     Args:
-        group_name (Union[Unset, None, str]):  Default: ''.
-        restricted (Union[Unset, None, bool]):
-        json_body (NewRole):
+        group_name (Union[Unset, str]):  Default: ''.
+        restricted (Union[Unset, bool]):  Default: False.
+        body (NewRole):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[RoleDesc]
+        RoleDesc
     """
 
     return sync_detailed(
         client=client,
-        json_body=json_body,
+        body=body,
         group_name=group_name,
         restricted=restricted,
     ).parsed
@@ -131,17 +132,17 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Client,
-    json_body: NewRole,
-    group_name: Union[Unset, None, str] = "",
-    restricted: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    body: NewRole,
+    group_name: Union[Unset, str] = "",
+    restricted: Union[Unset, bool] = False,
 ) -> Response[RoleDesc]:
     """Create role
 
     Args:
-        group_name (Union[Unset, None, str]):  Default: ''.
-        restricted (Union[Unset, None, bool]):
-        json_body (NewRole):
+        group_name (Union[Unset, str]):  Default: ''.
+        restricted (Union[Unset, bool]):  Default: False.
+        body (NewRole):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -152,44 +153,42 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        json_body=json_body,
+        body=body,
         group_name=group_name,
         restricted=restricted,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
 
 async def asyncio(
     *,
-    client: Client,
-    json_body: NewRole,
-    group_name: Union[Unset, None, str] = "",
-    restricted: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    body: NewRole,
+    group_name: Union[Unset, str] = "",
+    restricted: Union[Unset, bool] = False,
 ) -> Optional[RoleDesc]:
     """Create role
 
     Args:
-        group_name (Union[Unset, None, str]):  Default: ''.
-        restricted (Union[Unset, None, bool]):
-        json_body (NewRole):
+        group_name (Union[Unset, str]):  Default: ''.
+        restricted (Union[Unset, bool]):  Default: False.
+        body (NewRole):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[RoleDesc]
+        RoleDesc
     """
 
     return (
         await asyncio_detailed(
             client=client,
-            json_body=json_body,
+            body=body,
             group_name=group_name,
             restricted=restricted,
         )

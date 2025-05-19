@@ -1,13 +1,13 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.annotated_document import AnnotatedDocument
-from ...models.deprecated_annotate_binary_with_plan_ref_multipart_data import (
-    DeprecatedAnnotateBinaryWithPlanRefMultipartData,
+from ...models.deprecated_annotate_binary_with_plan_ref_body import (
+    DeprecatedAnnotateBinaryWithPlanRefBody,
 )
 from ...types import UNSET, Response, Unset
 
@@ -16,24 +16,19 @@ def _get_kwargs(
     project_name: str,
     plan_name: str,
     *,
-    client: Client,
-    multipart_data: DeprecatedAnnotateBinaryWithPlanRefMultipartData,
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
-    output_fields: Union[Unset, None, str] = UNSET,
-) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/plans/{planName}/_annotate_binary".format(
-        client.base_url, projectName=project_name, planName=plan_name
-    )
+    body: DeprecatedAnnotateBinaryWithPlanRefBody,
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
+    output_fields: Union[Unset, str] = UNSET,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["inlineLabels"] = inline_labels
 
     params["inlineLabelIds"] = inline_label_ids
@@ -50,38 +45,48 @@ def _get_kwargs(
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    multipart_multipart_data = multipart_data.to_multipart()
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
-        "files": multipart_multipart_data,
+        "url": "/projects/{project_name}/plans/{plan_name}/_annotate_binary".format(
+            project_name=project_name,
+            plan_name=plan_name,
+        ),
         "params": params,
     }
 
+    _body = body.to_multipart()
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[List["AnnotatedDocument"]]:
-    if response.status_code == HTTPStatus.OK:
+    _kwargs["files"] = _body
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[list["AnnotatedDocument"]]:
+    if response.status_code == 200:
         response_200 = []
         _response_200 = response.json()
         for componentsschemas_annotated_document_array_item_data in _response_200:
-            componentsschemas_annotated_document_array_item = AnnotatedDocument.from_dict(
-                componentsschemas_annotated_document_array_item_data
+            componentsschemas_annotated_document_array_item = (
+                AnnotatedDocument.from_dict(
+                    componentsschemas_annotated_document_array_item_data
+                )
             )
 
             response_200.append(componentsschemas_annotated_document_array_item)
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[List["AnnotatedDocument"]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[list["AnnotatedDocument"]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -94,44 +99,43 @@ def sync_detailed(
     project_name: str,
     plan_name: str,
     *,
-    client: Client,
-    multipart_data: DeprecatedAnnotateBinaryWithPlanRefMultipartData,
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
-    output_fields: Union[Unset, None, str] = UNSET,
-) -> Response[List["AnnotatedDocument"]]:
+    client: Union[AuthenticatedClient, Client],
+    body: DeprecatedAnnotateBinaryWithPlanRefBody,
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
+    output_fields: Union[Unset, str] = UNSET,
+) -> Response[list["AnnotatedDocument"]]:
     """annotate a binary document with multiple annotators (replaced with
     /projects/{projectName}/annotators/{annotator}/_annotate_binary)
 
     Args:
         project_name (str):
         plan_name (str):
-        inline_labels (Union[Unset, None, bool]):  Default: True.
-        inline_label_ids (Union[Unset, None, bool]):  Default: True.
-        inline_text (Union[Unset, None, bool]):  Default: True.
-        debug (Union[Unset, None, bool]):
-        parallelize (Union[Unset, None, bool]):
-        error_policy (Union[Unset, None, str]):
-        output_fields (Union[Unset, None, str]):
-        multipart_data (DeprecatedAnnotateBinaryWithPlanRefMultipartData):
+        inline_labels (Union[Unset, bool]):  Default: True.
+        inline_label_ids (Union[Unset, bool]):  Default: True.
+        inline_text (Union[Unset, bool]):  Default: True.
+        debug (Union[Unset, bool]):  Default: False.
+        parallelize (Union[Unset, bool]):  Default: False.
+        error_policy (Union[Unset, str]):
+        output_fields (Union[Unset, str]):
+        body (DeprecatedAnnotateBinaryWithPlanRefBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['AnnotatedDocument']]
+        Response[list['AnnotatedDocument']]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
         plan_name=plan_name,
-        client=client,
-        multipart_data=multipart_data,
+        body=body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
@@ -141,8 +145,7 @@ def sync_detailed(
         output_fields=output_fields,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -153,44 +156,44 @@ def sync(
     project_name: str,
     plan_name: str,
     *,
-    client: Client,
-    multipart_data: DeprecatedAnnotateBinaryWithPlanRefMultipartData,
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
-    output_fields: Union[Unset, None, str] = UNSET,
-) -> Optional[List["AnnotatedDocument"]]:
+    client: Union[AuthenticatedClient, Client],
+    body: DeprecatedAnnotateBinaryWithPlanRefBody,
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
+    output_fields: Union[Unset, str] = UNSET,
+) -> Optional[list["AnnotatedDocument"]]:
     """annotate a binary document with multiple annotators (replaced with
     /projects/{projectName}/annotators/{annotator}/_annotate_binary)
 
     Args:
         project_name (str):
         plan_name (str):
-        inline_labels (Union[Unset, None, bool]):  Default: True.
-        inline_label_ids (Union[Unset, None, bool]):  Default: True.
-        inline_text (Union[Unset, None, bool]):  Default: True.
-        debug (Union[Unset, None, bool]):
-        parallelize (Union[Unset, None, bool]):
-        error_policy (Union[Unset, None, str]):
-        output_fields (Union[Unset, None, str]):
-        multipart_data (DeprecatedAnnotateBinaryWithPlanRefMultipartData):
+        inline_labels (Union[Unset, bool]):  Default: True.
+        inline_label_ids (Union[Unset, bool]):  Default: True.
+        inline_text (Union[Unset, bool]):  Default: True.
+        debug (Union[Unset, bool]):  Default: False.
+        parallelize (Union[Unset, bool]):  Default: False.
+        error_policy (Union[Unset, str]):
+        output_fields (Union[Unset, str]):
+        body (DeprecatedAnnotateBinaryWithPlanRefBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['AnnotatedDocument']]
+        list['AnnotatedDocument']
     """
 
     return sync_detailed(
         project_name=project_name,
         plan_name=plan_name,
         client=client,
-        multipart_data=multipart_data,
+        body=body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
@@ -205,44 +208,43 @@ async def asyncio_detailed(
     project_name: str,
     plan_name: str,
     *,
-    client: Client,
-    multipart_data: DeprecatedAnnotateBinaryWithPlanRefMultipartData,
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
-    output_fields: Union[Unset, None, str] = UNSET,
-) -> Response[List["AnnotatedDocument"]]:
+    client: Union[AuthenticatedClient, Client],
+    body: DeprecatedAnnotateBinaryWithPlanRefBody,
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
+    output_fields: Union[Unset, str] = UNSET,
+) -> Response[list["AnnotatedDocument"]]:
     """annotate a binary document with multiple annotators (replaced with
     /projects/{projectName}/annotators/{annotator}/_annotate_binary)
 
     Args:
         project_name (str):
         plan_name (str):
-        inline_labels (Union[Unset, None, bool]):  Default: True.
-        inline_label_ids (Union[Unset, None, bool]):  Default: True.
-        inline_text (Union[Unset, None, bool]):  Default: True.
-        debug (Union[Unset, None, bool]):
-        parallelize (Union[Unset, None, bool]):
-        error_policy (Union[Unset, None, str]):
-        output_fields (Union[Unset, None, str]):
-        multipart_data (DeprecatedAnnotateBinaryWithPlanRefMultipartData):
+        inline_labels (Union[Unset, bool]):  Default: True.
+        inline_label_ids (Union[Unset, bool]):  Default: True.
+        inline_text (Union[Unset, bool]):  Default: True.
+        debug (Union[Unset, bool]):  Default: False.
+        parallelize (Union[Unset, bool]):  Default: False.
+        error_policy (Union[Unset, str]):
+        output_fields (Union[Unset, str]):
+        body (DeprecatedAnnotateBinaryWithPlanRefBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['AnnotatedDocument']]
+        Response[list['AnnotatedDocument']]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
         plan_name=plan_name,
-        client=client,
-        multipart_data=multipart_data,
+        body=body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
@@ -252,8 +254,7 @@ async def asyncio_detailed(
         output_fields=output_fields,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -262,37 +263,37 @@ async def asyncio(
     project_name: str,
     plan_name: str,
     *,
-    client: Client,
-    multipart_data: DeprecatedAnnotateBinaryWithPlanRefMultipartData,
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
-    output_fields: Union[Unset, None, str] = UNSET,
-) -> Optional[List["AnnotatedDocument"]]:
+    client: Union[AuthenticatedClient, Client],
+    body: DeprecatedAnnotateBinaryWithPlanRefBody,
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
+    output_fields: Union[Unset, str] = UNSET,
+) -> Optional[list["AnnotatedDocument"]]:
     """annotate a binary document with multiple annotators (replaced with
     /projects/{projectName}/annotators/{annotator}/_annotate_binary)
 
     Args:
         project_name (str):
         plan_name (str):
-        inline_labels (Union[Unset, None, bool]):  Default: True.
-        inline_label_ids (Union[Unset, None, bool]):  Default: True.
-        inline_text (Union[Unset, None, bool]):  Default: True.
-        debug (Union[Unset, None, bool]):
-        parallelize (Union[Unset, None, bool]):
-        error_policy (Union[Unset, None, str]):
-        output_fields (Union[Unset, None, str]):
-        multipart_data (DeprecatedAnnotateBinaryWithPlanRefMultipartData):
+        inline_labels (Union[Unset, bool]):  Default: True.
+        inline_label_ids (Union[Unset, bool]):  Default: True.
+        inline_text (Union[Unset, bool]):  Default: True.
+        debug (Union[Unset, bool]):  Default: False.
+        parallelize (Union[Unset, bool]):  Default: False.
+        error_policy (Union[Unset, str]):
+        output_fields (Union[Unset, str]):
+        body (DeprecatedAnnotateBinaryWithPlanRefBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['AnnotatedDocument']]
+        list['AnnotatedDocument']
     """
 
     return (
@@ -300,7 +301,7 @@ async def asyncio(
             project_name=project_name,
             plan_name=plan_name,
             client=client,
-            multipart_data=multipart_data,
+            body=body,
             inline_labels=inline_labels,
             inline_label_ids=inline_label_ids,
             inline_text=inline_text,

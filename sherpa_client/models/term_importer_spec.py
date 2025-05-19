@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.term_importer_spec_parameters import TermImporterSpecParameters
@@ -9,7 +10,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="TermImporterSpec")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class TermImporterSpec:
     """
     Attributes:
@@ -20,11 +21,12 @@ class TermImporterSpec:
     format_: str
     parameters: "TermImporterSpecParameters"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         format_ = self.format_
+
         parameters = self.parameters.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "format": format_,
@@ -35,10 +37,10 @@ class TermImporterSpec:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.term_importer_spec_parameters import TermImporterSpecParameters
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         format_ = d.pop("format")
 
         parameters = TermImporterSpecParameters.from_dict(d.pop("parameters"))

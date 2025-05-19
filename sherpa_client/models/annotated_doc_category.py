@@ -1,18 +1,23 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
-from ..models.annotated_doc_category_creation_mode import AnnotatedDocCategoryCreationMode
+from ..models.annotated_doc_category_creation_mode import (
+    AnnotatedDocCategoryCreationMode,
+)
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.annotated_doc_category_properties import AnnotatedDocCategoryProperties
+    from ..models.annotated_doc_category_properties import (
+        AnnotatedDocCategoryProperties,
+    )
 
 
 T = TypeVar("T", bound="AnnotatedDocCategory")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class AnnotatedDocCategory:
     """A document category
 
@@ -32,21 +37,24 @@ class AnnotatedDocCategory:
     properties: Union[Unset, "AnnotatedDocCategoryProperties"] = UNSET
     score: Union[Unset, float] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         label_name = self.label_name
+
         creation_mode: Union[Unset, str] = UNSET
         if not isinstance(self.creation_mode, Unset):
             creation_mode = self.creation_mode.value
 
         label = self.label
+
         label_id = self.label_id
-        properties: Union[Unset, Dict[str, Any]] = UNSET
+
+        properties: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.properties, Unset):
             properties = self.properties.to_dict()
 
         score = self.score
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "labelName": label_name,
@@ -66,10 +74,12 @@ class AnnotatedDocCategory:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.annotated_doc_category_properties import AnnotatedDocCategoryProperties
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.annotated_doc_category_properties import (
+            AnnotatedDocCategoryProperties,
+        )
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         label_name = d.pop("labelName")
 
         _creation_mode = d.pop("creationMode", UNSET)

@@ -1,10 +1,10 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.find_similar_segments_search_type import FindSimilarSegmentsSearchType
 from ...models.segment_hits import SegmentHits
 from ...types import UNSET, Response, Unset
@@ -13,31 +13,29 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     project_name: str,
     *,
-    client: Client,
-    segid: Union[Unset, None, str] = "",
-    text: Union[Unset, None, str] = "",
-    fields: Union[Unset, None, str] = "",
-    from_: Union[Unset, None, int] = 0,
-    size: Union[Unset, None, int] = 10,
-    highlight: Union[Unset, None, bool] = False,
-    facet: Union[Unset, None, bool] = False,
-    query_filter: Union[Unset, None, str] = "",
-    output_fields: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
-    search_type: Union[Unset, None, FindSimilarSegmentsSearchType] = FindSimilarSegmentsSearchType.TEXT,
-    native_rrf: Union[Unset, None, bool] = UNSET,
-    vectorizer: Union[Unset, None, str] = UNSET,
-    vector_query: Union[Unset, None, str] = "",
-    html_version: Union[Unset, None, bool] = False,
-) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/segments/_similar".format(client.base_url, projectName=project_name)
+    segid: Union[Unset, str] = "",
+    text: Union[Unset, str] = "",
+    fields: Union[Unset, str] = "",
+    from_: Union[Unset, int] = 0,
+    size: Union[Unset, int] = 10,
+    highlight: Union[Unset, bool] = False,
+    facet: Union[Unset, bool] = False,
+    query_filter: Union[Unset, str] = "",
+    output_fields: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
+    search_type: Union[
+        Unset, FindSimilarSegmentsSearchType
+    ] = FindSimilarSegmentsSearchType.TEXT,
+    native_rrf: Union[Unset, bool] = UNSET,
+    vectorizer: Union[Unset, str] = UNSET,
+    vector_query: Union[Unset, str] = "",
+    html_version: Union[Unset, bool] = False,
+) -> dict[str, Any]:
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["segid"] = segid
 
     params["text"] = text
@@ -58,20 +56,17 @@ def _get_kwargs(
 
     params["simpleQuery"] = simple_query
 
-    json_selected_facets: Union[Unset, None, List[str]] = UNSET
+    json_selected_facets: Union[Unset, list[str]] = UNSET
     if not isinstance(selected_facets, Unset):
-        if selected_facets is None:
-            json_selected_facets = None
-        else:
-            json_selected_facets = selected_facets
+        json_selected_facets = selected_facets
 
     params["selectedFacets"] = json_selected_facets
 
     params["invertSearch"] = invert_search
 
-    json_search_type: Union[Unset, None, str] = UNSET
+    json_search_type: Union[Unset, str] = UNSET
     if not isinstance(search_type, Unset):
-        json_search_type = search_type.value if search_type else None
+        json_search_type = search_type.value
 
     params["searchType"] = json_search_type
 
@@ -85,28 +80,33 @@ def _get_kwargs(
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
+        "url": "/projects/{project_name}/segments/_similar".format(
+            project_name=project_name,
+        ),
         "params": params,
     }
 
+    return _kwargs
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[SegmentHits]:
-    if response.status_code == HTTPStatus.OK:
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[SegmentHits]:
+    if response.status_code == 200:
         response_200 = SegmentHits.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[SegmentHits]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[SegmentHits]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -118,47 +118,49 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Seg
 def sync_detailed(
     project_name: str,
     *,
-    client: Client,
-    segid: Union[Unset, None, str] = "",
-    text: Union[Unset, None, str] = "",
-    fields: Union[Unset, None, str] = "",
-    from_: Union[Unset, None, int] = 0,
-    size: Union[Unset, None, int] = 10,
-    highlight: Union[Unset, None, bool] = False,
-    facet: Union[Unset, None, bool] = False,
-    query_filter: Union[Unset, None, str] = "",
-    output_fields: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
-    search_type: Union[Unset, None, FindSimilarSegmentsSearchType] = FindSimilarSegmentsSearchType.TEXT,
-    native_rrf: Union[Unset, None, bool] = UNSET,
-    vectorizer: Union[Unset, None, str] = UNSET,
-    vector_query: Union[Unset, None, str] = "",
-    html_version: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    segid: Union[Unset, str] = "",
+    text: Union[Unset, str] = "",
+    fields: Union[Unset, str] = "",
+    from_: Union[Unset, int] = 0,
+    size: Union[Unset, int] = 10,
+    highlight: Union[Unset, bool] = False,
+    facet: Union[Unset, bool] = False,
+    query_filter: Union[Unset, str] = "",
+    output_fields: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
+    search_type: Union[
+        Unset, FindSimilarSegmentsSearchType
+    ] = FindSimilarSegmentsSearchType.TEXT,
+    native_rrf: Union[Unset, bool] = UNSET,
+    vectorizer: Union[Unset, str] = UNSET,
+    vector_query: Union[Unset, str] = "",
+    html_version: Union[Unset, bool] = False,
 ) -> Response[SegmentHits]:
     """Search for similar segments
 
     Args:
         project_name (str):
-        segid (Union[Unset, None, str]):  Default: ''.
-        text (Union[Unset, None, str]):  Default: ''.
-        fields (Union[Unset, None, str]):  Default: ''.
-        from_ (Union[Unset, None, int]):
-        size (Union[Unset, None, int]):  Default: 10.
-        highlight (Union[Unset, None, bool]):
-        facet (Union[Unset, None, bool]):
-        query_filter (Union[Unset, None, str]):  Default: ''.
-        output_fields (Union[Unset, None, str]):  Default: ''.
-        simple_query (Union[Unset, None, bool]):
-        selected_facets (Union[Unset, None, List[str]]):
-        invert_search (Union[Unset, None, bool]):
-        search_type (Union[Unset, None, FindSimilarSegmentsSearchType]):  Default:
+        segid (Union[Unset, str]):  Default: ''.
+        text (Union[Unset, str]):  Default: ''.
+        fields (Union[Unset, str]):  Default: ''.
+        from_ (Union[Unset, int]):  Default: 0.
+        size (Union[Unset, int]):  Default: 10.
+        highlight (Union[Unset, bool]):  Default: False.
+        facet (Union[Unset, bool]):  Default: False.
+        query_filter (Union[Unset, str]):  Default: ''.
+        output_fields (Union[Unset, str]):  Default: ''.
+        simple_query (Union[Unset, bool]):  Default: False.
+        selected_facets (Union[Unset, list[str]]):
+        invert_search (Union[Unset, bool]):  Default: False.
+        search_type (Union[Unset, FindSimilarSegmentsSearchType]):  Default:
             FindSimilarSegmentsSearchType.TEXT.
-        native_rrf (Union[Unset, None, bool]):
-        vectorizer (Union[Unset, None, str]):
-        vector_query (Union[Unset, None, str]):  Default: ''.
-        html_version (Union[Unset, None, bool]):
+        native_rrf (Union[Unset, bool]):
+        vectorizer (Union[Unset, str]):
+        vector_query (Union[Unset, str]):  Default: ''.
+        html_version (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -170,7 +172,6 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
         segid=segid,
         text=text,
         fields=fields,
@@ -190,8 +191,7 @@ def sync_detailed(
         html_version=html_version,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -201,54 +201,56 @@ def sync_detailed(
 def sync(
     project_name: str,
     *,
-    client: Client,
-    segid: Union[Unset, None, str] = "",
-    text: Union[Unset, None, str] = "",
-    fields: Union[Unset, None, str] = "",
-    from_: Union[Unset, None, int] = 0,
-    size: Union[Unset, None, int] = 10,
-    highlight: Union[Unset, None, bool] = False,
-    facet: Union[Unset, None, bool] = False,
-    query_filter: Union[Unset, None, str] = "",
-    output_fields: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
-    search_type: Union[Unset, None, FindSimilarSegmentsSearchType] = FindSimilarSegmentsSearchType.TEXT,
-    native_rrf: Union[Unset, None, bool] = UNSET,
-    vectorizer: Union[Unset, None, str] = UNSET,
-    vector_query: Union[Unset, None, str] = "",
-    html_version: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    segid: Union[Unset, str] = "",
+    text: Union[Unset, str] = "",
+    fields: Union[Unset, str] = "",
+    from_: Union[Unset, int] = 0,
+    size: Union[Unset, int] = 10,
+    highlight: Union[Unset, bool] = False,
+    facet: Union[Unset, bool] = False,
+    query_filter: Union[Unset, str] = "",
+    output_fields: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
+    search_type: Union[
+        Unset, FindSimilarSegmentsSearchType
+    ] = FindSimilarSegmentsSearchType.TEXT,
+    native_rrf: Union[Unset, bool] = UNSET,
+    vectorizer: Union[Unset, str] = UNSET,
+    vector_query: Union[Unset, str] = "",
+    html_version: Union[Unset, bool] = False,
 ) -> Optional[SegmentHits]:
     """Search for similar segments
 
     Args:
         project_name (str):
-        segid (Union[Unset, None, str]):  Default: ''.
-        text (Union[Unset, None, str]):  Default: ''.
-        fields (Union[Unset, None, str]):  Default: ''.
-        from_ (Union[Unset, None, int]):
-        size (Union[Unset, None, int]):  Default: 10.
-        highlight (Union[Unset, None, bool]):
-        facet (Union[Unset, None, bool]):
-        query_filter (Union[Unset, None, str]):  Default: ''.
-        output_fields (Union[Unset, None, str]):  Default: ''.
-        simple_query (Union[Unset, None, bool]):
-        selected_facets (Union[Unset, None, List[str]]):
-        invert_search (Union[Unset, None, bool]):
-        search_type (Union[Unset, None, FindSimilarSegmentsSearchType]):  Default:
+        segid (Union[Unset, str]):  Default: ''.
+        text (Union[Unset, str]):  Default: ''.
+        fields (Union[Unset, str]):  Default: ''.
+        from_ (Union[Unset, int]):  Default: 0.
+        size (Union[Unset, int]):  Default: 10.
+        highlight (Union[Unset, bool]):  Default: False.
+        facet (Union[Unset, bool]):  Default: False.
+        query_filter (Union[Unset, str]):  Default: ''.
+        output_fields (Union[Unset, str]):  Default: ''.
+        simple_query (Union[Unset, bool]):  Default: False.
+        selected_facets (Union[Unset, list[str]]):
+        invert_search (Union[Unset, bool]):  Default: False.
+        search_type (Union[Unset, FindSimilarSegmentsSearchType]):  Default:
             FindSimilarSegmentsSearchType.TEXT.
-        native_rrf (Union[Unset, None, bool]):
-        vectorizer (Union[Unset, None, str]):
-        vector_query (Union[Unset, None, str]):  Default: ''.
-        html_version (Union[Unset, None, bool]):
+        native_rrf (Union[Unset, bool]):
+        vectorizer (Union[Unset, str]):
+        vector_query (Union[Unset, str]):  Default: ''.
+        html_version (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SegmentHits]
+        SegmentHits
     """
 
     return sync_detailed(
@@ -277,47 +279,49 @@ def sync(
 async def asyncio_detailed(
     project_name: str,
     *,
-    client: Client,
-    segid: Union[Unset, None, str] = "",
-    text: Union[Unset, None, str] = "",
-    fields: Union[Unset, None, str] = "",
-    from_: Union[Unset, None, int] = 0,
-    size: Union[Unset, None, int] = 10,
-    highlight: Union[Unset, None, bool] = False,
-    facet: Union[Unset, None, bool] = False,
-    query_filter: Union[Unset, None, str] = "",
-    output_fields: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
-    search_type: Union[Unset, None, FindSimilarSegmentsSearchType] = FindSimilarSegmentsSearchType.TEXT,
-    native_rrf: Union[Unset, None, bool] = UNSET,
-    vectorizer: Union[Unset, None, str] = UNSET,
-    vector_query: Union[Unset, None, str] = "",
-    html_version: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    segid: Union[Unset, str] = "",
+    text: Union[Unset, str] = "",
+    fields: Union[Unset, str] = "",
+    from_: Union[Unset, int] = 0,
+    size: Union[Unset, int] = 10,
+    highlight: Union[Unset, bool] = False,
+    facet: Union[Unset, bool] = False,
+    query_filter: Union[Unset, str] = "",
+    output_fields: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
+    search_type: Union[
+        Unset, FindSimilarSegmentsSearchType
+    ] = FindSimilarSegmentsSearchType.TEXT,
+    native_rrf: Union[Unset, bool] = UNSET,
+    vectorizer: Union[Unset, str] = UNSET,
+    vector_query: Union[Unset, str] = "",
+    html_version: Union[Unset, bool] = False,
 ) -> Response[SegmentHits]:
     """Search for similar segments
 
     Args:
         project_name (str):
-        segid (Union[Unset, None, str]):  Default: ''.
-        text (Union[Unset, None, str]):  Default: ''.
-        fields (Union[Unset, None, str]):  Default: ''.
-        from_ (Union[Unset, None, int]):
-        size (Union[Unset, None, int]):  Default: 10.
-        highlight (Union[Unset, None, bool]):
-        facet (Union[Unset, None, bool]):
-        query_filter (Union[Unset, None, str]):  Default: ''.
-        output_fields (Union[Unset, None, str]):  Default: ''.
-        simple_query (Union[Unset, None, bool]):
-        selected_facets (Union[Unset, None, List[str]]):
-        invert_search (Union[Unset, None, bool]):
-        search_type (Union[Unset, None, FindSimilarSegmentsSearchType]):  Default:
+        segid (Union[Unset, str]):  Default: ''.
+        text (Union[Unset, str]):  Default: ''.
+        fields (Union[Unset, str]):  Default: ''.
+        from_ (Union[Unset, int]):  Default: 0.
+        size (Union[Unset, int]):  Default: 10.
+        highlight (Union[Unset, bool]):  Default: False.
+        facet (Union[Unset, bool]):  Default: False.
+        query_filter (Union[Unset, str]):  Default: ''.
+        output_fields (Union[Unset, str]):  Default: ''.
+        simple_query (Union[Unset, bool]):  Default: False.
+        selected_facets (Union[Unset, list[str]]):
+        invert_search (Union[Unset, bool]):  Default: False.
+        search_type (Union[Unset, FindSimilarSegmentsSearchType]):  Default:
             FindSimilarSegmentsSearchType.TEXT.
-        native_rrf (Union[Unset, None, bool]):
-        vectorizer (Union[Unset, None, str]):
-        vector_query (Union[Unset, None, str]):  Default: ''.
-        html_version (Union[Unset, None, bool]):
+        native_rrf (Union[Unset, bool]):
+        vectorizer (Union[Unset, str]):
+        vector_query (Union[Unset, str]):  Default: ''.
+        html_version (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -329,7 +333,6 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
         segid=segid,
         text=text,
         fields=fields,
@@ -349,8 +352,7 @@ async def asyncio_detailed(
         html_version=html_version,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -358,54 +360,56 @@ async def asyncio_detailed(
 async def asyncio(
     project_name: str,
     *,
-    client: Client,
-    segid: Union[Unset, None, str] = "",
-    text: Union[Unset, None, str] = "",
-    fields: Union[Unset, None, str] = "",
-    from_: Union[Unset, None, int] = 0,
-    size: Union[Unset, None, int] = 10,
-    highlight: Union[Unset, None, bool] = False,
-    facet: Union[Unset, None, bool] = False,
-    query_filter: Union[Unset, None, str] = "",
-    output_fields: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
-    search_type: Union[Unset, None, FindSimilarSegmentsSearchType] = FindSimilarSegmentsSearchType.TEXT,
-    native_rrf: Union[Unset, None, bool] = UNSET,
-    vectorizer: Union[Unset, None, str] = UNSET,
-    vector_query: Union[Unset, None, str] = "",
-    html_version: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    segid: Union[Unset, str] = "",
+    text: Union[Unset, str] = "",
+    fields: Union[Unset, str] = "",
+    from_: Union[Unset, int] = 0,
+    size: Union[Unset, int] = 10,
+    highlight: Union[Unset, bool] = False,
+    facet: Union[Unset, bool] = False,
+    query_filter: Union[Unset, str] = "",
+    output_fields: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
+    search_type: Union[
+        Unset, FindSimilarSegmentsSearchType
+    ] = FindSimilarSegmentsSearchType.TEXT,
+    native_rrf: Union[Unset, bool] = UNSET,
+    vectorizer: Union[Unset, str] = UNSET,
+    vector_query: Union[Unset, str] = "",
+    html_version: Union[Unset, bool] = False,
 ) -> Optional[SegmentHits]:
     """Search for similar segments
 
     Args:
         project_name (str):
-        segid (Union[Unset, None, str]):  Default: ''.
-        text (Union[Unset, None, str]):  Default: ''.
-        fields (Union[Unset, None, str]):  Default: ''.
-        from_ (Union[Unset, None, int]):
-        size (Union[Unset, None, int]):  Default: 10.
-        highlight (Union[Unset, None, bool]):
-        facet (Union[Unset, None, bool]):
-        query_filter (Union[Unset, None, str]):  Default: ''.
-        output_fields (Union[Unset, None, str]):  Default: ''.
-        simple_query (Union[Unset, None, bool]):
-        selected_facets (Union[Unset, None, List[str]]):
-        invert_search (Union[Unset, None, bool]):
-        search_type (Union[Unset, None, FindSimilarSegmentsSearchType]):  Default:
+        segid (Union[Unset, str]):  Default: ''.
+        text (Union[Unset, str]):  Default: ''.
+        fields (Union[Unset, str]):  Default: ''.
+        from_ (Union[Unset, int]):  Default: 0.
+        size (Union[Unset, int]):  Default: 10.
+        highlight (Union[Unset, bool]):  Default: False.
+        facet (Union[Unset, bool]):  Default: False.
+        query_filter (Union[Unset, str]):  Default: ''.
+        output_fields (Union[Unset, str]):  Default: ''.
+        simple_query (Union[Unset, bool]):  Default: False.
+        selected_facets (Union[Unset, list[str]]):
+        invert_search (Union[Unset, bool]):  Default: False.
+        search_type (Union[Unset, FindSimilarSegmentsSearchType]):  Default:
             FindSimilarSegmentsSearchType.TEXT.
-        native_rrf (Union[Unset, None, bool]):
-        vectorizer (Union[Unset, None, str]):
-        vector_query (Union[Unset, None, str]):  Default: ''.
-        html_version (Union[Unset, None, bool]):
+        native_rrf (Union[Unset, bool]):
+        vectorizer (Union[Unset, str]):
+        vector_query (Union[Unset, str]):  Default: ''.
+        html_version (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SegmentHits]
+        SegmentHits
     """
 
     return (

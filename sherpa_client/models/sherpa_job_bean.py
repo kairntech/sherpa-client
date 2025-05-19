@@ -1,6 +1,7 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..models.sherpa_job_bean_status import SherpaJobBeanStatus
 from ..models.sherpa_job_bean_type import SherpaJobBeanType
@@ -9,7 +10,7 @@ from ..types import UNSET, Unset
 T = TypeVar("T", bound="SherpaJobBean")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class SherpaJobBean:
     """
     Attributes:
@@ -22,8 +23,8 @@ class SherpaJobBean:
         project_label (str):
         status (SherpaJobBeanStatus):
         total_step_count (int):
-        type (SherpaJobBeanType):
-        upload_ids (List[str]):
+        type_ (SherpaJobBeanType):
+        upload_ids (list[str]):
         completed_at (Union[Unset, int]):
         status_message (Union[Unset, str]):
     """
@@ -37,30 +38,39 @@ class SherpaJobBean:
     project_label: str
     status: SherpaJobBeanStatus
     total_step_count: int
-    type: SherpaJobBeanType
-    upload_ids: List[str]
+    type_: SherpaJobBeanType
+    upload_ids: list[str]
     completed_at: Union[Unset, int] = UNSET
     status_message: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         created_at = self.created_at
+
         created_by = self.created_by
+
         current_step_count = self.current_step_count
+
         description = self.description
+
         id = self.id
+
         project = self.project
+
         project_label = self.project_label
+
         status = self.status.value
 
         total_step_count = self.total_step_count
-        type = self.type.value
+
+        type_ = self.type_.value
 
         upload_ids = self.upload_ids
 
         completed_at = self.completed_at
+
         status_message = self.status_message
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "createdAt": created_at,
@@ -72,7 +82,7 @@ class SherpaJobBean:
                 "projectLabel": project_label,
                 "status": status,
                 "totalStepCount": total_step_count,
-                "type": type,
+                "type": type_,
                 "uploadIds": upload_ids,
             }
         )
@@ -84,8 +94,8 @@ class SherpaJobBean:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         created_at = d.pop("createdAt")
 
         created_by = d.pop("createdBy")
@@ -104,9 +114,9 @@ class SherpaJobBean:
 
         total_step_count = d.pop("totalStepCount")
 
-        type = SherpaJobBeanType(d.pop("type"))
+        type_ = SherpaJobBeanType(d.pop("type"))
 
-        upload_ids = cast(List[str], d.pop("uploadIds"))
+        upload_ids = cast(list[str], d.pop("uploadIds"))
 
         completed_at = d.pop("completedAt", UNSET)
 
@@ -122,7 +132,7 @@ class SherpaJobBean:
             project_label=project_label,
             status=status,
             total_step_count=total_step_count,
-            type=type,
+            type_=type_,
             upload_ids=upload_ids,
             completed_at=completed_at,
             status_message=status_message,

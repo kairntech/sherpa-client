@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.document import Document
@@ -9,29 +10,30 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="DocumentHit")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class DocumentHit:
     """
     Attributes:
-        id (str):
+        field_id (str):
         document (Document):
         score (float):
     """
 
-    id: str
+    field_id: str
     document: "Document"
     score: float
 
-    def to_dict(self) -> Dict[str, Any]:
-        id = self.id
+    def to_dict(self) -> dict[str, Any]:
+        field_id = self.field_id
+
         document = self.document.to_dict()
 
         score = self.score
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
-                "_id": id,
+                "_id": field_id,
                 "document": document,
                 "score": score,
             }
@@ -40,18 +42,18 @@ class DocumentHit:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.document import Document
 
-        d = src_dict.copy()
-        id = d.pop("_id")
+        d = dict(src_dict)
+        field_id = d.pop("_id")
 
         document = Document.from_dict(d.pop("document"))
 
         score = d.pop("score")
 
         document_hit = cls(
-            id=id,
+            field_id=field_id,
             document=document,
             score=score,
         )

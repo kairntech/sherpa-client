@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.label_count import LabelCount
@@ -10,31 +11,29 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="SuggestionFacets")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class SuggestionFacets:
     """
     Attributes:
-        labels (List['LabelCount']):
-        texts (List['TextCount']):
+        labels (list['LabelCount']):
+        texts (list['TextCount']):
     """
 
-    labels: List["LabelCount"]
-    texts: List["TextCount"]
+    labels: list["LabelCount"]
+    texts: list["TextCount"]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         labels = []
         for labels_item_data in self.labels:
             labels_item = labels_item_data.to_dict()
-
             labels.append(labels_item)
 
         texts = []
         for texts_item_data in self.texts:
             texts_item = texts_item_data.to_dict()
-
             texts.append(texts_item)
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "labels": labels,
@@ -45,11 +44,11 @@ class SuggestionFacets:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.label_count import LabelCount
         from ..models.text_count import TextCount
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         labels = []
         _labels = d.pop("labels")
         for labels_item_data in _labels:

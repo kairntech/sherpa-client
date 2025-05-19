@@ -1,13 +1,14 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="UserProfileUpdate")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class UserProfileUpdate:
     """
     Attributes:
@@ -20,12 +21,14 @@ class UserProfileUpdate:
     password: Union[Unset, str] = UNSET
     profilename: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         email = self.email
+
         password = self.password
+
         profilename = self.profilename
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if email is not UNSET:
             field_dict["email"] = email
@@ -37,8 +40,8 @@ class UserProfileUpdate:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         email = d.pop("email", UNSET)
 
         password = d.pop("password", UNSET)

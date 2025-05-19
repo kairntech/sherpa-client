@@ -1,8 +1,9 @@
 import json
+from collections.abc import Mapping
 from io import BytesIO
-from typing import TYPE_CHECKING, Any, Dict, Tuple, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, File, FileJsonType, Unset
 
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="UpdateThemeForm")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class UpdateThemeForm:
     """
     Attributes:
@@ -28,7 +29,7 @@ class UpdateThemeForm:
     bg_video: Union[Unset, File] = UNSET
     theme: Union[Unset, "ThemeUpdate"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         app_bar_image: Union[Unset, FileJsonType] = UNSET
         if not isinstance(self.app_bar_image, Unset):
             app_bar_image = self.app_bar_image.to_tuple()
@@ -41,11 +42,11 @@ class UpdateThemeForm:
         if not isinstance(self.bg_video, Unset):
             bg_video = self.bg_video.to_tuple()
 
-        theme: Union[Unset, Dict[str, Any]] = UNSET
+        theme: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.theme, Unset):
             theme = self.theme.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if app_bar_image is not UNSET:
             field_dict["appBarImage"] = app_bar_image
@@ -58,7 +59,7 @@ class UpdateThemeForm:
 
         return field_dict
 
-    def to_multipart(self) -> Dict[str, Any]:
+    def to_multipart(self) -> dict[str, Any]:
         app_bar_image: Union[Unset, FileJsonType] = UNSET
         if not isinstance(self.app_bar_image, Unset):
             app_bar_image = self.app_bar_image.to_tuple()
@@ -71,11 +72,15 @@ class UpdateThemeForm:
         if not isinstance(self.bg_video, Unset):
             bg_video = self.bg_video.to_tuple()
 
-        theme: Union[Unset, Tuple[None, bytes, str]] = UNSET
+        theme: Union[Unset, tuple[None, bytes, str]] = UNSET
         if not isinstance(self.theme, Unset):
-            theme = (None, json.dumps(self.theme.to_dict()).encode(), "application/json")
+            theme = (
+                None,
+                json.dumps(self.theme.to_dict()).encode(),
+                "application/json",
+            )
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if app_bar_image is not UNSET:
             field_dict["appBarImage"] = app_bar_image
@@ -89,10 +94,10 @@ class UpdateThemeForm:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.theme_update import ThemeUpdate
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         _app_bar_image = d.pop("appBarImage", UNSET)
         app_bar_image: Union[Unset, File]
         if isinstance(_app_bar_image, Unset):

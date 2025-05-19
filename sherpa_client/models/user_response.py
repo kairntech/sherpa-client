@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,7 +12,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="UserResponse")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class UserResponse:
     """
     Attributes:
@@ -21,9 +22,9 @@ class UserResponse:
         created_by (Union[Unset, str]):
         disabled (Union[Unset, bool]):
         email (Union[Unset, str]):
-        groups (Union[Unset, List['SimpleGroupMembershipDesc']]):
-        permissions (Union[Unset, List[str]]):
-        roles (Union[Unset, List[str]]):
+        groups (Union[Unset, list['SimpleGroupMembershipDesc']]):
+        permissions (Union[Unset, list[str]]):
+        roles (Union[Unset, list[str]]):
     """
 
     profilename: str
@@ -32,34 +33,39 @@ class UserResponse:
     created_by: Union[Unset, str] = UNSET
     disabled: Union[Unset, bool] = UNSET
     email: Union[Unset, str] = UNSET
-    groups: Union[Unset, List["SimpleGroupMembershipDesc"]] = UNSET
-    permissions: Union[Unset, List[str]] = UNSET
-    roles: Union[Unset, List[str]] = UNSET
+    groups: Union[Unset, list["SimpleGroupMembershipDesc"]] = UNSET
+    permissions: Union[Unset, list[str]] = UNSET
+    roles: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         profilename = self.profilename
+
         username = self.username
+
         created_at = self.created_at
+
         created_by = self.created_by
+
         disabled = self.disabled
+
         email = self.email
-        groups: Union[Unset, List[Dict[str, Any]]] = UNSET
+
+        groups: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.groups, Unset):
             groups = []
             for groups_item_data in self.groups:
                 groups_item = groups_item_data.to_dict()
-
                 groups.append(groups_item)
 
-        permissions: Union[Unset, List[str]] = UNSET
+        permissions: Union[Unset, list[str]] = UNSET
         if not isinstance(self.permissions, Unset):
             permissions = self.permissions
 
-        roles: Union[Unset, List[str]] = UNSET
+        roles: Union[Unset, list[str]] = UNSET
         if not isinstance(self.roles, Unset):
             roles = self.roles
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "profilename": profilename,
@@ -84,10 +90,10 @@ class UserResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.simple_group_membership_desc import SimpleGroupMembershipDesc
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         profilename = d.pop("profilename")
 
         username = d.pop("username")
@@ -107,9 +113,9 @@ class UserResponse:
 
             groups.append(groups_item)
 
-        permissions = cast(List[str], d.pop("permissions", UNSET))
+        permissions = cast(list[str], d.pop("permissions", UNSET))
 
-        roles = cast(List[str], d.pop("roles", UNSET))
+        roles = cast(list[str], d.pop("roles", UNSET))
 
         user_response = cls(
             profilename=profilename,

@@ -1,19 +1,22 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
-from ..models.new_group_desc_mapping_discriminator import NewGroupDescMappingDiscriminator
+from ..models.new_group_desc_mapping_discriminator import (
+    NewGroupDescMappingDiscriminator,
+)
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="NewGroupDesc")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class NewGroupDesc:
     """
     Attributes:
         label (str):
-        attached_roles (Union[Unset, List[str]]):
+        attached_roles (Union[Unset, list[str]]):
         identifier (Union[Unset, str]):
         login_allowed (Union[Unset, bool]):
         mapping_discriminator (Union[Unset, NewGroupDescMappingDiscriminator]):
@@ -21,11 +24,11 @@ class NewGroupDesc:
         max_projects (Union[Unset, int]):
         max_projects_per_user (Union[Unset, int]):
         max_users (Union[Unset, int]):
-        system_attached_roles (Union[Unset, List[str]]):
+        system_attached_roles (Union[Unset, list[str]]):
     """
 
     label: str
-    attached_roles: Union[Unset, List[str]] = UNSET
+    attached_roles: Union[Unset, list[str]] = UNSET
     identifier: Union[Unset, str] = UNSET
     login_allowed: Union[Unset, bool] = UNSET
     mapping_discriminator: Union[Unset, NewGroupDescMappingDiscriminator] = UNSET
@@ -33,29 +36,36 @@ class NewGroupDesc:
     max_projects: Union[Unset, int] = UNSET
     max_projects_per_user: Union[Unset, int] = UNSET
     max_users: Union[Unset, int] = UNSET
-    system_attached_roles: Union[Unset, List[str]] = UNSET
+    system_attached_roles: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         label = self.label
-        attached_roles: Union[Unset, List[str]] = UNSET
+
+        attached_roles: Union[Unset, list[str]] = UNSET
         if not isinstance(self.attached_roles, Unset):
             attached_roles = self.attached_roles
 
         identifier = self.identifier
+
         login_allowed = self.login_allowed
+
         mapping_discriminator: Union[Unset, str] = UNSET
         if not isinstance(self.mapping_discriminator, Unset):
             mapping_discriminator = self.mapping_discriminator.value
 
         max_docs_per_project = self.max_docs_per_project
+
         max_projects = self.max_projects
+
         max_projects_per_user = self.max_projects_per_user
+
         max_users = self.max_users
-        system_attached_roles: Union[Unset, List[str]] = UNSET
+
+        system_attached_roles: Union[Unset, list[str]] = UNSET
         if not isinstance(self.system_attached_roles, Unset):
             system_attached_roles = self.system_attached_roles
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "label": label,
@@ -83,11 +93,11 @@ class NewGroupDesc:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         label = d.pop("label")
 
-        attached_roles = cast(List[str], d.pop("attachedRoles", UNSET))
+        attached_roles = cast(list[str], d.pop("attachedRoles", UNSET))
 
         identifier = d.pop("identifier", UNSET)
 
@@ -98,7 +108,9 @@ class NewGroupDesc:
         if isinstance(_mapping_discriminator, Unset):
             mapping_discriminator = UNSET
         else:
-            mapping_discriminator = NewGroupDescMappingDiscriminator(_mapping_discriminator)
+            mapping_discriminator = NewGroupDescMappingDiscriminator(
+                _mapping_discriminator
+            )
 
         max_docs_per_project = d.pop("maxDocsPerProject", UNSET)
 
@@ -108,7 +120,7 @@ class NewGroupDesc:
 
         max_users = d.pop("maxUsers", UNSET)
 
-        system_attached_roles = cast(List[str], d.pop("systemAttachedRoles", UNSET))
+        system_attached_roles = cast(list[str], d.pop("systemAttachedRoles", UNSET))
 
         new_group_desc = cls(
             label=label,

@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -12,7 +13,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="VuetifyThemes")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class VuetifyThemes:
     """Standard themes
 
@@ -24,16 +25,16 @@ class VuetifyThemes:
     dark: Union[Unset, "VuetifyDarkTheme"] = UNSET
     light: Union[Unset, "VuetifyLightTheme"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        dark: Union[Unset, Dict[str, Any]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        dark: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.dark, Unset):
             dark = self.dark.to_dict()
 
-        light: Union[Unset, Dict[str, Any]] = UNSET
+        light: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.light, Unset):
             light = self.light.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if dark is not UNSET:
             field_dict["dark"] = dark
@@ -43,11 +44,11 @@ class VuetifyThemes:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.vuetify_dark_theme import VuetifyDarkTheme
         from ..models.vuetify_light_theme import VuetifyLightTheme
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         _dark = d.pop("dark", UNSET)
         dark: Union[Unset, VuetifyDarkTheme]
         if isinstance(_dark, Unset):

@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.bucket import Bucket
@@ -9,27 +10,26 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="Aggregation")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Aggregation:
     """
     Attributes:
-        buckets (List['Bucket']):
+        buckets (list['Bucket']):
         name (str):
     """
 
-    buckets: List["Bucket"]
+    buckets: list["Bucket"]
     name: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         buckets = []
         for buckets_item_data in self.buckets:
             buckets_item = buckets_item_data.to_dict()
-
             buckets.append(buckets_item)
 
         name = self.name
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "buckets": buckets,
@@ -40,10 +40,10 @@ class Aggregation:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.bucket import Bucket
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         buckets = []
         _buckets = d.pop("buckets")
         for buckets_item_data in _buckets:

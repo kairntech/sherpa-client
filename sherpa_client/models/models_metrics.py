@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,35 +12,34 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="ModelsMetrics")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ModelsMetrics:
     """
     Attributes:
-        history (List['ModelMetrics']):
+        history (list['ModelMetrics']):
         best (Union[Unset, ModelMetrics]):
         last (Union[Unset, ModelMetrics]):
     """
 
-    history: List["ModelMetrics"]
+    history: list["ModelMetrics"]
     best: Union[Unset, "ModelMetrics"] = UNSET
     last: Union[Unset, "ModelMetrics"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         history = []
         for history_item_data in self.history:
             history_item = history_item_data.to_dict()
-
             history.append(history_item)
 
-        best: Union[Unset, Dict[str, Any]] = UNSET
+        best: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.best, Unset):
             best = self.best.to_dict()
 
-        last: Union[Unset, Dict[str, Any]] = UNSET
+        last: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.last, Unset):
             last = self.last.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "history": history,
@@ -53,10 +53,10 @@ class ModelsMetrics:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.model_metrics import ModelMetrics
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         history = []
         _history = d.pop("history")
         for history_item_data in _history:

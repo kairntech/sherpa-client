@@ -1,13 +1,14 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="LabelSetUpdate")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class LabelSetUpdate:
     """
     Attributes:
@@ -15,25 +16,29 @@ class LabelSetUpdate:
         guideline (Union[Unset, str]):
         label (Union[Unset, str]):
         nature (Union[Unset, str]):
-        tags (Union[Unset, List[str]]):
+        tags (Union[Unset, list[str]]):
     """
 
     exclusive_classes: Union[Unset, bool] = UNSET
     guideline: Union[Unset, str] = UNSET
     label: Union[Unset, str] = UNSET
     nature: Union[Unset, str] = UNSET
-    tags: Union[Unset, List[str]] = UNSET
+    tags: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         exclusive_classes = self.exclusive_classes
+
         guideline = self.guideline
+
         label = self.label
+
         nature = self.nature
-        tags: Union[Unset, List[str]] = UNSET
+
+        tags: Union[Unset, list[str]] = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if exclusive_classes is not UNSET:
             field_dict["exclusiveClasses"] = exclusive_classes
@@ -49,8 +54,8 @@ class LabelSetUpdate:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         exclusive_classes = d.pop("exclusiveClasses", UNSET)
 
         guideline = d.pop("guideline", UNSET)
@@ -59,7 +64,7 @@ class LabelSetUpdate:
 
         nature = d.pop("nature", UNSET)
 
-        tags = cast(List[str], d.pop("tags", UNSET))
+        tags = cast(list[str], d.pop("tags", UNSET))
 
         label_set_update = cls(
             exclusive_classes=exclusive_classes,

@@ -1,33 +1,34 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="MessageAudience")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class MessageAudience:
     """
     Attributes:
-        group_names (Union[Unset, List[str]]):
-        usernames (Union[Unset, List[str]]):
+        group_names (Union[Unset, list[str]]):
+        usernames (Union[Unset, list[str]]):
     """
 
-    group_names: Union[Unset, List[str]] = UNSET
-    usernames: Union[Unset, List[str]] = UNSET
+    group_names: Union[Unset, list[str]] = UNSET
+    usernames: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        group_names: Union[Unset, List[str]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        group_names: Union[Unset, list[str]] = UNSET
         if not isinstance(self.group_names, Unset):
             group_names = self.group_names
 
-        usernames: Union[Unset, List[str]] = UNSET
+        usernames: Union[Unset, list[str]] = UNSET
         if not isinstance(self.usernames, Unset):
             usernames = self.usernames
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if group_names is not UNSET:
             field_dict["groupNames"] = group_names
@@ -37,11 +38,11 @@ class MessageAudience:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
-        group_names = cast(List[str], d.pop("groupNames", UNSET))
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
+        group_names = cast(list[str], d.pop("groupNames", UNSET))
 
-        usernames = cast(List[str], d.pop("usernames", UNSET))
+        usernames = cast(list[str], d.pop("usernames", UNSET))
 
         message_audience = cls(
             group_names=group_names,

@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="WithAnnotator")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class WithAnnotator:
     """
     Attributes:
@@ -32,24 +33,26 @@ class WithAnnotator:
     parameters: Union[Unset, "WithAnnotatorParameters"] = UNSET
     project_name: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         annotator = self.annotator
-        apply_to: Union[Unset, Dict[str, Any]] = UNSET
+
+        apply_to: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.apply_to, Unset):
             apply_to = self.apply_to.to_dict()
 
-        condition: Union[Unset, Dict[str, Any]] = UNSET
+        condition: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.condition, Unset):
             condition = self.condition.to_dict()
 
         disabled = self.disabled
-        parameters: Union[Unset, Dict[str, Any]] = UNSET
+
+        parameters: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.parameters, Unset):
             parameters = self.parameters.to_dict()
 
         project_name = self.project_name
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "annotator": annotator,
@@ -69,12 +72,12 @@ class WithAnnotator:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.apply_to import ApplyTo
         from ..models.with_annotator_condition import WithAnnotatorCondition
         from ..models.with_annotator_parameters import WithAnnotatorParameters
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         annotator = d.pop("annotator")
 
         _apply_to = d.pop("applyTo", UNSET)

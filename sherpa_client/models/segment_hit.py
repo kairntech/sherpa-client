@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.segment import Segment
@@ -9,28 +10,30 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="SegmentHit")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class SegmentHit:
     """
     Attributes:
-        id (str):
+        field_id (str):
         score (float):
         segment (Segment):
     """
 
-    id: str
+    field_id: str
     score: float
     segment: "Segment"
 
-    def to_dict(self) -> Dict[str, Any]:
-        id = self.id
+    def to_dict(self) -> dict[str, Any]:
+        field_id = self.field_id
+
         score = self.score
+
         segment = self.segment.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
-                "_id": id,
+                "_id": field_id,
                 "score": score,
                 "segment": segment,
             }
@@ -39,18 +42,18 @@ class SegmentHit:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.segment import Segment
 
-        d = src_dict.copy()
-        id = d.pop("_id")
+        d = dict(src_dict)
+        field_id = d.pop("_id")
 
         score = d.pop("score")
 
         segment = Segment.from_dict(d.pop("segment"))
 
         segment_hit = cls(
-            id=id,
+            field_id=field_id,
             score=score,
             segment=segment,
         )

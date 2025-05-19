@@ -1,38 +1,37 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.bearer_token import BearerToken
 from ...models.credentials import Credentials
-from ...models.request_jwt_token_project_access_mode import RequestJwtTokenProjectAccessMode
+from ...models.request_jwt_token_project_access_mode import (
+    RequestJwtTokenProjectAccessMode,
+)
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
-    client: Client,
-    json_body: Credentials,
-    project_filter: Union[Unset, None, str] = UNSET,
-    project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
-    annotate_only: Union[Unset, None, bool] = False,
-    login_only: Union[Unset, None, bool] = False,
-    no_permissions: Union[Unset, None, bool] = False,
-    duration: Union[Unset, None, str] = UNSET,
-) -> Dict[str, Any]:
-    url = "{}/auth/login".format(client.base_url)
+    body: Credentials,
+    project_filter: Union[Unset, str] = UNSET,
+    project_access_mode: Union[Unset, RequestJwtTokenProjectAccessMode] = UNSET,
+    annotate_only: Union[Unset, bool] = False,
+    login_only: Union[Unset, bool] = False,
+    no_permissions: Union[Unset, bool] = False,
+    duration: Union[Unset, str] = UNSET,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["projectFilter"] = project_filter
 
-    json_project_access_mode: Union[Unset, None, str] = UNSET
+    json_project_access_mode: Union[Unset, str] = UNSET
     if not isinstance(project_access_mode, Unset):
-        json_project_access_mode = project_access_mode.value if project_access_mode else None
+        json_project_access_mode = project_access_mode.value
 
     params["projectAccessMode"] = json_project_access_mode
 
@@ -46,31 +45,37 @@ def _get_kwargs(
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
-        "json": json_json_body,
+        "url": "/auth/login",
         "params": params,
     }
 
+    _body = body.to_dict()
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[BearerToken]:
-    if response.status_code == HTTPStatus.OK:
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[BearerToken]:
+    if response.status_code == 200:
         response_200 = BearerToken.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[BearerToken]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[BearerToken]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -81,25 +86,25 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Bea
 
 def sync_detailed(
     *,
-    client: Client,
-    json_body: Credentials,
-    project_filter: Union[Unset, None, str] = UNSET,
-    project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
-    annotate_only: Union[Unset, None, bool] = False,
-    login_only: Union[Unset, None, bool] = False,
-    no_permissions: Union[Unset, None, bool] = False,
-    duration: Union[Unset, None, str] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: Credentials,
+    project_filter: Union[Unset, str] = UNSET,
+    project_access_mode: Union[Unset, RequestJwtTokenProjectAccessMode] = UNSET,
+    annotate_only: Union[Unset, bool] = False,
+    login_only: Union[Unset, bool] = False,
+    no_permissions: Union[Unset, bool] = False,
+    duration: Union[Unset, str] = UNSET,
 ) -> Response[BearerToken]:
     """Request a bearer token
 
     Args:
-        project_filter (Union[Unset, None, str]):
-        project_access_mode (Union[Unset, None, RequestJwtTokenProjectAccessMode]):
-        annotate_only (Union[Unset, None, bool]):
-        login_only (Union[Unset, None, bool]):
-        no_permissions (Union[Unset, None, bool]):
-        duration (Union[Unset, None, str]):
-        json_body (Credentials):
+        project_filter (Union[Unset, str]):
+        project_access_mode (Union[Unset, RequestJwtTokenProjectAccessMode]):
+        annotate_only (Union[Unset, bool]):  Default: False.
+        login_only (Union[Unset, bool]):  Default: False.
+        no_permissions (Union[Unset, bool]):  Default: False.
+        duration (Union[Unset, str]):
+        body (Credentials):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -110,8 +115,7 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        json_body=json_body,
+        body=body,
         project_filter=project_filter,
         project_access_mode=project_access_mode,
         annotate_only=annotate_only,
@@ -120,8 +124,7 @@ def sync_detailed(
         duration=duration,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -130,37 +133,37 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Client,
-    json_body: Credentials,
-    project_filter: Union[Unset, None, str] = UNSET,
-    project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
-    annotate_only: Union[Unset, None, bool] = False,
-    login_only: Union[Unset, None, bool] = False,
-    no_permissions: Union[Unset, None, bool] = False,
-    duration: Union[Unset, None, str] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: Credentials,
+    project_filter: Union[Unset, str] = UNSET,
+    project_access_mode: Union[Unset, RequestJwtTokenProjectAccessMode] = UNSET,
+    annotate_only: Union[Unset, bool] = False,
+    login_only: Union[Unset, bool] = False,
+    no_permissions: Union[Unset, bool] = False,
+    duration: Union[Unset, str] = UNSET,
 ) -> Optional[BearerToken]:
     """Request a bearer token
 
     Args:
-        project_filter (Union[Unset, None, str]):
-        project_access_mode (Union[Unset, None, RequestJwtTokenProjectAccessMode]):
-        annotate_only (Union[Unset, None, bool]):
-        login_only (Union[Unset, None, bool]):
-        no_permissions (Union[Unset, None, bool]):
-        duration (Union[Unset, None, str]):
-        json_body (Credentials):
+        project_filter (Union[Unset, str]):
+        project_access_mode (Union[Unset, RequestJwtTokenProjectAccessMode]):
+        annotate_only (Union[Unset, bool]):  Default: False.
+        login_only (Union[Unset, bool]):  Default: False.
+        no_permissions (Union[Unset, bool]):  Default: False.
+        duration (Union[Unset, str]):
+        body (Credentials):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[BearerToken]
+        BearerToken
     """
 
     return sync_detailed(
         client=client,
-        json_body=json_body,
+        body=body,
         project_filter=project_filter,
         project_access_mode=project_access_mode,
         annotate_only=annotate_only,
@@ -172,25 +175,25 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Client,
-    json_body: Credentials,
-    project_filter: Union[Unset, None, str] = UNSET,
-    project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
-    annotate_only: Union[Unset, None, bool] = False,
-    login_only: Union[Unset, None, bool] = False,
-    no_permissions: Union[Unset, None, bool] = False,
-    duration: Union[Unset, None, str] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: Credentials,
+    project_filter: Union[Unset, str] = UNSET,
+    project_access_mode: Union[Unset, RequestJwtTokenProjectAccessMode] = UNSET,
+    annotate_only: Union[Unset, bool] = False,
+    login_only: Union[Unset, bool] = False,
+    no_permissions: Union[Unset, bool] = False,
+    duration: Union[Unset, str] = UNSET,
 ) -> Response[BearerToken]:
     """Request a bearer token
 
     Args:
-        project_filter (Union[Unset, None, str]):
-        project_access_mode (Union[Unset, None, RequestJwtTokenProjectAccessMode]):
-        annotate_only (Union[Unset, None, bool]):
-        login_only (Union[Unset, None, bool]):
-        no_permissions (Union[Unset, None, bool]):
-        duration (Union[Unset, None, str]):
-        json_body (Credentials):
+        project_filter (Union[Unset, str]):
+        project_access_mode (Union[Unset, RequestJwtTokenProjectAccessMode]):
+        annotate_only (Union[Unset, bool]):  Default: False.
+        login_only (Union[Unset, bool]):  Default: False.
+        no_permissions (Union[Unset, bool]):  Default: False.
+        duration (Union[Unset, str]):
+        body (Credentials):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -201,8 +204,7 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        json_body=json_body,
+        body=body,
         project_filter=project_filter,
         project_access_mode=project_access_mode,
         annotate_only=annotate_only,
@@ -211,46 +213,45 @@ async def asyncio_detailed(
         duration=duration,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
 
 async def asyncio(
     *,
-    client: Client,
-    json_body: Credentials,
-    project_filter: Union[Unset, None, str] = UNSET,
-    project_access_mode: Union[Unset, None, RequestJwtTokenProjectAccessMode] = UNSET,
-    annotate_only: Union[Unset, None, bool] = False,
-    login_only: Union[Unset, None, bool] = False,
-    no_permissions: Union[Unset, None, bool] = False,
-    duration: Union[Unset, None, str] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: Credentials,
+    project_filter: Union[Unset, str] = UNSET,
+    project_access_mode: Union[Unset, RequestJwtTokenProjectAccessMode] = UNSET,
+    annotate_only: Union[Unset, bool] = False,
+    login_only: Union[Unset, bool] = False,
+    no_permissions: Union[Unset, bool] = False,
+    duration: Union[Unset, str] = UNSET,
 ) -> Optional[BearerToken]:
     """Request a bearer token
 
     Args:
-        project_filter (Union[Unset, None, str]):
-        project_access_mode (Union[Unset, None, RequestJwtTokenProjectAccessMode]):
-        annotate_only (Union[Unset, None, bool]):
-        login_only (Union[Unset, None, bool]):
-        no_permissions (Union[Unset, None, bool]):
-        duration (Union[Unset, None, str]):
-        json_body (Credentials):
+        project_filter (Union[Unset, str]):
+        project_access_mode (Union[Unset, RequestJwtTokenProjectAccessMode]):
+        annotate_only (Union[Unset, bool]):  Default: False.
+        login_only (Union[Unset, bool]):  Default: False.
+        no_permissions (Union[Unset, bool]):  Default: False.
+        duration (Union[Unset, str]):
+        body (Credentials):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[BearerToken]
+        BearerToken
     """
 
     return (
         await asyncio_detailed(
             client=client,
-            json_body=json_body,
+            body=body,
             project_filter=project_filter,
             project_access_mode=project_access_mode,
             annotate_only=annotate_only,

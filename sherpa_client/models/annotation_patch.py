@@ -1,13 +1,14 @@
-from typing import Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 from ..models.annotation_patch_status import AnnotationPatchStatus
 
 T = TypeVar("T", bound="AnnotationPatch")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class AnnotationPatch:
     """
     Attributes:
@@ -16,10 +17,10 @@ class AnnotationPatch:
 
     status: AnnotationPatchStatus
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         status = self.status.value
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "status": status,
@@ -29,8 +30,8 @@ class AnnotationPatch:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         status = AnnotationPatchStatus(d.pop("status"))
 
         annotation_patch = cls(

@@ -1,11 +1,12 @@
-from typing import Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 T = TypeVar("T", bound="DeleteGroupResult")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class DeleteGroupResult:
     """
     Attributes:
@@ -16,11 +17,12 @@ class DeleteGroupResult:
     removed_projects: int
     removed_users: int
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         removed_projects = self.removed_projects
+
         removed_users = self.removed_users
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "removedProjects": removed_projects,
@@ -31,8 +33,8 @@ class DeleteGroupResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         removed_projects = d.pop("removedProjects")
 
         removed_users = d.pop("removedUsers")

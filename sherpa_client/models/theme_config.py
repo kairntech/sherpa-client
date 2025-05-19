@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -12,7 +13,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="ThemeConfig")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ThemeConfig:
     """
     Attributes:
@@ -23,16 +24,16 @@ class ThemeConfig:
     app: Union[Unset, "AppConfig"] = UNSET
     vuetify: Union[Unset, "VuetifyConfig"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        app: Union[Unset, Dict[str, Any]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        app: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.app, Unset):
             app = self.app.to_dict()
 
-        vuetify: Union[Unset, Dict[str, Any]] = UNSET
+        vuetify: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.vuetify, Unset):
             vuetify = self.vuetify.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if app is not UNSET:
             field_dict["app"] = app
@@ -42,11 +43,11 @@ class ThemeConfig:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.app_config import AppConfig
         from ..models.vuetify_config import VuetifyConfig
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         _app = d.pop("app", UNSET)
         app: Union[Unset, AppConfig]
         if isinstance(_app, Unset):

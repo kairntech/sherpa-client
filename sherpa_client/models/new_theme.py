@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.theme_config import ThemeConfig
@@ -9,7 +10,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="NewTheme")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class NewTheme:
     """
     Attributes:
@@ -20,12 +21,12 @@ class NewTheme:
     config: "ThemeConfig"
     label: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         config = self.config.to_dict()
 
         label = self.label
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "config": config,
@@ -36,10 +37,10 @@ class NewTheme:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.theme_config import ThemeConfig
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         config = ThemeConfig.from_dict(d.pop("config"))
 
         label = d.pop("label")

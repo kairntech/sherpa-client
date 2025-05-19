@@ -1,10 +1,10 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.export_terms_response_200_item import ExportTermsResponse200Item
 from ...types import Response
 
@@ -12,42 +12,42 @@ from ...types import Response
 def _get_kwargs(
     project_name: str,
     name: str,
-    *,
-    client: Client,
-) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/lexicons/{name}/_export".format(
-        client.base_url, projectName=project_name, name=name
-    )
+) -> dict[str, Any]:
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
+        "url": "/projects/{project_name}/lexicons/{name}/_export".format(
+            project_name=project_name,
+            name=name,
+        ),
     }
 
+    return _kwargs
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[List["ExportTermsResponse200Item"]]:
-    if response.status_code == HTTPStatus.OK:
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[list["ExportTermsResponse200Item"]]:
+    if response.status_code == 200:
         response_200 = []
         _response_200 = response.json()
         for response_200_item_data in _response_200:
-            response_200_item = ExportTermsResponse200Item.from_dict(response_200_item_data)
+            response_200_item = ExportTermsResponse200Item.from_dict(
+                response_200_item_data
+            )
 
             response_200.append(response_200_item)
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[List["ExportTermsResponse200Item"]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[list["ExportTermsResponse200Item"]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -60,8 +60,8 @@ def sync_detailed(
     project_name: str,
     name: str,
     *,
-    client: Client,
-) -> Response[List["ExportTermsResponse200Item"]]:
+    client: Union[AuthenticatedClient, Client],
+) -> Response[list["ExportTermsResponse200Item"]]:
     """export all terms of this lexicon in a json file
 
     Args:
@@ -73,17 +73,15 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['ExportTermsResponse200Item']]
+        Response[list['ExportTermsResponse200Item']]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
         name=name,
-        client=client,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -94,8 +92,8 @@ def sync(
     project_name: str,
     name: str,
     *,
-    client: Client,
-) -> Optional[List["ExportTermsResponse200Item"]]:
+    client: Union[AuthenticatedClient, Client],
+) -> Optional[list["ExportTermsResponse200Item"]]:
     """export all terms of this lexicon in a json file
 
     Args:
@@ -107,7 +105,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['ExportTermsResponse200Item']]
+        list['ExportTermsResponse200Item']
     """
 
     return sync_detailed(
@@ -121,8 +119,8 @@ async def asyncio_detailed(
     project_name: str,
     name: str,
     *,
-    client: Client,
-) -> Response[List["ExportTermsResponse200Item"]]:
+    client: Union[AuthenticatedClient, Client],
+) -> Response[list["ExportTermsResponse200Item"]]:
     """export all terms of this lexicon in a json file
 
     Args:
@@ -134,17 +132,15 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['ExportTermsResponse200Item']]
+        Response[list['ExportTermsResponse200Item']]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
         name=name,
-        client=client,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -153,8 +149,8 @@ async def asyncio(
     project_name: str,
     name: str,
     *,
-    client: Client,
-) -> Optional[List["ExportTermsResponse200Item"]]:
+    client: Union[AuthenticatedClient, Client],
+) -> Optional[list["ExportTermsResponse200Item"]]:
     """export all terms of this lexicon in a json file
 
     Args:
@@ -166,7 +162,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['ExportTermsResponse200Item']]
+        list['ExportTermsResponse200Item']
     """
 
     return (

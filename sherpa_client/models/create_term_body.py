@@ -4,11 +4,11 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="ExportTermsResponse200Item")
+T = TypeVar("T", bound="CreateTermBody")
 
 
 @_attrs_define
-class ExportTermsResponse200Item:
+class CreateTermBody:
     """ """
 
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -23,10 +23,10 @@ class ExportTermsResponse200Item:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        export_terms_response_200_item = cls()
+        create_term_body = cls()
 
-        export_terms_response_200_item.additional_properties = d
-        return export_terms_response_200_item
+        create_term_body.additional_properties = d
+        return create_term_body
 
     @property
     def additional_keys(self) -> list[str]:

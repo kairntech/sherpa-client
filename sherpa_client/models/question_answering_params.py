@@ -1,20 +1,23 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
-from ..models.question_answering_params_language_detection import QuestionAnsweringParamsLanguageDetection
+from ..models.question_answering_params_language_detection import (
+    QuestionAnsweringParamsLanguageDetection,
+)
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="QuestionAnsweringParams")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class QuestionAnsweringParams:
     """Question answering parameters
 
     Attributes:
         answer_language (Union[Unset, str]): Language of the answer (overrides languageSource)
-        enabled (Union[Unset, bool]): Generate answer to the question
+        enabled (Union[Unset, bool]): Generate answer to the question Default: False.
         generator (Union[Unset, str]): Answer generator to be used
         language_detection (Union[Unset, QuestionAnsweringParamsLanguageDetection]): Source used to decide the language
             of the answer Default: QuestionAnsweringParamsLanguageDetection.PROJECT.
@@ -24,22 +27,25 @@ class QuestionAnsweringParams:
     answer_language: Union[Unset, str] = UNSET
     enabled: Union[Unset, bool] = False
     generator: Union[Unset, str] = UNSET
-    language_detection: Union[
-        Unset, QuestionAnsweringParamsLanguageDetection
-    ] = QuestionAnsweringParamsLanguageDetection.PROJECT
+    language_detection: Union[Unset, QuestionAnsweringParamsLanguageDetection] = (
+        QuestionAnsweringParamsLanguageDetection.PROJECT
+    )
     query: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         answer_language = self.answer_language
+
         enabled = self.enabled
+
         generator = self.generator
+
         language_detection: Union[Unset, str] = UNSET
         if not isinstance(self.language_detection, Unset):
             language_detection = self.language_detection.value
 
         query = self.query
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if answer_language is not UNSET:
             field_dict["answerLanguage"] = answer_language
@@ -55,8 +61,8 @@ class QuestionAnsweringParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         answer_language = d.pop("answerLanguage", UNSET)
 
         enabled = d.pop("enabled", UNSET)
@@ -68,7 +74,9 @@ class QuestionAnsweringParams:
         if isinstance(_language_detection, Unset):
             language_detection = UNSET
         else:
-            language_detection = QuestionAnsweringParamsLanguageDetection(_language_detection)
+            language_detection = QuestionAnsweringParamsLanguageDetection(
+                _language_detection
+            )
 
         query = d.pop("query", UNSET)
 

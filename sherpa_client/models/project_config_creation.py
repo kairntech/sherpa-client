@@ -1,17 +1,20 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.project_config_creation_properties import ProjectConfigCreationProperties
+    from ..models.project_config_creation_properties import (
+        ProjectConfigCreationProperties,
+    )
 
 
 T = TypeVar("T", bound="ProjectConfigCreation")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ProjectConfigCreation:
     """
     Attributes:
@@ -40,22 +43,32 @@ class ProjectConfigCreation:
     nature: Union[Unset, str] = "sequence_labelling"
     properties: Union[Unset, "ProjectConfigCreationProperties"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         collaborative_annotation = self.collaborative_annotation
+
         description = self.description
+
         image_filename = self.image_filename
+
         image_id = self.image_id
+
         image_url = self.image_url
+
         label = self.label
+
         lang = self.lang
+
         metafacets = self.metafacets
+
         name = self.name
+
         nature = self.nature
-        properties: Union[Unset, Dict[str, Any]] = UNSET
+
+        properties: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.properties, Unset):
             properties = self.properties.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if collaborative_annotation is not UNSET:
             field_dict["collaborativeAnnotation"] = collaborative_annotation
@@ -83,10 +96,12 @@ class ProjectConfigCreation:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.project_config_creation_properties import ProjectConfigCreationProperties
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.project_config_creation_properties import (
+            ProjectConfigCreationProperties,
+        )
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         collaborative_annotation = d.pop("collaborativeAnnotation", UNSET)
 
         description = d.pop("description", UNSET)

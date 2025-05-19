@@ -1,11 +1,12 @@
-from typing import Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 T = TypeVar("T", bound="LocalizedMessage")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class LocalizedMessage:
     """
     Attributes:
@@ -16,11 +17,12 @@ class LocalizedMessage:
     body: str
     title: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         body = self.body
+
         title = self.title
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "body": body,
@@ -31,8 +33,8 @@ class LocalizedMessage:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         body = d.pop("body")
 
         title = d.pop("title")

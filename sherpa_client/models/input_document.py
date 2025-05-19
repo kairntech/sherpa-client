@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -15,71 +16,69 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="InputDocument")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class InputDocument:
     """
     Attributes:
         text (str): text of the document
-        alt_texts (Union[Unset, List['DocAltText']]):
-        annotations (Union[Unset, List['DocAnnotation']]):
-        categories (Union[Unset, List['DocCategory']]):
+        alt_texts (Union[Unset, list['DocAltText']]):
+        annotations (Union[Unset, list['DocAnnotation']]):
+        categories (Union[Unset, list['DocCategory']]):
         identifier (Union[Unset, str]): document identifier
         metadata (Union[Unset, InputDocumentMetadata]): document metadata
-        sentences (Union[Unset, List['DocSentence']]):
+        sentences (Union[Unset, list['DocSentence']]):
         title (Union[Unset, str]): title of the document
     """
 
     text: str
-    alt_texts: Union[Unset, List["DocAltText"]] = UNSET
-    annotations: Union[Unset, List["DocAnnotation"]] = UNSET
-    categories: Union[Unset, List["DocCategory"]] = UNSET
+    alt_texts: Union[Unset, list["DocAltText"]] = UNSET
+    annotations: Union[Unset, list["DocAnnotation"]] = UNSET
+    categories: Union[Unset, list["DocCategory"]] = UNSET
     identifier: Union[Unset, str] = UNSET
     metadata: Union[Unset, "InputDocumentMetadata"] = UNSET
-    sentences: Union[Unset, List["DocSentence"]] = UNSET
+    sentences: Union[Unset, list["DocSentence"]] = UNSET
     title: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         text = self.text
-        alt_texts: Union[Unset, List[Dict[str, Any]]] = UNSET
+
+        alt_texts: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.alt_texts, Unset):
             alt_texts = []
             for alt_texts_item_data in self.alt_texts:
                 alt_texts_item = alt_texts_item_data.to_dict()
-
                 alt_texts.append(alt_texts_item)
 
-        annotations: Union[Unset, List[Dict[str, Any]]] = UNSET
+        annotations: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.annotations, Unset):
             annotations = []
             for annotations_item_data in self.annotations:
                 annotations_item = annotations_item_data.to_dict()
-
                 annotations.append(annotations_item)
 
-        categories: Union[Unset, List[Dict[str, Any]]] = UNSET
+        categories: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.categories, Unset):
             categories = []
             for categories_item_data in self.categories:
                 categories_item = categories_item_data.to_dict()
-
                 categories.append(categories_item)
 
         identifier = self.identifier
-        metadata: Union[Unset, Dict[str, Any]] = UNSET
+
+        metadata: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.metadata, Unset):
             metadata = self.metadata.to_dict()
 
-        sentences: Union[Unset, List[Dict[str, Any]]] = UNSET
+        sentences: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.sentences, Unset):
             sentences = []
             for sentences_item_data in self.sentences:
                 sentences_item = sentences_item_data.to_dict()
-
                 sentences.append(sentences_item)
 
         title = self.title
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "text": text,
@@ -103,14 +102,14 @@ class InputDocument:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.doc_alt_text import DocAltText
         from ..models.doc_annotation import DocAnnotation
         from ..models.doc_category import DocCategory
         from ..models.doc_sentence import DocSentence
         from ..models.input_document_metadata import InputDocumentMetadata
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         text = d.pop("text")
 
         alt_texts = []

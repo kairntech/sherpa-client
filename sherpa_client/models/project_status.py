@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,7 +12,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="ProjectStatus")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ProjectStatus:
     """
     Attributes:
@@ -24,14 +25,16 @@ class ProjectStatus:
     status: str
     pending_job: Union[Unset, "SherpaJobBean"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         project_name = self.project_name
+
         status = self.status
-        pending_job: Union[Unset, Dict[str, Any]] = UNSET
+
+        pending_job: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.pending_job, Unset):
             pending_job = self.pending_job.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "projectName": project_name,
@@ -44,10 +47,10 @@ class ProjectStatus:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sherpa_job_bean import SherpaJobBean
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         project_name = d.pop("projectName")
 
         status = d.pop("status")

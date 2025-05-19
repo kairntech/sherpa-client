@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,7 +12,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="Gazetteer")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Gazetteer:
     """
     Attributes:
@@ -26,7 +27,7 @@ class Gazetteer:
         uptodate (bool):
         email_notification (Union[Unset, bool]):
         favorite (Union[Unset, bool]):
-        tags (Union[Unset, List[str]]):
+        tags (Union[Unset, list[str]]):
     """
 
     duration: int
@@ -40,26 +41,36 @@ class Gazetteer:
     uptodate: bool
     email_notification: Union[Unset, bool] = UNSET
     favorite: Union[Unset, bool] = UNSET
-    tags: Union[Unset, List[str]] = UNSET
+    tags: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         duration = self.duration
+
         engine = self.engine
+
         label = self.label
+
         models = self.models
+
         name = self.name
+
         parameters = self.parameters.to_dict()
 
         running = self.running
+
         timestamp = self.timestamp
+
         uptodate = self.uptodate
+
         email_notification = self.email_notification
+
         favorite = self.favorite
-        tags: Union[Unset, List[str]] = UNSET
+
+        tags: Union[Unset, list[str]] = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "duration": duration,
@@ -83,10 +94,10 @@ class Gazetteer:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.gazetteer_parameters import GazetteerParameters
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         duration = d.pop("duration")
 
         engine = d.pop("engine")
@@ -109,7 +120,7 @@ class Gazetteer:
 
         favorite = d.pop("favorite", UNSET)
 
-        tags = cast(List[str], d.pop("tags", UNSET))
+        tags = cast(list[str], d.pop("tags", UNSET))
 
         gazetteer = cls(
             duration=duration,

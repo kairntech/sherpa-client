@@ -1,19 +1,24 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
-from ..models.imported_doc_annotation_creation_mode import ImportedDocAnnotationCreationMode
+from ..models.imported_doc_annotation_creation_mode import (
+    ImportedDocAnnotationCreationMode,
+)
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.annotation_term import AnnotationTerm
-    from ..models.imported_doc_annotation_properties import ImportedDocAnnotationProperties
+    from ..models.imported_doc_annotation_properties import (
+        ImportedDocAnnotationProperties,
+    )
 
 
 T = TypeVar("T", bound="ImportedDocAnnotation")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ImportedDocAnnotation:
     """
     Attributes:
@@ -27,7 +32,7 @@ class ImportedDocAnnotation:
         properties (Union[Unset, ImportedDocAnnotationProperties]): Additional properties
         score (Union[Unset, float]): Score of the annotation
         status (Union[Unset, str]): Status
-        terms (Union[Unset, List['AnnotationTerm']]):
+        terms (Union[Unset, list['AnnotationTerm']]):
     """
 
     end: int
@@ -40,34 +45,41 @@ class ImportedDocAnnotation:
     properties: Union[Unset, "ImportedDocAnnotationProperties"] = UNSET
     score: Union[Unset, float] = UNSET
     status: Union[Unset, str] = UNSET
-    terms: Union[Unset, List["AnnotationTerm"]] = UNSET
+    terms: Union[Unset, list["AnnotationTerm"]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         end = self.end
+
         start = self.start
+
         text = self.text
+
         creation_mode: Union[Unset, str] = UNSET
         if not isinstance(self.creation_mode, Unset):
             creation_mode = self.creation_mode.value
 
         label = self.label
+
         label_id = self.label_id
+
         label_name = self.label_name
-        properties: Union[Unset, Dict[str, Any]] = UNSET
+
+        properties: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.properties, Unset):
             properties = self.properties.to_dict()
 
         score = self.score
+
         status = self.status
-        terms: Union[Unset, List[Dict[str, Any]]] = UNSET
+
+        terms: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.terms, Unset):
             terms = []
             for terms_item_data in self.terms:
                 terms_item = terms_item_data.to_dict()
-
                 terms.append(terms_item)
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "end": end,
@@ -95,11 +107,13 @@ class ImportedDocAnnotation:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.annotation_term import AnnotationTerm
-        from ..models.imported_doc_annotation_properties import ImportedDocAnnotationProperties
+        from ..models.imported_doc_annotation_properties import (
+            ImportedDocAnnotationProperties,
+        )
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         end = d.pop("end")
 
         start = d.pop("start")

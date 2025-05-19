@@ -2,14 +2,14 @@ from enum import Enum
 
 
 class ProjectOpenSessionState(str, Enum):
-    NOT_EXISTS = "NOT_EXISTS"
-    NEW = "NEW"
-    OPEN = "OPEN"
-    STARTED = "STARTED"
-    PAUSED = "PAUSED"
-    STOPPED = "STOPPED"
     CLOSED = "CLOSED"
+    NEW = "NEW"
+    NOT_EXISTS = "NOT_EXISTS"
+    OPEN = "OPEN"
+    PAUSED = "PAUSED"
     SAME = "SAME"
+    STARTED = "STARTED"
+    STOPPED = "STOPPED"
 
     def __str__(self) -> str:
         return str(self.value)

@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,7 +12,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="Converter")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Converter:
     """
     Attributes:
@@ -22,13 +23,14 @@ class Converter:
     name: str
     parameters: Union[Unset, "ConverterParameters"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         name = self.name
-        parameters: Union[Unset, Dict[str, Any]] = UNSET
+
+        parameters: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.parameters, Unset):
             parameters = self.parameters.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "name": name,
@@ -40,10 +42,10 @@ class Converter:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.converter_parameters import ConverterParameters
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         name = d.pop("name")
 
         _parameters = d.pop("parameters", UNSET)

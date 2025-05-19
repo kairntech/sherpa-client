@@ -1,11 +1,11 @@
 from http import HTTPStatus
 from io import BytesIO
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.input_document import InputDocument
 from ...types import UNSET, File, Response, Unset
 
@@ -14,23 +14,18 @@ def _get_kwargs(
     project_name: str,
     plan_name: str,
     *,
-    client: Client,
-    json_body: List["InputDocument"],
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
-) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/plans/{planName}/_annotate_format_documents".format(
-        client.base_url, projectName=project_name, planName=plan_name
-    )
+    body: list["InputDocument"],
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["inlineLabels"] = inline_labels
 
     params["inlineLabelIds"] = inline_label_ids
@@ -45,35 +40,45 @@ def _get_kwargs(
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    json_json_body = []
-    for componentsschemas_input_document_array_item_data in json_body:
-        componentsschemas_input_document_array_item = componentsschemas_input_document_array_item_data.to_dict()
-
-        json_json_body.append(componentsschemas_input_document_array_item)
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
-        "json": json_json_body,
+        "url": "/projects/{project_name}/plans/{plan_name}/_annotate_format_documents".format(
+            project_name=project_name,
+            plan_name=plan_name,
+        ),
         "params": params,
     }
 
+    _body = []
+    for componentsschemas_input_document_array_item_data in body:
+        componentsschemas_input_document_array_item = (
+            componentsschemas_input_document_array_item_data.to_dict()
+        )
+        _body.append(componentsschemas_input_document_array_item)
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[File]:
-    if response.status_code == HTTPStatus.OK:
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[File]:
+    if response.status_code == 200:
         response_200 = File(payload=BytesIO(response.json()))
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[File]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[File]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -86,14 +91,14 @@ def sync_detailed(
     project_name: str,
     plan_name: str,
     *,
-    client: Client,
-    json_body: List["InputDocument"],
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: list["InputDocument"],
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
 ) -> Response[File]:
     """annotate documents with multiple annotators and return formatted results in a zip (replaced with
     /projects/{projectName}/annotators/{annotator}/_annotate_format_text)
@@ -101,13 +106,13 @@ def sync_detailed(
     Args:
         project_name (str):
         plan_name (str):
-        inline_labels (Union[Unset, None, bool]):  Default: True.
-        inline_label_ids (Union[Unset, None, bool]):  Default: True.
-        inline_text (Union[Unset, None, bool]):  Default: True.
-        debug (Union[Unset, None, bool]):
-        parallelize (Union[Unset, None, bool]):
-        error_policy (Union[Unset, None, str]):
-        json_body (List['InputDocument']):
+        inline_labels (Union[Unset, bool]):  Default: True.
+        inline_label_ids (Union[Unset, bool]):  Default: True.
+        inline_text (Union[Unset, bool]):  Default: True.
+        debug (Union[Unset, bool]):  Default: False.
+        parallelize (Union[Unset, bool]):  Default: False.
+        error_policy (Union[Unset, str]):
+        body (list['InputDocument']):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -120,8 +125,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         project_name=project_name,
         plan_name=plan_name,
-        client=client,
-        json_body=json_body,
+        body=body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
@@ -130,8 +134,7 @@ def sync_detailed(
         error_policy=error_policy,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -142,14 +145,14 @@ def sync(
     project_name: str,
     plan_name: str,
     *,
-    client: Client,
-    json_body: List["InputDocument"],
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: list["InputDocument"],
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
 ) -> Optional[File]:
     """annotate documents with multiple annotators and return formatted results in a zip (replaced with
     /projects/{projectName}/annotators/{annotator}/_annotate_format_text)
@@ -157,27 +160,27 @@ def sync(
     Args:
         project_name (str):
         plan_name (str):
-        inline_labels (Union[Unset, None, bool]):  Default: True.
-        inline_label_ids (Union[Unset, None, bool]):  Default: True.
-        inline_text (Union[Unset, None, bool]):  Default: True.
-        debug (Union[Unset, None, bool]):
-        parallelize (Union[Unset, None, bool]):
-        error_policy (Union[Unset, None, str]):
-        json_body (List['InputDocument']):
+        inline_labels (Union[Unset, bool]):  Default: True.
+        inline_label_ids (Union[Unset, bool]):  Default: True.
+        inline_text (Union[Unset, bool]):  Default: True.
+        debug (Union[Unset, bool]):  Default: False.
+        parallelize (Union[Unset, bool]):  Default: False.
+        error_policy (Union[Unset, str]):
+        body (list['InputDocument']):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[File]
+        File
     """
 
     return sync_detailed(
         project_name=project_name,
         plan_name=plan_name,
         client=client,
-        json_body=json_body,
+        body=body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
@@ -191,14 +194,14 @@ async def asyncio_detailed(
     project_name: str,
     plan_name: str,
     *,
-    client: Client,
-    json_body: List["InputDocument"],
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: list["InputDocument"],
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
 ) -> Response[File]:
     """annotate documents with multiple annotators and return formatted results in a zip (replaced with
     /projects/{projectName}/annotators/{annotator}/_annotate_format_text)
@@ -206,13 +209,13 @@ async def asyncio_detailed(
     Args:
         project_name (str):
         plan_name (str):
-        inline_labels (Union[Unset, None, bool]):  Default: True.
-        inline_label_ids (Union[Unset, None, bool]):  Default: True.
-        inline_text (Union[Unset, None, bool]):  Default: True.
-        debug (Union[Unset, None, bool]):
-        parallelize (Union[Unset, None, bool]):
-        error_policy (Union[Unset, None, str]):
-        json_body (List['InputDocument']):
+        inline_labels (Union[Unset, bool]):  Default: True.
+        inline_label_ids (Union[Unset, bool]):  Default: True.
+        inline_text (Union[Unset, bool]):  Default: True.
+        debug (Union[Unset, bool]):  Default: False.
+        parallelize (Union[Unset, bool]):  Default: False.
+        error_policy (Union[Unset, str]):
+        body (list['InputDocument']):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -225,8 +228,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         project_name=project_name,
         plan_name=plan_name,
-        client=client,
-        json_body=json_body,
+        body=body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
@@ -235,8 +237,7 @@ async def asyncio_detailed(
         error_policy=error_policy,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -245,14 +246,14 @@ async def asyncio(
     project_name: str,
     plan_name: str,
     *,
-    client: Client,
-    json_body: List["InputDocument"],
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: list["InputDocument"],
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
 ) -> Optional[File]:
     """annotate documents with multiple annotators and return formatted results in a zip (replaced with
     /projects/{projectName}/annotators/{annotator}/_annotate_format_text)
@@ -260,20 +261,20 @@ async def asyncio(
     Args:
         project_name (str):
         plan_name (str):
-        inline_labels (Union[Unset, None, bool]):  Default: True.
-        inline_label_ids (Union[Unset, None, bool]):  Default: True.
-        inline_text (Union[Unset, None, bool]):  Default: True.
-        debug (Union[Unset, None, bool]):
-        parallelize (Union[Unset, None, bool]):
-        error_policy (Union[Unset, None, str]):
-        json_body (List['InputDocument']):
+        inline_labels (Union[Unset, bool]):  Default: True.
+        inline_label_ids (Union[Unset, bool]):  Default: True.
+        inline_text (Union[Unset, bool]):  Default: True.
+        debug (Union[Unset, bool]):  Default: False.
+        parallelize (Union[Unset, bool]):  Default: False.
+        error_policy (Union[Unset, str]):
+        body (list['InputDocument']):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[File]
+        File
     """
 
     return (
@@ -281,7 +282,7 @@ async def asyncio(
             project_name=project_name,
             plan_name=plan_name,
             client=client,
-            json_body=json_body,
+            body=body,
             inline_labels=inline_labels,
             inline_label_ids=inline_label_ids,
             inline_text=inline_text,

@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.categories_facets import CategoriesFacets
@@ -10,7 +11,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="CategoryMetrics")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class CategoryMetrics:
     """
     Attributes:
@@ -25,15 +26,16 @@ class CategoryMetrics:
     document_facets: "DocumentFacets"
     documents_in_dataset: int
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         categories_count = self.categories_count
+
         categories_facets = self.categories_facets.to_dict()
 
         document_facets = self.document_facets.to_dict()
 
         documents_in_dataset = self.documents_in_dataset
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "categoriesCount": categories_count,
@@ -46,11 +48,11 @@ class CategoryMetrics:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.categories_facets import CategoriesFacets
         from ..models.document_facets import DocumentFacets
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         categories_count = d.pop("categoriesCount")
 
         categories_facets = CategoriesFacets.from_dict(d.pop("categoriesFacets"))

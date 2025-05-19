@@ -1,20 +1,21 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="OutputParams")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class OutputParams:
     """Search output parameters
 
     Attributes:
-        facets (Union[Unset, bool]): Activate faceted search results
+        facets (Union[Unset, bool]): Activate faceted search results Default: False.
         fields (Union[Unset, str]): Hit fields to be returned (e.g. 'annotations,categories' or '!text,!metadata')
-        highlight (Union[Unset, bool]): Highlight query terms
+        highlight (Union[Unset, bool]): Highlight query terms Default: False.
         return_hits (Union[Unset, bool]): Return hits in addition to answering the question Default: True.
     """
 
@@ -23,13 +24,16 @@ class OutputParams:
     highlight: Union[Unset, bool] = False
     return_hits: Union[Unset, bool] = True
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         facets = self.facets
+
         fields = self.fields
+
         highlight = self.highlight
+
         return_hits = self.return_hits
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if facets is not UNSET:
             field_dict["facets"] = facets
@@ -43,8 +47,8 @@ class OutputParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         facets = d.pop("facets", UNSET)
 
         fields = d.pop("fields", UNSET)

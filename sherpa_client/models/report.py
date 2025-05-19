@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="Report")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Report:
     """
     Attributes:
@@ -32,28 +33,28 @@ class Report:
     samples_avg: Union[Unset, "QualityFigures"] = UNSET
     weighted_avg: Union[Unset, "QualityFigures"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         classes = self.classes.to_dict()
 
         micro_avg = self.micro_avg.to_dict()
 
-        config: Union[Unset, Dict[str, Any]] = UNSET
+        config: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.config, Unset):
             config = self.config.to_dict()
 
-        macro_avg: Union[Unset, Dict[str, Any]] = UNSET
+        macro_avg: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.macro_avg, Unset):
             macro_avg = self.macro_avg.to_dict()
 
-        samples_avg: Union[Unset, Dict[str, Any]] = UNSET
+        samples_avg: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.samples_avg, Unset):
             samples_avg = self.samples_avg.to_dict()
 
-        weighted_avg: Union[Unset, Dict[str, Any]] = UNSET
+        weighted_avg: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.weighted_avg, Unset):
             weighted_avg = self.weighted_avg.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "classes": classes,
@@ -72,12 +73,12 @@ class Report:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.engine_config import EngineConfig
         from ..models.quality_figures import QualityFigures
         from ..models.report_classes import ReportClasses
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         classes = ReportClasses.from_dict(d.pop("classes"))
 
         micro_avg = QualityFigures.from_dict(d.pop("microAvg"))

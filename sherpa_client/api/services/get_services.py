@@ -1,42 +1,38 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.http_service_record import HttpServiceRecord
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
-    client: Client,
-    name: Union[Unset, None, str] = "",
-    api: Union[Unset, None, str] = "",
-    keep_alive: Union[Unset, None, bool] = UNSET,
-    engine: Union[Unset, None, str] = "",
-    function: Union[Unset, None, str] = "",
-    language: Union[Unset, None, str] = "",
-    type: Union[Unset, None, str] = "",
-    nature: Union[Unset, None, str] = "",
-    version: Union[Unset, None, str] = "",
-    term_importer: Union[Unset, None, str] = "",
-    annotator: Union[Unset, None, str] = "",
-    processor: Union[Unset, None, str] = "",
-    formatter: Union[Unset, None, str] = "",
-    converter: Union[Unset, None, str] = "",
-    segmenter: Union[Unset, None, str] = "",
-    vectorizer: Union[Unset, None, str] = "",
-    language_guesser: Union[Unset, None, str] = "",
-    include_embedded_services: Union[Unset, None, bool] = False,
-) -> Dict[str, Any]:
-    url = "{}/services".format(client.base_url)
+    name: Union[Unset, str] = "",
+    api: Union[Unset, str] = "",
+    keep_alive: Union[Unset, bool] = UNSET,
+    engine: Union[Unset, str] = "",
+    function: Union[Unset, str] = "",
+    language: Union[Unset, str] = "",
+    type_: Union[Unset, str] = "",
+    nature: Union[Unset, str] = "",
+    version: Union[Unset, str] = "",
+    term_importer: Union[Unset, str] = "",
+    annotator: Union[Unset, str] = "",
+    processor: Union[Unset, str] = "",
+    formatter: Union[Unset, str] = "",
+    converter: Union[Unset, str] = "",
+    segmenter: Union[Unset, str] = "",
+    vectorizer: Union[Unset, str] = "",
+    language_guesser: Union[Unset, str] = "",
+    include_embedded_services: Union[Unset, bool] = False,
+) -> dict[str, Any]:
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["name"] = name
 
     params["api"] = api
@@ -49,7 +45,7 @@ def _get_kwargs(
 
     params["language"] = language
 
-    params["type"] = type
+    params["type"] = type_
 
     params["nature"] = nature
 
@@ -75,35 +71,40 @@ def _get_kwargs(
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
+        "url": "/services",
         "params": params,
     }
 
+    return _kwargs
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[List["HttpServiceRecord"]]:
-    if response.status_code == HTTPStatus.OK:
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[list["HttpServiceRecord"]]:
+    if response.status_code == 200:
         response_200 = []
         _response_200 = response.json()
         for componentsschemas_http_service_record_array_item_data in _response_200:
-            componentsschemas_http_service_record_array_item = HttpServiceRecord.from_dict(
-                componentsschemas_http_service_record_array_item_data
+            componentsschemas_http_service_record_array_item = (
+                HttpServiceRecord.from_dict(
+                    componentsschemas_http_service_record_array_item_data
+                )
             )
 
             response_200.append(componentsschemas_http_service_record_array_item)
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[List["HttpServiceRecord"]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[list["HttpServiceRecord"]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -114,65 +115,64 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Lis
 
 def sync_detailed(
     *,
-    client: Client,
-    name: Union[Unset, None, str] = "",
-    api: Union[Unset, None, str] = "",
-    keep_alive: Union[Unset, None, bool] = UNSET,
-    engine: Union[Unset, None, str] = "",
-    function: Union[Unset, None, str] = "",
-    language: Union[Unset, None, str] = "",
-    type: Union[Unset, None, str] = "",
-    nature: Union[Unset, None, str] = "",
-    version: Union[Unset, None, str] = "",
-    term_importer: Union[Unset, None, str] = "",
-    annotator: Union[Unset, None, str] = "",
-    processor: Union[Unset, None, str] = "",
-    formatter: Union[Unset, None, str] = "",
-    converter: Union[Unset, None, str] = "",
-    segmenter: Union[Unset, None, str] = "",
-    vectorizer: Union[Unset, None, str] = "",
-    language_guesser: Union[Unset, None, str] = "",
-    include_embedded_services: Union[Unset, None, bool] = False,
-) -> Response[List["HttpServiceRecord"]]:
+    client: Union[AuthenticatedClient, Client],
+    name: Union[Unset, str] = "",
+    api: Union[Unset, str] = "",
+    keep_alive: Union[Unset, bool] = UNSET,
+    engine: Union[Unset, str] = "",
+    function: Union[Unset, str] = "",
+    language: Union[Unset, str] = "",
+    type_: Union[Unset, str] = "",
+    nature: Union[Unset, str] = "",
+    version: Union[Unset, str] = "",
+    term_importer: Union[Unset, str] = "",
+    annotator: Union[Unset, str] = "",
+    processor: Union[Unset, str] = "",
+    formatter: Union[Unset, str] = "",
+    converter: Union[Unset, str] = "",
+    segmenter: Union[Unset, str] = "",
+    vectorizer: Union[Unset, str] = "",
+    language_guesser: Union[Unset, str] = "",
+    include_embedded_services: Union[Unset, bool] = False,
+) -> Response[list["HttpServiceRecord"]]:
     """Filter the list of available services
 
     Args:
-        name (Union[Unset, None, str]):  Default: ''.
-        api (Union[Unset, None, str]):  Default: ''.
-        keep_alive (Union[Unset, None, bool]):
-        engine (Union[Unset, None, str]):  Default: ''.
-        function (Union[Unset, None, str]):  Default: ''.
-        language (Union[Unset, None, str]):  Default: ''.
-        type (Union[Unset, None, str]):  Default: ''.
-        nature (Union[Unset, None, str]):  Default: ''.
-        version (Union[Unset, None, str]):  Default: ''.
-        term_importer (Union[Unset, None, str]):  Default: ''.
-        annotator (Union[Unset, None, str]):  Default: ''.
-        processor (Union[Unset, None, str]):  Default: ''.
-        formatter (Union[Unset, None, str]):  Default: ''.
-        converter (Union[Unset, None, str]):  Default: ''.
-        segmenter (Union[Unset, None, str]):  Default: ''.
-        vectorizer (Union[Unset, None, str]):  Default: ''.
-        language_guesser (Union[Unset, None, str]):  Default: ''.
-        include_embedded_services (Union[Unset, None, bool]):
+        name (Union[Unset, str]):  Default: ''.
+        api (Union[Unset, str]):  Default: ''.
+        keep_alive (Union[Unset, bool]):
+        engine (Union[Unset, str]):  Default: ''.
+        function (Union[Unset, str]):  Default: ''.
+        language (Union[Unset, str]):  Default: ''.
+        type_ (Union[Unset, str]):  Default: ''.
+        nature (Union[Unset, str]):  Default: ''.
+        version (Union[Unset, str]):  Default: ''.
+        term_importer (Union[Unset, str]):  Default: ''.
+        annotator (Union[Unset, str]):  Default: ''.
+        processor (Union[Unset, str]):  Default: ''.
+        formatter (Union[Unset, str]):  Default: ''.
+        converter (Union[Unset, str]):  Default: ''.
+        segmenter (Union[Unset, str]):  Default: ''.
+        vectorizer (Union[Unset, str]):  Default: ''.
+        language_guesser (Union[Unset, str]):  Default: ''.
+        include_embedded_services (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['HttpServiceRecord']]
+        Response[list['HttpServiceRecord']]
     """
 
     kwargs = _get_kwargs(
-        client=client,
         name=name,
         api=api,
         keep_alive=keep_alive,
         engine=engine,
         function=function,
         language=language,
-        type=type,
+        type_=type_,
         nature=nature,
         version=version,
         term_importer=term_importer,
@@ -186,8 +186,7 @@ def sync_detailed(
         include_embedded_services=include_embedded_services,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -196,54 +195,54 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Client,
-    name: Union[Unset, None, str] = "",
-    api: Union[Unset, None, str] = "",
-    keep_alive: Union[Unset, None, bool] = UNSET,
-    engine: Union[Unset, None, str] = "",
-    function: Union[Unset, None, str] = "",
-    language: Union[Unset, None, str] = "",
-    type: Union[Unset, None, str] = "",
-    nature: Union[Unset, None, str] = "",
-    version: Union[Unset, None, str] = "",
-    term_importer: Union[Unset, None, str] = "",
-    annotator: Union[Unset, None, str] = "",
-    processor: Union[Unset, None, str] = "",
-    formatter: Union[Unset, None, str] = "",
-    converter: Union[Unset, None, str] = "",
-    segmenter: Union[Unset, None, str] = "",
-    vectorizer: Union[Unset, None, str] = "",
-    language_guesser: Union[Unset, None, str] = "",
-    include_embedded_services: Union[Unset, None, bool] = False,
-) -> Optional[List["HttpServiceRecord"]]:
+    client: Union[AuthenticatedClient, Client],
+    name: Union[Unset, str] = "",
+    api: Union[Unset, str] = "",
+    keep_alive: Union[Unset, bool] = UNSET,
+    engine: Union[Unset, str] = "",
+    function: Union[Unset, str] = "",
+    language: Union[Unset, str] = "",
+    type_: Union[Unset, str] = "",
+    nature: Union[Unset, str] = "",
+    version: Union[Unset, str] = "",
+    term_importer: Union[Unset, str] = "",
+    annotator: Union[Unset, str] = "",
+    processor: Union[Unset, str] = "",
+    formatter: Union[Unset, str] = "",
+    converter: Union[Unset, str] = "",
+    segmenter: Union[Unset, str] = "",
+    vectorizer: Union[Unset, str] = "",
+    language_guesser: Union[Unset, str] = "",
+    include_embedded_services: Union[Unset, bool] = False,
+) -> Optional[list["HttpServiceRecord"]]:
     """Filter the list of available services
 
     Args:
-        name (Union[Unset, None, str]):  Default: ''.
-        api (Union[Unset, None, str]):  Default: ''.
-        keep_alive (Union[Unset, None, bool]):
-        engine (Union[Unset, None, str]):  Default: ''.
-        function (Union[Unset, None, str]):  Default: ''.
-        language (Union[Unset, None, str]):  Default: ''.
-        type (Union[Unset, None, str]):  Default: ''.
-        nature (Union[Unset, None, str]):  Default: ''.
-        version (Union[Unset, None, str]):  Default: ''.
-        term_importer (Union[Unset, None, str]):  Default: ''.
-        annotator (Union[Unset, None, str]):  Default: ''.
-        processor (Union[Unset, None, str]):  Default: ''.
-        formatter (Union[Unset, None, str]):  Default: ''.
-        converter (Union[Unset, None, str]):  Default: ''.
-        segmenter (Union[Unset, None, str]):  Default: ''.
-        vectorizer (Union[Unset, None, str]):  Default: ''.
-        language_guesser (Union[Unset, None, str]):  Default: ''.
-        include_embedded_services (Union[Unset, None, bool]):
+        name (Union[Unset, str]):  Default: ''.
+        api (Union[Unset, str]):  Default: ''.
+        keep_alive (Union[Unset, bool]):
+        engine (Union[Unset, str]):  Default: ''.
+        function (Union[Unset, str]):  Default: ''.
+        language (Union[Unset, str]):  Default: ''.
+        type_ (Union[Unset, str]):  Default: ''.
+        nature (Union[Unset, str]):  Default: ''.
+        version (Union[Unset, str]):  Default: ''.
+        term_importer (Union[Unset, str]):  Default: ''.
+        annotator (Union[Unset, str]):  Default: ''.
+        processor (Union[Unset, str]):  Default: ''.
+        formatter (Union[Unset, str]):  Default: ''.
+        converter (Union[Unset, str]):  Default: ''.
+        segmenter (Union[Unset, str]):  Default: ''.
+        vectorizer (Union[Unset, str]):  Default: ''.
+        language_guesser (Union[Unset, str]):  Default: ''.
+        include_embedded_services (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['HttpServiceRecord']]
+        list['HttpServiceRecord']
     """
 
     return sync_detailed(
@@ -254,7 +253,7 @@ def sync(
         engine=engine,
         function=function,
         language=language,
-        type=type,
+        type_=type_,
         nature=nature,
         version=version,
         term_importer=term_importer,
@@ -271,65 +270,64 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Client,
-    name: Union[Unset, None, str] = "",
-    api: Union[Unset, None, str] = "",
-    keep_alive: Union[Unset, None, bool] = UNSET,
-    engine: Union[Unset, None, str] = "",
-    function: Union[Unset, None, str] = "",
-    language: Union[Unset, None, str] = "",
-    type: Union[Unset, None, str] = "",
-    nature: Union[Unset, None, str] = "",
-    version: Union[Unset, None, str] = "",
-    term_importer: Union[Unset, None, str] = "",
-    annotator: Union[Unset, None, str] = "",
-    processor: Union[Unset, None, str] = "",
-    formatter: Union[Unset, None, str] = "",
-    converter: Union[Unset, None, str] = "",
-    segmenter: Union[Unset, None, str] = "",
-    vectorizer: Union[Unset, None, str] = "",
-    language_guesser: Union[Unset, None, str] = "",
-    include_embedded_services: Union[Unset, None, bool] = False,
-) -> Response[List["HttpServiceRecord"]]:
+    client: Union[AuthenticatedClient, Client],
+    name: Union[Unset, str] = "",
+    api: Union[Unset, str] = "",
+    keep_alive: Union[Unset, bool] = UNSET,
+    engine: Union[Unset, str] = "",
+    function: Union[Unset, str] = "",
+    language: Union[Unset, str] = "",
+    type_: Union[Unset, str] = "",
+    nature: Union[Unset, str] = "",
+    version: Union[Unset, str] = "",
+    term_importer: Union[Unset, str] = "",
+    annotator: Union[Unset, str] = "",
+    processor: Union[Unset, str] = "",
+    formatter: Union[Unset, str] = "",
+    converter: Union[Unset, str] = "",
+    segmenter: Union[Unset, str] = "",
+    vectorizer: Union[Unset, str] = "",
+    language_guesser: Union[Unset, str] = "",
+    include_embedded_services: Union[Unset, bool] = False,
+) -> Response[list["HttpServiceRecord"]]:
     """Filter the list of available services
 
     Args:
-        name (Union[Unset, None, str]):  Default: ''.
-        api (Union[Unset, None, str]):  Default: ''.
-        keep_alive (Union[Unset, None, bool]):
-        engine (Union[Unset, None, str]):  Default: ''.
-        function (Union[Unset, None, str]):  Default: ''.
-        language (Union[Unset, None, str]):  Default: ''.
-        type (Union[Unset, None, str]):  Default: ''.
-        nature (Union[Unset, None, str]):  Default: ''.
-        version (Union[Unset, None, str]):  Default: ''.
-        term_importer (Union[Unset, None, str]):  Default: ''.
-        annotator (Union[Unset, None, str]):  Default: ''.
-        processor (Union[Unset, None, str]):  Default: ''.
-        formatter (Union[Unset, None, str]):  Default: ''.
-        converter (Union[Unset, None, str]):  Default: ''.
-        segmenter (Union[Unset, None, str]):  Default: ''.
-        vectorizer (Union[Unset, None, str]):  Default: ''.
-        language_guesser (Union[Unset, None, str]):  Default: ''.
-        include_embedded_services (Union[Unset, None, bool]):
+        name (Union[Unset, str]):  Default: ''.
+        api (Union[Unset, str]):  Default: ''.
+        keep_alive (Union[Unset, bool]):
+        engine (Union[Unset, str]):  Default: ''.
+        function (Union[Unset, str]):  Default: ''.
+        language (Union[Unset, str]):  Default: ''.
+        type_ (Union[Unset, str]):  Default: ''.
+        nature (Union[Unset, str]):  Default: ''.
+        version (Union[Unset, str]):  Default: ''.
+        term_importer (Union[Unset, str]):  Default: ''.
+        annotator (Union[Unset, str]):  Default: ''.
+        processor (Union[Unset, str]):  Default: ''.
+        formatter (Union[Unset, str]):  Default: ''.
+        converter (Union[Unset, str]):  Default: ''.
+        segmenter (Union[Unset, str]):  Default: ''.
+        vectorizer (Union[Unset, str]):  Default: ''.
+        language_guesser (Union[Unset, str]):  Default: ''.
+        include_embedded_services (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['HttpServiceRecord']]
+        Response[list['HttpServiceRecord']]
     """
 
     kwargs = _get_kwargs(
-        client=client,
         name=name,
         api=api,
         keep_alive=keep_alive,
         engine=engine,
         function=function,
         language=language,
-        type=type,
+        type_=type_,
         nature=nature,
         version=version,
         term_importer=term_importer,
@@ -343,62 +341,61 @@ async def asyncio_detailed(
         include_embedded_services=include_embedded_services,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
 
 async def asyncio(
     *,
-    client: Client,
-    name: Union[Unset, None, str] = "",
-    api: Union[Unset, None, str] = "",
-    keep_alive: Union[Unset, None, bool] = UNSET,
-    engine: Union[Unset, None, str] = "",
-    function: Union[Unset, None, str] = "",
-    language: Union[Unset, None, str] = "",
-    type: Union[Unset, None, str] = "",
-    nature: Union[Unset, None, str] = "",
-    version: Union[Unset, None, str] = "",
-    term_importer: Union[Unset, None, str] = "",
-    annotator: Union[Unset, None, str] = "",
-    processor: Union[Unset, None, str] = "",
-    formatter: Union[Unset, None, str] = "",
-    converter: Union[Unset, None, str] = "",
-    segmenter: Union[Unset, None, str] = "",
-    vectorizer: Union[Unset, None, str] = "",
-    language_guesser: Union[Unset, None, str] = "",
-    include_embedded_services: Union[Unset, None, bool] = False,
-) -> Optional[List["HttpServiceRecord"]]:
+    client: Union[AuthenticatedClient, Client],
+    name: Union[Unset, str] = "",
+    api: Union[Unset, str] = "",
+    keep_alive: Union[Unset, bool] = UNSET,
+    engine: Union[Unset, str] = "",
+    function: Union[Unset, str] = "",
+    language: Union[Unset, str] = "",
+    type_: Union[Unset, str] = "",
+    nature: Union[Unset, str] = "",
+    version: Union[Unset, str] = "",
+    term_importer: Union[Unset, str] = "",
+    annotator: Union[Unset, str] = "",
+    processor: Union[Unset, str] = "",
+    formatter: Union[Unset, str] = "",
+    converter: Union[Unset, str] = "",
+    segmenter: Union[Unset, str] = "",
+    vectorizer: Union[Unset, str] = "",
+    language_guesser: Union[Unset, str] = "",
+    include_embedded_services: Union[Unset, bool] = False,
+) -> Optional[list["HttpServiceRecord"]]:
     """Filter the list of available services
 
     Args:
-        name (Union[Unset, None, str]):  Default: ''.
-        api (Union[Unset, None, str]):  Default: ''.
-        keep_alive (Union[Unset, None, bool]):
-        engine (Union[Unset, None, str]):  Default: ''.
-        function (Union[Unset, None, str]):  Default: ''.
-        language (Union[Unset, None, str]):  Default: ''.
-        type (Union[Unset, None, str]):  Default: ''.
-        nature (Union[Unset, None, str]):  Default: ''.
-        version (Union[Unset, None, str]):  Default: ''.
-        term_importer (Union[Unset, None, str]):  Default: ''.
-        annotator (Union[Unset, None, str]):  Default: ''.
-        processor (Union[Unset, None, str]):  Default: ''.
-        formatter (Union[Unset, None, str]):  Default: ''.
-        converter (Union[Unset, None, str]):  Default: ''.
-        segmenter (Union[Unset, None, str]):  Default: ''.
-        vectorizer (Union[Unset, None, str]):  Default: ''.
-        language_guesser (Union[Unset, None, str]):  Default: ''.
-        include_embedded_services (Union[Unset, None, bool]):
+        name (Union[Unset, str]):  Default: ''.
+        api (Union[Unset, str]):  Default: ''.
+        keep_alive (Union[Unset, bool]):
+        engine (Union[Unset, str]):  Default: ''.
+        function (Union[Unset, str]):  Default: ''.
+        language (Union[Unset, str]):  Default: ''.
+        type_ (Union[Unset, str]):  Default: ''.
+        nature (Union[Unset, str]):  Default: ''.
+        version (Union[Unset, str]):  Default: ''.
+        term_importer (Union[Unset, str]):  Default: ''.
+        annotator (Union[Unset, str]):  Default: ''.
+        processor (Union[Unset, str]):  Default: ''.
+        formatter (Union[Unset, str]):  Default: ''.
+        converter (Union[Unset, str]):  Default: ''.
+        segmenter (Union[Unset, str]):  Default: ''.
+        vectorizer (Union[Unset, str]):  Default: ''.
+        language_guesser (Union[Unset, str]):  Default: ''.
+        include_embedded_services (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['HttpServiceRecord']]
+        list['HttpServiceRecord']
     """
 
     return (
@@ -410,7 +407,7 @@ async def asyncio(
             engine=engine,
             function=function,
             language=language,
-            type=type,
+            type_=type_,
             nature=nature,
             version=version,
             term_importer=term_importer,

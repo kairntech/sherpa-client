@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,31 +12,33 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="NewSuggester")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class NewSuggester:
     """
     Attributes:
         engine (str):
         label (str):
         parameters (NewSuggesterParameters):
-        tags (Union[Unset, List[str]]):
+        tags (Union[Unset, list[str]]):
     """
 
     engine: str
     label: str
     parameters: "NewSuggesterParameters"
-    tags: Union[Unset, List[str]] = UNSET
+    tags: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         engine = self.engine
+
         label = self.label
+
         parameters = self.parameters.to_dict()
 
-        tags: Union[Unset, List[str]] = UNSET
+        tags: Union[Unset, list[str]] = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "engine": engine,
@@ -49,17 +52,17 @@ class NewSuggester:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.new_suggester_parameters import NewSuggesterParameters
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         engine = d.pop("engine")
 
         label = d.pop("label")
 
         parameters = NewSuggesterParameters.from_dict(d.pop("parameters"))
 
-        tags = cast(List[str], d.pop("tags", UNSET))
+        tags = cast(list[str], d.pop("tags", UNSET))
 
         new_suggester = cls(
             engine=engine,

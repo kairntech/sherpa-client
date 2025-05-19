@@ -1,11 +1,12 @@
-from typing import Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 T = TypeVar("T", bound="UserGroupRef")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class UserGroupRef:
     """
     Attributes:
@@ -16,11 +17,12 @@ class UserGroupRef:
     group_name: str
     username: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         group_name = self.group_name
+
         username = self.username
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "groupName": group_name,
@@ -31,8 +33,8 @@ class UserGroupRef:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         group_name = d.pop("groupName")
 
         username = d.pop("username")

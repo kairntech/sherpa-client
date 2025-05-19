@@ -1,10 +1,10 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.simple_metadata import SimpleMetadata
 from ...types import UNSET, Response
 
@@ -12,43 +12,48 @@ from ...types import UNSET, Response
 def _get_kwargs(
     project_name: str,
     *,
-    client: Client,
-    json_body: SimpleMetadata,
+    body: SimpleMetadata,
     identifier: str,
-) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/documents/_tag".format(client.base_url, projectName=project_name)
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["identifier"] = identifier
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
-        "json": json_json_body,
+        "url": "/projects/{project_name}/documents/_tag".format(
+            project_name=project_name,
+        ),
         "params": params,
     }
 
+    _body = body.to_dict()
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Any]:
-    if response.status_code == HTTPStatus.NO_CONTENT:
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Any]:
+    if response.status_code == 204:
         return None
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[Any]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Any]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -60,8 +65,8 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Any
 def sync_detailed(
     project_name: str,
     *,
-    client: Client,
-    json_body: SimpleMetadata,
+    client: Union[AuthenticatedClient, Client],
+    body: SimpleMetadata,
     identifier: str,
 ) -> Response[Any]:
     """set a metadata value on a document
@@ -69,7 +74,7 @@ def sync_detailed(
     Args:
         project_name (str):
         identifier (str):
-        json_body (SimpleMetadata):
+        body (SimpleMetadata):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -81,13 +86,11 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
-        json_body=json_body,
+        body=body,
         identifier=identifier,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -97,8 +100,8 @@ def sync_detailed(
 async def asyncio_detailed(
     project_name: str,
     *,
-    client: Client,
-    json_body: SimpleMetadata,
+    client: Union[AuthenticatedClient, Client],
+    body: SimpleMetadata,
     identifier: str,
 ) -> Response[Any]:
     """set a metadata value on a document
@@ -106,7 +109,7 @@ async def asyncio_detailed(
     Args:
         project_name (str):
         identifier (str):
-        json_body (SimpleMetadata):
+        body (SimpleMetadata):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -118,12 +121,10 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
-        json_body=json_body,
+        body=body,
         identifier=identifier,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)

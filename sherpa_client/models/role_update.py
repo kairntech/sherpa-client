@@ -1,30 +1,32 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="RoleUpdate")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class RoleUpdate:
     """
     Attributes:
         label (Union[Unset, str]):
-        permissions (Union[Unset, List[str]]):
+        permissions (Union[Unset, list[str]]):
     """
 
     label: Union[Unset, str] = UNSET
-    permissions: Union[Unset, List[str]] = UNSET
+    permissions: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         label = self.label
-        permissions: Union[Unset, List[str]] = UNSET
+
+        permissions: Union[Unset, list[str]] = UNSET
         if not isinstance(self.permissions, Unset):
             permissions = self.permissions
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if label is not UNSET:
             field_dict["label"] = label
@@ -34,11 +36,11 @@ class RoleUpdate:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         label = d.pop("label", UNSET)
 
-        permissions = cast(List[str], d.pop("permissions", UNSET))
+        permissions = cast(list[str], d.pop("permissions", UNSET))
 
         role_update = cls(
             label=label,

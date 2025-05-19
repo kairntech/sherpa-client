@@ -1,13 +1,14 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="GeneralAppBar")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class GeneralAppBar:
     """Top bar general configuration
 
@@ -15,7 +16,7 @@ class GeneralAppBar:
         bar_color (Union[Unset, str]):
         icon_color (Union[Unset, str]):
         logo_is_grey (Union[Unset, bool]):  Default: True.
-        logo_is_white (Union[Unset, bool]):
+        logo_is_white (Union[Unset, bool]):  Default: False.
         text_color (Union[Unset, str]):
     """
 
@@ -25,14 +26,18 @@ class GeneralAppBar:
     logo_is_white: Union[Unset, bool] = False
     text_color: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         bar_color = self.bar_color
+
         icon_color = self.icon_color
+
         logo_is_grey = self.logo_is_grey
+
         logo_is_white = self.logo_is_white
+
         text_color = self.text_color
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if bar_color is not UNSET:
             field_dict["barColor"] = bar_color
@@ -48,8 +53,8 @@ class GeneralAppBar:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         bar_color = d.pop("barColor", UNSET)
 
         icon_color = d.pop("iconColor", UNSET)

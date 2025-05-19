@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -12,7 +13,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="Experiment")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Experiment:
     """
     Attributes:
@@ -26,11 +27,11 @@ class Experiment:
         running (bool):
         timestamp (int):
         uptodate (bool):
-        classes (Union[Unset, List[str]]):
+        classes (Union[Unset, list[str]]):
         email_notification (Union[Unset, bool]):
         favorite (Union[Unset, bool]):
         report (Union[Unset, Report]):
-        tags (Union[Unset, List[str]]):
+        tags (Union[Unset, list[str]]):
     """
 
     duration: int
@@ -43,39 +44,50 @@ class Experiment:
     running: bool
     timestamp: int
     uptodate: bool
-    classes: Union[Unset, List[str]] = UNSET
+    classes: Union[Unset, list[str]] = UNSET
     email_notification: Union[Unset, bool] = UNSET
     favorite: Union[Unset, bool] = UNSET
     report: Union[Unset, "Report"] = UNSET
-    tags: Union[Unset, List[str]] = UNSET
+    tags: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         duration = self.duration
+
         engine = self.engine
+
         label = self.label
+
         models = self.models
+
         name = self.name
+
         parameters = self.parameters.to_dict()
 
         quality = self.quality
+
         running = self.running
+
         timestamp = self.timestamp
+
         uptodate = self.uptodate
-        classes: Union[Unset, List[str]] = UNSET
+
+        classes: Union[Unset, list[str]] = UNSET
         if not isinstance(self.classes, Unset):
             classes = self.classes
 
         email_notification = self.email_notification
+
         favorite = self.favorite
-        report: Union[Unset, Dict[str, Any]] = UNSET
+
+        report: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.report, Unset):
             report = self.report.to_dict()
 
-        tags: Union[Unset, List[str]] = UNSET
+        tags: Union[Unset, list[str]] = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "duration": duration,
@@ -104,11 +116,11 @@ class Experiment:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.experiment_parameters import ExperimentParameters
         from ..models.report import Report
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         duration = d.pop("duration")
 
         engine = d.pop("engine")
@@ -129,7 +141,7 @@ class Experiment:
 
         uptodate = d.pop("uptodate")
 
-        classes = cast(List[str], d.pop("classes", UNSET))
+        classes = cast(list[str], d.pop("classes", UNSET))
 
         email_notification = d.pop("emailNotification", UNSET)
 
@@ -142,7 +154,7 @@ class Experiment:
         else:
             report = Report.from_dict(_report)
 
-        tags = cast(List[str], d.pop("tags", UNSET))
+        tags = cast(list[str], d.pop("tags", UNSET))
 
         experiment = cls(
             duration=duration,

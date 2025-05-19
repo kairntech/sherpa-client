@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..models.imported_doc_category_creation_mode import ImportedDocCategoryCreationMode
 from ..types import UNSET, Unset
@@ -12,7 +13,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="ImportedDocCategory")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ImportedDocCategory:
     """
     Attributes:
@@ -33,22 +34,26 @@ class ImportedDocCategory:
     score: Union[Unset, float] = UNSET
     status: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         creation_mode: Union[Unset, str] = UNSET
         if not isinstance(self.creation_mode, Unset):
             creation_mode = self.creation_mode.value
 
         label = self.label
+
         label_id = self.label_id
+
         label_name = self.label_name
-        properties: Union[Unset, Dict[str, Any]] = UNSET
+
+        properties: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.properties, Unset):
             properties = self.properties.to_dict()
 
         score = self.score
+
         status = self.status
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if creation_mode is not UNSET:
             field_dict["creationMode"] = creation_mode
@@ -68,10 +73,12 @@ class ImportedDocCategory:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        from ..models.imported_doc_category_properties import ImportedDocCategoryProperties
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.imported_doc_category_properties import (
+            ImportedDocCategoryProperties,
+        )
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         _creation_mode = d.pop("creationMode", UNSET)
         creation_mode: Union[Unset, ImportedDocCategoryCreationMode]
         if isinstance(_creation_mode, Unset):

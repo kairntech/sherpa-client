@@ -1,48 +1,47 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union, cast
+from typing import Any, Optional, Union, cast
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.theme import Theme
 from ...types import Response
 
 
 def _get_kwargs(
     theme_id: str,
-    *,
-    client: Client,
-) -> Dict[str, Any]:
-    url = "{}/themes/{themeId}".format(client.base_url, themeId=theme_id)
+) -> dict[str, Any]:
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
+        "url": "/themes/{theme_id}".format(
+            theme_id=theme_id,
+        ),
     }
 
+    return _kwargs
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Union[Any, Theme]]:
-    if response.status_code == HTTPStatus.OK:
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[Any, Theme]]:
+    if response.status_code == 200:
         response_200 = Theme.from_dict(response.json())
 
         return response_200
-    if response.status_code == HTTPStatus.NOT_FOUND:
+    if response.status_code == 404:
         response_404 = cast(Any, None)
         return response_404
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[Union[Any, Theme]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[Any, Theme]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -54,7 +53,7 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Uni
 def sync_detailed(
     theme_id: str,
     *,
-    client: Client,
+    client: Union[AuthenticatedClient, Client],
 ) -> Response[Union[Any, Theme]]:
     """Get a UI theme
 
@@ -71,11 +70,9 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         theme_id=theme_id,
-        client=client,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -85,7 +82,7 @@ def sync_detailed(
 def sync(
     theme_id: str,
     *,
-    client: Client,
+    client: Union[AuthenticatedClient, Client],
 ) -> Optional[Union[Any, Theme]]:
     """Get a UI theme
 
@@ -97,7 +94,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, Theme]]
+        Union[Any, Theme]
     """
 
     return sync_detailed(
@@ -109,7 +106,7 @@ def sync(
 async def asyncio_detailed(
     theme_id: str,
     *,
-    client: Client,
+    client: Union[AuthenticatedClient, Client],
 ) -> Response[Union[Any, Theme]]:
     """Get a UI theme
 
@@ -126,11 +123,9 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         theme_id=theme_id,
-        client=client,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -138,7 +133,7 @@ async def asyncio_detailed(
 async def asyncio(
     theme_id: str,
     *,
-    client: Client,
+    client: Union[AuthenticatedClient, Client],
 ) -> Optional[Union[Any, Theme]]:
     """Get a UI theme
 
@@ -150,7 +145,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, Theme]]
+        Union[Any, Theme]
     """
 
     return (

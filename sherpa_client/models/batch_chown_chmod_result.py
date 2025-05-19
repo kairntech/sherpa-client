@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, cast
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.batch_errors import BatchErrors
@@ -11,22 +12,22 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="BatchChownChmodResult")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class BatchChownChmodResult:
     """
     Attributes:
         errors (BatchErrors):
-        non_chowned_projects (List[str]):
-        ownership_changes (List['OwnershipChange']):
-        project_user_shares (List['ProjectUserShare']):
+        non_chowned_projects (list[str]):
+        ownership_changes (list['OwnershipChange']):
+        project_user_shares (list['ProjectUserShare']):
     """
 
     errors: "BatchErrors"
-    non_chowned_projects: List[str]
-    ownership_changes: List["OwnershipChange"]
-    project_user_shares: List["ProjectUserShare"]
+    non_chowned_projects: list[str]
+    ownership_changes: list["OwnershipChange"]
+    project_user_shares: list["ProjectUserShare"]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         errors = self.errors.to_dict()
 
         non_chowned_projects = self.non_chowned_projects
@@ -34,16 +35,14 @@ class BatchChownChmodResult:
         ownership_changes = []
         for ownership_changes_item_data in self.ownership_changes:
             ownership_changes_item = ownership_changes_item_data.to_dict()
-
             ownership_changes.append(ownership_changes_item)
 
         project_user_shares = []
         for project_user_shares_item_data in self.project_user_shares:
             project_user_shares_item = project_user_shares_item_data.to_dict()
-
             project_user_shares.append(project_user_shares_item)
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "errors": errors,
@@ -56,27 +55,31 @@ class BatchChownChmodResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.batch_errors import BatchErrors
         from ..models.ownership_change import OwnershipChange
         from ..models.project_user_share import ProjectUserShare
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         errors = BatchErrors.from_dict(d.pop("errors"))
 
-        non_chowned_projects = cast(List[str], d.pop("nonChownedProjects"))
+        non_chowned_projects = cast(list[str], d.pop("nonChownedProjects"))
 
         ownership_changes = []
         _ownership_changes = d.pop("ownershipChanges")
         for ownership_changes_item_data in _ownership_changes:
-            ownership_changes_item = OwnershipChange.from_dict(ownership_changes_item_data)
+            ownership_changes_item = OwnershipChange.from_dict(
+                ownership_changes_item_data
+            )
 
             ownership_changes.append(ownership_changes_item)
 
         project_user_shares = []
         _project_user_shares = d.pop("projectUserShares")
         for project_user_shares_item_data in _project_user_shares:
-            project_user_shares_item = ProjectUserShare.from_dict(project_user_shares_item_data)
+            project_user_shares_item = ProjectUserShare.from_dict(
+                project_user_shares_item_data
+            )
 
             project_user_shares.append(project_user_shares_item)
 

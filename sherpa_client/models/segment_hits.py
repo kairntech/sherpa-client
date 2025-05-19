@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -13,41 +14,39 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="SegmentHits")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class SegmentHits:
     """
     Attributes:
-        hits (List['SegmentHit']):
+        hits (list['SegmentHit']):
         total (SearchTotal):
-        aggregations (Union[Unset, List['Aggregation']]):
+        aggregations (Union[Unset, list['Aggregation']]):
         max_score (Union[Unset, float]):
     """
 
-    hits: List["SegmentHit"]
+    hits: list["SegmentHit"]
     total: "SearchTotal"
-    aggregations: Union[Unset, List["Aggregation"]] = UNSET
+    aggregations: Union[Unset, list["Aggregation"]] = UNSET
     max_score: Union[Unset, float] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         hits = []
         for hits_item_data in self.hits:
             hits_item = hits_item_data.to_dict()
-
             hits.append(hits_item)
 
         total = self.total.to_dict()
 
-        aggregations: Union[Unset, List[Dict[str, Any]]] = UNSET
+        aggregations: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.aggregations, Unset):
             aggregations = []
             for aggregations_item_data in self.aggregations:
                 aggregations_item = aggregations_item_data.to_dict()
-
                 aggregations.append(aggregations_item)
 
         max_score = self.max_score
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "hits": hits,
@@ -62,12 +61,12 @@ class SegmentHits:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.aggregation import Aggregation
         from ..models.search_total import SearchTotal
         from ..models.segment_hit import SegmentHit
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         hits = []
         _hits = d.pop("hits")
         for hits_item_data in _hits:

@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.share_mode import ShareMode
@@ -9,7 +10,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="GroupShare")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class GroupShare:
     """
     Attributes:
@@ -22,12 +23,14 @@ class GroupShare:
     group_name: str
     mode: "ShareMode"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         can_revoke = self.can_revoke
+
         group_name = self.group_name
+
         mode = self.mode.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "canRevoke": can_revoke,
@@ -39,10 +42,10 @@ class GroupShare:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.share_mode import ShareMode
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         can_revoke = d.pop("canRevoke")
 
         group_name = d.pop("groupName")

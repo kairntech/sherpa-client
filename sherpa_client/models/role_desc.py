@@ -1,20 +1,21 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="RoleDesc")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class RoleDesc:
     """
     Attributes:
         label (str):
-        permissions (List[str]):
+        permissions (list[str]):
         rolename (str):
-        type (str):
+        type_ (str):
         created_at (Union[Unset, str]):
         created_by (Union[Unset, str]):
         group_name (Union[Unset, str]):
@@ -24,9 +25,9 @@ class RoleDesc:
     """
 
     label: str
-    permissions: List[str]
+    permissions: list[str]
     rolename: str
-    type: str
+    type_: str
     created_at: Union[Unset, str] = UNSET
     created_by: Union[Unset, str] = UNSET
     group_name: Union[Unset, str] = UNSET
@@ -34,26 +35,34 @@ class RoleDesc:
     modified_by: Union[Unset, str] = UNSET
     predefined: Union[Unset, bool] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         label = self.label
+
         permissions = self.permissions
 
         rolename = self.rolename
-        type = self.type
+
+        type_ = self.type_
+
         created_at = self.created_at
+
         created_by = self.created_by
+
         group_name = self.group_name
+
         modified_at = self.modified_at
+
         modified_by = self.modified_by
+
         predefined = self.predefined
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "label": label,
                 "permissions": permissions,
                 "rolename": rolename,
-                "type": type,
+                "type": type_,
             }
         )
         if created_at is not UNSET:
@@ -72,15 +81,15 @@ class RoleDesc:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         label = d.pop("label")
 
-        permissions = cast(List[str], d.pop("permissions"))
+        permissions = cast(list[str], d.pop("permissions"))
 
         rolename = d.pop("rolename")
 
-        type = d.pop("type")
+        type_ = d.pop("type")
 
         created_at = d.pop("createdAt", UNSET)
 
@@ -98,7 +107,7 @@ class RoleDesc:
             label=label,
             permissions=permissions,
             rolename=rolename,
-            type=type,
+            type_=type_,
             created_at=created_at,
             created_by=created_by,
             group_name=group_name,

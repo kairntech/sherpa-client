@@ -5,30 +5,45 @@ from typing import List
 
 import pytest
 import shortuuid
+from httpx import BasicAuth
 
+from sherpa_client import ApiKeyAuth, AuthenticatedClient
 from sherpa_client.api.annotate import annotate_text_with_project_annotator
 from sherpa_client.api.authentication import user_sign_out
-from sherpa_client.api.documents import export_documents_sample, get_document, launch_document_import
+from sherpa_client.api.documents import (
+    export_documents_sample,
+    get_document,
+    launch_document_import,
+)
 from sherpa_client.api.experiments import get_experiments, launch_experiment
 from sherpa_client.api.gazetteers import create_gazetteer, synchronize_gazetteer
 from sherpa_client.api.jobs import get_job
 from sherpa_client.api.labels import create_label
-from sherpa_client.api.lexicons import create_lexicon, create_term, delete_terms_by_lexicon_name, get_lexicon
+from sherpa_client.api.lexicons import (
+    create_lexicon,
+    create_term,
+    delete_terms_by_lexicon_name,
+    get_lexicon,
+)
 from sherpa_client.api.plans import create_plan
-from sherpa_client.api.projects import create_project, delete_project, get_project_info, get_projects
-from sherpa_client.client import SherpaClient
+from sherpa_client.api.projects import (
+    create_project,
+    delete_project,
+    get_project_info,
+    get_projects,
+)
 from sherpa_client.models import (
     AnnotatedDocument,
     AnnotationPlan,
     CreateLexiconResponse200,
-    CreateTermJsonBody,
+    CreateTermBody,
     CreateTermResponse200,
     Credentials,
     Document,
     EngineName,
     Experiment,
     Label,
-    LaunchDocumentImportMultipartData,
+    LaunchDocumentImportBody,
     Lexicon,
     NewGazetteer,
     NewGazetteerParameters,
@@ -53,25 +68,15 @@ def client():
         creds = json.load(fin)
         url = creds.pop("url")
         creds = Credentials.from_dict(creds)
-        client = SherpaClient(base_url=url, timeout=300)
-        client.login_with_cookie(creds)
-        # setup_stuff
-        yield client
-    # teardown_stuff
-    ack = user_sign_out.sync_detailed(client=client)
-
-
-@pytest.fixture(autouse=True, scope="session")
-def bearer_client():
-    testdir = Path(__file__).parent / "data"
-    json_file = testdir / "credentials.json"
-    with json_file.open("r") as fin:
-        creds = json.load(fin)
-        url = creds.pop("url")
-        creds = Credentials.from_dict(creds)
-        client = SherpaClient(base_url=url, timeout=300)
-        client.login_with_token(creds, annotate_only=True)
-        # setup_stuff
+        # client = Client(base_url=url, timeout=300, httpx_args={"auth": BasicAuth(username=creds.email, password=creds.password)})
+        client = AuthenticatedClient(
+            base_url=url,
+            timeout=300,
+            auth=BasicAuth(username=creds.email, password=creds.password),
+        )
+        res = client.get_httpx_client().get("/current_user")
+        if not res.is_success:
+            res.raise_for_status()
         yield client
     # teardown_stuff
     ack = user_sign_out.sync_detailed(client=client)
@@ -85,8 +90,10 @@ def apikey_client():
         creds = json.load(fin)
         url = creds.pop("url")
         key = creds.pop("key")
-        client = SherpaClient(base_url=url, timeout=300)
-        client.login_with_apikey("X-Kairntech-key", key)
+        client = AuthenticatedClient(base_url=url, timeout=300, auth=ApiKeyAuth(key))
+        res = client.get_httpx_client().get("/current_user")
+        if not res.is_success:
+            res.raise_for_status()
         # setup_stuff
         yield client
     # teardown_stuff
@@ -103,8 +110,10 @@ def project(client):
     pname = "test_" + shortuuid.uuid()[:12]
     r = create_project.sync_detailed(
         client=client,
-        json_body=ProjectConfigCreation(
-            name=pname, label="SHERPA-CLIENT", description="Test project for sherpa-client"
+        body=ProjectConfigCreation(
+            name=pname,
+            label="SHERPA-CLIENT",
+            description="Test project for sherpa-client",
         ),
         group_name="kairntech",
     )
@@ -131,20 +140,15 @@ def wait_for_completion(job_bean: SherpaJobBean, client=client):
 
 
 def test_login_with_token(client):
-    assert client.session_cookies is not None
-    assert "vertx-web.session" in client.session_cookies
-    assert "vertx-web.session" in client.get_cookies()
-
-
-def test_login(bearer_client):
-    assert bearer_client.token is not None
+    assert "vertx-web.session" in client.get_httpx_client().cookies
 
 
 def test_login_with_apikey(apikey_client):
-    assert apikey_client.token is not None
-    assert apikey_client.auth_header_name is not None
+    assert apikey_client.auth is not None
+    assert apikey_client.auth.token is not None
+    assert apikey_client.auth.api_key_header_name is not None
     r = get_projects.sync_detailed(client=apikey_client)
-    r = get_projects.sync_detailed(client=apikey_client)
+    assert r.is_success
 
 
 def test_get_project_info(client, project):
@@ -167,11 +171,15 @@ def test_get_projects(client, project):
 def test_import_documents(client, project):
     testdir = Path(__file__).parent / "data"
     json_file = testdir / "20_dummy_segs_with_annotations.json"
-    with json_file.open("r") as fin:
-        multipart_data = LaunchDocumentImportMultipartData(
-            file=File(file_name=json_file.name, payload=fin, mime_type="application/json")
+    with json_file.open("rb") as fin:
+        multipart_data = LaunchDocumentImportBody(
+            file=File(
+                file_name=json_file.name, payload=fin, mime_type="application/json"
+            )
         )
-        r = launch_document_import.sync_detailed(project, client=client, multipart_data=multipart_data)
+        r = launch_document_import.sync_detailed(
+            project, client=client, body=multipart_data
+        )
         if r.is_success:
             job_bean: SherpaJobBean = r.parsed
             job_bean = wait_for_completion(job_bean, client=client)
@@ -222,7 +230,7 @@ def test_train_experiment(client, project):
 
 def test_annotate_with_experiment(client, project):
     r = annotate_text_with_project_annotator.sync_detailed(
-        project, "crfsuite", client=client, text_body="This is a test99"
+        project, "crfsuite", client=client, body="This is a test99"
     )
     if r.is_success:
         doc: AnnotatedDocument = r.parsed
@@ -231,29 +239,42 @@ def test_annotate_with_experiment(client, project):
 
 
 def test_create_lexicon_and_gazetteer(client, project):
-    r = create_lexicon.sync_detailed(project, client=client, json_body=PartialLexicon(label="lex"))
+    r = create_lexicon.sync_detailed(
+        project, client=client, body=PartialLexicon(label="lex")
+    )
     if r.is_success:
         res: CreateLexiconResponse200 = r.parsed
         r = create_term.sync_detailed(
-            project, "lex", client=client, json_body=CreateTermJsonBody.from_dict({"identifier": "This"})
+            project,
+            "lex",
+            client=client,
+            body=CreateTermBody.from_dict({"identifier": "This"}),
         )
         if r.is_success:
             res: CreateTermResponse200 = r.parsed
-            r = create_label.sync_detailed(project, client=client, json_body=PartialLabel(label="Term", name="term"))
+            r = create_label.sync_detailed(
+                project,
+                client=client,
+                body=PartialLabel(label="Term", name="term"),
+            )
             if r.is_success:
                 lab: Label = r.parsed
                 r = create_gazetteer.sync_detailed(
                     project,
                     client=client,
-                    json_body=NewGazetteer(
+                    body=NewGazetteer(
                         engine="PhraseMatcher",
                         label="Gaz",
-                        parameters=NewGazetteerParameters.from_dict({"parameters": {"terms": {"term": "lex"}}}),
+                        parameters=NewGazetteerParameters.from_dict(
+                            {"parameters": {"terms": {"term": "lex"}}}
+                        ),
                     ),
                 )
                 if r.is_success:
                     eng: EngineName = r.parsed
-                    r = synchronize_gazetteer.sync_detailed(project, eng.name, client=client)
+                    r = synchronize_gazetteer.sync_detailed(
+                        project, eng.name, client=client
+                    )
                     if r.is_success:
                         job_bean: SherpaJobBean = r.parsed
                         job_bean = wait_for_completion(job_bean, client=client)
@@ -263,7 +284,9 @@ def test_create_lexicon_and_gazetteer(client, project):
 
 
 def test_annotate_with_gazetteer(client, project):
-    r = annotate_text_with_project_annotator.sync_detailed(project, "gaz", client=client, text_body="This is a test99")
+    r = annotate_text_with_project_annotator.sync_detailed(
+        project, "gaz", client=client, body="This is a test99"
+    )
     if r.is_success:
         doc: AnnotatedDocument = r.parsed
         assert len(doc.annotations) == 1
@@ -274,9 +297,14 @@ def test_create_plan(client, project):
     r = create_plan.sync_detailed(
         project,
         client=client,
-        json_body=NewNamedAnnotationPlan(
+        body=NewNamedAnnotationPlan(
             label="Plan",
-            parameters=AnnotationPlan(pipeline=[WithAnnotator(annotator="crfsuite"), WithAnnotator(annotator="gaz")]),
+            parameters=AnnotationPlan(
+                pipeline=[
+                    WithAnnotator(annotator="crfsuite"),
+                    WithAnnotator(annotator="gaz"),
+                ]
+            ),
         ),
     )
     if r.is_success:
@@ -285,7 +313,9 @@ def test_create_plan(client, project):
 
 
 def test_annotate_with_plan(client, project):
-    r = annotate_text_with_project_annotator.sync_detailed(project, "plan", client=client, text_body="This is a test99")
+    r = annotate_text_with_project_annotator.sync_detailed(
+        project, "plan", client=client, body="This is a test99"
+    )
     if r.is_success:
         doc: AnnotatedDocument = r.parsed
         assert len(doc.annotations) == 2
@@ -300,7 +330,9 @@ def test_clear_lexicon(client, project):
         assert lexicon.terms > 0
     r = delete_terms_by_lexicon_name.sync_detailed(project, "lex", client=client)
     if r.is_success:
-        r = get_lexicon.sync_detailed(project, "lex", client=client, compute_metrics=True)
+        r = get_lexicon.sync_detailed(
+            project, "lex", client=client, compute_metrics=True
+        )
         if r.is_success:
             lexicon: Lexicon = r.parsed
             assert lexicon.terms == 0

@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,7 +12,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="AnnotationTerm")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class AnnotationTerm:
     """A term
 
@@ -29,17 +30,20 @@ class AnnotationTerm:
     properties: Union[Unset, "AnnotationTermProperties"] = UNSET
     score: Union[Unset, float] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         identifier = self.identifier
+
         lexicon = self.lexicon
+
         preferred_form = self.preferred_form
-        properties: Union[Unset, Dict[str, Any]] = UNSET
+
+        properties: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.properties, Unset):
             properties = self.properties.to_dict()
 
         score = self.score
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "identifier": identifier,
@@ -56,10 +60,10 @@ class AnnotationTerm:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.annotation_term_properties import AnnotationTermProperties
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         identifier = d.pop("identifier")
 
         lexicon = d.pop("lexicon")

@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..models.doc_category_creation_mode import DocCategoryCreationMode
 from ..models.doc_category_status import DocCategoryStatus
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="DocCategory")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class DocCategory:
     """A document category
 
@@ -39,26 +40,32 @@ class DocCategory:
     score: Union[Unset, float] = UNSET
     status: Union[Unset, DocCategoryStatus] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         label_name = self.label_name
+
         created_by = self.created_by
+
         created_date = self.created_date
+
         creation_mode: Union[Unset, str] = UNSET
         if not isinstance(self.creation_mode, Unset):
             creation_mode = self.creation_mode.value
 
         identifier = self.identifier
+
         modified_date = self.modified_date
-        properties: Union[Unset, Dict[str, Any]] = UNSET
+
+        properties: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.properties, Unset):
             properties = self.properties.to_dict()
 
         score = self.score
+
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
             status = self.status.value
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "labelName": label_name,
@@ -84,10 +91,10 @@ class DocCategory:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.doc_category_properties import DocCategoryProperties
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         label_name = d.pop("labelName")
 
         created_by = d.pop("createdBy", UNSET)

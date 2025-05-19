@@ -1,52 +1,53 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     project_name: str,
     *,
-    client: Client,
-    test_size: Union[Unset, None, float] = 0.2,
-    incremental: Union[Unset, None, bool] = False,
-) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/_split_corpus".format(client.base_url, projectName=project_name)
+    test_size: Union[Unset, float] = 0.2,
+    incremental: Union[Unset, bool] = False,
+) -> dict[str, Any]:
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["testSize"] = test_size
 
     params["incremental"] = incremental
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
+        "url": "/projects/{project_name}/_split_corpus".format(
+            project_name=project_name,
+        ),
         "params": params,
     }
 
+    return _kwargs
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Any]:
-    if response.status_code == HTTPStatus.NO_CONTENT:
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Any]:
+    if response.status_code == 204:
         return None
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[Any]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Any]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -58,16 +59,16 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Any
 def sync_detailed(
     project_name: str,
     *,
-    client: Client,
-    test_size: Union[Unset, None, float] = 0.2,
-    incremental: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    test_size: Union[Unset, float] = 0.2,
+    incremental: Union[Unset, bool] = False,
 ) -> Response[Any]:
     """split corpus in train and test sets
 
     Args:
         project_name (str):
-        test_size (Union[Unset, None, float]):  Default: 0.2.
-        incremental (Union[Unset, None, bool]):
+        test_size (Union[Unset, float]):  Default: 0.2.
+        incremental (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -79,13 +80,11 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
         test_size=test_size,
         incremental=incremental,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -95,16 +94,16 @@ def sync_detailed(
 async def asyncio_detailed(
     project_name: str,
     *,
-    client: Client,
-    test_size: Union[Unset, None, float] = 0.2,
-    incremental: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    test_size: Union[Unset, float] = 0.2,
+    incremental: Union[Unset, bool] = False,
 ) -> Response[Any]:
     """split corpus in train and test sets
 
     Args:
         project_name (str):
-        test_size (Union[Unset, None, float]):  Default: 0.2.
-        incremental (Union[Unset, None, bool]):
+        test_size (Union[Unset, float]):  Default: 0.2.
+        incremental (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -116,12 +115,10 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
         test_size=test_size,
         incremental=incremental,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)

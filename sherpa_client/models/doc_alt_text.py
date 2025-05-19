@@ -1,13 +1,14 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="DocAltText")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class DocAltText:
     """A document alternative text
 
@@ -25,14 +26,18 @@ class DocAltText:
     created_date: Union[Unset, str] = UNSET
     modified_date: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         name = self.name
+
         text = self.text
+
         created_by = self.created_by
+
         created_date = self.created_date
+
         modified_date = self.modified_date
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "name": name,
@@ -49,8 +54,8 @@ class DocAltText:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         name = d.pop("name")
 
         text = d.pop("text")

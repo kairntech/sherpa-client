@@ -1,6 +1,7 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..models.search_filter_filter_selector import SearchFilterFilterSelector
 from ..models.search_filter_filter_type import SearchFilterFilterType
@@ -9,7 +10,7 @@ from ..types import UNSET, Unset
 T = TypeVar("T", bound="SearchFilter")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class SearchFilter:
     """
     Attributes:
@@ -20,12 +21,15 @@ class SearchFilter:
     """
 
     field: Union[Unset, str] = "text"
-    filter_selector: Union[Unset, SearchFilterFilterSelector] = SearchFilterFilterSelector.MUST
+    filter_selector: Union[Unset, SearchFilterFilterSelector] = (
+        SearchFilterFilterSelector.MUST
+    )
     filter_type: Union[Unset, SearchFilterFilterType] = SearchFilterFilterType.QUERY
     value: Union[Unset, str] = ""
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         field = self.field
+
         filter_selector: Union[Unset, str] = UNSET
         if not isinstance(self.filter_selector, Unset):
             filter_selector = self.filter_selector.value
@@ -36,7 +40,7 @@ class SearchFilter:
 
         value = self.value
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if field is not UNSET:
             field_dict["field"] = field
@@ -50,8 +54,8 @@ class SearchFilter:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         field = d.pop("field", UNSET)
 
         _filter_selector = d.pop("filterSelector", UNSET)

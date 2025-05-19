@@ -1,13 +1,14 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="PartialLexicon")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class PartialLexicon:
     """
     Attributes:
@@ -20,12 +21,14 @@ class PartialLexicon:
     color: Union[Unset, str] = UNSET
     name: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         label = self.label
+
         color = self.color
+
         name = self.name
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "label": label,
@@ -39,8 +42,8 @@ class PartialLexicon:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         label = d.pop("label")
 
         color = d.pop("color", UNSET)

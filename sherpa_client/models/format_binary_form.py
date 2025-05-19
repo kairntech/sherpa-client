@@ -1,8 +1,9 @@
 import json
+from collections.abc import Mapping
 from io import BytesIO
-from typing import TYPE_CHECKING, Any, Dict, Tuple, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, File, FileJsonType, Unset
 
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="FormatBinaryForm")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class FormatBinaryForm:
     """
     Attributes:
@@ -24,16 +25,16 @@ class FormatBinaryForm:
     file: Union[Unset, File] = UNSET
     plan: Union[Unset, "ConvertFormatAnnotationPlan"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         file: Union[Unset, FileJsonType] = UNSET
         if not isinstance(self.file, Unset):
             file = self.file.to_tuple()
 
-        plan: Union[Unset, Dict[str, Any]] = UNSET
+        plan: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.plan, Unset):
             plan = self.plan.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if file is not UNSET:
             field_dict["file"] = file
@@ -42,16 +43,16 @@ class FormatBinaryForm:
 
         return field_dict
 
-    def to_multipart(self) -> Dict[str, Any]:
+    def to_multipart(self) -> dict[str, Any]:
         file: Union[Unset, FileJsonType] = UNSET
         if not isinstance(self.file, Unset):
             file = self.file.to_tuple()
 
-        plan: Union[Unset, Tuple[None, bytes, str]] = UNSET
+        plan: Union[Unset, tuple[None, bytes, str]] = UNSET
         if not isinstance(self.plan, Unset):
             plan = (None, json.dumps(self.plan.to_dict()).encode(), "application/json")
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if file is not UNSET:
             field_dict["file"] = file
@@ -61,10 +62,10 @@ class FormatBinaryForm:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.convert_format_annotation_plan import ConvertFormatAnnotationPlan
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         _file = d.pop("file", UNSET)
         file: Union[Unset, File]
         if isinstance(_file, Unset):

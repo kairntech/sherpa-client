@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,7 +12,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="Suggester")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Suggester:
     """
     Attributes:
@@ -25,7 +26,7 @@ class Suggester:
         running (bool):
         timestamp (int):
         uptodate (bool):
-        tags (Union[Unset, List[str]]):
+        tags (Union[Unset, list[str]]):
     """
 
     duration: int
@@ -38,25 +39,34 @@ class Suggester:
     running: bool
     timestamp: int
     uptodate: bool
-    tags: Union[Unset, List[str]] = UNSET
+    tags: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         duration = self.duration
+
         engine = self.engine
+
         label = self.label
+
         models = self.models
+
         name = self.name
+
         parameters = self.parameters.to_dict()
 
         quality = self.quality
+
         running = self.running
+
         timestamp = self.timestamp
+
         uptodate = self.uptodate
-        tags: Union[Unset, List[str]] = UNSET
+
+        tags: Union[Unset, list[str]] = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "duration": duration,
@@ -77,10 +87,10 @@ class Suggester:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.suggester_parameters import SuggesterParameters
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         duration = d.pop("duration")
 
         engine = d.pop("engine")
@@ -101,7 +111,7 @@ class Suggester:
 
         uptodate = d.pop("uptodate")
 
-        tags = cast(List[str], d.pop("tags", UNSET))
+        tags = cast(list[str], d.pop("tags", UNSET))
 
         suggester = cls(
             duration=duration,

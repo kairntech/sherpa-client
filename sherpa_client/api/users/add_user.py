@@ -1,10 +1,10 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.new_user import NewUser
 from ...models.user_response import UserResponse
 from ...types import UNSET, Response, Unset
@@ -12,52 +12,52 @@ from ...types import UNSET, Response, Unset
 
 def _get_kwargs(
     *,
-    client: Client,
-    json_body: NewUser,
-    group_name: Union[Unset, None, List[str]] = UNSET,
-) -> Dict[str, Any]:
-    url = "{}/users".format(client.base_url)
+    body: NewUser,
+    group_name: Union[Unset, list[str]] = UNSET,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
-    json_group_name: Union[Unset, None, List[str]] = UNSET
+    json_group_name: Union[Unset, list[str]] = UNSET
     if not isinstance(group_name, Unset):
-        if group_name is None:
-            json_group_name = None
-        else:
-            json_group_name = group_name
+        json_group_name = group_name
 
     params["groupName"] = json_group_name
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
-        "json": json_json_body,
+        "url": "/users",
         "params": params,
     }
 
+    _body = body.to_dict()
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[UserResponse]:
-    if response.status_code == HTTPStatus.OK:
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[UserResponse]:
+    if response.status_code == 200:
         response_200 = UserResponse.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[UserResponse]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[UserResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -68,15 +68,15 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Use
 
 def sync_detailed(
     *,
-    client: Client,
-    json_body: NewUser,
-    group_name: Union[Unset, None, List[str]] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: NewUser,
+    group_name: Union[Unset, list[str]] = UNSET,
 ) -> Response[UserResponse]:
     """Add user
 
     Args:
-        group_name (Union[Unset, None, List[str]]):
-        json_body (NewUser):
+        group_name (Union[Unset, list[str]]):
+        body (NewUser):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -87,13 +87,11 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        json_body=json_body,
+        body=body,
         group_name=group_name,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -102,42 +100,42 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Client,
-    json_body: NewUser,
-    group_name: Union[Unset, None, List[str]] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: NewUser,
+    group_name: Union[Unset, list[str]] = UNSET,
 ) -> Optional[UserResponse]:
     """Add user
 
     Args:
-        group_name (Union[Unset, None, List[str]]):
-        json_body (NewUser):
+        group_name (Union[Unset, list[str]]):
+        body (NewUser):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[UserResponse]
+        UserResponse
     """
 
     return sync_detailed(
         client=client,
-        json_body=json_body,
+        body=body,
         group_name=group_name,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
-    client: Client,
-    json_body: NewUser,
-    group_name: Union[Unset, None, List[str]] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: NewUser,
+    group_name: Union[Unset, list[str]] = UNSET,
 ) -> Response[UserResponse]:
     """Add user
 
     Args:
-        group_name (Union[Unset, None, List[str]]):
-        json_body (NewUser):
+        group_name (Union[Unset, list[str]]):
+        body (NewUser):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -148,41 +146,39 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        json_body=json_body,
+        body=body,
         group_name=group_name,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
 
 async def asyncio(
     *,
-    client: Client,
-    json_body: NewUser,
-    group_name: Union[Unset, None, List[str]] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: NewUser,
+    group_name: Union[Unset, list[str]] = UNSET,
 ) -> Optional[UserResponse]:
     """Add user
 
     Args:
-        group_name (Union[Unset, None, List[str]]):
-        json_body (NewUser):
+        group_name (Union[Unset, list[str]]):
+        body (NewUser):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[UserResponse]
+        UserResponse
     """
 
     return (
         await asyncio_detailed(
             client=client,
-            json_body=json_body,
+            body=body,
             group_name=group_name,
         )
     ).parsed

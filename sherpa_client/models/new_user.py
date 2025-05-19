@@ -1,42 +1,46 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="NewUser")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class NewUser:
     """
     Attributes:
         password (str):
         username (str):
         email (Union[Unset, str]):
-        permissions (Union[Unset, List[str]]):
-        roles (Union[Unset, List[str]]):
+        permissions (Union[Unset, list[str]]):
+        roles (Union[Unset, list[str]]):
     """
 
     password: str
     username: str
     email: Union[Unset, str] = UNSET
-    permissions: Union[Unset, List[str]] = UNSET
-    roles: Union[Unset, List[str]] = UNSET
+    permissions: Union[Unset, list[str]] = UNSET
+    roles: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         password = self.password
+
         username = self.username
+
         email = self.email
-        permissions: Union[Unset, List[str]] = UNSET
+
+        permissions: Union[Unset, list[str]] = UNSET
         if not isinstance(self.permissions, Unset):
             permissions = self.permissions
 
-        roles: Union[Unset, List[str]] = UNSET
+        roles: Union[Unset, list[str]] = UNSET
         if not isinstance(self.roles, Unset):
             roles = self.roles
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "password": password,
@@ -53,17 +57,17 @@ class NewUser:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         password = d.pop("password")
 
         username = d.pop("username")
 
         email = d.pop("email", UNSET)
 
-        permissions = cast(List[str], d.pop("permissions", UNSET))
+        permissions = cast(list[str], d.pop("permissions", UNSET))
 
-        roles = cast(List[str], d.pop("roles", UNSET))
+        roles = cast(list[str], d.pop("roles", UNSET))
 
         new_user = cls(
             password=password,

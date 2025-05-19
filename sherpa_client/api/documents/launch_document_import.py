@@ -1,12 +1,14 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
-from ...models.launch_document_import_multipart_data import LaunchDocumentImportMultipartData
-from ...models.launch_document_import_segmentation_policy import LaunchDocumentImportSegmentationPolicy
+from ...client import AuthenticatedClient, Client
+from ...models.launch_document_import_body import LaunchDocumentImportBody
+from ...models.launch_document_import_segmentation_policy import (
+    LaunchDocumentImportSegmentationPolicy,
+)
 from ...models.sherpa_job_bean import SherpaJobBean
 from ...types import UNSET, Response, Unset
 
@@ -14,30 +16,27 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     project_name: str,
     *,
-    client: Client,
-    multipart_data: LaunchDocumentImportMultipartData,
-    ignore_labelling: Union[Unset, None, bool] = False,
+    body: LaunchDocumentImportBody,
+    ignore_labelling: Union[Unset, bool] = False,
     segmentation_policy: Union[
-        Unset, None, LaunchDocumentImportSegmentationPolicy
+        Unset, LaunchDocumentImportSegmentationPolicy
     ] = LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
-    split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
-    generate_categories_from_source_folder: Union[Unset, None, bool] = False,
-    group_name: Union[Unset, None, str] = UNSET,
-    idp_group_identifier: Union[Unset, None, str] = UNSET,
-    wait: Union[Unset, None, bool] = False,
-) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/documents".format(client.base_url, projectName=project_name)
+    split_corpus: Union[Unset, bool] = False,
+    clean_text: Union[Unset, bool] = True,
+    generate_categories_from_source_folder: Union[Unset, bool] = False,
+    group_name: Union[Unset, str] = UNSET,
+    idp_group_identifier: Union[Unset, str] = UNSET,
+    wait: Union[Unset, bool] = False,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["ignoreLabelling"] = ignore_labelling
 
-    json_segmentation_policy: Union[Unset, None, str] = UNSET
+    json_segmentation_policy: Union[Unset, str] = UNSET
     if not isinstance(segmentation_policy, Unset):
-        json_segmentation_policy = segmentation_policy.value if segmentation_policy else None
+        json_segmentation_policy = segmentation_policy.value
 
     params["segmentationPolicy"] = json_segmentation_policy
 
@@ -45,7 +44,9 @@ def _get_kwargs(
 
     params["cleanText"] = clean_text
 
-    params["generateCategoriesFromSourceFolder"] = generate_categories_from_source_folder
+    params["generateCategoriesFromSourceFolder"] = (
+        generate_categories_from_source_folder
+    )
 
     params["groupName"] = group_name
 
@@ -55,31 +56,38 @@ def _get_kwargs(
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    multipart_multipart_data = multipart_data.to_multipart()
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
-        "files": multipart_multipart_data,
+        "url": "/projects/{project_name}/documents".format(
+            project_name=project_name,
+        ),
         "params": params,
     }
 
+    _body = body.to_multipart()
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[SherpaJobBean]:
-    if response.status_code == HTTPStatus.OK:
+    _kwargs["files"] = _body
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[SherpaJobBean]:
+    if response.status_code == 200:
         response_200 = SherpaJobBean.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[SherpaJobBean]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[SherpaJobBean]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -91,33 +99,33 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[She
 def sync_detailed(
     project_name: str,
     *,
-    client: Client,
-    multipart_data: LaunchDocumentImportMultipartData,
-    ignore_labelling: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    body: LaunchDocumentImportBody,
+    ignore_labelling: Union[Unset, bool] = False,
     segmentation_policy: Union[
-        Unset, None, LaunchDocumentImportSegmentationPolicy
+        Unset, LaunchDocumentImportSegmentationPolicy
     ] = LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
-    split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
-    generate_categories_from_source_folder: Union[Unset, None, bool] = False,
-    group_name: Union[Unset, None, str] = UNSET,
-    idp_group_identifier: Union[Unset, None, str] = UNSET,
-    wait: Union[Unset, None, bool] = False,
+    split_corpus: Union[Unset, bool] = False,
+    clean_text: Union[Unset, bool] = True,
+    generate_categories_from_source_folder: Union[Unset, bool] = False,
+    group_name: Union[Unset, str] = UNSET,
+    idp_group_identifier: Union[Unset, str] = UNSET,
+    wait: Union[Unset, bool] = False,
 ) -> Response[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
 
     Args:
         project_name (str):
-        ignore_labelling (Union[Unset, None, bool]):
-        segmentation_policy (Union[Unset, None, LaunchDocumentImportSegmentationPolicy]):
-            Default: LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
-        split_corpus (Union[Unset, None, bool]):
-        clean_text (Union[Unset, None, bool]):  Default: True.
-        generate_categories_from_source_folder (Union[Unset, None, bool]):
-        group_name (Union[Unset, None, str]):
-        idp_group_identifier (Union[Unset, None, str]):
-        wait (Union[Unset, None, bool]):
-        multipart_data (LaunchDocumentImportMultipartData):
+        ignore_labelling (Union[Unset, bool]):  Default: False.
+        segmentation_policy (Union[Unset, LaunchDocumentImportSegmentationPolicy]):  Default:
+            LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
+        split_corpus (Union[Unset, bool]):  Default: False.
+        clean_text (Union[Unset, bool]):  Default: True.
+        generate_categories_from_source_folder (Union[Unset, bool]):  Default: False.
+        group_name (Union[Unset, str]):
+        idp_group_identifier (Union[Unset, str]):
+        wait (Union[Unset, bool]):  Default: False.
+        body (LaunchDocumentImportBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -129,8 +137,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
-        multipart_data=multipart_data,
+        body=body,
         ignore_labelling=ignore_labelling,
         segmentation_policy=segmentation_policy,
         split_corpus=split_corpus,
@@ -141,8 +148,7 @@ def sync_detailed(
         wait=wait,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -152,46 +158,46 @@ def sync_detailed(
 def sync(
     project_name: str,
     *,
-    client: Client,
-    multipart_data: LaunchDocumentImportMultipartData,
-    ignore_labelling: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    body: LaunchDocumentImportBody,
+    ignore_labelling: Union[Unset, bool] = False,
     segmentation_policy: Union[
-        Unset, None, LaunchDocumentImportSegmentationPolicy
+        Unset, LaunchDocumentImportSegmentationPolicy
     ] = LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
-    split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
-    generate_categories_from_source_folder: Union[Unset, None, bool] = False,
-    group_name: Union[Unset, None, str] = UNSET,
-    idp_group_identifier: Union[Unset, None, str] = UNSET,
-    wait: Union[Unset, None, bool] = False,
+    split_corpus: Union[Unset, bool] = False,
+    clean_text: Union[Unset, bool] = True,
+    generate_categories_from_source_folder: Union[Unset, bool] = False,
+    group_name: Union[Unset, str] = UNSET,
+    idp_group_identifier: Union[Unset, str] = UNSET,
+    wait: Union[Unset, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
 
     Args:
         project_name (str):
-        ignore_labelling (Union[Unset, None, bool]):
-        segmentation_policy (Union[Unset, None, LaunchDocumentImportSegmentationPolicy]):
-            Default: LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
-        split_corpus (Union[Unset, None, bool]):
-        clean_text (Union[Unset, None, bool]):  Default: True.
-        generate_categories_from_source_folder (Union[Unset, None, bool]):
-        group_name (Union[Unset, None, str]):
-        idp_group_identifier (Union[Unset, None, str]):
-        wait (Union[Unset, None, bool]):
-        multipart_data (LaunchDocumentImportMultipartData):
+        ignore_labelling (Union[Unset, bool]):  Default: False.
+        segmentation_policy (Union[Unset, LaunchDocumentImportSegmentationPolicy]):  Default:
+            LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
+        split_corpus (Union[Unset, bool]):  Default: False.
+        clean_text (Union[Unset, bool]):  Default: True.
+        generate_categories_from_source_folder (Union[Unset, bool]):  Default: False.
+        group_name (Union[Unset, str]):
+        idp_group_identifier (Union[Unset, str]):
+        wait (Union[Unset, bool]):  Default: False.
+        body (LaunchDocumentImportBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SherpaJobBean]
+        SherpaJobBean
     """
 
     return sync_detailed(
         project_name=project_name,
         client=client,
-        multipart_data=multipart_data,
+        body=body,
         ignore_labelling=ignore_labelling,
         segmentation_policy=segmentation_policy,
         split_corpus=split_corpus,
@@ -206,33 +212,33 @@ def sync(
 async def asyncio_detailed(
     project_name: str,
     *,
-    client: Client,
-    multipart_data: LaunchDocumentImportMultipartData,
-    ignore_labelling: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    body: LaunchDocumentImportBody,
+    ignore_labelling: Union[Unset, bool] = False,
     segmentation_policy: Union[
-        Unset, None, LaunchDocumentImportSegmentationPolicy
+        Unset, LaunchDocumentImportSegmentationPolicy
     ] = LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
-    split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
-    generate_categories_from_source_folder: Union[Unset, None, bool] = False,
-    group_name: Union[Unset, None, str] = UNSET,
-    idp_group_identifier: Union[Unset, None, str] = UNSET,
-    wait: Union[Unset, None, bool] = False,
+    split_corpus: Union[Unset, bool] = False,
+    clean_text: Union[Unset, bool] = True,
+    generate_categories_from_source_folder: Union[Unset, bool] = False,
+    group_name: Union[Unset, str] = UNSET,
+    idp_group_identifier: Union[Unset, str] = UNSET,
+    wait: Union[Unset, bool] = False,
 ) -> Response[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
 
     Args:
         project_name (str):
-        ignore_labelling (Union[Unset, None, bool]):
-        segmentation_policy (Union[Unset, None, LaunchDocumentImportSegmentationPolicy]):
-            Default: LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
-        split_corpus (Union[Unset, None, bool]):
-        clean_text (Union[Unset, None, bool]):  Default: True.
-        generate_categories_from_source_folder (Union[Unset, None, bool]):
-        group_name (Union[Unset, None, str]):
-        idp_group_identifier (Union[Unset, None, str]):
-        wait (Union[Unset, None, bool]):
-        multipart_data (LaunchDocumentImportMultipartData):
+        ignore_labelling (Union[Unset, bool]):  Default: False.
+        segmentation_policy (Union[Unset, LaunchDocumentImportSegmentationPolicy]):  Default:
+            LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
+        split_corpus (Union[Unset, bool]):  Default: False.
+        clean_text (Union[Unset, bool]):  Default: True.
+        generate_categories_from_source_folder (Union[Unset, bool]):  Default: False.
+        group_name (Union[Unset, str]):
+        idp_group_identifier (Union[Unset, str]):
+        wait (Union[Unset, bool]):  Default: False.
+        body (LaunchDocumentImportBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -244,8 +250,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
-        multipart_data=multipart_data,
+        body=body,
         ignore_labelling=ignore_labelling,
         segmentation_policy=segmentation_policy,
         split_corpus=split_corpus,
@@ -256,8 +261,7 @@ async def asyncio_detailed(
         wait=wait,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -265,47 +269,47 @@ async def asyncio_detailed(
 async def asyncio(
     project_name: str,
     *,
-    client: Client,
-    multipart_data: LaunchDocumentImportMultipartData,
-    ignore_labelling: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    body: LaunchDocumentImportBody,
+    ignore_labelling: Union[Unset, bool] = False,
     segmentation_policy: Union[
-        Unset, None, LaunchDocumentImportSegmentationPolicy
+        Unset, LaunchDocumentImportSegmentationPolicy
     ] = LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
-    split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
-    generate_categories_from_source_folder: Union[Unset, None, bool] = False,
-    group_name: Union[Unset, None, str] = UNSET,
-    idp_group_identifier: Union[Unset, None, str] = UNSET,
-    wait: Union[Unset, None, bool] = False,
+    split_corpus: Union[Unset, bool] = False,
+    clean_text: Union[Unset, bool] = True,
+    generate_categories_from_source_folder: Union[Unset, bool] = False,
+    group_name: Union[Unset, str] = UNSET,
+    idp_group_identifier: Union[Unset, str] = UNSET,
+    wait: Union[Unset, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """upload documents and launch a job to add them into the project
 
     Args:
         project_name (str):
-        ignore_labelling (Union[Unset, None, bool]):
-        segmentation_policy (Union[Unset, None, LaunchDocumentImportSegmentationPolicy]):
-            Default: LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
-        split_corpus (Union[Unset, None, bool]):
-        clean_text (Union[Unset, None, bool]):  Default: True.
-        generate_categories_from_source_folder (Union[Unset, None, bool]):
-        group_name (Union[Unset, None, str]):
-        idp_group_identifier (Union[Unset, None, str]):
-        wait (Union[Unset, None, bool]):
-        multipart_data (LaunchDocumentImportMultipartData):
+        ignore_labelling (Union[Unset, bool]):  Default: False.
+        segmentation_policy (Union[Unset, LaunchDocumentImportSegmentationPolicy]):  Default:
+            LaunchDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
+        split_corpus (Union[Unset, bool]):  Default: False.
+        clean_text (Union[Unset, bool]):  Default: True.
+        generate_categories_from_source_folder (Union[Unset, bool]):  Default: False.
+        group_name (Union[Unset, str]):
+        idp_group_identifier (Union[Unset, str]):
+        wait (Union[Unset, bool]):  Default: False.
+        body (LaunchDocumentImportBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SherpaJobBean]
+        SherpaJobBean
     """
 
     return (
         await asyncio_detailed(
             project_name=project_name,
             client=client,
-            multipart_data=multipart_data,
+            body=body,
             ignore_labelling=ignore_labelling,
             segmentation_policy=segmentation_policy,
             split_corpus=split_corpus,

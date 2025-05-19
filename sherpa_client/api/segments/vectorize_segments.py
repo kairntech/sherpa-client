@@ -1,45 +1,44 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.sherpa_job_bean import SherpaJobBean
 from ...types import Response
 
 
 def _get_kwargs(
     project_name: str,
-    *,
-    client: Client,
-) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/segments/_vectorize".format(client.base_url, projectName=project_name)
+) -> dict[str, Any]:
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
+        "url": "/projects/{project_name}/segments/_vectorize".format(
+            project_name=project_name,
+        ),
     }
 
+    return _kwargs
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[SherpaJobBean]:
-    if response.status_code == HTTPStatus.OK:
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[SherpaJobBean]:
+    if response.status_code == 200:
         response_200 = SherpaJobBean.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[SherpaJobBean]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[SherpaJobBean]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -51,7 +50,7 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[She
 def sync_detailed(
     project_name: str,
     *,
-    client: Client,
+    client: Union[AuthenticatedClient, Client],
 ) -> Response[SherpaJobBean]:
     """Recompute segments' vectors
 
@@ -68,11 +67,9 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -82,7 +79,7 @@ def sync_detailed(
 def sync(
     project_name: str,
     *,
-    client: Client,
+    client: Union[AuthenticatedClient, Client],
 ) -> Optional[SherpaJobBean]:
     """Recompute segments' vectors
 
@@ -94,7 +91,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SherpaJobBean]
+        SherpaJobBean
     """
 
     return sync_detailed(
@@ -106,7 +103,7 @@ def sync(
 async def asyncio_detailed(
     project_name: str,
     *,
-    client: Client,
+    client: Union[AuthenticatedClient, Client],
 ) -> Response[SherpaJobBean]:
     """Recompute segments' vectors
 
@@ -123,11 +120,9 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -135,7 +130,7 @@ async def asyncio_detailed(
 async def asyncio(
     project_name: str,
     *,
-    client: Client,
+    client: Union[AuthenticatedClient, Client],
 ) -> Optional[SherpaJobBean]:
     """Recompute segments' vectors
 
@@ -147,7 +142,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SherpaJobBean]
+        SherpaJobBean
     """
 
     return (

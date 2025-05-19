@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,7 +12,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="NamedAnnotationPlan")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class NamedAnnotationPlan:
     """
     Attributes:
@@ -23,7 +24,7 @@ class NamedAnnotationPlan:
         favorite (Union[Unset, bool]):
         modified_at (Union[Unset, str]):
         modified_by (Union[Unset, str]):
-        tags (Union[Unset, List[str]]):
+        tags (Union[Unset, list[str]]):
     """
 
     label: str
@@ -34,23 +35,30 @@ class NamedAnnotationPlan:
     favorite: Union[Unset, bool] = UNSET
     modified_at: Union[Unset, str] = UNSET
     modified_by: Union[Unset, str] = UNSET
-    tags: Union[Unset, List[str]] = UNSET
+    tags: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         label = self.label
+
         name = self.name
+
         parameters = self.parameters.to_dict()
 
         created_at = self.created_at
+
         created_by = self.created_by
+
         favorite = self.favorite
+
         modified_at = self.modified_at
+
         modified_by = self.modified_by
-        tags: Union[Unset, List[str]] = UNSET
+
+        tags: Union[Unset, list[str]] = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "label": label,
@@ -74,10 +82,10 @@ class NamedAnnotationPlan:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.annotation_plan import AnnotationPlan
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         label = d.pop("label")
 
         name = d.pop("name")
@@ -94,7 +102,7 @@ class NamedAnnotationPlan:
 
         modified_by = d.pop("modifiedBy", UNSET)
 
-        tags = cast(List[str], d.pop("tags", UNSET))
+        tags = cast(list[str], d.pop("tags", UNSET))
 
         named_annotation_plan = cls(
             label=label,

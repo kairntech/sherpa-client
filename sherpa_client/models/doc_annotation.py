@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..models.doc_annotation_creation_mode import DocAnnotationCreationMode
 from ..models.doc_annotation_status import DocAnnotationStatus
@@ -14,7 +15,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="DocAnnotation")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class DocAnnotation:
     """A document annotation
 
@@ -30,7 +31,7 @@ class DocAnnotation:
         modified_date (Union[Unset, str]): Last modification date
         properties (Union[Unset, DocAnnotationProperties]): Additional properties
         status (Union[Unset, DocAnnotationStatus]): Status of the annotation
-        terms (Union[Unset, List['AnnotationTerm']]):
+        terms (Union[Unset, list['AnnotationTerm']]):
     """
 
     end: int
@@ -44,22 +45,30 @@ class DocAnnotation:
     modified_date: Union[Unset, str] = UNSET
     properties: Union[Unset, "DocAnnotationProperties"] = UNSET
     status: Union[Unset, DocAnnotationStatus] = UNSET
-    terms: Union[Unset, List["AnnotationTerm"]] = UNSET
+    terms: Union[Unset, list["AnnotationTerm"]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         end = self.end
+
         label_name = self.label_name
+
         start = self.start
+
         text = self.text
+
         created_by = self.created_by
+
         created_date = self.created_date
+
         creation_mode: Union[Unset, str] = UNSET
         if not isinstance(self.creation_mode, Unset):
             creation_mode = self.creation_mode.value
 
         identifier = self.identifier
+
         modified_date = self.modified_date
-        properties: Union[Unset, Dict[str, Any]] = UNSET
+
+        properties: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.properties, Unset):
             properties = self.properties.to_dict()
 
@@ -67,15 +76,14 @@ class DocAnnotation:
         if not isinstance(self.status, Unset):
             status = self.status.value
 
-        terms: Union[Unset, List[Dict[str, Any]]] = UNSET
+        terms: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.terms, Unset):
             terms = []
             for terms_item_data in self.terms:
                 terms_item = terms_item_data.to_dict()
-
                 terms.append(terms_item)
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "end": end,
@@ -104,11 +112,11 @@ class DocAnnotation:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.annotation_term import AnnotationTerm
         from ..models.doc_annotation_properties import DocAnnotationProperties
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         end = d.pop("end")
 
         label_name = d.pop("labelName")

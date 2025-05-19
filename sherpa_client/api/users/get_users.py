@@ -1,54 +1,53 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.users_response import UsersResponse
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
-    client: Client,
-    group_name: Union[Unset, None, str] = UNSET,
-    admin_data: Union[Unset, None, bool] = False,
-) -> Dict[str, Any]:
-    url = "{}/users".format(client.base_url)
+    group_name: Union[Unset, str] = UNSET,
+    admin_data: Union[Unset, bool] = False,
+) -> dict[str, Any]:
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["groupName"] = group_name
 
     params["adminData"] = admin_data
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
+        "url": "/users",
         "params": params,
     }
 
+    return _kwargs
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[UsersResponse]:
-    if response.status_code == HTTPStatus.OK:
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[UsersResponse]:
+    if response.status_code == 200:
         response_200 = UsersResponse.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[UsersResponse]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[UsersResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -59,15 +58,15 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Use
 
 def sync_detailed(
     *,
-    client: Client,
-    group_name: Union[Unset, None, str] = UNSET,
-    admin_data: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    group_name: Union[Unset, str] = UNSET,
+    admin_data: Union[Unset, bool] = False,
 ) -> Response[UsersResponse]:
     """Get users
 
     Args:
-        group_name (Union[Unset, None, str]):
-        admin_data (Union[Unset, None, bool]):
+        group_name (Union[Unset, str]):
+        admin_data (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -78,13 +77,11 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        client=client,
         group_name=group_name,
         admin_data=admin_data,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -93,22 +90,22 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Client,
-    group_name: Union[Unset, None, str] = UNSET,
-    admin_data: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    group_name: Union[Unset, str] = UNSET,
+    admin_data: Union[Unset, bool] = False,
 ) -> Optional[UsersResponse]:
     """Get users
 
     Args:
-        group_name (Union[Unset, None, str]):
-        admin_data (Union[Unset, None, bool]):
+        group_name (Union[Unset, str]):
+        admin_data (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[UsersResponse]
+        UsersResponse
     """
 
     return sync_detailed(
@@ -120,15 +117,15 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Client,
-    group_name: Union[Unset, None, str] = UNSET,
-    admin_data: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    group_name: Union[Unset, str] = UNSET,
+    admin_data: Union[Unset, bool] = False,
 ) -> Response[UsersResponse]:
     """Get users
 
     Args:
-        group_name (Union[Unset, None, str]):
-        admin_data (Union[Unset, None, bool]):
+        group_name (Union[Unset, str]):
+        admin_data (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,35 +136,33 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        client=client,
         group_name=group_name,
         admin_data=admin_data,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
 
 async def asyncio(
     *,
-    client: Client,
-    group_name: Union[Unset, None, str] = UNSET,
-    admin_data: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    group_name: Union[Unset, str] = UNSET,
+    admin_data: Union[Unset, bool] = False,
 ) -> Optional[UsersResponse]:
     """Get users
 
     Args:
-        group_name (Union[Unset, None, str]):
-        admin_data (Union[Unset, None, bool]):
+        group_name (Union[Unset, str]):
+        admin_data (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[UsersResponse]
+        UsersResponse
     """
 
     return (

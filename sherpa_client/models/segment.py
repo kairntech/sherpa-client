@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="Segment")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Segment:
     """
     Attributes:
@@ -23,8 +24,8 @@ class Segment:
         identifier (str):
         start (int):
         text (str):
-        annotations (Union[Unset, List['DocAnnotation']]):
-        categories (Union[Unset, List['DocCategory']]):
+        annotations (Union[Unset, list['DocAnnotation']]):
+        categories (Union[Unset, list['DocCategory']]):
         created_by (Union[Unset, str]): User having created the segment
         created_date (Union[Unset, str]): Creation date
         metadata (Union[Unset, SegmentMetadata]):
@@ -38,47 +39,54 @@ class Segment:
     identifier: str
     start: int
     text: str
-    annotations: Union[Unset, List["DocAnnotation"]] = UNSET
-    categories: Union[Unset, List["DocCategory"]] = UNSET
+    annotations: Union[Unset, list["DocAnnotation"]] = UNSET
+    categories: Union[Unset, list["DocCategory"]] = UNSET
     created_by: Union[Unset, str] = UNSET
     created_date: Union[Unset, str] = UNSET
     metadata: Union[Unset, "SegmentMetadata"] = UNSET
     modified_date: Union[Unset, str] = UNSET
     shift: Union[Unset, int] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         document_identifier = self.document_identifier
+
         document_title = self.document_title
+
         end = self.end
+
         identifier = self.identifier
+
         start = self.start
+
         text = self.text
-        annotations: Union[Unset, List[Dict[str, Any]]] = UNSET
+
+        annotations: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.annotations, Unset):
             annotations = []
             for annotations_item_data in self.annotations:
                 annotations_item = annotations_item_data.to_dict()
-
                 annotations.append(annotations_item)
 
-        categories: Union[Unset, List[Dict[str, Any]]] = UNSET
+        categories: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.categories, Unset):
             categories = []
             for categories_item_data in self.categories:
                 categories_item = categories_item_data.to_dict()
-
                 categories.append(categories_item)
 
         created_by = self.created_by
+
         created_date = self.created_date
-        metadata: Union[Unset, Dict[str, Any]] = UNSET
+
+        metadata: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.metadata, Unset):
             metadata = self.metadata.to_dict()
 
         modified_date = self.modified_date
+
         shift = self.shift
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "documentIdentifier": document_identifier,
@@ -107,12 +115,12 @@ class Segment:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.doc_annotation import DocAnnotation
         from ..models.doc_category import DocCategory
         from ..models.segment_metadata import SegmentMetadata
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         document_identifier = d.pop("documentIdentifier")
 
         document_title = d.pop("documentTitle")

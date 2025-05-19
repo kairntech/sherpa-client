@@ -1,29 +1,31 @@
+from collections.abc import Mapping
 from io import BytesIO
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..types import UNSET, File, FileJsonType, Unset
 
-T = TypeVar("T", bound="ImportModelsMultipartData")
+T = TypeVar("T", bound="DeprecatedAnnotateBinaryWithPlanRefBody")
 
 
-@attr.s(auto_attribs=True)
-class ImportModelsMultipartData:
+@_attrs_define
+class DeprecatedAnnotateBinaryWithPlanRefBody:
     """
     Attributes:
         file (Union[Unset, File]):
     """
 
     file: Union[Unset, File] = UNSET
-    additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         file: Union[Unset, FileJsonType] = UNSET
         if not isinstance(self.file, Unset):
             file = self.file.to_tuple()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if file is not UNSET:
@@ -31,15 +33,15 @@ class ImportModelsMultipartData:
 
         return field_dict
 
-    def to_multipart(self) -> Dict[str, Any]:
+    def to_multipart(self) -> dict[str, Any]:
         file: Union[Unset, FileJsonType] = UNSET
         if not isinstance(self.file, Unset):
             file = self.file.to_tuple()
 
-        field_dict: Dict[str, Any] = {}
-        field_dict.update(
-            {key: (None, str(value).encode(), "text/plain") for key, value in self.additional_properties.items()}
-        )
+        field_dict: dict[str, Any] = {}
+        for prop_name, prop in self.additional_properties.items():
+            field_dict[prop_name] = (None, str(prop).encode(), "text/plain")
+
         field_dict.update({})
         if file is not UNSET:
             field_dict["file"] = file
@@ -47,8 +49,8 @@ class ImportModelsMultipartData:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         _file = d.pop("file", UNSET)
         file: Union[Unset, File]
         if isinstance(_file, Unset):
@@ -56,15 +58,15 @@ class ImportModelsMultipartData:
         else:
             file = File(payload=BytesIO(_file))
 
-        import_models_multipart_data = cls(
+        deprecated_annotate_binary_with_plan_ref_body = cls(
             file=file,
         )
 
-        import_models_multipart_data.additional_properties = d
-        return import_models_multipart_data
+        deprecated_annotate_binary_with_plan_ref_body.additional_properties = d
+        return deprecated_annotate_binary_with_plan_ref_body
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

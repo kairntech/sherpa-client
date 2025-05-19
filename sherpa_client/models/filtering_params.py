@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,35 +12,35 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="FilteringParams")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class FilteringParams:
     """Filtering parameters
 
     Attributes:
-        filters (Union[Unset, List['SearchFilter']]):
+        filters (Union[Unset, list['SearchFilter']]):
         query_filter (Union[Unset, str]): Optional Lucene query string to filter on, e.g.: '+annotations:*'
-        selected_facets (Union[Unset, List[str]]):
+        selected_facets (Union[Unset, list[str]]):
     """
 
-    filters: Union[Unset, List["SearchFilter"]] = UNSET
+    filters: Union[Unset, list["SearchFilter"]] = UNSET
     query_filter: Union[Unset, str] = UNSET
-    selected_facets: Union[Unset, List[str]] = UNSET
+    selected_facets: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        filters: Union[Unset, List[Dict[str, Any]]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        filters: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.filters, Unset):
             filters = []
             for filters_item_data in self.filters:
                 filters_item = filters_item_data.to_dict()
-
                 filters.append(filters_item)
 
         query_filter = self.query_filter
-        selected_facets: Union[Unset, List[str]] = UNSET
+
+        selected_facets: Union[Unset, list[str]] = UNSET
         if not isinstance(self.selected_facets, Unset):
             selected_facets = self.selected_facets
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if filters is not UNSET:
             field_dict["filters"] = filters
@@ -51,10 +52,10 @@ class FilteringParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.search_filter import SearchFilter
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         filters = []
         _filters = d.pop("filters", UNSET)
         for filters_item_data in _filters or []:
@@ -64,7 +65,7 @@ class FilteringParams:
 
         query_filter = d.pop("queryFilter", UNSET)
 
-        selected_facets = cast(List[str], d.pop("selectedFacets", UNSET))
+        selected_facets = cast(list[str], d.pop("selectedFacets", UNSET))
 
         filtering_params = cls(
             filters=filters,

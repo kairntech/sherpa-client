@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.term_hit_term import TermHitTerm
@@ -9,7 +10,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="TermHit")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class TermHit:
     """
     Attributes:
@@ -20,11 +21,12 @@ class TermHit:
     score: float
     term: "TermHitTerm"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         score = self.score
+
         term = self.term.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "score": score,
@@ -35,10 +37,10 @@ class TermHit:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.term_hit_term import TermHitTerm
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         score = d.pop("score")
 
         term = TermHitTerm.from_dict(d.pop("term"))

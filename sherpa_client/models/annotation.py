@@ -1,6 +1,7 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..models.annotation_creation_mode import AnnotationCreationMode
 from ..models.annotation_status import AnnotationStatus
@@ -9,7 +10,7 @@ from ..types import UNSET, Unset
 T = TypeVar("T", bound="Annotation")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Annotation:
     """A document annotation
 
@@ -31,12 +32,17 @@ class Annotation:
     creation_mode: Union[Unset, AnnotationCreationMode] = UNSET
     status: Union[Unset, AnnotationStatus] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         document_identifier = self.document_identifier
+
         end = self.end
+
         label_name = self.label_name
+
         start = self.start
+
         text = self.text
+
         creation_mode: Union[Unset, str] = UNSET
         if not isinstance(self.creation_mode, Unset):
             creation_mode = self.creation_mode.value
@@ -45,7 +51,7 @@ class Annotation:
         if not isinstance(self.status, Unset):
             status = self.status.value
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "documentIdentifier": document_identifier,
@@ -63,8 +69,8 @@ class Annotation:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         document_identifier = d.pop("documentIdentifier")
 
         end = d.pop("end")

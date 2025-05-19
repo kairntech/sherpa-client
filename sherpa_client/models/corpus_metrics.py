@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.document_facets import DocumentFacets
@@ -9,7 +10,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="CorpusMetrics")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class CorpusMetrics:
     """
     Attributes:
@@ -24,14 +25,16 @@ class CorpusMetrics:
     document_facets: "DocumentFacets"
     segment_count: int
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         corpus_size = self.corpus_size
+
         document_count = self.document_count
+
         document_facets = self.document_facets.to_dict()
 
         segment_count = self.segment_count
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "corpusSize": corpus_size,
@@ -44,10 +47,10 @@ class CorpusMetrics:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.document_facets import DocumentFacets
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         corpus_size = d.pop("corpusSize")
 
         document_count = d.pop("documentCount")

@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 if TYPE_CHECKING:
     from ..models.sherpa_job_bean import SherpaJobBean
@@ -9,26 +10,26 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="PlanOperationResponse")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class PlanOperationResponse:
     """
     Attributes:
         name (str):
-        triggered_jobs (List['SherpaJobBean']):
+        triggered_jobs (list['SherpaJobBean']):
     """
 
     name: str
-    triggered_jobs: List["SherpaJobBean"]
+    triggered_jobs: list["SherpaJobBean"]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         name = self.name
+
         triggered_jobs = []
         for triggered_jobs_item_data in self.triggered_jobs:
             triggered_jobs_item = triggered_jobs_item_data.to_dict()
-
             triggered_jobs.append(triggered_jobs_item)
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "name": name,
@@ -39,10 +40,10 @@ class PlanOperationResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sherpa_job_bean import SherpaJobBean
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         name = d.pop("name")
 
         triggered_jobs = []

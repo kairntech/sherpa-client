@@ -1,29 +1,25 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.project_bean import ProjectBean
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
-    client: Client,
-    compute_metrics: Union[Unset, None, bool] = False,
-    compute_owners: Union[Unset, None, bool] = False,
-    compute_engines: Union[Unset, None, bool] = False,
-    group_name: Union[Unset, None, str] = UNSET,
-    username: Union[Unset, None, str] = UNSET,
-) -> Dict[str, Any]:
-    url = "{}/projects".format(client.base_url)
+    compute_metrics: Union[Unset, bool] = False,
+    compute_owners: Union[Unset, bool] = False,
+    compute_engines: Union[Unset, bool] = False,
+    group_name: Union[Unset, str] = UNSET,
+    username: Union[Unset, str] = UNSET,
+) -> dict[str, Any]:
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["computeMetrics"] = compute_metrics
 
     params["computeOwners"] = compute_owners
@@ -36,18 +32,19 @@ def _get_kwargs(
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
+        "url": "/projects",
         "params": params,
     }
 
+    return _kwargs
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[List["ProjectBean"]]:
-    if response.status_code == HTTPStatus.OK:
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[list["ProjectBean"]]:
+    if response.status_code == 200:
         response_200 = []
         _response_200 = response.json()
         for componentsschemas_project_bean_array_item_data in _response_200:
@@ -59,12 +56,14 @@ def _parse_response(*, client: Client, response: httpx.Response) -> Optional[Lis
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[List["ProjectBean"]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[list["ProjectBean"]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -75,32 +74,31 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Lis
 
 def sync_detailed(
     *,
-    client: Client,
-    compute_metrics: Union[Unset, None, bool] = False,
-    compute_owners: Union[Unset, None, bool] = False,
-    compute_engines: Union[Unset, None, bool] = False,
-    group_name: Union[Unset, None, str] = UNSET,
-    username: Union[Unset, None, str] = UNSET,
-) -> Response[List["ProjectBean"]]:
+    client: Union[AuthenticatedClient, Client],
+    compute_metrics: Union[Unset, bool] = False,
+    compute_owners: Union[Unset, bool] = False,
+    compute_engines: Union[Unset, bool] = False,
+    group_name: Union[Unset, str] = UNSET,
+    username: Union[Unset, str] = UNSET,
+) -> Response[list["ProjectBean"]]:
     """Get projects
 
     Args:
-        compute_metrics (Union[Unset, None, bool]):
-        compute_owners (Union[Unset, None, bool]):
-        compute_engines (Union[Unset, None, bool]):
-        group_name (Union[Unset, None, str]):
-        username (Union[Unset, None, str]):
+        compute_metrics (Union[Unset, bool]):  Default: False.
+        compute_owners (Union[Unset, bool]):  Default: False.
+        compute_engines (Union[Unset, bool]):  Default: False.
+        group_name (Union[Unset, str]):
+        username (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['ProjectBean']]
+        Response[list['ProjectBean']]
     """
 
     kwargs = _get_kwargs(
-        client=client,
         compute_metrics=compute_metrics,
         compute_owners=compute_owners,
         compute_engines=compute_engines,
@@ -108,8 +106,7 @@ def sync_detailed(
         username=username,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -118,28 +115,28 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Client,
-    compute_metrics: Union[Unset, None, bool] = False,
-    compute_owners: Union[Unset, None, bool] = False,
-    compute_engines: Union[Unset, None, bool] = False,
-    group_name: Union[Unset, None, str] = UNSET,
-    username: Union[Unset, None, str] = UNSET,
-) -> Optional[List["ProjectBean"]]:
+    client: Union[AuthenticatedClient, Client],
+    compute_metrics: Union[Unset, bool] = False,
+    compute_owners: Union[Unset, bool] = False,
+    compute_engines: Union[Unset, bool] = False,
+    group_name: Union[Unset, str] = UNSET,
+    username: Union[Unset, str] = UNSET,
+) -> Optional[list["ProjectBean"]]:
     """Get projects
 
     Args:
-        compute_metrics (Union[Unset, None, bool]):
-        compute_owners (Union[Unset, None, bool]):
-        compute_engines (Union[Unset, None, bool]):
-        group_name (Union[Unset, None, str]):
-        username (Union[Unset, None, str]):
+        compute_metrics (Union[Unset, bool]):  Default: False.
+        compute_owners (Union[Unset, bool]):  Default: False.
+        compute_engines (Union[Unset, bool]):  Default: False.
+        group_name (Union[Unset, str]):
+        username (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['ProjectBean']]
+        list['ProjectBean']
     """
 
     return sync_detailed(
@@ -154,32 +151,31 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Client,
-    compute_metrics: Union[Unset, None, bool] = False,
-    compute_owners: Union[Unset, None, bool] = False,
-    compute_engines: Union[Unset, None, bool] = False,
-    group_name: Union[Unset, None, str] = UNSET,
-    username: Union[Unset, None, str] = UNSET,
-) -> Response[List["ProjectBean"]]:
+    client: Union[AuthenticatedClient, Client],
+    compute_metrics: Union[Unset, bool] = False,
+    compute_owners: Union[Unset, bool] = False,
+    compute_engines: Union[Unset, bool] = False,
+    group_name: Union[Unset, str] = UNSET,
+    username: Union[Unset, str] = UNSET,
+) -> Response[list["ProjectBean"]]:
     """Get projects
 
     Args:
-        compute_metrics (Union[Unset, None, bool]):
-        compute_owners (Union[Unset, None, bool]):
-        compute_engines (Union[Unset, None, bool]):
-        group_name (Union[Unset, None, str]):
-        username (Union[Unset, None, str]):
+        compute_metrics (Union[Unset, bool]):  Default: False.
+        compute_owners (Union[Unset, bool]):  Default: False.
+        compute_engines (Union[Unset, bool]):  Default: False.
+        group_name (Union[Unset, str]):
+        username (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['ProjectBean']]
+        Response[list['ProjectBean']]
     """
 
     kwargs = _get_kwargs(
-        client=client,
         compute_metrics=compute_metrics,
         compute_owners=compute_owners,
         compute_engines=compute_engines,
@@ -187,36 +183,35 @@ async def asyncio_detailed(
         username=username,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
 
 async def asyncio(
     *,
-    client: Client,
-    compute_metrics: Union[Unset, None, bool] = False,
-    compute_owners: Union[Unset, None, bool] = False,
-    compute_engines: Union[Unset, None, bool] = False,
-    group_name: Union[Unset, None, str] = UNSET,
-    username: Union[Unset, None, str] = UNSET,
-) -> Optional[List["ProjectBean"]]:
+    client: Union[AuthenticatedClient, Client],
+    compute_metrics: Union[Unset, bool] = False,
+    compute_owners: Union[Unset, bool] = False,
+    compute_engines: Union[Unset, bool] = False,
+    group_name: Union[Unset, str] = UNSET,
+    username: Union[Unset, str] = UNSET,
+) -> Optional[list["ProjectBean"]]:
     """Get projects
 
     Args:
-        compute_metrics (Union[Unset, None, bool]):
-        compute_owners (Union[Unset, None, bool]):
-        compute_engines (Union[Unset, None, bool]):
-        group_name (Union[Unset, None, str]):
-        username (Union[Unset, None, str]):
+        compute_metrics (Union[Unset, bool]):  Default: False.
+        compute_owners (Union[Unset, bool]):  Default: False.
+        compute_engines (Union[Unset, bool]):  Default: False.
+        group_name (Union[Unset, str]):
+        username (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[List['ProjectBean']]
+        list['ProjectBean']
     """
 
     return (

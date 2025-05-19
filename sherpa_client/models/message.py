@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..models.message_template import MessageTemplate
 from ..types import UNSET, Unset
@@ -14,7 +15,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="Message")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class Message:
     """
     Attributes:
@@ -35,17 +36,20 @@ class Message:
     mark: Union[Unset, "MessageMark"] = UNSET
     template: Union[Unset, MessageTemplate] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         id = self.id
+
         localized = self.localized.to_dict()
 
-        audience: Union[Unset, Dict[str, Any]] = UNSET
+        audience: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.audience, Unset):
             audience = self.audience.to_dict()
 
         group = self.group
+
         index = self.index
-        mark: Union[Unset, Dict[str, Any]] = UNSET
+
+        mark: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.mark, Unset):
             mark = self.mark.to_dict()
 
@@ -53,7 +57,7 @@ class Message:
         if not isinstance(self.template, Unset):
             template = self.template.value
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "id": id,
@@ -74,12 +78,12 @@ class Message:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.message_audience import MessageAudience
         from ..models.message_localized import MessageLocalized
         from ..models.message_mark import MessageMark
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         id = d.pop("id")
 
         localized = MessageLocalized.from_dict(d.pop("localized"))

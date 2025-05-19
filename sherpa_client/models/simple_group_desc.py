@@ -1,14 +1,17 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
-from ..models.simple_group_desc_mapping_discriminator import SimpleGroupDescMappingDiscriminator
+from ..models.simple_group_desc_mapping_discriminator import (
+    SimpleGroupDescMappingDiscriminator,
+)
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="SimpleGroupDesc")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class SimpleGroupDesc:
     """
     Attributes:
@@ -23,15 +26,18 @@ class SimpleGroupDesc:
     identifier: Union[Unset, str] = UNSET
     mapping_discriminator: Union[Unset, SimpleGroupDescMappingDiscriminator] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         label = self.label
+
         name = self.name
+
         identifier = self.identifier
+
         mapping_discriminator: Union[Unset, str] = UNSET
         if not isinstance(self.mapping_discriminator, Unset):
             mapping_discriminator = self.mapping_discriminator.value
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "label": label,
@@ -46,8 +52,8 @@ class SimpleGroupDesc:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         label = d.pop("label")
 
         name = d.pop("name")
@@ -59,7 +65,9 @@ class SimpleGroupDesc:
         if isinstance(_mapping_discriminator, Unset):
             mapping_discriminator = UNSET
         else:
-            mapping_discriminator = SimpleGroupDescMappingDiscriminator(_mapping_discriminator)
+            mapping_discriminator = SimpleGroupDescMappingDiscriminator(
+                _mapping_discriminator
+            )
 
         simple_group_desc = cls(
             label=label,

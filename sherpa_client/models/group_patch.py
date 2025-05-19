@@ -1,6 +1,7 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..models.group_patch_mapping_discriminator import GroupPatchMappingDiscriminator
 from ..types import UNSET, Unset
@@ -8,11 +9,11 @@ from ..types import UNSET, Unset
 T = TypeVar("T", bound="GroupPatch")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class GroupPatch:
     """
     Attributes:
-        attached_roles (Union[Unset, List[str]]):
+        attached_roles (Union[Unset, list[str]]):
         label (Union[Unset, str]):
         login_allowed (Union[Unset, bool]):
         mapping_discriminator (Union[Unset, GroupPatchMappingDiscriminator]):
@@ -20,10 +21,10 @@ class GroupPatch:
         max_projects (Union[Unset, int]):
         max_projects_per_user (Union[Unset, int]):
         max_users (Union[Unset, int]):
-        system_attached_roles (Union[Unset, List[str]]):
+        system_attached_roles (Union[Unset, list[str]]):
     """
 
-    attached_roles: Union[Unset, List[str]] = UNSET
+    attached_roles: Union[Unset, list[str]] = UNSET
     label: Union[Unset, str] = UNSET
     login_allowed: Union[Unset, bool] = UNSET
     mapping_discriminator: Union[Unset, GroupPatchMappingDiscriminator] = UNSET
@@ -31,28 +32,34 @@ class GroupPatch:
     max_projects: Union[Unset, int] = UNSET
     max_projects_per_user: Union[Unset, int] = UNSET
     max_users: Union[Unset, int] = UNSET
-    system_attached_roles: Union[Unset, List[str]] = UNSET
+    system_attached_roles: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        attached_roles: Union[Unset, List[str]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        attached_roles: Union[Unset, list[str]] = UNSET
         if not isinstance(self.attached_roles, Unset):
             attached_roles = self.attached_roles
 
         label = self.label
+
         login_allowed = self.login_allowed
+
         mapping_discriminator: Union[Unset, str] = UNSET
         if not isinstance(self.mapping_discriminator, Unset):
             mapping_discriminator = self.mapping_discriminator.value
 
         max_docs_per_project = self.max_docs_per_project
+
         max_projects = self.max_projects
+
         max_projects_per_user = self.max_projects_per_user
+
         max_users = self.max_users
-        system_attached_roles: Union[Unset, List[str]] = UNSET
+
+        system_attached_roles: Union[Unset, list[str]] = UNSET
         if not isinstance(self.system_attached_roles, Unset):
             system_attached_roles = self.system_attached_roles
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if attached_roles is not UNSET:
             field_dict["attachedRoles"] = attached_roles
@@ -76,9 +83,9 @@ class GroupPatch:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
-        attached_roles = cast(List[str], d.pop("attachedRoles", UNSET))
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
+        attached_roles = cast(list[str], d.pop("attachedRoles", UNSET))
 
         label = d.pop("label", UNSET)
 
@@ -89,7 +96,9 @@ class GroupPatch:
         if isinstance(_mapping_discriminator, Unset):
             mapping_discriminator = UNSET
         else:
-            mapping_discriminator = GroupPatchMappingDiscriminator(_mapping_discriminator)
+            mapping_discriminator = GroupPatchMappingDiscriminator(
+                _mapping_discriminator
+            )
 
         max_docs_per_project = d.pop("maxDocsPerProject", UNSET)
 
@@ -99,7 +108,7 @@ class GroupPatch:
 
         max_users = d.pop("maxUsers", UNSET)
 
-        system_attached_roles = cast(List[str], d.pop("systemAttachedRoles", UNSET))
+        system_attached_roles = cast(list[str], d.pop("systemAttachedRoles", UNSET))
 
         group_patch = cls(
             attached_roles=attached_roles,

@@ -2,10 +2,10 @@ from enum import Enum
 
 
 class QuestionAnsweringParamsLanguageDetection(str, Enum):
-    FIRST_HIT = "first_hit"
-    PROJECT = "project"
-    INTERFACE = "interface"
     BROWSER = "browser"
+    FIRST_HIT = "first_hit"
+    INTERFACE = "interface"
+    PROJECT = "project"
     SPECIFIC = "specific"
 
     def __str__(self) -> str:

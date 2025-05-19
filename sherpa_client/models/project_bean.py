@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -14,7 +15,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="ProjectBean")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ProjectBean:
     """
     Attributes:
@@ -22,20 +23,20 @@ class ProjectBean:
         label (str):
         lang (str):
         name (str):
-        algorithms (Union[Unset, List[str]]):
+        algorithms (Union[Unset, list[str]]):
         annotations (Union[Unset, int]):
         categories (Union[Unset, int]):
         classification (Union[Unset, ClassificationConfig]):
-        components (Union[Unset, List[str]]):
+        components (Union[Unset, list[str]]):
         created_by (Union[Unset, str]):
         created_date (Union[Unset, str]):
         description (Union[Unset, str]):
-        dev_patches (Union[Unset, List[str]]):
+        dev_patches (Union[Unset, list[str]]):
         documents (Union[Unset, int]):
-        engines (Union[Unset, List[str]]):
+        engines (Union[Unset, list[str]]):
         group (Union[Unset, SimpleGroup]):
         has_split (Union[Unset, bool]):
-        metafacets (Union[Unset, List[Any]]):
+        metafacets (Union[Unset, list[Any]]):
         nature (Union[Unset, str]):
         open_session (Union[Unset, ProjectOpenSession]):
         owner (Union[Unset, SimpleUser]):
@@ -52,20 +53,20 @@ class ProjectBean:
     label: str
     lang: str
     name: str
-    algorithms: Union[Unset, List[str]] = UNSET
+    algorithms: Union[Unset, list[str]] = UNSET
     annotations: Union[Unset, int] = UNSET
     categories: Union[Unset, int] = UNSET
     classification: Union[Unset, "ClassificationConfig"] = UNSET
-    components: Union[Unset, List[str]] = UNSET
+    components: Union[Unset, list[str]] = UNSET
     created_by: Union[Unset, str] = UNSET
     created_date: Union[Unset, str] = UNSET
     description: Union[Unset, str] = UNSET
-    dev_patches: Union[Unset, List[str]] = UNSET
+    dev_patches: Union[Unset, list[str]] = UNSET
     documents: Union[Unset, int] = UNSET
-    engines: Union[Unset, List[str]] = UNSET
+    engines: Union[Unset, list[str]] = UNSET
     group: Union[Unset, "SimpleGroup"] = UNSET
     has_split: Union[Unset, bool] = UNSET
-    metafacets: Union[Unset, List[Any]] = UNSET
+    metafacets: Union[Unset, list[Any]] = UNSET
     nature: Union[Unset, str] = UNSET
     open_session: Union[Unset, "ProjectOpenSession"] = UNSET
     owner: Union[Unset, "SimpleUser"] = UNSET
@@ -77,64 +78,82 @@ class ProjectBean:
     terms: Union[Unset, int] = UNSET
     version: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         image = self.image
+
         label = self.label
+
         lang = self.lang
+
         name = self.name
-        algorithms: Union[Unset, List[str]] = UNSET
+
+        algorithms: Union[Unset, list[str]] = UNSET
         if not isinstance(self.algorithms, Unset):
             algorithms = self.algorithms
 
         annotations = self.annotations
+
         categories = self.categories
-        classification: Union[Unset, Dict[str, Any]] = UNSET
+
+        classification: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.classification, Unset):
             classification = self.classification.to_dict()
 
-        components: Union[Unset, List[str]] = UNSET
+        components: Union[Unset, list[str]] = UNSET
         if not isinstance(self.components, Unset):
             components = self.components
 
         created_by = self.created_by
+
         created_date = self.created_date
+
         description = self.description
-        dev_patches: Union[Unset, List[str]] = UNSET
+
+        dev_patches: Union[Unset, list[str]] = UNSET
         if not isinstance(self.dev_patches, Unset):
             dev_patches = self.dev_patches
 
         documents = self.documents
-        engines: Union[Unset, List[str]] = UNSET
+
+        engines: Union[Unset, list[str]] = UNSET
         if not isinstance(self.engines, Unset):
             engines = self.engines
 
-        group: Union[Unset, Dict[str, Any]] = UNSET
+        group: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.group, Unset):
             group = self.group.to_dict()
 
         has_split = self.has_split
-        metafacets: Union[Unset, List[Any]] = UNSET
+
+        metafacets: Union[Unset, list[Any]] = UNSET
         if not isinstance(self.metafacets, Unset):
             metafacets = self.metafacets
 
         nature = self.nature
-        open_session: Union[Unset, Dict[str, Any]] = UNSET
+
+        open_session: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.open_session, Unset):
             open_session = self.open_session.to_dict()
 
-        owner: Union[Unset, Dict[str, Any]] = UNSET
+        owner: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.owner, Unset):
             owner = self.owner.to_dict()
 
         private = self.private
+
         read_only = self.read_only
+
         route_on_open_project = self.route_on_open_project
+
         segments = self.segments
+
         shared = self.shared
+
         terms = self.terms
+
         version = self.version
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "image": image,
@@ -195,13 +214,13 @@ class ProjectBean:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.classification_config import ClassificationConfig
         from ..models.project_open_session import ProjectOpenSession
         from ..models.simple_group import SimpleGroup
         from ..models.simple_user import SimpleUser
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         image = d.pop("image")
 
         label = d.pop("label")
@@ -210,7 +229,7 @@ class ProjectBean:
 
         name = d.pop("name")
 
-        algorithms = cast(List[str], d.pop("algorithms", UNSET))
+        algorithms = cast(list[str], d.pop("algorithms", UNSET))
 
         annotations = d.pop("annotations", UNSET)
 
@@ -223,7 +242,7 @@ class ProjectBean:
         else:
             classification = ClassificationConfig.from_dict(_classification)
 
-        components = cast(List[str], d.pop("components", UNSET))
+        components = cast(list[str], d.pop("components", UNSET))
 
         created_by = d.pop("createdBy", UNSET)
 
@@ -231,11 +250,11 @@ class ProjectBean:
 
         description = d.pop("description", UNSET)
 
-        dev_patches = cast(List[str], d.pop("devPatches", UNSET))
+        dev_patches = cast(list[str], d.pop("devPatches", UNSET))
 
         documents = d.pop("documents", UNSET)
 
-        engines = cast(List[str], d.pop("engines", UNSET))
+        engines = cast(list[str], d.pop("engines", UNSET))
 
         _group = d.pop("group", UNSET)
         group: Union[Unset, SimpleGroup]
@@ -246,7 +265,7 @@ class ProjectBean:
 
         has_split = d.pop("hasSplit", UNSET)
 
-        metafacets = cast(List[Any], d.pop("metafacets", UNSET))
+        metafacets = cast(list[Any], d.pop("metafacets", UNSET))
 
         nature = d.pop("nature", UNSET)
 

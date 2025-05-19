@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -12,34 +13,34 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="DeleteManyResponse")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class DeleteManyResponse:
     """
     Attributes:
         removed (int):
-        details (Union[Unset, List['ItemCount']]):
+        details (Union[Unset, list['ItemCount']]):
         job (Union[Unset, SherpaJobBean]):
     """
 
     removed: int
-    details: Union[Unset, List["ItemCount"]] = UNSET
+    details: Union[Unset, list["ItemCount"]] = UNSET
     job: Union[Unset, "SherpaJobBean"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         removed = self.removed
-        details: Union[Unset, List[Dict[str, Any]]] = UNSET
+
+        details: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.details, Unset):
             details = []
             for details_item_data in self.details:
                 details_item = details_item_data.to_dict()
-
                 details.append(details_item)
 
-        job: Union[Unset, Dict[str, Any]] = UNSET
+        job: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.job, Unset):
             job = self.job.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "removed": removed,
@@ -53,11 +54,11 @@ class DeleteManyResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.item_count import ItemCount
         from ..models.sherpa_job_bean import SherpaJobBean
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         removed = d.pop("removed")
 
         details = []

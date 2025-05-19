@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -19,27 +20,32 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="ConvertFormatAnnotationPlan")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class ConvertFormatAnnotationPlan:
     """
     Attributes:
         formatter (Formatter):
-        pipeline (List[Union['WithAnnotator', 'WithConverter', 'WithLanguageGuesser', 'WithProcessor', 'WithSegmenter',
+        pipeline (list[Union['WithAnnotator', 'WithConverter', 'WithLanguageGuesser', 'WithProcessor', 'WithSegmenter',
             'WithVectorizer']]):
         converter (Union[Unset, Converter]):
         segmenter (Union[Unset, Segmenter]):
     """
 
     formatter: "Formatter"
-    pipeline: List[
+    pipeline: list[
         Union[
-            "WithAnnotator", "WithConverter", "WithLanguageGuesser", "WithProcessor", "WithSegmenter", "WithVectorizer"
+            "WithAnnotator",
+            "WithConverter",
+            "WithLanguageGuesser",
+            "WithProcessor",
+            "WithSegmenter",
+            "WithVectorizer",
         ]
     ]
     converter: Union[Unset, "Converter"] = UNSET
     segmenter: Union[Unset, "Segmenter"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         from ..models.with_annotator import WithAnnotator
         from ..models.with_converter import WithConverter
         from ..models.with_language_guesser import WithLanguageGuesser
@@ -50,37 +56,31 @@ class ConvertFormatAnnotationPlan:
 
         pipeline = []
         for pipeline_item_data in self.pipeline:
-            pipeline_item: Dict[str, Any]
-
+            pipeline_item: dict[str, Any]
             if isinstance(pipeline_item_data, WithAnnotator):
                 pipeline_item = pipeline_item_data.to_dict()
-
             elif isinstance(pipeline_item_data, WithProcessor):
                 pipeline_item = pipeline_item_data.to_dict()
-
             elif isinstance(pipeline_item_data, WithLanguageGuesser):
                 pipeline_item = pipeline_item_data.to_dict()
-
             elif isinstance(pipeline_item_data, WithSegmenter):
                 pipeline_item = pipeline_item_data.to_dict()
-
             elif isinstance(pipeline_item_data, WithConverter):
                 pipeline_item = pipeline_item_data.to_dict()
-
             else:
                 pipeline_item = pipeline_item_data.to_dict()
 
             pipeline.append(pipeline_item)
 
-        converter: Union[Unset, Dict[str, Any]] = UNSET
+        converter: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.converter, Unset):
             converter = self.converter.to_dict()
 
-        segmenter: Union[Unset, Dict[str, Any]] = UNSET
+        segmenter: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.segmenter, Unset):
             segmenter = self.segmenter.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "formatter": formatter,
@@ -95,7 +95,7 @@ class ConvertFormatAnnotationPlan:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.converter import Converter
         from ..models.formatter import Formatter
         from ..models.segmenter import Segmenter
@@ -106,7 +106,7 @@ class ConvertFormatAnnotationPlan:
         from ..models.with_segmenter import WithSegmenter
         from ..models.with_vectorizer import WithVectorizer
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         formatter = Formatter.from_dict(d.pop("formatter"))
 
         pipeline = []

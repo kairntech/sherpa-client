@@ -1,48 +1,50 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="BearerToken")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class BearerToken:
     """
     Attributes:
         access_token (str):
-        username (Union[Unset, str]):
+        email (Union[Unset, str]):
     """
 
     access_token: str
-    username: Union[Unset, str] = UNSET
+    email: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         access_token = self.access_token
-        username = self.username
 
-        field_dict: Dict[str, Any] = {}
+        email = self.email
+
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "access_token": access_token,
             }
         )
-        if username is not UNSET:
-            field_dict["email"] = username
+        if email is not UNSET:
+            field_dict["email"] = email
 
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         access_token = d.pop("access_token")
 
-        username = d.pop("username", UNSET)
+        email = d.pop("email", UNSET)
 
         bearer_token = cls(
             access_token=access_token,
-            username=username,
+            email=email,
         )
 
         return bearer_token

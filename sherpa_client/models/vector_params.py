@@ -1,6 +1,7 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..models.vector_params_native_rrf import VectorParamsNativeRRF
 from ..types import UNSET, Unset
@@ -8,7 +9,7 @@ from ..types import UNSET, Unset
 T = TypeVar("T", bound="VectorParams")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class VectorParams:
     """Vector or hybrid search parameters
 
@@ -25,15 +26,16 @@ class VectorParams:
     query: Union[Unset, str] = UNSET
     vectorizer: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         native_rrf: Union[Unset, str] = UNSET
         if not isinstance(self.native_rrf, Unset):
             native_rrf = self.native_rrf.value
 
         query = self.query
+
         vectorizer = self.vectorizer
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if native_rrf is not UNSET:
             field_dict["nativeRRF"] = native_rrf
@@ -45,8 +47,8 @@ class VectorParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         _native_rrf = d.pop("nativeRRF", UNSET)
         native_rrf: Union[Unset, VectorParamsNativeRRF]
         if isinstance(_native_rrf, Unset):

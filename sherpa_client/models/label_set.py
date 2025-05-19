@@ -1,25 +1,26 @@
-from typing import Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="LabelSet")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class LabelSet:
     """
     Attributes:
         created_at (Union[Unset, str]):
         created_by (Union[Unset, str]):
-        exclusive_classes (Union[Unset, bool]):
+        exclusive_classes (Union[Unset, bool]):  Default: False.
         guideline (Union[Unset, str]):
         label (Union[Unset, str]):
         modified_at (Union[Unset, str]):
         name (Union[Unset, str]):
         nature (Union[Unset, str]):
-        tags (Union[Unset, List[str]]):
+        tags (Union[Unset, list[str]]):
     """
 
     created_at: Union[Unset, str] = UNSET
@@ -30,22 +31,30 @@ class LabelSet:
     modified_at: Union[Unset, str] = UNSET
     name: Union[Unset, str] = UNSET
     nature: Union[Unset, str] = UNSET
-    tags: Union[Unset, List[str]] = UNSET
+    tags: Union[Unset, list[str]] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         created_at = self.created_at
+
         created_by = self.created_by
+
         exclusive_classes = self.exclusive_classes
+
         guideline = self.guideline
+
         label = self.label
+
         modified_at = self.modified_at
+
         name = self.name
+
         nature = self.nature
-        tags: Union[Unset, List[str]] = UNSET
+
+        tags: Union[Unset, list[str]] = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
@@ -69,8 +78,8 @@ class LabelSet:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         created_at = d.pop("createdAt", UNSET)
 
         created_by = d.pop("createdBy", UNSET)
@@ -87,7 +96,7 @@ class LabelSet:
 
         nature = d.pop("nature", UNSET)
 
-        tags = cast(List[str], d.pop("tags", UNSET))
+        tags = cast(list[str], d.pop("tags", UNSET))
 
         label_set = cls(
             created_at=created_at,

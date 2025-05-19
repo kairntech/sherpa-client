@@ -2,8 +2,8 @@ from enum import Enum
 
 
 class NamedVectorCreationMode(str, Enum):
-    MANUAL = "manual"
     AUTOMATIC = "automatic"
+    MANUAL = "manual"
     UNDEFINED = "undefined"
 
     def __str__(self) -> str:

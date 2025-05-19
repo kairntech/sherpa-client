@@ -1,10 +1,10 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.operation_count import OperationCount
 from ...types import UNSET, Response, Unset
 
@@ -12,58 +12,53 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     project_name: str,
     *,
-    client: Client,
-    labels: Union[Unset, None, List[str]] = UNSET,
-    created_by: Union[Unset, None, List[str]] = UNSET,
-) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/annotations/_count".format(client.base_url, projectName=project_name)
+    labels: Union[Unset, list[str]] = UNSET,
+    created_by: Union[Unset, list[str]] = UNSET,
+) -> dict[str, Any]:
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
-    json_labels: Union[Unset, None, List[str]] = UNSET
+    json_labels: Union[Unset, list[str]] = UNSET
     if not isinstance(labels, Unset):
-        if labels is None:
-            json_labels = None
-        else:
-            json_labels = labels
+        json_labels = labels
 
     params["labels"] = json_labels
 
-    json_created_by: Union[Unset, None, List[str]] = UNSET
+    json_created_by: Union[Unset, list[str]] = UNSET
     if not isinstance(created_by, Unset):
-        if created_by is None:
-            json_created_by = None
-        else:
-            json_created_by = created_by
+        json_created_by = created_by
 
     params["createdBy"] = json_created_by
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
+        "url": "/projects/{project_name}/annotations/_count".format(
+            project_name=project_name,
+        ),
         "params": params,
     }
 
+    return _kwargs
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[OperationCount]:
-    if response.status_code == HTTPStatus.OK:
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[OperationCount]:
+    if response.status_code == 200:
         response_200 = OperationCount.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[OperationCount]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[OperationCount]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -75,16 +70,16 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Ope
 def sync_detailed(
     project_name: str,
     *,
-    client: Client,
-    labels: Union[Unset, None, List[str]] = UNSET,
-    created_by: Union[Unset, None, List[str]] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    labels: Union[Unset, list[str]] = UNSET,
+    created_by: Union[Unset, list[str]] = UNSET,
 ) -> Response[OperationCount]:
     """count annotations in the corpus
 
     Args:
         project_name (str):
-        labels (Union[Unset, None, List[str]]):
-        created_by (Union[Unset, None, List[str]]):
+        labels (Union[Unset, list[str]]):
+        created_by (Union[Unset, list[str]]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -96,13 +91,11 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
         labels=labels,
         created_by=created_by,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -112,23 +105,23 @@ def sync_detailed(
 def sync(
     project_name: str,
     *,
-    client: Client,
-    labels: Union[Unset, None, List[str]] = UNSET,
-    created_by: Union[Unset, None, List[str]] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    labels: Union[Unset, list[str]] = UNSET,
+    created_by: Union[Unset, list[str]] = UNSET,
 ) -> Optional[OperationCount]:
     """count annotations in the corpus
 
     Args:
         project_name (str):
-        labels (Union[Unset, None, List[str]]):
-        created_by (Union[Unset, None, List[str]]):
+        labels (Union[Unset, list[str]]):
+        created_by (Union[Unset, list[str]]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[OperationCount]
+        OperationCount
     """
 
     return sync_detailed(
@@ -142,16 +135,16 @@ def sync(
 async def asyncio_detailed(
     project_name: str,
     *,
-    client: Client,
-    labels: Union[Unset, None, List[str]] = UNSET,
-    created_by: Union[Unset, None, List[str]] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    labels: Union[Unset, list[str]] = UNSET,
+    created_by: Union[Unset, list[str]] = UNSET,
 ) -> Response[OperationCount]:
     """count annotations in the corpus
 
     Args:
         project_name (str):
-        labels (Union[Unset, None, List[str]]):
-        created_by (Union[Unset, None, List[str]]):
+        labels (Union[Unset, list[str]]):
+        created_by (Union[Unset, list[str]]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -163,13 +156,11 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
         labels=labels,
         created_by=created_by,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -177,23 +168,23 @@ async def asyncio_detailed(
 async def asyncio(
     project_name: str,
     *,
-    client: Client,
-    labels: Union[Unset, None, List[str]] = UNSET,
-    created_by: Union[Unset, None, List[str]] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    labels: Union[Unset, list[str]] = UNSET,
+    created_by: Union[Unset, list[str]] = UNSET,
 ) -> Optional[OperationCount]:
     """count annotations in the corpus
 
     Args:
         project_name (str):
-        labels (Union[Unset, None, List[str]]):
-        created_by (Union[Unset, None, List[str]]):
+        labels (Union[Unset, list[str]]):
+        created_by (Union[Unset, list[str]]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[OperationCount]
+        OperationCount
     """
 
     return (

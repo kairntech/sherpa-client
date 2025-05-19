@@ -1,10 +1,10 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.category import Category
 from ...models.category_id import CategoryId
 from ...types import Response
@@ -13,38 +13,42 @@ from ...types import Response
 def _get_kwargs(
     project_name: str,
     *,
-    client: Client,
-    json_body: Category,
-) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/categories".format(client.base_url, projectName=project_name)
+    body: Category,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
-
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
-        "json": json_json_body,
+        "url": "/projects/{project_name}/categories".format(
+            project_name=project_name,
+        ),
     }
 
+    _body = body.to_dict()
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[CategoryId]:
-    if response.status_code == HTTPStatus.OK:
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[CategoryId]:
+    if response.status_code == 200:
         response_200 = CategoryId.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[CategoryId]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[CategoryId]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,14 +60,14 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Cat
 def sync_detailed(
     project_name: str,
     *,
-    client: Client,
-    json_body: Category,
+    client: Union[AuthenticatedClient, Client],
+    body: Category,
 ) -> Response[CategoryId]:
     """Create a document category
 
     Args:
         project_name (str):
-        json_body (Category): A document category
+        body (Category): A document category
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -75,12 +79,10 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
-        json_body=json_body,
+        body=body,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -90,41 +92,41 @@ def sync_detailed(
 def sync(
     project_name: str,
     *,
-    client: Client,
-    json_body: Category,
+    client: Union[AuthenticatedClient, Client],
+    body: Category,
 ) -> Optional[CategoryId]:
     """Create a document category
 
     Args:
         project_name (str):
-        json_body (Category): A document category
+        body (Category): A document category
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CategoryId]
+        CategoryId
     """
 
     return sync_detailed(
         project_name=project_name,
         client=client,
-        json_body=json_body,
+        body=body,
     ).parsed
 
 
 async def asyncio_detailed(
     project_name: str,
     *,
-    client: Client,
-    json_body: Category,
+    client: Union[AuthenticatedClient, Client],
+    body: Category,
 ) -> Response[CategoryId]:
     """Create a document category
 
     Args:
         project_name (str):
-        json_body (Category): A document category
+        body (Category): A document category
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -136,12 +138,10 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
-        json_body=json_body,
+        body=body,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -149,27 +149,27 @@ async def asyncio_detailed(
 async def asyncio(
     project_name: str,
     *,
-    client: Client,
-    json_body: Category,
+    client: Union[AuthenticatedClient, Client],
+    body: Category,
 ) -> Optional[CategoryId]:
     """Create a document category
 
     Args:
         project_name (str):
-        json_body (Category): A document category
+        body (Category): A document category
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CategoryId]
+        CategoryId
     """
 
     return (
         await asyncio_detailed(
             project_name=project_name,
             client=client,
-            json_body=json_body,
+            body=body,
         )
     ).parsed

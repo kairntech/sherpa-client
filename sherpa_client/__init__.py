@@ -1,7 +1,10 @@
-""" A client library for accessing Sherpa API documentation """
-from .client import AuthenticatedClient, Client
+"""A client library for accessing Sherpa API documentation"""
+
+from .client import ApiKeyAuth, AuthenticatedClient, BearerAuth, Client
 
 __all__ = (
     "AuthenticatedClient",
     "Client",
+    "ApiKeyAuth",
+    "BearerAuth",
 )

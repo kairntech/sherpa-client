@@ -1,29 +1,31 @@
-from typing import Any, Dict, Type, TypeVar
+from collections.abc import Mapping
+from typing import Any, TypeVar
 
-import attr
+from attrs import define as _attrs_define
 
 T = TypeVar("T", bound="TextCount")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class TextCount:
     """
     Attributes:
-        id (str):
+        field_id (str):
         count (int):
     """
 
-    id: str
+    field_id: str
     count: int
 
-    def to_dict(self) -> Dict[str, Any]:
-        id = self.id
+    def to_dict(self) -> dict[str, Any]:
+        field_id = self.field_id
+
         count = self.count
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
-                "_id": id,
+                "_id": field_id,
                 "count": count,
             }
         )
@@ -31,14 +33,14 @@ class TextCount:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
-        id = d.pop("_id")
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
+        field_id = d.pop("_id")
 
         count = d.pop("count")
 
         text_count = cls(
-            id=id,
+            field_id=field_id,
             count=count,
         )
 

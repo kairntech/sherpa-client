@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="SearchRequest")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class SearchRequest:
     """Search request
 
@@ -27,20 +28,20 @@ class SearchRequest:
     question_answering: Union[Unset, "QuestionAnsweringParams"] = UNSET
     search: Union[Unset, "SearchParams"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        output: Union[Unset, Dict[str, Any]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        output: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.output, Unset):
             output = self.output.to_dict()
 
-        question_answering: Union[Unset, Dict[str, Any]] = UNSET
+        question_answering: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.question_answering, Unset):
             question_answering = self.question_answering.to_dict()
 
-        search: Union[Unset, Dict[str, Any]] = UNSET
+        search: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.search, Unset):
             search = self.search.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if output is not UNSET:
             field_dict["output"] = output
@@ -52,12 +53,12 @@ class SearchRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.output_params import OutputParams
         from ..models.question_answering_params import QuestionAnsweringParams
         from ..models.search_params import SearchParams
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         _output = d.pop("output", UNSET)
         output: Union[Unset, OutputParams]
         if isinstance(_output, Unset):

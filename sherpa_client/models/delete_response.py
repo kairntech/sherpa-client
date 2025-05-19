@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,7 +12,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="DeleteResponse")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class DeleteResponse:
     """
     Attributes:
@@ -22,13 +23,14 @@ class DeleteResponse:
     removed_count: int
     remove_job: Union[Unset, "SherpaJobBean"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         removed_count = self.removed_count
-        remove_job: Union[Unset, Dict[str, Any]] = UNSET
+
+        remove_job: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.remove_job, Unset):
             remove_job = self.remove_job.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "removedCount": removed_count,
@@ -40,10 +42,10 @@ class DeleteResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sherpa_job_bean import SherpaJobBean
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         removed_count = d.pop("removedCount")
 
         _remove_job = d.pop("removeJob", UNSET)

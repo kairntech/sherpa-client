@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -11,36 +12,37 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="EngineConfigImportSummary")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class EngineConfigImportSummary:
     """
     Attributes:
-        configs (Union[Unset, List[str]]):
-        ignored (Union[Unset, List[str]]):
-        models (Union[Unset, int]): number of models that will be imported
+        configs (Union[Unset, list[str]]):
+        ignored (Union[Unset, list[str]]):
+        models (Union[Unset, int]): number of models that will be imported Default: 0.
         pending_job (Union[Unset, SherpaJobBean]):
     """
 
-    configs: Union[Unset, List[str]] = UNSET
-    ignored: Union[Unset, List[str]] = UNSET
+    configs: Union[Unset, list[str]] = UNSET
+    ignored: Union[Unset, list[str]] = UNSET
     models: Union[Unset, int] = 0
     pending_job: Union[Unset, "SherpaJobBean"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        configs: Union[Unset, List[str]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        configs: Union[Unset, list[str]] = UNSET
         if not isinstance(self.configs, Unset):
             configs = self.configs
 
-        ignored: Union[Unset, List[str]] = UNSET
+        ignored: Union[Unset, list[str]] = UNSET
         if not isinstance(self.ignored, Unset):
             ignored = self.ignored
 
         models = self.models
-        pending_job: Union[Unset, Dict[str, Any]] = UNSET
+
+        pending_job: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.pending_job, Unset):
             pending_job = self.pending_job.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if configs is not UNSET:
             field_dict["configs"] = configs
@@ -54,13 +56,13 @@ class EngineConfigImportSummary:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sherpa_job_bean import SherpaJobBean
 
-        d = src_dict.copy()
-        configs = cast(List[str], d.pop("configs", UNSET))
+        d = dict(src_dict)
+        configs = cast(list[str], d.pop("configs", UNSET))
 
-        ignored = cast(List[str], d.pop("ignored", UNSET))
+        ignored = cast(list[str], d.pop("ignored", UNSET))
 
         models = d.pop("models", UNSET)
 

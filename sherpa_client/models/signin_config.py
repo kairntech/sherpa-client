@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="SigninConfig")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class SigninConfig:
     """Signin configuration
 
@@ -27,20 +28,20 @@ class SigninConfig:
     card_form: Union[Unset, "SigninCardForm"] = UNSET
     footer: Union[Unset, "SigninFooter"] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        app_bar: Union[Unset, Dict[str, Any]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        app_bar: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.app_bar, Unset):
             app_bar = self.app_bar.to_dict()
 
-        card_form: Union[Unset, Dict[str, Any]] = UNSET
+        card_form: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.card_form, Unset):
             card_form = self.card_form.to_dict()
 
-        footer: Union[Unset, Dict[str, Any]] = UNSET
+        footer: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.footer, Unset):
             footer = self.footer.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if app_bar is not UNSET:
             field_dict["appBar"] = app_bar
@@ -52,12 +53,12 @@ class SigninConfig:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.signin_app_bar import SigninAppBar
         from ..models.signin_card_form import SigninCardForm
         from ..models.signin_footer import SigninFooter
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         _app_bar = d.pop("appBar", UNSET)
         app_bar: Union[Unset, SigninAppBar]
         if isinstance(_app_bar, Unset):

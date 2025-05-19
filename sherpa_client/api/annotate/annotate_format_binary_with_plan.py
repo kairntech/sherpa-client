@@ -1,33 +1,30 @@
 from http import HTTPStatus
 from io import BytesIO
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.format_binary_form import FormatBinaryForm
 from ...types import UNSET, File, Response, Unset
 
 
 def _get_kwargs(
     *,
-    client: Client,
-    multipart_data: FormatBinaryForm,
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
-    project_context: Union[Unset, None, str] = UNSET,
-) -> Dict[str, Any]:
-    url = "{}/annotate/_annotate_format_binary".format(client.base_url)
+    body: FormatBinaryForm,
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
+    project_context: Union[Unset, str] = UNSET,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["inlineLabels"] = inline_labels
 
     params["inlineLabelIds"] = inline_label_ids
@@ -44,31 +41,36 @@ def _get_kwargs(
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    multipart_multipart_data = multipart_data.to_multipart()
-
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
-        "files": multipart_multipart_data,
+        "url": "/annotate/_annotate_format_binary",
         "params": params,
     }
 
+    _body = body.to_multipart()
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[File]:
-    if response.status_code == HTTPStatus.OK:
+    _kwargs["files"] = _body
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[File]:
+    if response.status_code == 200:
         response_200 = File(payload=BytesIO(response.json()))
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[File]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[File]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -79,27 +81,27 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[Fil
 
 def sync_detailed(
     *,
-    client: Client,
-    multipart_data: FormatBinaryForm,
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
-    project_context: Union[Unset, None, str] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: FormatBinaryForm,
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
+    project_context: Union[Unset, str] = UNSET,
 ) -> Response[File]:
     """annotate a binary document with a pipeline and return a formatted result
 
     Args:
-        inline_labels (Union[Unset, None, bool]):  Default: True.
-        inline_label_ids (Union[Unset, None, bool]):  Default: True.
-        inline_text (Union[Unset, None, bool]):  Default: True.
-        debug (Union[Unset, None, bool]):
-        parallelize (Union[Unset, None, bool]):
-        error_policy (Union[Unset, None, str]):
-        project_context (Union[Unset, None, str]):
-        multipart_data (FormatBinaryForm):
+        inline_labels (Union[Unset, bool]):  Default: True.
+        inline_label_ids (Union[Unset, bool]):  Default: True.
+        inline_text (Union[Unset, bool]):  Default: True.
+        debug (Union[Unset, bool]):  Default: False.
+        parallelize (Union[Unset, bool]):  Default: False.
+        error_policy (Union[Unset, str]):
+        project_context (Union[Unset, str]):
+        body (FormatBinaryForm):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -110,8 +112,7 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        multipart_data=multipart_data,
+        body=body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
@@ -121,8 +122,7 @@ def sync_detailed(
         project_context=project_context,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -131,39 +131,39 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Client,
-    multipart_data: FormatBinaryForm,
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
-    project_context: Union[Unset, None, str] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: FormatBinaryForm,
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
+    project_context: Union[Unset, str] = UNSET,
 ) -> Optional[File]:
     """annotate a binary document with a pipeline and return a formatted result
 
     Args:
-        inline_labels (Union[Unset, None, bool]):  Default: True.
-        inline_label_ids (Union[Unset, None, bool]):  Default: True.
-        inline_text (Union[Unset, None, bool]):  Default: True.
-        debug (Union[Unset, None, bool]):
-        parallelize (Union[Unset, None, bool]):
-        error_policy (Union[Unset, None, str]):
-        project_context (Union[Unset, None, str]):
-        multipart_data (FormatBinaryForm):
+        inline_labels (Union[Unset, bool]):  Default: True.
+        inline_label_ids (Union[Unset, bool]):  Default: True.
+        inline_text (Union[Unset, bool]):  Default: True.
+        debug (Union[Unset, bool]):  Default: False.
+        parallelize (Union[Unset, bool]):  Default: False.
+        error_policy (Union[Unset, str]):
+        project_context (Union[Unset, str]):
+        body (FormatBinaryForm):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[File]
+        File
     """
 
     return sync_detailed(
         client=client,
-        multipart_data=multipart_data,
+        body=body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
@@ -176,27 +176,27 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Client,
-    multipart_data: FormatBinaryForm,
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
-    project_context: Union[Unset, None, str] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: FormatBinaryForm,
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
+    project_context: Union[Unset, str] = UNSET,
 ) -> Response[File]:
     """annotate a binary document with a pipeline and return a formatted result
 
     Args:
-        inline_labels (Union[Unset, None, bool]):  Default: True.
-        inline_label_ids (Union[Unset, None, bool]):  Default: True.
-        inline_text (Union[Unset, None, bool]):  Default: True.
-        debug (Union[Unset, None, bool]):
-        parallelize (Union[Unset, None, bool]):
-        error_policy (Union[Unset, None, str]):
-        project_context (Union[Unset, None, str]):
-        multipart_data (FormatBinaryForm):
+        inline_labels (Union[Unset, bool]):  Default: True.
+        inline_label_ids (Union[Unset, bool]):  Default: True.
+        inline_text (Union[Unset, bool]):  Default: True.
+        debug (Union[Unset, bool]):  Default: False.
+        parallelize (Union[Unset, bool]):  Default: False.
+        error_policy (Union[Unset, str]):
+        project_context (Union[Unset, str]):
+        body (FormatBinaryForm):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -207,8 +207,7 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        client=client,
-        multipart_data=multipart_data,
+        body=body,
         inline_labels=inline_labels,
         inline_label_ids=inline_label_ids,
         inline_text=inline_text,
@@ -218,48 +217,47 @@ async def asyncio_detailed(
         project_context=project_context,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
 
 async def asyncio(
     *,
-    client: Client,
-    multipart_data: FormatBinaryForm,
-    inline_labels: Union[Unset, None, bool] = True,
-    inline_label_ids: Union[Unset, None, bool] = True,
-    inline_text: Union[Unset, None, bool] = True,
-    debug: Union[Unset, None, bool] = False,
-    parallelize: Union[Unset, None, bool] = False,
-    error_policy: Union[Unset, None, str] = UNSET,
-    project_context: Union[Unset, None, str] = UNSET,
+    client: Union[AuthenticatedClient, Client],
+    body: FormatBinaryForm,
+    inline_labels: Union[Unset, bool] = True,
+    inline_label_ids: Union[Unset, bool] = True,
+    inline_text: Union[Unset, bool] = True,
+    debug: Union[Unset, bool] = False,
+    parallelize: Union[Unset, bool] = False,
+    error_policy: Union[Unset, str] = UNSET,
+    project_context: Union[Unset, str] = UNSET,
 ) -> Optional[File]:
     """annotate a binary document with a pipeline and return a formatted result
 
     Args:
-        inline_labels (Union[Unset, None, bool]):  Default: True.
-        inline_label_ids (Union[Unset, None, bool]):  Default: True.
-        inline_text (Union[Unset, None, bool]):  Default: True.
-        debug (Union[Unset, None, bool]):
-        parallelize (Union[Unset, None, bool]):
-        error_policy (Union[Unset, None, str]):
-        project_context (Union[Unset, None, str]):
-        multipart_data (FormatBinaryForm):
+        inline_labels (Union[Unset, bool]):  Default: True.
+        inline_label_ids (Union[Unset, bool]):  Default: True.
+        inline_text (Union[Unset, bool]):  Default: True.
+        debug (Union[Unset, bool]):  Default: False.
+        parallelize (Union[Unset, bool]):  Default: False.
+        error_policy (Union[Unset, str]):
+        project_context (Union[Unset, str]):
+        body (FormatBinaryForm):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[File]
+        File
     """
 
     return (
         await asyncio_detailed(
             client=client,
-            multipart_data=multipart_data,
+            body=body,
             inline_labels=inline_labels,
             inline_label_ids=inline_label_ids,
             inline_text=inline_text,

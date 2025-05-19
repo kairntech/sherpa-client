@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
@@ -12,41 +13,42 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="AnnotatedDocSentence")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class AnnotatedDocSentence:
     """
     Attributes:
         end (int):
         start (int):
-        categories (Union[Unset, List['AnnotatedDocCategory']]):
+        categories (Union[Unset, list['AnnotatedDocCategory']]):
         metadata (Union[Unset, AnnotatedDocSentenceMetadata]):
         text (Union[Unset, str]):
     """
 
     end: int
     start: int
-    categories: Union[Unset, List["AnnotatedDocCategory"]] = UNSET
+    categories: Union[Unset, list["AnnotatedDocCategory"]] = UNSET
     metadata: Union[Unset, "AnnotatedDocSentenceMetadata"] = UNSET
     text: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         end = self.end
+
         start = self.start
-        categories: Union[Unset, List[Dict[str, Any]]] = UNSET
+
+        categories: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.categories, Unset):
             categories = []
             for categories_item_data in self.categories:
                 categories_item = categories_item_data.to_dict()
-
                 categories.append(categories_item)
 
-        metadata: Union[Unset, Dict[str, Any]] = UNSET
+        metadata: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.metadata, Unset):
             metadata = self.metadata.to_dict()
 
         text = self.text
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(
             {
                 "end": end,
@@ -63,11 +65,13 @@ class AnnotatedDocSentence:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.annotated_doc_category import AnnotatedDocCategory
-        from ..models.annotated_doc_sentence_metadata import AnnotatedDocSentenceMetadata
+        from ..models.annotated_doc_sentence_metadata import (
+            AnnotatedDocSentenceMetadata,
+        )
 
-        d = src_dict.copy()
+        d = dict(src_dict)
         end = d.pop("end")
 
         start = d.pop("start")

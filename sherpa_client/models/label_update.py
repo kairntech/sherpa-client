@@ -1,13 +1,14 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from collections.abc import Mapping
+from typing import Any, TypeVar, Union
 
-import attr
+from attrs import define as _attrs_define
 
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="LabelUpdate")
 
 
-@attr.s(auto_attribs=True)
+@_attrs_define
 class LabelUpdate:
     """
     Attributes:
@@ -24,14 +25,18 @@ class LabelUpdate:
     label: Union[Unset, str] = UNSET
     label_set_name: Union[Unset, str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         color = self.color
+
         guideline = self.guideline
+
         identifier = self.identifier
+
         label = self.label
+
         label_set_name = self.label_set_name
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update({})
         if color is not UNSET:
             field_dict["color"] = color
@@ -47,8 +52,8 @@ class LabelUpdate:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
-        d = src_dict.copy()
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
         color = d.pop("color", UNSET)
 
         guideline = d.pop("guideline", UNSET)

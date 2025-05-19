@@ -1,10 +1,10 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
-from ...client import Client
+from ...client import AuthenticatedClient, Client
 from ...models.sherpa_job_bean import SherpaJobBean
 from ...types import UNSET, Response, Unset
 
@@ -12,36 +12,29 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     project_name: str,
     *,
-    client: Client,
-    query: Union[Unset, None, str] = "",
-    query_filter: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
+    query: Union[Unset, str] = "",
+    query_filter: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
     annotator: str,
-    annotator_project: Union[Unset, None, str] = UNSET,
-    overwrite: Union[Unset, None, bool] = True,
-    restricted_on_dataset_segments: Union[Unset, None, bool] = False,
-    email_notification: Union[Unset, None, bool] = False,
-) -> Dict[str, Any]:
-    url = "{}/projects/{projectName}/documents/_search_and_annotate".format(client.base_url, projectName=project_name)
+    annotator_project: Union[Unset, str] = UNSET,
+    overwrite: Union[Unset, bool] = True,
+    restricted_on_dataset_segments: Union[Unset, bool] = False,
+    email_notification: Union[Unset, bool] = False,
+) -> dict[str, Any]:
 
-    headers: Dict[str, str] = client.get_headers()
-    cookies: Dict[str, Any] = client.get_cookies()
+    params: dict[str, Any] = {}
 
-    params: Dict[str, Any] = {}
     params["query"] = query
 
     params["queryFilter"] = query_filter
 
     params["simpleQuery"] = simple_query
 
-    json_selected_facets: Union[Unset, None, List[str]] = UNSET
+    json_selected_facets: Union[Unset, list[str]] = UNSET
     if not isinstance(selected_facets, Unset):
-        if selected_facets is None:
-            json_selected_facets = None
-        else:
-            json_selected_facets = selected_facets
+        json_selected_facets = selected_facets
 
     params["selectedFacets"] = json_selected_facets
 
@@ -59,28 +52,33 @@ def _get_kwargs(
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
+    _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": url,
-        "headers": headers,
-        "cookies": cookies,
-        "timeout": client.get_timeout(),
+        "url": "/projects/{project_name}/documents/_search_and_annotate".format(
+            project_name=project_name,
+        ),
         "params": params,
     }
 
+    return _kwargs
 
-def _parse_response(*, client: Client, response: httpx.Response) -> Optional[SherpaJobBean]:
-    if response.status_code == HTTPStatus.OK:
+
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[SherpaJobBean]:
+    if response.status_code == 200:
         response_200 = SherpaJobBean.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
-        raise errors.UnexpectedStatus(f"Unexpected status code: {response.status_code}")
+        raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Client, response: httpx.Response) -> Response[SherpaJobBean]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[SherpaJobBean]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -92,32 +90,32 @@ def _build_response(*, client: Client, response: httpx.Response) -> Response[She
 def sync_detailed(
     project_name: str,
     *,
-    client: Client,
-    query: Union[Unset, None, str] = "",
-    query_filter: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    query: Union[Unset, str] = "",
+    query_filter: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
     annotator: str,
-    annotator_project: Union[Unset, None, str] = UNSET,
-    overwrite: Union[Unset, None, bool] = True,
-    restricted_on_dataset_segments: Union[Unset, None, bool] = False,
-    email_notification: Union[Unset, None, bool] = False,
+    annotator_project: Union[Unset, str] = UNSET,
+    overwrite: Union[Unset, bool] = True,
+    restricted_on_dataset_segments: Union[Unset, bool] = False,
+    email_notification: Union[Unset, bool] = False,
 ) -> Response[SherpaJobBean]:
     """Search for documents and apply an annotator on them
 
     Args:
         project_name (str):
-        query (Union[Unset, None, str]):  Default: ''.
-        query_filter (Union[Unset, None, str]):  Default: ''.
-        simple_query (Union[Unset, None, bool]):
-        selected_facets (Union[Unset, None, List[str]]):
-        invert_search (Union[Unset, None, bool]):
+        query (Union[Unset, str]):  Default: ''.
+        query_filter (Union[Unset, str]):  Default: ''.
+        simple_query (Union[Unset, bool]):  Default: False.
+        selected_facets (Union[Unset, list[str]]):
+        invert_search (Union[Unset, bool]):  Default: False.
         annotator (str):
-        annotator_project (Union[Unset, None, str]):
-        overwrite (Union[Unset, None, bool]):  Default: True.
-        restricted_on_dataset_segments (Union[Unset, None, bool]):
-        email_notification (Union[Unset, None, bool]):
+        annotator_project (Union[Unset, str]):
+        overwrite (Union[Unset, bool]):  Default: True.
+        restricted_on_dataset_segments (Union[Unset, bool]):  Default: False.
+        email_notification (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -129,7 +127,6 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
         query=query,
         query_filter=query_filter,
         simple_query=simple_query,
@@ -142,8 +139,7 @@ def sync_detailed(
         email_notification=email_notification,
     )
 
-    response = httpx.request(
-        verify=client.verify_ssl,
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -153,39 +149,39 @@ def sync_detailed(
 def sync(
     project_name: str,
     *,
-    client: Client,
-    query: Union[Unset, None, str] = "",
-    query_filter: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    query: Union[Unset, str] = "",
+    query_filter: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
     annotator: str,
-    annotator_project: Union[Unset, None, str] = UNSET,
-    overwrite: Union[Unset, None, bool] = True,
-    restricted_on_dataset_segments: Union[Unset, None, bool] = False,
-    email_notification: Union[Unset, None, bool] = False,
+    annotator_project: Union[Unset, str] = UNSET,
+    overwrite: Union[Unset, bool] = True,
+    restricted_on_dataset_segments: Union[Unset, bool] = False,
+    email_notification: Union[Unset, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """Search for documents and apply an annotator on them
 
     Args:
         project_name (str):
-        query (Union[Unset, None, str]):  Default: ''.
-        query_filter (Union[Unset, None, str]):  Default: ''.
-        simple_query (Union[Unset, None, bool]):
-        selected_facets (Union[Unset, None, List[str]]):
-        invert_search (Union[Unset, None, bool]):
+        query (Union[Unset, str]):  Default: ''.
+        query_filter (Union[Unset, str]):  Default: ''.
+        simple_query (Union[Unset, bool]):  Default: False.
+        selected_facets (Union[Unset, list[str]]):
+        invert_search (Union[Unset, bool]):  Default: False.
         annotator (str):
-        annotator_project (Union[Unset, None, str]):
-        overwrite (Union[Unset, None, bool]):  Default: True.
-        restricted_on_dataset_segments (Union[Unset, None, bool]):
-        email_notification (Union[Unset, None, bool]):
+        annotator_project (Union[Unset, str]):
+        overwrite (Union[Unset, bool]):  Default: True.
+        restricted_on_dataset_segments (Union[Unset, bool]):  Default: False.
+        email_notification (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SherpaJobBean]
+        SherpaJobBean
     """
 
     return sync_detailed(
@@ -207,32 +203,32 @@ def sync(
 async def asyncio_detailed(
     project_name: str,
     *,
-    client: Client,
-    query: Union[Unset, None, str] = "",
-    query_filter: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    query: Union[Unset, str] = "",
+    query_filter: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
     annotator: str,
-    annotator_project: Union[Unset, None, str] = UNSET,
-    overwrite: Union[Unset, None, bool] = True,
-    restricted_on_dataset_segments: Union[Unset, None, bool] = False,
-    email_notification: Union[Unset, None, bool] = False,
+    annotator_project: Union[Unset, str] = UNSET,
+    overwrite: Union[Unset, bool] = True,
+    restricted_on_dataset_segments: Union[Unset, bool] = False,
+    email_notification: Union[Unset, bool] = False,
 ) -> Response[SherpaJobBean]:
     """Search for documents and apply an annotator on them
 
     Args:
         project_name (str):
-        query (Union[Unset, None, str]):  Default: ''.
-        query_filter (Union[Unset, None, str]):  Default: ''.
-        simple_query (Union[Unset, None, bool]):
-        selected_facets (Union[Unset, None, List[str]]):
-        invert_search (Union[Unset, None, bool]):
+        query (Union[Unset, str]):  Default: ''.
+        query_filter (Union[Unset, str]):  Default: ''.
+        simple_query (Union[Unset, bool]):  Default: False.
+        selected_facets (Union[Unset, list[str]]):
+        invert_search (Union[Unset, bool]):  Default: False.
         annotator (str):
-        annotator_project (Union[Unset, None, str]):
-        overwrite (Union[Unset, None, bool]):  Default: True.
-        restricted_on_dataset_segments (Union[Unset, None, bool]):
-        email_notification (Union[Unset, None, bool]):
+        annotator_project (Union[Unset, str]):
+        overwrite (Union[Unset, bool]):  Default: True.
+        restricted_on_dataset_segments (Union[Unset, bool]):  Default: False.
+        email_notification (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -244,7 +240,6 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        client=client,
         query=query,
         query_filter=query_filter,
         simple_query=simple_query,
@@ -257,8 +252,7 @@ async def asyncio_detailed(
         email_notification=email_notification,
     )
 
-    async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
-        response = await _client.request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -266,39 +260,39 @@ async def asyncio_detailed(
 async def asyncio(
     project_name: str,
     *,
-    client: Client,
-    query: Union[Unset, None, str] = "",
-    query_filter: Union[Unset, None, str] = "",
-    simple_query: Union[Unset, None, bool] = False,
-    selected_facets: Union[Unset, None, List[str]] = UNSET,
-    invert_search: Union[Unset, None, bool] = False,
+    client: Union[AuthenticatedClient, Client],
+    query: Union[Unset, str] = "",
+    query_filter: Union[Unset, str] = "",
+    simple_query: Union[Unset, bool] = False,
+    selected_facets: Union[Unset, list[str]] = UNSET,
+    invert_search: Union[Unset, bool] = False,
     annotator: str,
-    annotator_project: Union[Unset, None, str] = UNSET,
-    overwrite: Union[Unset, None, bool] = True,
-    restricted_on_dataset_segments: Union[Unset, None, bool] = False,
-    email_notification: Union[Unset, None, bool] = False,
+    annotator_project: Union[Unset, str] = UNSET,
+    overwrite: Union[Unset, bool] = True,
+    restricted_on_dataset_segments: Union[Unset, bool] = False,
+    email_notification: Union[Unset, bool] = False,
 ) -> Optional[SherpaJobBean]:
     """Search for documents and apply an annotator on them
 
     Args:
         project_name (str):
-        query (Union[Unset, None, str]):  Default: ''.
-        query_filter (Union[Unset, None, str]):  Default: ''.
-        simple_query (Union[Unset, None, bool]):
-        selected_facets (Union[Unset, None, List[str]]):
-        invert_search (Union[Unset, None, bool]):
+        query (Union[Unset, str]):  Default: ''.
+        query_filter (Union[Unset, str]):  Default: ''.
+        simple_query (Union[Unset, bool]):  Default: False.
+        selected_facets (Union[Unset, list[str]]):
+        invert_search (Union[Unset, bool]):  Default: False.
         annotator (str):
-        annotator_project (Union[Unset, None, str]):
-        overwrite (Union[Unset, None, bool]):  Default: True.
-        restricted_on_dataset_segments (Union[Unset, None, bool]):
-        email_notification (Union[Unset, None, bool]):
+        annotator_project (Union[Unset, str]):
+        overwrite (Union[Unset, bool]):  Default: True.
+        restricted_on_dataset_segments (Union[Unset, bool]):  Default: False.
+        email_notification (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SherpaJobBean]
+        SherpaJobBean
     """
 
     return (
