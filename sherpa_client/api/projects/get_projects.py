@@ -15,6 +15,7 @@ def _get_kwargs(
     compute_metrics: Union[Unset, None, bool] = False,
     compute_owners: Union[Unset, None, bool] = False,
     compute_engines: Union[Unset, None, bool] = False,
+    estimated_counts: Union[Unset, None, bool] = False,
     group_name: Union[Unset, None, str] = UNSET,
     username: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
@@ -29,6 +30,8 @@ def _get_kwargs(
     params["computeOwners"] = compute_owners
 
     params["computeEngines"] = compute_engines
+
+    params["estimatedCounts"] = estimated_counts
 
     params["groupName"] = group_name
 
@@ -79,6 +82,7 @@ def sync_detailed(
     compute_metrics: Union[Unset, None, bool] = False,
     compute_owners: Union[Unset, None, bool] = False,
     compute_engines: Union[Unset, None, bool] = False,
+    estimated_counts: Union[Unset, None, bool] = False,
     group_name: Union[Unset, None, str] = UNSET,
     username: Union[Unset, None, str] = UNSET,
 ) -> Response[List["ProjectBean"]]:
@@ -88,6 +92,7 @@ def sync_detailed(
         compute_metrics (Union[Unset, None, bool]):
         compute_owners (Union[Unset, None, bool]):
         compute_engines (Union[Unset, None, bool]):
+        estimated_counts (Union[Unset, None, bool]):
         group_name (Union[Unset, None, str]):
         username (Union[Unset, None, str]):
 
@@ -104,6 +109,7 @@ def sync_detailed(
         compute_metrics=compute_metrics,
         compute_owners=compute_owners,
         compute_engines=compute_engines,
+        estimated_counts=estimated_counts,
         group_name=group_name,
         username=username,
     )
@@ -122,6 +128,7 @@ def sync(
     compute_metrics: Union[Unset, None, bool] = False,
     compute_owners: Union[Unset, None, bool] = False,
     compute_engines: Union[Unset, None, bool] = False,
+    estimated_counts: Union[Unset, None, bool] = False,
     group_name: Union[Unset, None, str] = UNSET,
     username: Union[Unset, None, str] = UNSET,
 ) -> Optional[List["ProjectBean"]]:
@@ -131,6 +138,7 @@ def sync(
         compute_metrics (Union[Unset, None, bool]):
         compute_owners (Union[Unset, None, bool]):
         compute_engines (Union[Unset, None, bool]):
+        estimated_counts (Union[Unset, None, bool]):
         group_name (Union[Unset, None, str]):
         username (Union[Unset, None, str]):
 
@@ -147,6 +155,7 @@ def sync(
         compute_metrics=compute_metrics,
         compute_owners=compute_owners,
         compute_engines=compute_engines,
+        estimated_counts=estimated_counts,
         group_name=group_name,
         username=username,
     ).parsed
@@ -158,6 +167,7 @@ async def asyncio_detailed(
     compute_metrics: Union[Unset, None, bool] = False,
     compute_owners: Union[Unset, None, bool] = False,
     compute_engines: Union[Unset, None, bool] = False,
+    estimated_counts: Union[Unset, None, bool] = False,
     group_name: Union[Unset, None, str] = UNSET,
     username: Union[Unset, None, str] = UNSET,
 ) -> Response[List["ProjectBean"]]:
@@ -167,6 +177,7 @@ async def asyncio_detailed(
         compute_metrics (Union[Unset, None, bool]):
         compute_owners (Union[Unset, None, bool]):
         compute_engines (Union[Unset, None, bool]):
+        estimated_counts (Union[Unset, None, bool]):
         group_name (Union[Unset, None, str]):
         username (Union[Unset, None, str]):
 
@@ -183,6 +194,7 @@ async def asyncio_detailed(
         compute_metrics=compute_metrics,
         compute_owners=compute_owners,
         compute_engines=compute_engines,
+        estimated_counts=estimated_counts,
         group_name=group_name,
         username=username,
     )
@@ -199,6 +211,7 @@ async def asyncio(
     compute_metrics: Union[Unset, None, bool] = False,
     compute_owners: Union[Unset, None, bool] = False,
     compute_engines: Union[Unset, None, bool] = False,
+    estimated_counts: Union[Unset, None, bool] = False,
     group_name: Union[Unset, None, str] = UNSET,
     username: Union[Unset, None, str] = UNSET,
 ) -> Optional[List["ProjectBean"]]:
@@ -208,6 +221,7 @@ async def asyncio(
         compute_metrics (Union[Unset, None, bool]):
         compute_owners (Union[Unset, None, bool]):
         compute_engines (Union[Unset, None, bool]):
+        estimated_counts (Union[Unset, None, bool]):
         group_name (Union[Unset, None, str]):
         username (Union[Unset, None, str]):
 
@@ -225,6 +239,7 @@ async def asyncio(
             compute_metrics=compute_metrics,
             compute_owners=compute_owners,
             compute_engines=compute_engines,
+            estimated_counts=estimated_counts,
             group_name=group_name,
             username=username,
         )

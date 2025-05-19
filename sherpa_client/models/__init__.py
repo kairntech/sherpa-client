@@ -160,10 +160,13 @@ from .label_names import LabelNames
 from .label_set import LabelSet
 from .label_set_update import LabelSetUpdate
 from .label_update import LabelUpdate
+from .launch_document_import_clean_text import LaunchDocumentImportCleanText
 from .launch_document_import_multipart_data import LaunchDocumentImportMultipartData
 from .launch_document_import_segmentation_policy import LaunchDocumentImportSegmentationPolicy
+from .launch_json_documents_import_clean_text import LaunchJsonDocumentsImportCleanText
 from .launch_json_documents_import_segmentation_policy import LaunchJsonDocumentsImportSegmentationPolicy
 from .launch_project_restoration_from_backup_multipart_data import LaunchProjectRestorationFromBackupMultipartData
+from .launch_uploaded_document_import_clean_text import LaunchUploadedDocumentImportCleanText
 from .launch_uploaded_document_import_segmentation_policy import LaunchUploadedDocumentImportSegmentationPolicy
 from .lexicon import Lexicon
 from .lexicon_update import LexiconUpdate
@@ -474,10 +477,13 @@ __all__ = (
     "LabelSet",
     "LabelSetUpdate",
     "LabelUpdate",
+    "LaunchDocumentImportCleanText",
     "LaunchDocumentImportMultipartData",
     "LaunchDocumentImportSegmentationPolicy",
+    "LaunchJsonDocumentsImportCleanText",
     "LaunchJsonDocumentsImportSegmentationPolicy",
     "LaunchProjectRestorationFromBackupMultipartData",
+    "LaunchUploadedDocumentImportCleanText",
     "LaunchUploadedDocumentImportSegmentationPolicy",
     "Lexicon",
     "LexiconUpdate",

@@ -5,6 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import Client
+from ...models.launch_uploaded_document_import_clean_text import LaunchUploadedDocumentImportCleanText
 from ...models.launch_uploaded_document_import_segmentation_policy import LaunchUploadedDocumentImportSegmentationPolicy
 from ...models.sherpa_job_bean import SherpaJobBean
 from ...models.uploaded_file import UploadedFile
@@ -21,7 +22,9 @@ def _get_kwargs(
         Unset, None, LaunchUploadedDocumentImportSegmentationPolicy
     ] = LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
+    clean_text: Union[
+        Unset, None, LaunchUploadedDocumentImportCleanText
+    ] = LaunchUploadedDocumentImportCleanText.DEFAULT,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
     group_name: Union[Unset, None, str] = UNSET,
     idp_group_identifier: Union[Unset, None, str] = UNSET,
@@ -43,7 +46,11 @@ def _get_kwargs(
 
     params["splitCorpus"] = split_corpus
 
-    params["cleanText"] = clean_text
+    json_clean_text: Union[Unset, None, str] = UNSET
+    if not isinstance(clean_text, Unset):
+        json_clean_text = clean_text.value if clean_text else None
+
+    params["cleanText"] = json_clean_text
 
     params["generateCategoriesFromSourceFolder"] = generate_categories_from_source_folder
 
@@ -102,7 +109,9 @@ def sync_detailed(
         Unset, None, LaunchUploadedDocumentImportSegmentationPolicy
     ] = LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
+    clean_text: Union[
+        Unset, None, LaunchUploadedDocumentImportCleanText
+    ] = LaunchUploadedDocumentImportCleanText.DEFAULT,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
     group_name: Union[Unset, None, str] = UNSET,
     idp_group_identifier: Union[Unset, None, str] = UNSET,
@@ -116,7 +125,8 @@ def sync_detailed(
         segmentation_policy (Union[Unset, None, LaunchUploadedDocumentImportSegmentationPolicy]):
             Default: LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
-        clean_text (Union[Unset, None, bool]):  Default: True.
+        clean_text (Union[Unset, None, LaunchUploadedDocumentImportCleanText]):  Default:
+            LaunchUploadedDocumentImportCleanText.DEFAULT.
         generate_categories_from_source_folder (Union[Unset, None, bool]):
         group_name (Union[Unset, None, str]):
         idp_group_identifier (Union[Unset, None, str]):
@@ -163,7 +173,9 @@ def sync(
         Unset, None, LaunchUploadedDocumentImportSegmentationPolicy
     ] = LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
+    clean_text: Union[
+        Unset, None, LaunchUploadedDocumentImportCleanText
+    ] = LaunchUploadedDocumentImportCleanText.DEFAULT,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
     group_name: Union[Unset, None, str] = UNSET,
     idp_group_identifier: Union[Unset, None, str] = UNSET,
@@ -177,7 +189,8 @@ def sync(
         segmentation_policy (Union[Unset, None, LaunchUploadedDocumentImportSegmentationPolicy]):
             Default: LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
-        clean_text (Union[Unset, None, bool]):  Default: True.
+        clean_text (Union[Unset, None, LaunchUploadedDocumentImportCleanText]):  Default:
+            LaunchUploadedDocumentImportCleanText.DEFAULT.
         generate_categories_from_source_folder (Union[Unset, None, bool]):
         group_name (Union[Unset, None, str]):
         idp_group_identifier (Union[Unset, None, str]):
@@ -217,7 +230,9 @@ async def asyncio_detailed(
         Unset, None, LaunchUploadedDocumentImportSegmentationPolicy
     ] = LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
+    clean_text: Union[
+        Unset, None, LaunchUploadedDocumentImportCleanText
+    ] = LaunchUploadedDocumentImportCleanText.DEFAULT,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
     group_name: Union[Unset, None, str] = UNSET,
     idp_group_identifier: Union[Unset, None, str] = UNSET,
@@ -231,7 +246,8 @@ async def asyncio_detailed(
         segmentation_policy (Union[Unset, None, LaunchUploadedDocumentImportSegmentationPolicy]):
             Default: LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
-        clean_text (Union[Unset, None, bool]):  Default: True.
+        clean_text (Union[Unset, None, LaunchUploadedDocumentImportCleanText]):  Default:
+            LaunchUploadedDocumentImportCleanText.DEFAULT.
         generate_categories_from_source_folder (Union[Unset, None, bool]):
         group_name (Union[Unset, None, str]):
         idp_group_identifier (Union[Unset, None, str]):
@@ -276,7 +292,9 @@ async def asyncio(
         Unset, None, LaunchUploadedDocumentImportSegmentationPolicy
     ] = LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
+    clean_text: Union[
+        Unset, None, LaunchUploadedDocumentImportCleanText
+    ] = LaunchUploadedDocumentImportCleanText.DEFAULT,
     generate_categories_from_source_folder: Union[Unset, None, bool] = False,
     group_name: Union[Unset, None, str] = UNSET,
     idp_group_identifier: Union[Unset, None, str] = UNSET,
@@ -290,7 +308,8 @@ async def asyncio(
         segmentation_policy (Union[Unset, None, LaunchUploadedDocumentImportSegmentationPolicy]):
             Default: LaunchUploadedDocumentImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
-        clean_text (Union[Unset, None, bool]):  Default: True.
+        clean_text (Union[Unset, None, LaunchUploadedDocumentImportCleanText]):  Default:
+            LaunchUploadedDocumentImportCleanText.DEFAULT.
         generate_categories_from_source_folder (Union[Unset, None, bool]):
         group_name (Union[Unset, None, str]):
         idp_group_identifier (Union[Unset, None, str]):

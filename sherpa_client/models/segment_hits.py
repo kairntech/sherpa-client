@@ -20,12 +20,16 @@ class SegmentHits:
         hits (List['SegmentHit']):
         total (SearchTotal):
         aggregations (Union[Unset, List['Aggregation']]):
+        answer (Union[Unset, str]):
+        context (Union[Unset, str]):
         max_score (Union[Unset, float]):
     """
 
     hits: List["SegmentHit"]
     total: "SearchTotal"
     aggregations: Union[Unset, List["Aggregation"]] = UNSET
+    answer: Union[Unset, str] = UNSET
+    context: Union[Unset, str] = UNSET
     max_score: Union[Unset, float] = UNSET
 
     def to_dict(self) -> Dict[str, Any]:
@@ -45,6 +49,8 @@ class SegmentHits:
 
                 aggregations.append(aggregations_item)
 
+        answer = self.answer
+        context = self.context
         max_score = self.max_score
 
         field_dict: Dict[str, Any] = {}
@@ -56,6 +62,10 @@ class SegmentHits:
         )
         if aggregations is not UNSET:
             field_dict["aggregations"] = aggregations
+        if answer is not UNSET:
+            field_dict["answer"] = answer
+        if context is not UNSET:
+            field_dict["context"] = context
         if max_score is not UNSET:
             field_dict["max_score"] = max_score
 
@@ -84,12 +94,18 @@ class SegmentHits:
 
             aggregations.append(aggregations_item)
 
+        answer = d.pop("answer", UNSET)
+
+        context = d.pop("context", UNSET)
+
         max_score = d.pop("max_score", UNSET)
 
         segment_hits = cls(
             hits=hits,
             total=total,
             aggregations=aggregations,
+            answer=answer,
+            context=context,
             max_score=max_score,
         )
 

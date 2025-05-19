@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import Client
 from ...models.imported_document import ImportedDocument
+from ...models.launch_json_documents_import_clean_text import LaunchJsonDocumentsImportCleanText
 from ...models.launch_json_documents_import_segmentation_policy import LaunchJsonDocumentsImportSegmentationPolicy
 from ...models.sherpa_job_bean import SherpaJobBean
 from ...types import UNSET, Response, Unset
@@ -21,7 +22,7 @@ def _get_kwargs(
         Unset, None, LaunchJsonDocumentsImportSegmentationPolicy
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
+    clean_text: Union[Unset, None, LaunchJsonDocumentsImportCleanText] = LaunchJsonDocumentsImportCleanText.DEFAULT,
     group_name: Union[Unset, None, str] = UNSET,
     idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
@@ -42,7 +43,11 @@ def _get_kwargs(
 
     params["splitCorpus"] = split_corpus
 
-    params["cleanText"] = clean_text
+    json_clean_text: Union[Unset, None, str] = UNSET
+    if not isinstance(clean_text, Unset):
+        json_clean_text = clean_text.value if clean_text else None
+
+    params["cleanText"] = json_clean_text
 
     params["groupName"] = group_name
 
@@ -99,7 +104,7 @@ def sync_detailed(
         Unset, None, LaunchJsonDocumentsImportSegmentationPolicy
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
+    clean_text: Union[Unset, None, LaunchJsonDocumentsImportCleanText] = LaunchJsonDocumentsImportCleanText.DEFAULT,
     group_name: Union[Unset, None, str] = UNSET,
     idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
@@ -112,7 +117,8 @@ def sync_detailed(
         segmentation_policy (Union[Unset, None, LaunchJsonDocumentsImportSegmentationPolicy]):
             Default: LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
-        clean_text (Union[Unset, None, bool]):  Default: True.
+        clean_text (Union[Unset, None, LaunchJsonDocumentsImportCleanText]):  Default:
+            LaunchJsonDocumentsImportCleanText.DEFAULT.
         group_name (Union[Unset, None, str]):
         idp_group_identifier (Union[Unset, None, str]):
         wait (Union[Unset, None, bool]):
@@ -157,7 +163,7 @@ def sync(
         Unset, None, LaunchJsonDocumentsImportSegmentationPolicy
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
+    clean_text: Union[Unset, None, LaunchJsonDocumentsImportCleanText] = LaunchJsonDocumentsImportCleanText.DEFAULT,
     group_name: Union[Unset, None, str] = UNSET,
     idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
@@ -170,7 +176,8 @@ def sync(
         segmentation_policy (Union[Unset, None, LaunchJsonDocumentsImportSegmentationPolicy]):
             Default: LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
-        clean_text (Union[Unset, None, bool]):  Default: True.
+        clean_text (Union[Unset, None, LaunchJsonDocumentsImportCleanText]):  Default:
+            LaunchJsonDocumentsImportCleanText.DEFAULT.
         group_name (Union[Unset, None, str]):
         idp_group_identifier (Union[Unset, None, str]):
         wait (Union[Unset, None, bool]):
@@ -208,7 +215,7 @@ async def asyncio_detailed(
         Unset, None, LaunchJsonDocumentsImportSegmentationPolicy
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
+    clean_text: Union[Unset, None, LaunchJsonDocumentsImportCleanText] = LaunchJsonDocumentsImportCleanText.DEFAULT,
     group_name: Union[Unset, None, str] = UNSET,
     idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
@@ -221,7 +228,8 @@ async def asyncio_detailed(
         segmentation_policy (Union[Unset, None, LaunchJsonDocumentsImportSegmentationPolicy]):
             Default: LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
-        clean_text (Union[Unset, None, bool]):  Default: True.
+        clean_text (Union[Unset, None, LaunchJsonDocumentsImportCleanText]):  Default:
+            LaunchJsonDocumentsImportCleanText.DEFAULT.
         group_name (Union[Unset, None, str]):
         idp_group_identifier (Union[Unset, None, str]):
         wait (Union[Unset, None, bool]):
@@ -264,7 +272,7 @@ async def asyncio(
         Unset, None, LaunchJsonDocumentsImportSegmentationPolicy
     ] = LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING,
     split_corpus: Union[Unset, None, bool] = False,
-    clean_text: Union[Unset, None, bool] = True,
+    clean_text: Union[Unset, None, LaunchJsonDocumentsImportCleanText] = LaunchJsonDocumentsImportCleanText.DEFAULT,
     group_name: Union[Unset, None, str] = UNSET,
     idp_group_identifier: Union[Unset, None, str] = UNSET,
     wait: Union[Unset, None, bool] = False,
@@ -277,7 +285,8 @@ async def asyncio(
         segmentation_policy (Union[Unset, None, LaunchJsonDocumentsImportSegmentationPolicy]):
             Default: LaunchJsonDocumentsImportSegmentationPolicy.COMPUTE_IF_MISSING.
         split_corpus (Union[Unset, None, bool]):
-        clean_text (Union[Unset, None, bool]):  Default: True.
+        clean_text (Union[Unset, None, LaunchJsonDocumentsImportCleanText]):  Default:
+            LaunchJsonDocumentsImportCleanText.DEFAULT.
         group_name (Union[Unset, None, str]):
         idp_group_identifier (Union[Unset, None, str]):
         wait (Union[Unset, None, bool]):
