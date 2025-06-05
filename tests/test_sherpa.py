@@ -167,7 +167,7 @@ def test_get_projects(client, project):
 def test_import_documents(client, project):
     testdir = Path(__file__).parent / "data"
     json_file = testdir / "20_dummy_segs_with_annotations.json"
-    with json_file.open("r") as fin:
+    with json_file.open("rb") as fin:
         multipart_data = LaunchDocumentImportMultipartData(
             file=File(file_name=json_file.name, payload=fin, mime_type="application/json")
         )
