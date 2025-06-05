@@ -51,20 +51,6 @@ from .batch_migration_operation_users import BatchMigrationOperationUsers
 from .batch_migration_receive import BatchMigrationReceive
 from .bearer_token import BearerToken
 from .bucket import Bucket
-from .campaign import Campaign
-from .campaign_id import CampaignId
-from .campaign_localized_message import CampaignLocalizedMessage
-from .campaign_localized_message_format import CampaignLocalizedMessageFormat
-from .campaign_localized_message_templating import CampaignLocalizedMessageTemplating
-from .campaign_message import CampaignMessage
-from .campaign_message_localized import CampaignMessageLocalized
-from .campaign_patch import CampaignPatch
-from .campaign_roles_change import CampaignRolesChange
-from .campaign_session import CampaignSession
-from .campaign_session_mode import CampaignSessionMode
-from .campaign_user_group import CampaignUserGroup
-from .campaign_user_session import CampaignUserSession
-from .campaign_user_session_state import CampaignUserSessionState
 from .categories_facets import CategoriesFacets
 from .category import Category
 from .category_action import CategoryAction
@@ -89,9 +75,7 @@ from .create_term_response_200 import CreateTermResponse200
 from .create_theme_form import CreateThemeForm
 from .create_theme_from_archive_body import CreateThemeFromArchiveBody
 from .created_by_count import CreatedByCount
-from .creation_mode import CreationMode
 from .credentials import Credentials
-from .data_restoration_request import DataRestorationRequest
 from .default_annotation_plan import DefaultAnnotationPlan
 from .default_processor_context import DefaultProcessorContext
 from .delete_group_result import DeleteGroupResult
@@ -119,7 +103,6 @@ from .document_facets import DocumentFacets
 from .document_hit import DocumentHit
 from .document_hits import DocumentHits
 from .document_metadata import DocumentMetadata
-from .email_notifications import EmailNotifications
 from .engine_config import EngineConfig
 from .engine_config_import_summary import EngineConfigImportSummary
 from .engine_name import EngineName
@@ -131,8 +114,6 @@ from .experiment_patch_parameters import ExperimentPatchParameters
 from .export_terms_response_200_item import ExportTermsResponse200Item
 from .external_databases import ExternalDatabases
 from .external_resources import ExternalResources
-from .filter_selector import FilterSelector
-from .filter_type import FilterType
 from .filtering_params import FilteringParams
 from .find_similar_segments_search_type import FindSimilarSegmentsSearchType
 from .format_binary_form import FormatBinaryForm
@@ -148,24 +129,10 @@ from .general_app_bar import GeneralAppBar
 from .general_config import GeneralConfig
 from .general_footer import GeneralFooter
 from .general_toolbar import GeneralToolbar
-from .generated_label_hint import GeneratedLabelHint
-from .get_app_state_response_200 import GetAppStateResponse200
 from .get_base_theme_config_response_200 import GetBaseThemeConfigResponse200
-from .get_engine_parameters_schema_response_200 import (
-    GetEngineParametersSchemaResponse200,
-)
 from .get_favorite_theme_scope import GetFavoriteThemeScope
 from .get_global_messages_output_format import GetGlobalMessagesOutputFormat
 from .get_global_messages_scopes_item import GetGlobalMessagesScopesItem
-from .get_project_engine_parameters_schema_response_200 import (
-    GetProjectEngineParametersSchemaResponse200,
-)
-from .get_project_messages_output_format import GetProjectMessagesOutputFormat
-from .get_project_messages_scopes_item import GetProjectMessagesScopesItem
-from .get_segment_context_context_output import GetSegmentContextContextOutput
-from .get_services_distinct_values_response_200_item import (
-    GetServicesDistinctValuesResponse200Item,
-)
 from .get_term_response_200 import GetTermResponse200
 from .get_theme_config_schema_response_200 import GetThemeConfigSchemaResponse200
 from .get_themes_scope import GetThemesScope
@@ -177,7 +144,6 @@ from .global_message_patch_scope import GlobalMessagePatchScope
 from .global_message_scope import GlobalMessageScope
 from .group_desc import GroupDesc
 from .group_desc_mapping_discriminator import GroupDescMappingDiscriminator
-from .group_mapping_discriminator import GroupMappingDiscriminator
 from .group_name import GroupName
 from .group_patch import GroupPatch
 from .group_patch_mapping_discriminator import GroupPatchMappingDiscriminator
@@ -199,18 +165,14 @@ from .imported_document_metadata import ImportedDocumentMetadata
 from .index_document_indexes_item import IndexDocumentIndexesItem
 from .input_document import InputDocument
 from .input_document_metadata import InputDocumentMetadata
-from .input_label import InputLabel
 from .item_count import ItemCount
 from .item_ref import ItemRef
-from .job_status import JobStatus
-from .job_type import JobType
 from .label import Label
 from .label_count import LabelCount
 from .label_names import LabelNames
 from .label_set import LabelSet
 from .label_set_update import LabelSetUpdate
 from .label_update import LabelUpdate
-from .language_source import LanguageSource
 from .launch_document_import_body import LaunchDocumentImportBody
 from .launch_document_import_clean_text import LaunchDocumentImportCleanText
 from .launch_document_import_segmentation_policy import (
@@ -238,12 +200,9 @@ from .maybe_create_projects_and_import_models_from_archive_body import (
     MaybeCreateProjectsAndImportModelsFromArchiveBody,
 )
 from .message_audience import MessageAudience
-from .message_format import MessageFormat
 from .message_id import MessageId
 from .message_mark import MessageMark
 from .metadata_count import MetadataCount
-from .metadata_definition import MetadataDefinition
-from .metadata_definition_entry import MetadataDefinitionEntry
 from .model_metrics import ModelMetrics
 from .model_metrics_options import ModelMetricsOptions
 from .models_metrics import ModelsMetrics
@@ -251,13 +210,6 @@ from .named_annotation_plan import NamedAnnotationPlan
 from .named_vector import NamedVector
 from .named_vector_creation_mode import NamedVectorCreationMode
 from .named_vector_properties import NamedVectorProperties
-from .native_rrf import NativeRRF
-from .new_campaign import NewCampaign
-from .new_campaign_message import NewCampaignMessage
-from .new_campaign_message_localized import NewCampaignMessageLocalized
-from .new_campaign_session import NewCampaignSession
-from .new_campaign_session_mode import NewCampaignSessionMode
-from .new_campaign_user_session import NewCampaignUserSession
 from .new_experiment import NewExperiment
 from .new_experiment_parameters import NewExperimentParameters
 from .new_gazetteer import NewGazetteer
@@ -268,9 +220,6 @@ from .new_global_message_scope import NewGlobalMessageScope
 from .new_group_desc import NewGroupDesc
 from .new_group_desc_mapping_discriminator import NewGroupDescMappingDiscriminator
 from .new_named_annotation_plan import NewNamedAnnotationPlan
-from .new_project_message import NewProjectMessage
-from .new_project_message_localized import NewProjectMessageLocalized
-from .new_project_message_scope import NewProjectMessageScope
 from .new_role import NewRole
 from .new_suggester import NewSuggester
 from .new_suggester_parameters import NewSuggesterParameters
@@ -288,12 +237,6 @@ from .project_annotators import ProjectAnnotators
 from .project_bean import ProjectBean
 from .project_config_creation import ProjectConfigCreation
 from .project_config_creation_properties import ProjectConfigCreationProperties
-from .project_message import ProjectMessage
-from .project_message_localized import ProjectMessageLocalized
-from .project_message_patch import ProjectMessagePatch
-from .project_message_patch_localized import ProjectMessagePatchLocalized
-from .project_message_patch_scope import ProjectMessagePatchScope
-from .project_message_scope import ProjectMessageScope
 from .project_open_session import ProjectOpenSession
 from .project_open_session_state import ProjectOpenSessionState
 from .project_property import ProjectProperty
@@ -301,12 +244,10 @@ from .project_status import ProjectStatus
 from .project_user_share import ProjectUserShare
 from .projects_annotators import ProjectsAnnotators
 from .quality_figures import QualityFigures
-from .query_search_type import QuerySearchType
 from .question_answering_params import QuestionAnsweringParams
 from .question_answering_params_language_detection import (
     QuestionAnsweringParamsLanguageDetection,
 )
-from .relation import Relation
 from .report import Report
 from .report_classes import ReportClasses
 from .request_jwt_token_project_access_mode import RequestJwtTokenProjectAccessMode
@@ -323,16 +264,12 @@ from .search_segments_search_type import SearchSegmentsSearchType
 from .search_terms_search_type import SearchTermsSearchType
 from .search_total import SearchTotal
 from .search_total_relation import SearchTotalRelation
-from .search_type import SearchType
 from .segment import Segment
-from .segment_context import SegmentContext
-from .segment_contexts import SegmentContexts
 from .segment_hit import SegmentHit
 from .segment_hits import SegmentHits
 from .segment_metadata import SegmentMetadata
 from .segmenter import Segmenter
 from .segmenter_parameters import SegmenterParameters
-from .session_corpus_permission_change import SessionCorpusPermissionChange
 from .set_theme_as_favorite_scope import SetThemeAsFavoriteScope
 from .share_mode import ShareMode
 from .sherpa_job_bean import SherpaJobBean
@@ -355,8 +292,6 @@ from .suggester_parameters import SuggesterParameters
 from .suggester_patch import SuggesterPatch
 from .suggester_patch_parameters import SuggesterPatchParameters
 from .suggestion_facets import SuggestionFacets
-from .suggestions_list import SuggestionsList
-from .template_language import TemplateLanguage
 from .term_hit import TermHit
 from .term_hit_term import TermHitTerm
 from .term_hits import TermHits
@@ -379,8 +314,6 @@ from .user_permissions_update import UserPermissionsUpdate
 from .user_profile import UserProfile
 from .user_profile_update import UserProfileUpdate
 from .user_response import UserResponse
-from .user_session_action_action import UserSessionActionAction
-from .user_session_state import UserSessionState
 from .user_share import UserShare
 from .users_response import UsersResponse
 from .vector_params import VectorParams
@@ -454,20 +387,6 @@ __all__ = (
     "BatchMigrationReceive",
     "BearerToken",
     "Bucket",
-    "Campaign",
-    "CampaignId",
-    "CampaignLocalizedMessage",
-    "CampaignLocalizedMessageFormat",
-    "CampaignLocalizedMessageTemplating",
-    "CampaignMessage",
-    "CampaignMessageLocalized",
-    "CampaignPatch",
-    "CampaignRolesChange",
-    "CampaignSession",
-    "CampaignSessionMode",
-    "CampaignUserGroup",
-    "CampaignUserSession",
-    "CampaignUserSessionState",
     "CategoriesFacets",
     "Category",
     "CategoryAction",
@@ -492,9 +411,7 @@ __all__ = (
     "CreateTermResponse200",
     "CreateThemeForm",
     "CreateThemeFromArchiveBody",
-    "CreationMode",
     "Credentials",
-    "DataRestorationRequest",
     "DefaultAnnotationPlan",
     "DefaultProcessorContext",
     "DeleteGroupResult",
@@ -518,7 +435,6 @@ __all__ = (
     "DocumentHit",
     "DocumentHits",
     "DocumentMetadata",
-    "EmailNotifications",
     "EngineConfig",
     "EngineConfigImportSummary",
     "EngineName",
@@ -531,8 +447,6 @@ __all__ = (
     "ExternalDatabases",
     "ExternalResources",
     "FilteringParams",
-    "FilterSelector",
-    "FilterType",
     "FindSimilarSegmentsSearchType",
     "FormatBinaryForm",
     "FormatDocumentsWithMany",
@@ -547,18 +461,10 @@ __all__ = (
     "GeneralConfig",
     "GeneralFooter",
     "GeneralToolbar",
-    "GeneratedLabelHint",
-    "GetAppStateResponse200",
     "GetBaseThemeConfigResponse200",
-    "GetEngineParametersSchemaResponse200",
     "GetFavoriteThemeScope",
     "GetGlobalMessagesOutputFormat",
     "GetGlobalMessagesScopesItem",
-    "GetProjectEngineParametersSchemaResponse200",
-    "GetProjectMessagesOutputFormat",
-    "GetProjectMessagesScopesItem",
-    "GetSegmentContextContextOutput",
-    "GetServicesDistinctValuesResponse200Item",
     "GetTermResponse200",
     "GetThemeConfigSchemaResponse200",
     "GetThemesScope",
@@ -570,7 +476,6 @@ __all__ = (
     "GlobalMessageScope",
     "GroupDesc",
     "GroupDescMappingDiscriminator",
-    "GroupMappingDiscriminator",
     "GroupName",
     "GroupPatch",
     "GroupPatchMappingDiscriminator",
@@ -592,18 +497,14 @@ __all__ = (
     "IndexDocumentIndexesItem",
     "InputDocument",
     "InputDocumentMetadata",
-    "InputLabel",
     "ItemCount",
     "ItemRef",
-    "JobStatus",
-    "JobType",
     "Label",
     "LabelCount",
     "LabelNames",
     "LabelSet",
     "LabelSetUpdate",
     "LabelUpdate",
-    "LanguageSource",
     "LaunchDocumentImportBody",
     "LaunchDocumentImportCleanText",
     "LaunchDocumentImportSegmentationPolicy",
@@ -619,12 +520,9 @@ __all__ = (
     "LocalizedMessageTemplating",
     "MaybeCreateProjectsAndImportModelsFromArchiveBody",
     "MessageAudience",
-    "MessageFormat",
     "MessageId",
     "MessageMark",
     "MetadataCount",
-    "MetadataDefinition",
-    "MetadataDefinitionEntry",
     "ModelMetrics",
     "ModelMetricsOptions",
     "ModelsMetrics",
@@ -632,13 +530,6 @@ __all__ = (
     "NamedVector",
     "NamedVectorCreationMode",
     "NamedVectorProperties",
-    "NativeRRF",
-    "NewCampaign",
-    "NewCampaignMessage",
-    "NewCampaignMessageLocalized",
-    "NewCampaignSession",
-    "NewCampaignSessionMode",
-    "NewCampaignUserSession",
     "NewExperiment",
     "NewExperimentParameters",
     "NewGazetteer",
@@ -649,9 +540,6 @@ __all__ = (
     "NewGroupDesc",
     "NewGroupDescMappingDiscriminator",
     "NewNamedAnnotationPlan",
-    "NewProjectMessage",
-    "NewProjectMessageLocalized",
-    "NewProjectMessageScope",
     "NewRole",
     "NewSuggester",
     "NewSuggesterParameters",
@@ -669,12 +557,6 @@ __all__ = (
     "ProjectBean",
     "ProjectConfigCreation",
     "ProjectConfigCreationProperties",
-    "ProjectMessage",
-    "ProjectMessageLocalized",
-    "ProjectMessagePatch",
-    "ProjectMessagePatchLocalized",
-    "ProjectMessagePatchScope",
-    "ProjectMessageScope",
     "ProjectOpenSession",
     "ProjectOpenSessionState",
     "ProjectProperty",
@@ -682,10 +564,8 @@ __all__ = (
     "ProjectStatus",
     "ProjectUserShare",
     "QualityFigures",
-    "QuerySearchType",
     "QuestionAnsweringParams",
     "QuestionAnsweringParamsLanguageDetection",
-    "Relation",
     "Report",
     "ReportClasses",
     "RequestJwtTokenProjectAccessMode",
@@ -702,16 +582,12 @@ __all__ = (
     "SearchTermsSearchType",
     "SearchTotal",
     "SearchTotalRelation",
-    "SearchType",
     "Segment",
-    "SegmentContext",
-    "SegmentContexts",
     "Segmenter",
     "SegmenterParameters",
     "SegmentHit",
     "SegmentHits",
     "SegmentMetadata",
-    "SessionCorpusPermissionChange",
     "SetThemeAsFavoriteScope",
     "ShareMode",
     "SherpaJobBean",
@@ -734,8 +610,6 @@ __all__ = (
     "SuggesterPatch",
     "SuggesterPatchParameters",
     "SuggestionFacets",
-    "SuggestionsList",
-    "TemplateLanguage",
     "TermHit",
     "TermHits",
     "TermHitTerm",
@@ -758,8 +632,6 @@ __all__ = (
     "UserProfile",
     "UserProfileUpdate",
     "UserResponse",
-    "UserSessionActionAction",
-    "UserSessionState",
     "UserShare",
     "UsersResponse",
     "VectorParams",

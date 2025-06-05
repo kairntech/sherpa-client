@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sherpa-client"
-version = "1.0.2"
+version = "1.0.3"
 description = "A client library for accessing Sherpa API documentation"
 authors = []
 readme = "README.md"
