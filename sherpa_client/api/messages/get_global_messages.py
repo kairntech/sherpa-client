@@ -5,27 +5,34 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.get_global_messages_output_format import GetGlobalMessagesOutputFormat
 from ...models.get_global_messages_scopes_item import GetGlobalMessagesScopesItem
-from ...models.message import Message
+from ...models.global_message import GlobalMessage
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
-    group: Union[Unset, str] = UNSET,
     language: Union[Unset, str] = UNSET,
     read: Union[Unset, bool] = UNSET,
+    group: Union[Unset, list[str]] = UNSET,
     scopes: Union[Unset, list[GetGlobalMessagesScopesItem]] = UNSET,
+    output_format: Union[Unset, GetGlobalMessagesOutputFormat] = UNSET,
+    run_templates: Union[Unset, bool] = False,
     output_fields: Union[Unset, str] = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
 
-    params["group"] = group
-
     params["language"] = language
 
     params["read"] = read
+
+    json_group: Union[Unset, list[str]] = UNSET
+    if not isinstance(group, Unset):
+        json_group = group
+
+    params["group"] = json_group
 
     json_scopes: Union[Unset, list[str]] = UNSET
     if not isinstance(scopes, Unset):
@@ -35,6 +42,14 @@ def _get_kwargs(
             json_scopes.append(scopes_item)
 
     params["scopes"] = json_scopes
+
+    json_output_format: Union[Unset, str] = UNSET
+    if not isinstance(output_format, Unset):
+        json_output_format = output_format.value
+
+    params["outputFormat"] = json_output_format
+
+    params["runTemplates"] = run_templates
 
     params["outputFields"] = output_fields
 
@@ -51,16 +66,16 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[list["Message"]]:
+) -> Optional[list["GlobalMessage"]]:
     if response.status_code == 200:
         response_200 = []
         _response_200 = response.json()
-        for componentsschemas_message_array_item_data in _response_200:
-            componentsschemas_message_array_item = Message.from_dict(
-                componentsschemas_message_array_item_data
+        for componentsschemas_global_message_array_item_data in _response_200:
+            componentsschemas_global_message_array_item = GlobalMessage.from_dict(
+                componentsschemas_global_message_array_item_data
             )
 
-            response_200.append(componentsschemas_message_array_item)
+            response_200.append(componentsschemas_global_message_array_item)
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -71,7 +86,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[list["Message"]]:
+) -> Response[list["GlobalMessage"]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -83,19 +98,23 @@ def _build_response(
 def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
-    group: Union[Unset, str] = UNSET,
     language: Union[Unset, str] = UNSET,
     read: Union[Unset, bool] = UNSET,
+    group: Union[Unset, list[str]] = UNSET,
     scopes: Union[Unset, list[GetGlobalMessagesScopesItem]] = UNSET,
+    output_format: Union[Unset, GetGlobalMessagesOutputFormat] = UNSET,
+    run_templates: Union[Unset, bool] = False,
     output_fields: Union[Unset, str] = UNSET,
-) -> Response[list["Message"]]:
+) -> Response[list["GlobalMessage"]]:
     """Get messages of current user
 
     Args:
-        group (Union[Unset, str]):
         language (Union[Unset, str]):
         read (Union[Unset, bool]):
+        group (Union[Unset, list[str]]):
         scopes (Union[Unset, list[GetGlobalMessagesScopesItem]]):
+        output_format (Union[Unset, GetGlobalMessagesOutputFormat]):
+        run_templates (Union[Unset, bool]):  Default: False.
         output_fields (Union[Unset, str]):
 
     Raises:
@@ -103,14 +122,16 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[list['Message']]
+        Response[list['GlobalMessage']]
     """
 
     kwargs = _get_kwargs(
-        group=group,
         language=language,
         read=read,
+        group=group,
         scopes=scopes,
+        output_format=output_format,
+        run_templates=run_templates,
         output_fields=output_fields,
     )
 
@@ -124,19 +145,23 @@ def sync_detailed(
 def sync(
     *,
     client: Union[AuthenticatedClient, Client],
-    group: Union[Unset, str] = UNSET,
     language: Union[Unset, str] = UNSET,
     read: Union[Unset, bool] = UNSET,
+    group: Union[Unset, list[str]] = UNSET,
     scopes: Union[Unset, list[GetGlobalMessagesScopesItem]] = UNSET,
+    output_format: Union[Unset, GetGlobalMessagesOutputFormat] = UNSET,
+    run_templates: Union[Unset, bool] = False,
     output_fields: Union[Unset, str] = UNSET,
-) -> Optional[list["Message"]]:
+) -> Optional[list["GlobalMessage"]]:
     """Get messages of current user
 
     Args:
-        group (Union[Unset, str]):
         language (Union[Unset, str]):
         read (Union[Unset, bool]):
+        group (Union[Unset, list[str]]):
         scopes (Union[Unset, list[GetGlobalMessagesScopesItem]]):
+        output_format (Union[Unset, GetGlobalMessagesOutputFormat]):
+        run_templates (Union[Unset, bool]):  Default: False.
         output_fields (Union[Unset, str]):
 
     Raises:
@@ -144,15 +169,17 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        list['Message']
+        list['GlobalMessage']
     """
 
     return sync_detailed(
         client=client,
-        group=group,
         language=language,
         read=read,
+        group=group,
         scopes=scopes,
+        output_format=output_format,
+        run_templates=run_templates,
         output_fields=output_fields,
     ).parsed
 
@@ -160,19 +187,23 @@ def sync(
 async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
-    group: Union[Unset, str] = UNSET,
     language: Union[Unset, str] = UNSET,
     read: Union[Unset, bool] = UNSET,
+    group: Union[Unset, list[str]] = UNSET,
     scopes: Union[Unset, list[GetGlobalMessagesScopesItem]] = UNSET,
+    output_format: Union[Unset, GetGlobalMessagesOutputFormat] = UNSET,
+    run_templates: Union[Unset, bool] = False,
     output_fields: Union[Unset, str] = UNSET,
-) -> Response[list["Message"]]:
+) -> Response[list["GlobalMessage"]]:
     """Get messages of current user
 
     Args:
-        group (Union[Unset, str]):
         language (Union[Unset, str]):
         read (Union[Unset, bool]):
+        group (Union[Unset, list[str]]):
         scopes (Union[Unset, list[GetGlobalMessagesScopesItem]]):
+        output_format (Union[Unset, GetGlobalMessagesOutputFormat]):
+        run_templates (Union[Unset, bool]):  Default: False.
         output_fields (Union[Unset, str]):
 
     Raises:
@@ -180,14 +211,16 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[list['Message']]
+        Response[list['GlobalMessage']]
     """
 
     kwargs = _get_kwargs(
-        group=group,
         language=language,
         read=read,
+        group=group,
         scopes=scopes,
+        output_format=output_format,
+        run_templates=run_templates,
         output_fields=output_fields,
     )
 
@@ -199,19 +232,23 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
-    group: Union[Unset, str] = UNSET,
     language: Union[Unset, str] = UNSET,
     read: Union[Unset, bool] = UNSET,
+    group: Union[Unset, list[str]] = UNSET,
     scopes: Union[Unset, list[GetGlobalMessagesScopesItem]] = UNSET,
+    output_format: Union[Unset, GetGlobalMessagesOutputFormat] = UNSET,
+    run_templates: Union[Unset, bool] = False,
     output_fields: Union[Unset, str] = UNSET,
-) -> Optional[list["Message"]]:
+) -> Optional[list["GlobalMessage"]]:
     """Get messages of current user
 
     Args:
-        group (Union[Unset, str]):
         language (Union[Unset, str]):
         read (Union[Unset, bool]):
+        group (Union[Unset, list[str]]):
         scopes (Union[Unset, list[GetGlobalMessagesScopesItem]]):
+        output_format (Union[Unset, GetGlobalMessagesOutputFormat]):
+        run_templates (Union[Unset, bool]):  Default: False.
         output_fields (Union[Unset, str]):
 
     Raises:
@@ -219,16 +256,18 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        list['Message']
+        list['GlobalMessage']
     """
 
     return (
         await asyncio_detailed(
             client=client,
-            group=group,
             language=language,
             read=read,
+            group=group,
             scopes=scopes,
+            output_format=output_format,
+            run_templates=run_templates,
             output_fields=output_fields,
         )
     ).parsed

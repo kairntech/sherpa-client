@@ -6,14 +6,14 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.ack import Ack
-from ...models.message_patch import MessagePatch
+from ...models.global_message_patch import GlobalMessagePatch
 from ...types import Response
 
 
 def _get_kwargs(
     message_id: str,
     *,
-    body: MessagePatch,
+    body: GlobalMessagePatch,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -64,13 +64,13 @@ def sync_detailed(
     message_id: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    body: MessagePatch,
+    body: GlobalMessagePatch,
 ) -> Response[Union[Ack, Any]]:
     """Partially update a message
 
     Args:
         message_id (str):
-        body (MessagePatch):
+        body (GlobalMessagePatch):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -96,13 +96,13 @@ def sync(
     message_id: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    body: MessagePatch,
+    body: GlobalMessagePatch,
 ) -> Optional[Union[Ack, Any]]:
     """Partially update a message
 
     Args:
         message_id (str):
-        body (MessagePatch):
+        body (GlobalMessagePatch):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -123,13 +123,13 @@ async def asyncio_detailed(
     message_id: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    body: MessagePatch,
+    body: GlobalMessagePatch,
 ) -> Response[Union[Ack, Any]]:
     """Partially update a message
 
     Args:
         message_id (str):
-        body (MessagePatch):
+        body (GlobalMessagePatch):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -153,13 +153,13 @@ async def asyncio(
     message_id: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    body: MessagePatch,
+    body: GlobalMessagePatch,
 ) -> Optional[Union[Ack, Any]]:
     """Partially update a message
 
     Args:
         message_id (str):
-        body (MessagePatch):
+        body (GlobalMessagePatch):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

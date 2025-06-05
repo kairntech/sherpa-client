@@ -6,13 +6,13 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.message_id import MessageId
-from ...models.new_message import NewMessage
+from ...models.new_global_message import NewGlobalMessage
 from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: NewMessage,
+    body: NewGlobalMessage,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -57,12 +57,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
-    body: NewMessage,
+    body: NewGlobalMessage,
 ) -> Response[MessageId]:
     """Create a message
 
     Args:
-        body (NewMessage):
+        body (NewGlobalMessage):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -86,12 +86,12 @@ def sync_detailed(
 def sync(
     *,
     client: Union[AuthenticatedClient, Client],
-    body: NewMessage,
+    body: NewGlobalMessage,
 ) -> Optional[MessageId]:
     """Create a message
 
     Args:
-        body (NewMessage):
+        body (NewGlobalMessage):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -110,12 +110,12 @@ def sync(
 async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
-    body: NewMessage,
+    body: NewGlobalMessage,
 ) -> Response[MessageId]:
     """Create a message
 
     Args:
-        body (NewMessage):
+        body (NewGlobalMessage):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -137,12 +137,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
-    body: NewMessage,
+    body: NewGlobalMessage,
 ) -> Optional[MessageId]:
     """Create a message
 
     Args:
-        body (NewMessage):
+        body (NewGlobalMessage):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
