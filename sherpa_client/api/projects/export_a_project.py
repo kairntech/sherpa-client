@@ -1,55 +1,42 @@
 from http import HTTPStatus
+from io import BytesIO
 from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.new_user import NewUser
-from ...models.user_response import UserResponse
-from ...types import UNSET, Response, Unset
+from ...types import UNSET, File, Response, Unset
 
 
 def _get_kwargs(
+    project_name: str,
     *,
-    body: NewUser,
-    group_name: Union[Unset, list[str]] = UNSET,
-    login_origin: Union[Unset, str] = UNSET,
+    include_models: Union[Unset, bool] = True,
 ) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
 
     params: dict[str, Any] = {}
 
-    json_group_name: Union[Unset, list[str]] = UNSET
-    if not isinstance(group_name, Unset):
-        json_group_name = group_name
-
-    params["groupName"] = json_group_name
-
-    params["loginOrigin"] = login_origin
+    params["includeModels"] = include_models
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
-        "method": "post",
-        "url": "/users",
+        "method": "get",
+        "url": "/projects/{project_name}/_export".format(
+            project_name=project_name,
+        ),
         "params": params,
     }
 
-    _body = body.to_dict()
-
-    _kwargs["json"] = _body
-    headers["Content-Type"] = "application/json"
-
-    _kwargs["headers"] = headers
     return _kwargs
 
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[UserResponse]:
+) -> Optional[File]:
     if response.status_code == 200:
-        response_200 = UserResponse.from_dict(response.json())
+        response_200 = File(payload=BytesIO(response.content))
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -60,7 +47,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[UserResponse]:
+) -> Response[File]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -70,31 +57,28 @@ def _build_response(
 
 
 def sync_detailed(
+    project_name: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    body: NewUser,
-    group_name: Union[Unset, list[str]] = UNSET,
-    login_origin: Union[Unset, str] = UNSET,
-) -> Response[UserResponse]:
-    """Add user
+    include_models: Union[Unset, bool] = True,
+) -> Response[File]:
+    """Export a project with or without models
 
     Args:
-        group_name (Union[Unset, list[str]]):
-        login_origin (Union[Unset, str]):
-        body (NewUser):
+        project_name (str):
+        include_models (Union[Unset, bool]):  Default: True.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[UserResponse]
+        Response[File]
     """
 
     kwargs = _get_kwargs(
-        body=body,
-        group_name=group_name,
-        login_origin=login_origin,
+        project_name=project_name,
+        include_models=include_models,
     )
 
     response = client.get_httpx_client().request(
@@ -105,61 +89,55 @@ def sync_detailed(
 
 
 def sync(
+    project_name: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    body: NewUser,
-    group_name: Union[Unset, list[str]] = UNSET,
-    login_origin: Union[Unset, str] = UNSET,
-) -> Optional[UserResponse]:
-    """Add user
+    include_models: Union[Unset, bool] = True,
+) -> Optional[File]:
+    """Export a project with or without models
 
     Args:
-        group_name (Union[Unset, list[str]]):
-        login_origin (Union[Unset, str]):
-        body (NewUser):
+        project_name (str):
+        include_models (Union[Unset, bool]):  Default: True.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        UserResponse
+        File
     """
 
     return sync_detailed(
+        project_name=project_name,
         client=client,
-        body=body,
-        group_name=group_name,
-        login_origin=login_origin,
+        include_models=include_models,
     ).parsed
 
 
 async def asyncio_detailed(
+    project_name: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    body: NewUser,
-    group_name: Union[Unset, list[str]] = UNSET,
-    login_origin: Union[Unset, str] = UNSET,
-) -> Response[UserResponse]:
-    """Add user
+    include_models: Union[Unset, bool] = True,
+) -> Response[File]:
+    """Export a project with or without models
 
     Args:
-        group_name (Union[Unset, list[str]]):
-        login_origin (Union[Unset, str]):
-        body (NewUser):
+        project_name (str):
+        include_models (Union[Unset, bool]):  Default: True.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[UserResponse]
+        Response[File]
     """
 
     kwargs = _get_kwargs(
-        body=body,
-        group_name=group_name,
-        login_origin=login_origin,
+        project_name=project_name,
+        include_models=include_models,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -168,32 +146,29 @@ async def asyncio_detailed(
 
 
 async def asyncio(
+    project_name: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    body: NewUser,
-    group_name: Union[Unset, list[str]] = UNSET,
-    login_origin: Union[Unset, str] = UNSET,
-) -> Optional[UserResponse]:
-    """Add user
+    include_models: Union[Unset, bool] = True,
+) -> Optional[File]:
+    """Export a project with or without models
 
     Args:
-        group_name (Union[Unset, list[str]]):
-        login_origin (Union[Unset, str]):
-        body (NewUser):
+        project_name (str):
+        include_models (Union[Unset, bool]):  Default: True.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        UserResponse
+        File
     """
 
     return (
         await asyncio_detailed(
+            project_name=project_name,
             client=client,
-            body=body,
-            group_name=group_name,
-            login_origin=login_origin,
+            include_models=include_models,
         )
     ).parsed

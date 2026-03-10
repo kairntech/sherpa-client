@@ -5,51 +5,35 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.new_user import NewUser
-from ...models.user_response import UserResponse
+from ...models.ack import Ack
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
-    body: NewUser,
-    group_name: Union[Unset, list[str]] = UNSET,
-    login_origin: Union[Unset, str] = UNSET,
+    force: Union[Unset, bool] = False,
 ) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
 
     params: dict[str, Any] = {}
 
-    json_group_name: Union[Unset, list[str]] = UNSET
-    if not isinstance(group_name, Unset):
-        json_group_name = group_name
-
-    params["groupName"] = json_group_name
-
-    params["loginOrigin"] = login_origin
+    params["force"] = force
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/users",
+        "url": "/messages/_create_messages_from_config",
         "params": params,
     }
 
-    _body = body.to_dict()
-
-    _kwargs["json"] = _body
-    headers["Content-Type"] = "application/json"
-
-    _kwargs["headers"] = headers
     return _kwargs
 
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[UserResponse]:
+) -> Optional[Ack]:
     if response.status_code == 200:
-        response_200 = UserResponse.from_dict(response.json())
+        response_200 = Ack.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -60,7 +44,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[UserResponse]:
+) -> Response[Ack]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -72,29 +56,23 @@ def _build_response(
 def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
-    body: NewUser,
-    group_name: Union[Unset, list[str]] = UNSET,
-    login_origin: Union[Unset, str] = UNSET,
-) -> Response[UserResponse]:
-    """Add user
+    force: Union[Unset, bool] = False,
+) -> Response[Ack]:
+    """Create messages in database from configuration
 
     Args:
-        group_name (Union[Unset, list[str]]):
-        login_origin (Union[Unset, str]):
-        body (NewUser):
+        force (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[UserResponse]
+        Response[Ack]
     """
 
     kwargs = _get_kwargs(
-        body=body,
-        group_name=group_name,
-        login_origin=login_origin,
+        force=force,
     )
 
     response = client.get_httpx_client().request(
@@ -107,59 +85,47 @@ def sync_detailed(
 def sync(
     *,
     client: Union[AuthenticatedClient, Client],
-    body: NewUser,
-    group_name: Union[Unset, list[str]] = UNSET,
-    login_origin: Union[Unset, str] = UNSET,
-) -> Optional[UserResponse]:
-    """Add user
+    force: Union[Unset, bool] = False,
+) -> Optional[Ack]:
+    """Create messages in database from configuration
 
     Args:
-        group_name (Union[Unset, list[str]]):
-        login_origin (Union[Unset, str]):
-        body (NewUser):
+        force (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        UserResponse
+        Ack
     """
 
     return sync_detailed(
         client=client,
-        body=body,
-        group_name=group_name,
-        login_origin=login_origin,
+        force=force,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
-    body: NewUser,
-    group_name: Union[Unset, list[str]] = UNSET,
-    login_origin: Union[Unset, str] = UNSET,
-) -> Response[UserResponse]:
-    """Add user
+    force: Union[Unset, bool] = False,
+) -> Response[Ack]:
+    """Create messages in database from configuration
 
     Args:
-        group_name (Union[Unset, list[str]]):
-        login_origin (Union[Unset, str]):
-        body (NewUser):
+        force (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[UserResponse]
+        Response[Ack]
     """
 
     kwargs = _get_kwargs(
-        body=body,
-        group_name=group_name,
-        login_origin=login_origin,
+        force=force,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -170,30 +136,24 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
-    body: NewUser,
-    group_name: Union[Unset, list[str]] = UNSET,
-    login_origin: Union[Unset, str] = UNSET,
-) -> Optional[UserResponse]:
-    """Add user
+    force: Union[Unset, bool] = False,
+) -> Optional[Ack]:
+    """Create messages in database from configuration
 
     Args:
-        group_name (Union[Unset, list[str]]):
-        login_origin (Union[Unset, str]):
-        body (NewUser):
+        force (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        UserResponse
+        Ack
     """
 
     return (
         await asyncio_detailed(
             client=client,
-            body=body,
-            group_name=group_name,
-            login_origin=login_origin,
+            force=force,
         )
     ).parsed

@@ -96,6 +96,7 @@ from .doc_category import DocCategory
 from .doc_category_creation_mode import DocCategoryCreationMode
 from .doc_category_properties import DocCategoryProperties
 from .doc_category_status import DocCategoryStatus
+from .doc_search_request import DocSearchRequest
 from .doc_sentence import DocSentence
 from .doc_sentence_metadata import DocSentenceMetadata
 from .document import Document
@@ -132,7 +133,7 @@ from .general_toolbar import GeneralToolbar
 from .get_base_theme_config_response_200 import GetBaseThemeConfigResponse200
 from .get_favorite_theme_scope import GetFavoriteThemeScope
 from .get_global_messages_output_format import GetGlobalMessagesOutputFormat
-from .get_global_messages_scopes_item import GetGlobalMessagesScopesItem
+from .get_global_messages_scope_item import GetGlobalMessagesScopeItem
 from .get_term_response_200 import GetTermResponse200
 from .get_theme_config_schema_response_200 import GetThemeConfigSchemaResponse200
 from .get_themes_scope import GetThemesScope
@@ -228,6 +229,7 @@ from .new_user import NewUser
 from .operation_count import OperationCount
 from .output_params import OutputParams
 from .ownership_change import OwnershipChange
+from .parallelization_boundary import ParallelizationBoundary
 from .partial_label import PartialLabel
 from .partial_lexicon import PartialLexicon
 from .plan_operation_response import PlanOperationResponse
@@ -428,6 +430,7 @@ __all__ = (
     "DocCategoryCreationMode",
     "DocCategoryProperties",
     "DocCategoryStatus",
+    "DocSearchRequest",
     "DocSentence",
     "DocSentenceMetadata",
     "Document",
@@ -464,7 +467,7 @@ __all__ = (
     "GetBaseThemeConfigResponse200",
     "GetFavoriteThemeScope",
     "GetGlobalMessagesOutputFormat",
-    "GetGlobalMessagesScopesItem",
+    "GetGlobalMessagesScopeItem",
     "GetTermResponse200",
     "GetThemeConfigSchemaResponse200",
     "GetThemesScope",
@@ -548,6 +551,7 @@ __all__ = (
     "OperationCount",
     "OutputParams",
     "OwnershipChange",
+    "ParallelizationBoundary",
     "PartialLabel",
     "PartialLexicon",
     "PlanOperationResponse",

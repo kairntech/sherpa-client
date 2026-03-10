@@ -8,6 +8,7 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.converter import Converter
     from ..models.formatter import Formatter
+    from ..models.parallelization_boundary import ParallelizationBoundary
     from ..models.segmenter import Segmenter
     from ..models.with_annotator import WithAnnotator
     from ..models.with_converter import WithConverter
@@ -24,8 +25,8 @@ T = TypeVar("T", bound="AnnotationPlan")
 class AnnotationPlan:
     """
     Attributes:
-        pipeline (list[Union['WithAnnotator', 'WithConverter', 'WithLanguageGuesser', 'WithProcessor', 'WithSegmenter',
-            'WithVectorizer']]):
+        pipeline (list[Union['ParallelizationBoundary', 'WithAnnotator', 'WithConverter', 'WithLanguageGuesser',
+            'WithProcessor', 'WithSegmenter', 'WithVectorizer']]):
         converter (Union[Unset, Converter]):
         formatter (Union[Unset, Formatter]):
         segmenter (Union[Unset, Segmenter]):
@@ -33,6 +34,7 @@ class AnnotationPlan:
 
     pipeline: list[
         Union[
+            "ParallelizationBoundary",
             "WithAnnotator",
             "WithConverter",
             "WithLanguageGuesser",
@@ -51,6 +53,7 @@ class AnnotationPlan:
         from ..models.with_language_guesser import WithLanguageGuesser
         from ..models.with_processor import WithProcessor
         from ..models.with_segmenter import WithSegmenter
+        from ..models.with_vectorizer import WithVectorizer
 
         pipeline = []
         for pipeline_item_data in self.pipeline:
@@ -64,6 +67,8 @@ class AnnotationPlan:
             elif isinstance(pipeline_item_data, WithSegmenter):
                 pipeline_item = pipeline_item_data.to_dict()
             elif isinstance(pipeline_item_data, WithConverter):
+                pipeline_item = pipeline_item_data.to_dict()
+            elif isinstance(pipeline_item_data, WithVectorizer):
                 pipeline_item = pipeline_item_data.to_dict()
             else:
                 pipeline_item = pipeline_item_data.to_dict()
@@ -101,6 +106,7 @@ class AnnotationPlan:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.converter import Converter
         from ..models.formatter import Formatter
+        from ..models.parallelization_boundary import ParallelizationBoundary
         from ..models.segmenter import Segmenter
         from ..models.with_annotator import WithAnnotator
         from ..models.with_converter import WithConverter
@@ -117,6 +123,7 @@ class AnnotationPlan:
             def _parse_pipeline_item(
                 data: object,
             ) -> Union[
+                "ParallelizationBoundary",
                 "WithAnnotator",
                 "WithConverter",
                 "WithLanguageGuesser",
@@ -164,11 +171,19 @@ class AnnotationPlan:
                     return pipeline_item_type_4
                 except:  # noqa: E722
                     pass
+                try:
+                    if not isinstance(data, dict):
+                        raise TypeError()
+                    pipeline_item_type_5 = WithVectorizer.from_dict(data)
+
+                    return pipeline_item_type_5
+                except:  # noqa: E722
+                    pass
                 if not isinstance(data, dict):
                     raise TypeError()
-                pipeline_item_type_5 = WithVectorizer.from_dict(data)
+                pipeline_item_type_6 = ParallelizationBoundary.from_dict(data)
 
-                return pipeline_item_type_5
+                return pipeline_item_type_6
 
             pipeline_item = _parse_pipeline_item(pipeline_item_data)
 

@@ -16,6 +16,7 @@ T = TypeVar("T", bound="ConfigPatchOptions")
 class ConfigPatchOptions:
     """
     Attributes:
+        automatic_metafacets (Union[Unset, bool]):
         classification (Union[Unset, ClassificationOptions]):
         clean_html (Union[Unset, bool]):
         collaborative_annotation (Union[Unset, bool]):
@@ -31,6 +32,7 @@ class ConfigPatchOptions:
         route_on_open_project (Union[Unset, str]):
     """
 
+    automatic_metafacets: Union[Unset, bool] = UNSET
     classification: Union[Unset, "ClassificationOptions"] = UNSET
     clean_html: Union[Unset, bool] = UNSET
     collaborative_annotation: Union[Unset, bool] = UNSET
@@ -46,6 +48,8 @@ class ConfigPatchOptions:
     route_on_open_project: Union[Unset, str] = UNSET
 
     def to_dict(self) -> dict[str, Any]:
+        automatic_metafacets = self.automatic_metafacets
+
         classification: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.classification, Unset):
             classification = self.classification.to_dict()
@@ -78,6 +82,8 @@ class ConfigPatchOptions:
 
         field_dict: dict[str, Any] = {}
         field_dict.update({})
+        if automatic_metafacets is not UNSET:
+            field_dict["automaticMetafacets"] = automatic_metafacets
         if classification is not UNSET:
             field_dict["classification"] = classification
         if clean_html is not UNSET:
@@ -112,6 +118,8 @@ class ConfigPatchOptions:
         from ..models.classification_options import ClassificationOptions
 
         d = dict(src_dict)
+        automatic_metafacets = d.pop("automaticMetafacets", UNSET)
+
         _classification = d.pop("classification", UNSET)
         classification: Union[Unset, ClassificationOptions]
         if isinstance(_classification, Unset):
@@ -144,6 +152,7 @@ class ConfigPatchOptions:
         route_on_open_project = d.pop("routeOnOpenProject", UNSET)
 
         config_patch_options = cls(
+            automatic_metafacets=automatic_metafacets,
             classification=classification,
             clean_html=clean_html,
             collaborative_annotation=collaborative_annotation,

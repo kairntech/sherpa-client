@@ -25,6 +25,7 @@ class ProjectBean:
         name (str):
         algorithms (Union[Unset, list[str]]):
         annotations (Union[Unset, int]):
+        automatic_metafacets (Union[Unset, bool]):
         categories (Union[Unset, int]):
         classification (Union[Unset, ClassificationConfig]):
         components (Union[Unset, list[str]]):
@@ -55,6 +56,7 @@ class ProjectBean:
     name: str
     algorithms: Union[Unset, list[str]] = UNSET
     annotations: Union[Unset, int] = UNSET
+    automatic_metafacets: Union[Unset, bool] = UNSET
     categories: Union[Unset, int] = UNSET
     classification: Union[Unset, "ClassificationConfig"] = UNSET
     components: Union[Unset, list[str]] = UNSET
@@ -92,6 +94,8 @@ class ProjectBean:
             algorithms = self.algorithms
 
         annotations = self.annotations
+
+        automatic_metafacets = self.automatic_metafacets
 
         categories = self.categories
 
@@ -166,6 +170,8 @@ class ProjectBean:
             field_dict["algorithms"] = algorithms
         if annotations is not UNSET:
             field_dict["annotations"] = annotations
+        if automatic_metafacets is not UNSET:
+            field_dict["automaticMetafacets"] = automatic_metafacets
         if categories is not UNSET:
             field_dict["categories"] = categories
         if classification is not UNSET:
@@ -232,6 +238,8 @@ class ProjectBean:
         algorithms = cast(list[str], d.pop("algorithms", UNSET))
 
         annotations = d.pop("annotations", UNSET)
+
+        automatic_metafacets = d.pop("automaticMetafacets", UNSET)
 
         categories = d.pop("categories", UNSET)
 
@@ -304,6 +312,7 @@ class ProjectBean:
             name=name,
             algorithms=algorithms,
             annotations=annotations,
+            automatic_metafacets=automatic_metafacets,
             categories=categories,
             classification=classification,
             components=components,

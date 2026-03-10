@@ -6,7 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_global_messages_output_format import GetGlobalMessagesOutputFormat
-from ...models.get_global_messages_scopes_item import GetGlobalMessagesScopesItem
+from ...models.get_global_messages_scope_item import GetGlobalMessagesScopeItem
 from ...models.global_message import GlobalMessage
 from ...types import UNSET, Response, Unset
 
@@ -14,9 +14,10 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     language: Union[Unset, str] = UNSET,
+    fallback_languages: Union[Unset, str] = UNSET,
     read: Union[Unset, bool] = UNSET,
     group: Union[Unset, list[str]] = UNSET,
-    scopes: Union[Unset, list[GetGlobalMessagesScopesItem]] = UNSET,
+    scope: Union[Unset, list[GetGlobalMessagesScopeItem]] = UNSET,
     output_format: Union[Unset, GetGlobalMessagesOutputFormat] = UNSET,
     run_templates: Union[Unset, bool] = False,
     output_fields: Union[Unset, str] = UNSET,
@@ -26,6 +27,8 @@ def _get_kwargs(
 
     params["language"] = language
 
+    params["fallbackLanguages"] = fallback_languages
+
     params["read"] = read
 
     json_group: Union[Unset, list[str]] = UNSET
@@ -34,14 +37,14 @@ def _get_kwargs(
 
     params["group"] = json_group
 
-    json_scopes: Union[Unset, list[str]] = UNSET
-    if not isinstance(scopes, Unset):
-        json_scopes = []
-        for scopes_item_data in scopes:
-            scopes_item = scopes_item_data.value
-            json_scopes.append(scopes_item)
+    json_scope: Union[Unset, list[str]] = UNSET
+    if not isinstance(scope, Unset):
+        json_scope = []
+        for scope_item_data in scope:
+            scope_item = scope_item_data.value
+            json_scope.append(scope_item)
 
-    params["scopes"] = json_scopes
+    params["scope"] = json_scope
 
     json_output_format: Union[Unset, str] = UNSET
     if not isinstance(output_format, Unset):
@@ -99,9 +102,10 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     language: Union[Unset, str] = UNSET,
+    fallback_languages: Union[Unset, str] = UNSET,
     read: Union[Unset, bool] = UNSET,
     group: Union[Unset, list[str]] = UNSET,
-    scopes: Union[Unset, list[GetGlobalMessagesScopesItem]] = UNSET,
+    scope: Union[Unset, list[GetGlobalMessagesScopeItem]] = UNSET,
     output_format: Union[Unset, GetGlobalMessagesOutputFormat] = UNSET,
     run_templates: Union[Unset, bool] = False,
     output_fields: Union[Unset, str] = UNSET,
@@ -110,9 +114,10 @@ def sync_detailed(
 
     Args:
         language (Union[Unset, str]):
+        fallback_languages (Union[Unset, str]):
         read (Union[Unset, bool]):
         group (Union[Unset, list[str]]):
-        scopes (Union[Unset, list[GetGlobalMessagesScopesItem]]):
+        scope (Union[Unset, list[GetGlobalMessagesScopeItem]]):
         output_format (Union[Unset, GetGlobalMessagesOutputFormat]):
         run_templates (Union[Unset, bool]):  Default: False.
         output_fields (Union[Unset, str]):
@@ -127,9 +132,10 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         language=language,
+        fallback_languages=fallback_languages,
         read=read,
         group=group,
-        scopes=scopes,
+        scope=scope,
         output_format=output_format,
         run_templates=run_templates,
         output_fields=output_fields,
@@ -146,9 +152,10 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
     language: Union[Unset, str] = UNSET,
+    fallback_languages: Union[Unset, str] = UNSET,
     read: Union[Unset, bool] = UNSET,
     group: Union[Unset, list[str]] = UNSET,
-    scopes: Union[Unset, list[GetGlobalMessagesScopesItem]] = UNSET,
+    scope: Union[Unset, list[GetGlobalMessagesScopeItem]] = UNSET,
     output_format: Union[Unset, GetGlobalMessagesOutputFormat] = UNSET,
     run_templates: Union[Unset, bool] = False,
     output_fields: Union[Unset, str] = UNSET,
@@ -157,9 +164,10 @@ def sync(
 
     Args:
         language (Union[Unset, str]):
+        fallback_languages (Union[Unset, str]):
         read (Union[Unset, bool]):
         group (Union[Unset, list[str]]):
-        scopes (Union[Unset, list[GetGlobalMessagesScopesItem]]):
+        scope (Union[Unset, list[GetGlobalMessagesScopeItem]]):
         output_format (Union[Unset, GetGlobalMessagesOutputFormat]):
         run_templates (Union[Unset, bool]):  Default: False.
         output_fields (Union[Unset, str]):
@@ -175,9 +183,10 @@ def sync(
     return sync_detailed(
         client=client,
         language=language,
+        fallback_languages=fallback_languages,
         read=read,
         group=group,
-        scopes=scopes,
+        scope=scope,
         output_format=output_format,
         run_templates=run_templates,
         output_fields=output_fields,
@@ -188,9 +197,10 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     language: Union[Unset, str] = UNSET,
+    fallback_languages: Union[Unset, str] = UNSET,
     read: Union[Unset, bool] = UNSET,
     group: Union[Unset, list[str]] = UNSET,
-    scopes: Union[Unset, list[GetGlobalMessagesScopesItem]] = UNSET,
+    scope: Union[Unset, list[GetGlobalMessagesScopeItem]] = UNSET,
     output_format: Union[Unset, GetGlobalMessagesOutputFormat] = UNSET,
     run_templates: Union[Unset, bool] = False,
     output_fields: Union[Unset, str] = UNSET,
@@ -199,9 +209,10 @@ async def asyncio_detailed(
 
     Args:
         language (Union[Unset, str]):
+        fallback_languages (Union[Unset, str]):
         read (Union[Unset, bool]):
         group (Union[Unset, list[str]]):
-        scopes (Union[Unset, list[GetGlobalMessagesScopesItem]]):
+        scope (Union[Unset, list[GetGlobalMessagesScopeItem]]):
         output_format (Union[Unset, GetGlobalMessagesOutputFormat]):
         run_templates (Union[Unset, bool]):  Default: False.
         output_fields (Union[Unset, str]):
@@ -216,9 +227,10 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         language=language,
+        fallback_languages=fallback_languages,
         read=read,
         group=group,
-        scopes=scopes,
+        scope=scope,
         output_format=output_format,
         run_templates=run_templates,
         output_fields=output_fields,
@@ -233,9 +245,10 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
     language: Union[Unset, str] = UNSET,
+    fallback_languages: Union[Unset, str] = UNSET,
     read: Union[Unset, bool] = UNSET,
     group: Union[Unset, list[str]] = UNSET,
-    scopes: Union[Unset, list[GetGlobalMessagesScopesItem]] = UNSET,
+    scope: Union[Unset, list[GetGlobalMessagesScopeItem]] = UNSET,
     output_format: Union[Unset, GetGlobalMessagesOutputFormat] = UNSET,
     run_templates: Union[Unset, bool] = False,
     output_fields: Union[Unset, str] = UNSET,
@@ -244,9 +257,10 @@ async def asyncio(
 
     Args:
         language (Union[Unset, str]):
+        fallback_languages (Union[Unset, str]):
         read (Union[Unset, bool]):
         group (Union[Unset, list[str]]):
-        scopes (Union[Unset, list[GetGlobalMessagesScopesItem]]):
+        scope (Union[Unset, list[GetGlobalMessagesScopeItem]]):
         output_format (Union[Unset, GetGlobalMessagesOutputFormat]):
         run_templates (Union[Unset, bool]):  Default: False.
         output_fields (Union[Unset, str]):
@@ -263,9 +277,10 @@ async def asyncio(
         await asyncio_detailed(
             client=client,
             language=language,
+            fallback_languages=fallback_languages,
             read=read,
             group=group,
-            scopes=scopes,
+            scope=scope,
             output_format=output_format,
             run_templates=run_templates,
             output_fields=output_fields,
