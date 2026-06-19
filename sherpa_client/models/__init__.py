@@ -204,6 +204,8 @@ from .message_audience import MessageAudience
 from .message_id import MessageId
 from .message_mark import MessageMark
 from .metadata_count import MetadataCount
+from .metadata_definition import MetadataDefinition
+from .metadata_definition_entry import MetadataDefinitionEntry
 from .model_metrics import ModelMetrics
 from .model_metrics_options import ModelMetricsOptions
 from .models_metrics import ModelsMetrics
@@ -526,6 +528,8 @@ __all__ = (
     "MessageId",
     "MessageMark",
     "MetadataCount",
+    "MetadataDefinition",
+    "MetadataDefinitionEntry",
     "ModelMetrics",
     "ModelMetricsOptions",
     "ModelsMetrics",
