@@ -63,6 +63,7 @@ from .category_status import CategoryStatus
 from .classification_config import ClassificationConfig
 from .classification_options import ClassificationOptions
 from .config_patch_options import ConfigPatchOptions
+from .config_patch_options_facet_orders import ConfigPatchOptionsFacetOrders
 from .convert_annotation_plan import ConvertAnnotationPlan
 from .convert_format_annotation_plan import ConvertFormatAnnotationPlan
 from .converter import Converter
@@ -76,6 +77,8 @@ from .create_theme_form import CreateThemeForm
 from .create_theme_from_archive_body import CreateThemeFromArchiveBody
 from .created_by_count import CreatedByCount
 from .credentials import Credentials
+from .date_range import DateRange
+from .date_range_config import DateRangeConfig
 from .default_annotation_plan import DefaultAnnotationPlan
 from .default_processor_context import DefaultProcessorContext
 from .delete_group_result import DeleteGroupResult
@@ -96,6 +99,7 @@ from .doc_category import DocCategory
 from .doc_category_creation_mode import DocCategoryCreationMode
 from .doc_category_properties import DocCategoryProperties
 from .doc_category_status import DocCategoryStatus
+from .doc_delta_summary import DocDeltaSummary
 from .doc_search_request import DocSearchRequest
 from .doc_sentence import DocSentence
 from .doc_sentence_metadata import DocSentenceMetadata
@@ -104,6 +108,7 @@ from .document_facets import DocumentFacets
 from .document_hit import DocumentHit
 from .document_hits import DocumentHits
 from .document_metadata import DocumentMetadata
+from .download_link import DownloadLink
 from .engine_config import EngineConfig
 from .engine_config_import_summary import EngineConfigImportSummary
 from .engine_name import EngineName
@@ -115,6 +120,8 @@ from .experiment_patch_parameters import ExperimentPatchParameters
 from .export_terms_response_200_item import ExportTermsResponse200Item
 from .external_databases import ExternalDatabases
 from .external_resources import ExternalResources
+from .facet_configuration import FacetConfiguration
+from .facet_order import FacetOrder
 from .filtering_params import FilteringParams
 from .find_similar_segments_search_type import FindSimilarSegmentsSearchType
 from .format_binary_form import FormatBinaryForm
@@ -134,6 +141,7 @@ from .get_base_theme_config_response_200 import GetBaseThemeConfigResponse200
 from .get_favorite_theme_scope import GetFavoriteThemeScope
 from .get_global_messages_output_format import GetGlobalMessagesOutputFormat
 from .get_global_messages_scope_item import GetGlobalMessagesScopeItem
+from .get_raw_facets_response_200 import GetRawFacetsResponse200
 from .get_term_response_200 import GetTermResponse200
 from .get_theme_config_schema_response_200 import GetThemeConfigSchemaResponse200
 from .get_themes_scope import GetThemesScope
@@ -154,6 +162,7 @@ from .http_service_metadata_operations import HttpServiceMetadataOperations
 from .http_service_metadata_service import HttpServiceMetadataService
 from .http_service_record import HttpServiceRecord
 from .import_archive_body import ImportArchiveBody
+from .import_delta_body import ImportDeltaBody
 from .import_models_body import ImportModelsBody
 from .imported_doc_annotation import ImportedDocAnnotation
 from .imported_doc_annotation_creation_mode import ImportedDocAnnotationCreationMode
@@ -206,6 +215,8 @@ from .message_mark import MessageMark
 from .metadata_count import MetadataCount
 from .metadata_definition import MetadataDefinition
 from .metadata_definition_entry import MetadataDefinitionEntry
+from .metadata_description import MetadataDescription
+from .metadata_description_entry import MetadataDescriptionEntry
 from .model_metrics import ModelMetrics
 from .model_metrics_options import ModelMetricsOptions
 from .models_metrics import ModelsMetrics
@@ -241,8 +252,6 @@ from .project_annotators import ProjectAnnotators
 from .project_bean import ProjectBean
 from .project_config_creation import ProjectConfigCreation
 from .project_config_creation_properties import ProjectConfigCreationProperties
-from .project_open_session import ProjectOpenSession
-from .project_open_session_state import ProjectOpenSessionState
 from .project_property import ProjectProperty
 from .project_status import ProjectStatus
 from .project_user_share import ProjectUserShare
@@ -274,11 +283,13 @@ from .segment_hits import SegmentHits
 from .segment_metadata import SegmentMetadata
 from .segmenter import Segmenter
 from .segmenter_parameters import SegmenterParameters
+from .selected_facets import SelectedFacets
 from .set_theme_as_favorite_scope import SetThemeAsFavoriteScope
 from .share_mode import ShareMode
 from .sherpa_job_bean import SherpaJobBean
 from .sherpa_job_bean_status import SherpaJobBeanStatus
 from .sherpa_job_bean_type import SherpaJobBeanType
+from .significant_text_config import SignificantTextConfig
 from .signin_app_bar import SigninAppBar
 from .signin_card_form import SigninCardForm
 from .signin_card_main_titles import SigninCardMainTitles
@@ -303,6 +314,8 @@ from .term_identifier import TermIdentifier
 from .term_import import TermImport
 from .term_importer_spec import TermImporterSpec
 from .term_importer_spec_parameters import TermImporterSpecParameters
+from .terms_config import TermsConfig
+from .terms_config_order import TermsConfigOrder
 from .text_count import TextCount
 from .theme import Theme
 from .theme_config import ThemeConfig
@@ -403,6 +416,7 @@ __all__ = (
     "ClassificationConfig",
     "ClassificationOptions",
     "ConfigPatchOptions",
+    "ConfigPatchOptionsFacetOrders",
     "ConvertAnnotationPlan",
     "Converter",
     "ConverterParameters",
@@ -416,6 +430,8 @@ __all__ = (
     "CreateThemeForm",
     "CreateThemeFromArchiveBody",
     "Credentials",
+    "DateRange",
+    "DateRangeConfig",
     "DefaultAnnotationPlan",
     "DefaultProcessorContext",
     "DeleteGroupResult",
@@ -432,6 +448,7 @@ __all__ = (
     "DocCategoryCreationMode",
     "DocCategoryProperties",
     "DocCategoryStatus",
+    "DocDeltaSummary",
     "DocSearchRequest",
     "DocSentence",
     "DocSentenceMetadata",
@@ -440,6 +457,7 @@ __all__ = (
     "DocumentHit",
     "DocumentHits",
     "DocumentMetadata",
+    "DownloadLink",
     "EngineConfig",
     "EngineConfigImportSummary",
     "EngineName",
@@ -451,6 +469,8 @@ __all__ = (
     "ExportTermsResponse200Item",
     "ExternalDatabases",
     "ExternalResources",
+    "FacetConfiguration",
+    "FacetOrder",
     "FilteringParams",
     "FindSimilarSegmentsSearchType",
     "FormatBinaryForm",
@@ -470,6 +490,7 @@ __all__ = (
     "GetFavoriteThemeScope",
     "GetGlobalMessagesOutputFormat",
     "GetGlobalMessagesScopeItem",
+    "GetRawFacetsResponse200",
     "GetTermResponse200",
     "GetThemeConfigSchemaResponse200",
     "GetThemesScope",
@@ -490,6 +511,7 @@ __all__ = (
     "HttpServiceMetadataService",
     "HttpServiceRecord",
     "ImportArchiveBody",
+    "ImportDeltaBody",
     "ImportedDocAnnotation",
     "ImportedDocAnnotationCreationMode",
     "ImportedDocAnnotationProperties",
@@ -530,6 +552,8 @@ __all__ = (
     "MetadataCount",
     "MetadataDefinition",
     "MetadataDefinitionEntry",
+    "MetadataDescription",
+    "MetadataDescriptionEntry",
     "ModelMetrics",
     "ModelMetricsOptions",
     "ModelsMetrics",
@@ -565,8 +589,6 @@ __all__ = (
     "ProjectBean",
     "ProjectConfigCreation",
     "ProjectConfigCreationProperties",
-    "ProjectOpenSession",
-    "ProjectOpenSessionState",
     "ProjectProperty",
     "ProjectsAnnotators",
     "ProjectStatus",
@@ -596,11 +618,13 @@ __all__ = (
     "SegmentHit",
     "SegmentHits",
     "SegmentMetadata",
+    "SelectedFacets",
     "SetThemeAsFavoriteScope",
     "ShareMode",
     "SherpaJobBean",
     "SherpaJobBeanStatus",
     "SherpaJobBeanType",
+    "SignificantTextConfig",
     "SigninAppBar",
     "SigninCardForm",
     "SigninCardMainTitles",
@@ -625,6 +649,8 @@ __all__ = (
     "TermImport",
     "TermImporterSpec",
     "TermImporterSpecParameters",
+    "TermsConfig",
+    "TermsConfigOrder",
     "TextCount",
     "Theme",
     "ThemeConfig",

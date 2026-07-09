@@ -5,34 +5,19 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.document import Document
-from ...types import UNSET, Response, Unset
+from ...models.metadata_description import MetadataDescription
+from ...types import Response
 
 
 def _get_kwargs(
     project_name: str,
-    *,
-    limit: Union[Unset, int] = 0,
-    output_fields: Union[Unset, str] = UNSET,
-    output_fields_modifier: Union[Unset, str] = UNSET,
 ) -> dict[str, Any]:
-
-    params: dict[str, Any] = {}
-
-    params["limit"] = limit
-
-    params["outputFields"] = output_fields
-
-    params["outputFieldsModifier"] = output_fields_modifier
-
-    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/projects/{project_name}/documents".format(
+        "url": "/projects/{project_name}/metadata-descriptions".format(
             project_name=project_name,
         ),
-        "params": params,
     }
 
     return _kwargs
@@ -40,16 +25,18 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[list["Document"]]:
+) -> Optional[list["MetadataDescription"]]:
     if response.status_code == 200:
         response_200 = []
         _response_200 = response.json()
-        for componentsschemas_document_array_item_data in _response_200:
-            componentsschemas_document_array_item = Document.from_dict(
-                componentsschemas_document_array_item_data
+        for componentsschemas_metadata_description_array_item_data in _response_200:
+            componentsschemas_metadata_description_array_item = (
+                MetadataDescription.from_dict(
+                    componentsschemas_metadata_description_array_item_data
+                )
             )
 
-            response_200.append(componentsschemas_document_array_item)
+            response_200.append(componentsschemas_metadata_description_array_item)
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -60,7 +47,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[list["Document"]]:
+) -> Response[list["MetadataDescription"]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -73,31 +60,22 @@ def sync_detailed(
     project_name: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    limit: Union[Unset, int] = 0,
-    output_fields: Union[Unset, str] = UNSET,
-    output_fields_modifier: Union[Unset, str] = UNSET,
-) -> Response[list["Document"]]:
-    """Get documents within project
+) -> Response[list["MetadataDescription"]]:
+    """get the metadata descriptions for this project
 
     Args:
         project_name (str):
-        limit (Union[Unset, int]):  Default: 0.
-        output_fields (Union[Unset, str]):
-        output_fields_modifier (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[list['Document']]
+        Response[list['MetadataDescription']]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        limit=limit,
-        output_fields=output_fields,
-        output_fields_modifier=output_fields_modifier,
     )
 
     response = client.get_httpx_client().request(
@@ -111,32 +89,23 @@ def sync(
     project_name: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    limit: Union[Unset, int] = 0,
-    output_fields: Union[Unset, str] = UNSET,
-    output_fields_modifier: Union[Unset, str] = UNSET,
-) -> Optional[list["Document"]]:
-    """Get documents within project
+) -> Optional[list["MetadataDescription"]]:
+    """get the metadata descriptions for this project
 
     Args:
         project_name (str):
-        limit (Union[Unset, int]):  Default: 0.
-        output_fields (Union[Unset, str]):
-        output_fields_modifier (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        list['Document']
+        list['MetadataDescription']
     """
 
     return sync_detailed(
         project_name=project_name,
         client=client,
-        limit=limit,
-        output_fields=output_fields,
-        output_fields_modifier=output_fields_modifier,
     ).parsed
 
 
@@ -144,31 +113,22 @@ async def asyncio_detailed(
     project_name: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    limit: Union[Unset, int] = 0,
-    output_fields: Union[Unset, str] = UNSET,
-    output_fields_modifier: Union[Unset, str] = UNSET,
-) -> Response[list["Document"]]:
-    """Get documents within project
+) -> Response[list["MetadataDescription"]]:
+    """get the metadata descriptions for this project
 
     Args:
         project_name (str):
-        limit (Union[Unset, int]):  Default: 0.
-        output_fields (Union[Unset, str]):
-        output_fields_modifier (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[list['Document']]
+        Response[list['MetadataDescription']]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        limit=limit,
-        output_fields=output_fields,
-        output_fields_modifier=output_fields_modifier,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -180,32 +140,23 @@ async def asyncio(
     project_name: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    limit: Union[Unset, int] = 0,
-    output_fields: Union[Unset, str] = UNSET,
-    output_fields_modifier: Union[Unset, str] = UNSET,
-) -> Optional[list["Document"]]:
-    """Get documents within project
+) -> Optional[list["MetadataDescription"]]:
+    """get the metadata descriptions for this project
 
     Args:
         project_name (str):
-        limit (Union[Unset, int]):  Default: 0.
-        output_fields (Union[Unset, str]):
-        output_fields_modifier (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        list['Document']
+        list['MetadataDescription']
     """
 
     return (
         await asyncio_detailed(
             project_name=project_name,
             client=client,
-            limit=limit,
-            output_fields=output_fields,
-            output_fields_modifier=output_fields_modifier,
         )
     ).parsed

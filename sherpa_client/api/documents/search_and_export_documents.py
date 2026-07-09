@@ -17,7 +17,8 @@ def _get_kwargs(
     simple_query: Union[Unset, bool] = False,
     selected_facets: Union[Unset, list[str]] = UNSET,
     invert_search: Union[Unset, bool] = False,
-    output_fields: Union[Unset, str] = "",
+    output_fields: Union[Unset, str] = UNSET,
+    output_fields_modifier: Union[Unset, str] = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -37,6 +38,8 @@ def _get_kwargs(
     params["invertSearch"] = invert_search
 
     params["outputFields"] = output_fields
+
+    params["outputFieldsModifier"] = output_fields_modifier
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -91,7 +94,8 @@ def sync_detailed(
     simple_query: Union[Unset, bool] = False,
     selected_facets: Union[Unset, list[str]] = UNSET,
     invert_search: Union[Unset, bool] = False,
-    output_fields: Union[Unset, str] = "",
+    output_fields: Union[Unset, str] = UNSET,
+    output_fields_modifier: Union[Unset, str] = UNSET,
 ) -> Response[list["Document"]]:
     """Search for documents and export them
 
@@ -102,7 +106,8 @@ def sync_detailed(
         simple_query (Union[Unset, bool]):  Default: False.
         selected_facets (Union[Unset, list[str]]):
         invert_search (Union[Unset, bool]):  Default: False.
-        output_fields (Union[Unset, str]):  Default: ''.
+        output_fields (Union[Unset, str]):
+        output_fields_modifier (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -120,6 +125,7 @@ def sync_detailed(
         selected_facets=selected_facets,
         invert_search=invert_search,
         output_fields=output_fields,
+        output_fields_modifier=output_fields_modifier,
     )
 
     response = client.get_httpx_client().request(
@@ -138,7 +144,8 @@ def sync(
     simple_query: Union[Unset, bool] = False,
     selected_facets: Union[Unset, list[str]] = UNSET,
     invert_search: Union[Unset, bool] = False,
-    output_fields: Union[Unset, str] = "",
+    output_fields: Union[Unset, str] = UNSET,
+    output_fields_modifier: Union[Unset, str] = UNSET,
 ) -> Optional[list["Document"]]:
     """Search for documents and export them
 
@@ -149,7 +156,8 @@ def sync(
         simple_query (Union[Unset, bool]):  Default: False.
         selected_facets (Union[Unset, list[str]]):
         invert_search (Union[Unset, bool]):  Default: False.
-        output_fields (Union[Unset, str]):  Default: ''.
+        output_fields (Union[Unset, str]):
+        output_fields_modifier (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -168,6 +176,7 @@ def sync(
         selected_facets=selected_facets,
         invert_search=invert_search,
         output_fields=output_fields,
+        output_fields_modifier=output_fields_modifier,
     ).parsed
 
 
@@ -180,7 +189,8 @@ async def asyncio_detailed(
     simple_query: Union[Unset, bool] = False,
     selected_facets: Union[Unset, list[str]] = UNSET,
     invert_search: Union[Unset, bool] = False,
-    output_fields: Union[Unset, str] = "",
+    output_fields: Union[Unset, str] = UNSET,
+    output_fields_modifier: Union[Unset, str] = UNSET,
 ) -> Response[list["Document"]]:
     """Search for documents and export them
 
@@ -191,7 +201,8 @@ async def asyncio_detailed(
         simple_query (Union[Unset, bool]):  Default: False.
         selected_facets (Union[Unset, list[str]]):
         invert_search (Union[Unset, bool]):  Default: False.
-        output_fields (Union[Unset, str]):  Default: ''.
+        output_fields (Union[Unset, str]):
+        output_fields_modifier (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -209,6 +220,7 @@ async def asyncio_detailed(
         selected_facets=selected_facets,
         invert_search=invert_search,
         output_fields=output_fields,
+        output_fields_modifier=output_fields_modifier,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -225,7 +237,8 @@ async def asyncio(
     simple_query: Union[Unset, bool] = False,
     selected_facets: Union[Unset, list[str]] = UNSET,
     invert_search: Union[Unset, bool] = False,
-    output_fields: Union[Unset, str] = "",
+    output_fields: Union[Unset, str] = UNSET,
+    output_fields_modifier: Union[Unset, str] = UNSET,
 ) -> Optional[list["Document"]]:
     """Search for documents and export them
 
@@ -236,7 +249,8 @@ async def asyncio(
         simple_query (Union[Unset, bool]):  Default: False.
         selected_facets (Union[Unset, list[str]]):
         invert_search (Union[Unset, bool]):  Default: False.
-        output_fields (Union[Unset, str]):  Default: ''.
+        output_fields (Union[Unset, str]):
+        output_fields_modifier (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -256,5 +270,6 @@ async def asyncio(
             selected_facets=selected_facets,
             invert_search=invert_search,
             output_fields=output_fields,
+            output_fields_modifier=output_fields_modifier,
         )
     ).parsed

@@ -1,21 +1,19 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.document import Document
+from ...models.sherpa_job_bean import SherpaJobBean
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     project_name: str,
-    doc_id: str,
     *,
     output_fields: Union[Unset, str] = UNSET,
     output_fields_modifier: Union[Unset, str] = UNSET,
-    html_version: Union[Unset, bool] = False,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -24,15 +22,12 @@ def _get_kwargs(
 
     params["outputFieldsModifier"] = output_fields_modifier
 
-    params["htmlVersion"] = html_version
-
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
-        "method": "get",
-        "url": "/projects/{project_name}/documents/{doc_id}".format(
+        "method": "post",
+        "url": "/projects/{project_name}/delta/documents/_export_async".format(
             project_name=project_name,
-            doc_id=doc_id,
         ),
         "params": params,
     }
@@ -42,14 +37,11 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Any, Document]]:
+) -> Optional[SherpaJobBean]:
     if response.status_code == 200:
-        response_200 = Document.from_dict(response.json())
+        response_200 = SherpaJobBean.from_dict(response.json())
 
         return response_200
-    if response.status_code == 404:
-        response_404 = cast(Any, None)
-        return response_404
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -58,7 +50,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Any, Document]]:
+) -> Response[SherpaJobBean]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -69,36 +61,30 @@ def _build_response(
 
 def sync_detailed(
     project_name: str,
-    doc_id: str,
     *,
     client: Union[AuthenticatedClient, Client],
     output_fields: Union[Unset, str] = UNSET,
     output_fields_modifier: Union[Unset, str] = UNSET,
-    html_version: Union[Unset, bool] = False,
-) -> Response[Union[Any, Document]]:
-    """Get a specific document
+) -> Response[SherpaJobBean]:
+    """Export modified and deleted documents since the start of the last recording.
 
     Args:
         project_name (str):
-        doc_id (str):
         output_fields (Union[Unset, str]):
         output_fields_modifier (Union[Unset, str]):
-        html_version (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, Document]]
+        Response[SherpaJobBean]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        doc_id=doc_id,
         output_fields=output_fields,
         output_fields_modifier=output_fields_modifier,
-        html_version=html_version,
     )
 
     response = client.get_httpx_client().request(
@@ -110,72 +96,60 @@ def sync_detailed(
 
 def sync(
     project_name: str,
-    doc_id: str,
     *,
     client: Union[AuthenticatedClient, Client],
     output_fields: Union[Unset, str] = UNSET,
     output_fields_modifier: Union[Unset, str] = UNSET,
-    html_version: Union[Unset, bool] = False,
-) -> Optional[Union[Any, Document]]:
-    """Get a specific document
+) -> Optional[SherpaJobBean]:
+    """Export modified and deleted documents since the start of the last recording.
 
     Args:
         project_name (str):
-        doc_id (str):
         output_fields (Union[Unset, str]):
         output_fields_modifier (Union[Unset, str]):
-        html_version (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, Document]
+        SherpaJobBean
     """
 
     return sync_detailed(
         project_name=project_name,
-        doc_id=doc_id,
         client=client,
         output_fields=output_fields,
         output_fields_modifier=output_fields_modifier,
-        html_version=html_version,
     ).parsed
 
 
 async def asyncio_detailed(
     project_name: str,
-    doc_id: str,
     *,
     client: Union[AuthenticatedClient, Client],
     output_fields: Union[Unset, str] = UNSET,
     output_fields_modifier: Union[Unset, str] = UNSET,
-    html_version: Union[Unset, bool] = False,
-) -> Response[Union[Any, Document]]:
-    """Get a specific document
+) -> Response[SherpaJobBean]:
+    """Export modified and deleted documents since the start of the last recording.
 
     Args:
         project_name (str):
-        doc_id (str):
         output_fields (Union[Unset, str]):
         output_fields_modifier (Union[Unset, str]):
-        html_version (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, Document]]
+        Response[SherpaJobBean]
     """
 
     kwargs = _get_kwargs(
         project_name=project_name,
-        doc_id=doc_id,
         output_fields=output_fields,
         output_fields_modifier=output_fields_modifier,
-        html_version=html_version,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -185,37 +159,31 @@ async def asyncio_detailed(
 
 async def asyncio(
     project_name: str,
-    doc_id: str,
     *,
     client: Union[AuthenticatedClient, Client],
     output_fields: Union[Unset, str] = UNSET,
     output_fields_modifier: Union[Unset, str] = UNSET,
-    html_version: Union[Unset, bool] = False,
-) -> Optional[Union[Any, Document]]:
-    """Get a specific document
+) -> Optional[SherpaJobBean]:
+    """Export modified and deleted documents since the start of the last recording.
 
     Args:
         project_name (str):
-        doc_id (str):
         output_fields (Union[Unset, str]):
         output_fields_modifier (Union[Unset, str]):
-        html_version (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, Document]
+        SherpaJobBean
     """
 
     return (
         await asyncio_detailed(
             project_name=project_name,
-            doc_id=doc_id,
             client=client,
             output_fields=output_fields,
             output_fields_modifier=output_fields_modifier,
-            html_version=html_version,
         )
     ).parsed

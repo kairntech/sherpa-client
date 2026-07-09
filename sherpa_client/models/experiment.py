@@ -32,6 +32,7 @@ class Experiment:
         favorite (Union[Unset, bool]):
         report (Union[Unset, Report]):
         tags (Union[Unset, list[str]]):
+        train_report (Union[Unset, Report]):
     """
 
     duration: int
@@ -49,6 +50,7 @@ class Experiment:
     favorite: Union[Unset, bool] = UNSET
     report: Union[Unset, "Report"] = UNSET
     tags: Union[Unset, list[str]] = UNSET
+    train_report: Union[Unset, "Report"] = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         duration = self.duration
@@ -87,6 +89,10 @@ class Experiment:
         if not isinstance(self.tags, Unset):
             tags = self.tags
 
+        train_report: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.train_report, Unset):
+            train_report = self.train_report.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(
             {
@@ -112,6 +118,8 @@ class Experiment:
             field_dict["report"] = report
         if tags is not UNSET:
             field_dict["tags"] = tags
+        if train_report is not UNSET:
+            field_dict["train_report"] = train_report
 
         return field_dict
 
@@ -156,6 +164,13 @@ class Experiment:
 
         tags = cast(list[str], d.pop("tags", UNSET))
 
+        _train_report = d.pop("train_report", UNSET)
+        train_report: Union[Unset, Report]
+        if isinstance(_train_report, Unset):
+            train_report = UNSET
+        else:
+            train_report = Report.from_dict(_train_report)
+
         experiment = cls(
             duration=duration,
             engine=engine,
@@ -172,6 +187,7 @@ class Experiment:
             favorite=favorite,
             report=report,
             tags=tags,
+            train_report=train_report,
         )
 
         return experiment

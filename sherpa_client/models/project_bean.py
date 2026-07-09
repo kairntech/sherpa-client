@@ -7,7 +7,6 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.classification_config import ClassificationConfig
-    from ..models.project_open_session import ProjectOpenSession
     from ..models.simple_group import SimpleGroup
     from ..models.simple_user import SimpleUser
 
@@ -26,6 +25,7 @@ class ProjectBean:
         algorithms (Union[Unset, list[str]]):
         annotations (Union[Unset, int]):
         automatic_metafacets (Union[Unset, bool]):
+        bg_color (Union[Unset, str]):
         categories (Union[Unset, int]):
         classification (Union[Unset, ClassificationConfig]):
         components (Union[Unset, list[str]]):
@@ -33,13 +33,14 @@ class ProjectBean:
         created_date (Union[Unset, str]):
         description (Union[Unset, str]):
         dev_patches (Union[Unset, list[str]]):
+        doc_delta_started_at (Union[Unset, str]):
+        document_delta_enabled (Union[Unset, bool]):
         documents (Union[Unset, int]):
         engines (Union[Unset, list[str]]):
         group (Union[Unset, SimpleGroup]):
         has_split (Union[Unset, bool]):
         metafacets (Union[Unset, list[Any]]):
         nature (Union[Unset, str]):
-        open_session (Union[Unset, ProjectOpenSession]):
         owner (Union[Unset, SimpleUser]):
         private (Union[Unset, bool]):
         read_only (Union[Unset, bool]):
@@ -48,6 +49,7 @@ class ProjectBean:
         shared (Union[Unset, bool]):
         terms (Union[Unset, int]):
         version (Union[Unset, str]):
+        writes_locked (Union[Unset, bool]):
     """
 
     image: str
@@ -57,6 +59,7 @@ class ProjectBean:
     algorithms: Union[Unset, list[str]] = UNSET
     annotations: Union[Unset, int] = UNSET
     automatic_metafacets: Union[Unset, bool] = UNSET
+    bg_color: Union[Unset, str] = UNSET
     categories: Union[Unset, int] = UNSET
     classification: Union[Unset, "ClassificationConfig"] = UNSET
     components: Union[Unset, list[str]] = UNSET
@@ -64,13 +67,14 @@ class ProjectBean:
     created_date: Union[Unset, str] = UNSET
     description: Union[Unset, str] = UNSET
     dev_patches: Union[Unset, list[str]] = UNSET
+    doc_delta_started_at: Union[Unset, str] = UNSET
+    document_delta_enabled: Union[Unset, bool] = UNSET
     documents: Union[Unset, int] = UNSET
     engines: Union[Unset, list[str]] = UNSET
     group: Union[Unset, "SimpleGroup"] = UNSET
     has_split: Union[Unset, bool] = UNSET
     metafacets: Union[Unset, list[Any]] = UNSET
     nature: Union[Unset, str] = UNSET
-    open_session: Union[Unset, "ProjectOpenSession"] = UNSET
     owner: Union[Unset, "SimpleUser"] = UNSET
     private: Union[Unset, bool] = UNSET
     read_only: Union[Unset, bool] = UNSET
@@ -79,6 +83,7 @@ class ProjectBean:
     shared: Union[Unset, bool] = UNSET
     terms: Union[Unset, int] = UNSET
     version: Union[Unset, str] = UNSET
+    writes_locked: Union[Unset, bool] = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         image = self.image
@@ -96,6 +101,8 @@ class ProjectBean:
         annotations = self.annotations
 
         automatic_metafacets = self.automatic_metafacets
+
+        bg_color = self.bg_color
 
         categories = self.categories
 
@@ -117,6 +124,10 @@ class ProjectBean:
         if not isinstance(self.dev_patches, Unset):
             dev_patches = self.dev_patches
 
+        doc_delta_started_at = self.doc_delta_started_at
+
+        document_delta_enabled = self.document_delta_enabled
+
         documents = self.documents
 
         engines: Union[Unset, list[str]] = UNSET
@@ -134,10 +145,6 @@ class ProjectBean:
             metafacets = self.metafacets
 
         nature = self.nature
-
-        open_session: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.open_session, Unset):
-            open_session = self.open_session.to_dict()
 
         owner: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.owner, Unset):
@@ -157,6 +164,8 @@ class ProjectBean:
 
         version = self.version
 
+        writes_locked = self.writes_locked
+
         field_dict: dict[str, Any] = {}
         field_dict.update(
             {
@@ -172,6 +181,8 @@ class ProjectBean:
             field_dict["annotations"] = annotations
         if automatic_metafacets is not UNSET:
             field_dict["automaticMetafacets"] = automatic_metafacets
+        if bg_color is not UNSET:
+            field_dict["bgColor"] = bg_color
         if categories is not UNSET:
             field_dict["categories"] = categories
         if classification is not UNSET:
@@ -186,6 +197,10 @@ class ProjectBean:
             field_dict["description"] = description
         if dev_patches is not UNSET:
             field_dict["devPatches"] = dev_patches
+        if doc_delta_started_at is not UNSET:
+            field_dict["docDeltaStartedAt"] = doc_delta_started_at
+        if document_delta_enabled is not UNSET:
+            field_dict["documentDeltaEnabled"] = document_delta_enabled
         if documents is not UNSET:
             field_dict["documents"] = documents
         if engines is not UNSET:
@@ -198,8 +213,6 @@ class ProjectBean:
             field_dict["metafacets"] = metafacets
         if nature is not UNSET:
             field_dict["nature"] = nature
-        if open_session is not UNSET:
-            field_dict["openSession"] = open_session
         if owner is not UNSET:
             field_dict["owner"] = owner
         if private is not UNSET:
@@ -216,13 +229,14 @@ class ProjectBean:
             field_dict["terms"] = terms
         if version is not UNSET:
             field_dict["version"] = version
+        if writes_locked is not UNSET:
+            field_dict["writesLocked"] = writes_locked
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.classification_config import ClassificationConfig
-        from ..models.project_open_session import ProjectOpenSession
         from ..models.simple_group import SimpleGroup
         from ..models.simple_user import SimpleUser
 
@@ -240,6 +254,8 @@ class ProjectBean:
         annotations = d.pop("annotations", UNSET)
 
         automatic_metafacets = d.pop("automaticMetafacets", UNSET)
+
+        bg_color = d.pop("bgColor", UNSET)
 
         categories = d.pop("categories", UNSET)
 
@@ -260,6 +276,10 @@ class ProjectBean:
 
         dev_patches = cast(list[str], d.pop("devPatches", UNSET))
 
+        doc_delta_started_at = d.pop("docDeltaStartedAt", UNSET)
+
+        document_delta_enabled = d.pop("documentDeltaEnabled", UNSET)
+
         documents = d.pop("documents", UNSET)
 
         engines = cast(list[str], d.pop("engines", UNSET))
@@ -276,13 +296,6 @@ class ProjectBean:
         metafacets = cast(list[Any], d.pop("metafacets", UNSET))
 
         nature = d.pop("nature", UNSET)
-
-        _open_session = d.pop("openSession", UNSET)
-        open_session: Union[Unset, ProjectOpenSession]
-        if isinstance(_open_session, Unset):
-            open_session = UNSET
-        else:
-            open_session = ProjectOpenSession.from_dict(_open_session)
 
         _owner = d.pop("owner", UNSET)
         owner: Union[Unset, SimpleUser]
@@ -305,6 +318,8 @@ class ProjectBean:
 
         version = d.pop("version", UNSET)
 
+        writes_locked = d.pop("writesLocked", UNSET)
+
         project_bean = cls(
             image=image,
             label=label,
@@ -313,6 +328,7 @@ class ProjectBean:
             algorithms=algorithms,
             annotations=annotations,
             automatic_metafacets=automatic_metafacets,
+            bg_color=bg_color,
             categories=categories,
             classification=classification,
             components=components,
@@ -320,13 +336,14 @@ class ProjectBean:
             created_date=created_date,
             description=description,
             dev_patches=dev_patches,
+            doc_delta_started_at=doc_delta_started_at,
+            document_delta_enabled=document_delta_enabled,
             documents=documents,
             engines=engines,
             group=group,
             has_split=has_split,
             metafacets=metafacets,
             nature=nature,
-            open_session=open_session,
             owner=owner,
             private=private,
             read_only=read_only,
@@ -335,6 +352,7 @@ class ProjectBean:
             shared=shared,
             terms=terms,
             version=version,
+            writes_locked=writes_locked,
         )
 
         return project_bean

@@ -7,6 +7,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.classification_options import ClassificationOptions
+    from ..models.config_patch_options_facet_orders import ConfigPatchOptionsFacetOrders
 
 
 T = TypeVar("T", bound="ConfigPatchOptions")
@@ -16,12 +17,16 @@ T = TypeVar("T", bound="ConfigPatchOptions")
 class ConfigPatchOptions:
     """
     Attributes:
+        automatic_facets (Union[Unset, bool]):
         automatic_metafacets (Union[Unset, bool]):
         classification (Union[Unset, ClassificationOptions]):
         clean_html (Union[Unset, bool]):
         collaborative_annotation (Union[Unset, bool]):
         created_date (Union[Unset, str]):
         description (Union[Unset, str]):
+        document_delta_enabled (Union[Unset, bool]):
+        enabled_facets (Union[Unset, list[str]]):
+        facet_orders (Union[Unset, ConfigPatchOptionsFacetOrders]):
         image_filename (Union[Unset, str]):
         image_id (Union[Unset, str]):
         image_url (Union[Unset, str]):
@@ -30,14 +35,19 @@ class ConfigPatchOptions:
         metafacets (Union[Unset, list[str]]):
         replace_carriage_returns (Union[Unset, bool]):
         route_on_open_project (Union[Unset, str]):
+        writes_disabled (Union[Unset, bool]):
     """
 
+    automatic_facets: Union[Unset, bool] = UNSET
     automatic_metafacets: Union[Unset, bool] = UNSET
     classification: Union[Unset, "ClassificationOptions"] = UNSET
     clean_html: Union[Unset, bool] = UNSET
     collaborative_annotation: Union[Unset, bool] = UNSET
     created_date: Union[Unset, str] = UNSET
     description: Union[Unset, str] = UNSET
+    document_delta_enabled: Union[Unset, bool] = UNSET
+    enabled_facets: Union[Unset, list[str]] = UNSET
+    facet_orders: Union[Unset, "ConfigPatchOptionsFacetOrders"] = UNSET
     image_filename: Union[Unset, str] = UNSET
     image_id: Union[Unset, str] = UNSET
     image_url: Union[Unset, str] = UNSET
@@ -46,8 +56,11 @@ class ConfigPatchOptions:
     metafacets: Union[Unset, list[str]] = UNSET
     replace_carriage_returns: Union[Unset, bool] = UNSET
     route_on_open_project: Union[Unset, str] = UNSET
+    writes_disabled: Union[Unset, bool] = UNSET
 
     def to_dict(self) -> dict[str, Any]:
+        automatic_facets = self.automatic_facets
+
         automatic_metafacets = self.automatic_metafacets
 
         classification: Union[Unset, dict[str, Any]] = UNSET
@@ -61,6 +74,16 @@ class ConfigPatchOptions:
         created_date = self.created_date
 
         description = self.description
+
+        document_delta_enabled = self.document_delta_enabled
+
+        enabled_facets: Union[Unset, list[str]] = UNSET
+        if not isinstance(self.enabled_facets, Unset):
+            enabled_facets = self.enabled_facets
+
+        facet_orders: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.facet_orders, Unset):
+            facet_orders = self.facet_orders.to_dict()
 
         image_filename = self.image_filename
 
@@ -80,8 +103,12 @@ class ConfigPatchOptions:
 
         route_on_open_project = self.route_on_open_project
 
+        writes_disabled = self.writes_disabled
+
         field_dict: dict[str, Any] = {}
         field_dict.update({})
+        if automatic_facets is not UNSET:
+            field_dict["automaticFacets"] = automatic_facets
         if automatic_metafacets is not UNSET:
             field_dict["automaticMetafacets"] = automatic_metafacets
         if classification is not UNSET:
@@ -94,6 +121,12 @@ class ConfigPatchOptions:
             field_dict["createdDate"] = created_date
         if description is not UNSET:
             field_dict["description"] = description
+        if document_delta_enabled is not UNSET:
+            field_dict["documentDeltaEnabled"] = document_delta_enabled
+        if enabled_facets is not UNSET:
+            field_dict["enabledFacets"] = enabled_facets
+        if facet_orders is not UNSET:
+            field_dict["facetOrders"] = facet_orders
         if image_filename is not UNSET:
             field_dict["imageFilename"] = image_filename
         if image_id is not UNSET:
@@ -110,14 +143,21 @@ class ConfigPatchOptions:
             field_dict["replaceCarriageReturns"] = replace_carriage_returns
         if route_on_open_project is not UNSET:
             field_dict["routeOnOpenProject"] = route_on_open_project
+        if writes_disabled is not UNSET:
+            field_dict["writesDisabled"] = writes_disabled
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.classification_options import ClassificationOptions
+        from ..models.config_patch_options_facet_orders import (
+            ConfigPatchOptionsFacetOrders,
+        )
 
         d = dict(src_dict)
+        automatic_facets = d.pop("automaticFacets", UNSET)
+
         automatic_metafacets = d.pop("automaticMetafacets", UNSET)
 
         _classification = d.pop("classification", UNSET)
@@ -135,6 +175,17 @@ class ConfigPatchOptions:
 
         description = d.pop("description", UNSET)
 
+        document_delta_enabled = d.pop("documentDeltaEnabled", UNSET)
+
+        enabled_facets = cast(list[str], d.pop("enabledFacets", UNSET))
+
+        _facet_orders = d.pop("facetOrders", UNSET)
+        facet_orders: Union[Unset, ConfigPatchOptionsFacetOrders]
+        if isinstance(_facet_orders, Unset):
+            facet_orders = UNSET
+        else:
+            facet_orders = ConfigPatchOptionsFacetOrders.from_dict(_facet_orders)
+
         image_filename = d.pop("imageFilename", UNSET)
 
         image_id = d.pop("imageId", UNSET)
@@ -151,13 +202,19 @@ class ConfigPatchOptions:
 
         route_on_open_project = d.pop("routeOnOpenProject", UNSET)
 
+        writes_disabled = d.pop("writesDisabled", UNSET)
+
         config_patch_options = cls(
+            automatic_facets=automatic_facets,
             automatic_metafacets=automatic_metafacets,
             classification=classification,
             clean_html=clean_html,
             collaborative_annotation=collaborative_annotation,
             created_date=created_date,
             description=description,
+            document_delta_enabled=document_delta_enabled,
+            enabled_facets=enabled_facets,
+            facet_orders=facet_orders,
             image_filename=image_filename,
             image_id=image_id,
             image_url=image_url,
@@ -166,6 +223,7 @@ class ConfigPatchOptions:
             metafacets=metafacets,
             replace_carriage_returns=replace_carriage_returns,
             route_on_open_project=route_on_open_project,
+            writes_disabled=writes_disabled,
         )
 
         return config_patch_options

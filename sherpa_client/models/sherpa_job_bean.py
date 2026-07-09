@@ -1,11 +1,15 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 
 from ..models.sherpa_job_bean_status import SherpaJobBeanStatus
 from ..models.sherpa_job_bean_type import SherpaJobBeanType
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.download_link import DownloadLink
+
 
 T = TypeVar("T", bound="SherpaJobBean")
 
@@ -26,6 +30,7 @@ class SherpaJobBean:
         type_ (SherpaJobBeanType):
         upload_ids (list[str]):
         completed_at (Union[Unset, int]):
+        link (Union[Unset, DownloadLink]):
         status_message (Union[Unset, str]):
     """
 
@@ -41,6 +46,7 @@ class SherpaJobBean:
     type_: SherpaJobBeanType
     upload_ids: list[str]
     completed_at: Union[Unset, int] = UNSET
+    link: Union[Unset, "DownloadLink"] = UNSET
     status_message: Union[Unset, str] = UNSET
 
     def to_dict(self) -> dict[str, Any]:
@@ -68,6 +74,10 @@ class SherpaJobBean:
 
         completed_at = self.completed_at
 
+        link: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.link, Unset):
+            link = self.link.to_dict()
+
         status_message = self.status_message
 
         field_dict: dict[str, Any] = {}
@@ -88,6 +98,8 @@ class SherpaJobBean:
         )
         if completed_at is not UNSET:
             field_dict["completedAt"] = completed_at
+        if link is not UNSET:
+            field_dict["link"] = link
         if status_message is not UNSET:
             field_dict["statusMessage"] = status_message
 
@@ -95,6 +107,8 @@ class SherpaJobBean:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.download_link import DownloadLink
+
         d = dict(src_dict)
         created_at = d.pop("createdAt")
 
@@ -120,6 +134,13 @@ class SherpaJobBean:
 
         completed_at = d.pop("completedAt", UNSET)
 
+        _link = d.pop("link", UNSET)
+        link: Union[Unset, DownloadLink]
+        if isinstance(_link, Unset):
+            link = UNSET
+        else:
+            link = DownloadLink.from_dict(_link)
+
         status_message = d.pop("statusMessage", UNSET)
 
         sherpa_job_bean = cls(
@@ -135,6 +156,7 @@ class SherpaJobBean:
             type_=type_,
             upload_ids=upload_ids,
             completed_at=completed_at,
+            link=link,
             status_message=status_message,
         )
 
