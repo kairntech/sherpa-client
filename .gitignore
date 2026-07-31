@@ -21,6 +21,3 @@ dmypy.json
 
 /coverage.xml
 /.coverage
-
-# uv (project uses Poetry)
-uv.lock

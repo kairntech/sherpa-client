@@ -8,6 +8,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.filtering_params import FilteringParams
+    from ..models.reranking_params import RerankingParams
     from ..models.vector_params import VectorParams
 
 
@@ -25,6 +26,7 @@ class SearchParams:
         from_ (Union[Unset, int]): Offset of the first hit to be returned Default: 0.
         invert (Union[Unset, bool]): Return hits not matching the query Default: False.
         query (Union[Unset, str]): Search keywords or question
+        reranking (Union[Unset, RerankingParams]): Reranking parameters
         size (Union[Unset, int]): Maximum number of hits to be returned Default: 10.
         type_ (Union[Unset, SearchParamsType]): Whether to use standard text-based, vector-based or hybrid search
             Default: SearchParamsType.TEXT.
@@ -36,6 +38,7 @@ class SearchParams:
     from_: Union[Unset, int] = 0
     invert: Union[Unset, bool] = False
     query: Union[Unset, str] = UNSET
+    reranking: Union[Unset, "RerankingParams"] = UNSET
     size: Union[Unset, int] = 10
     type_: Union[Unset, SearchParamsType] = SearchParamsType.TEXT
     vector: Union[Unset, "VectorParams"] = UNSET
@@ -52,6 +55,10 @@ class SearchParams:
         invert = self.invert
 
         query = self.query
+
+        reranking: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.reranking, Unset):
+            reranking = self.reranking.to_dict()
 
         size = self.size
 
@@ -75,6 +82,8 @@ class SearchParams:
             field_dict["invert"] = invert
         if query is not UNSET:
             field_dict["query"] = query
+        if reranking is not UNSET:
+            field_dict["reranking"] = reranking
         if size is not UNSET:
             field_dict["size"] = size
         if type_ is not UNSET:
@@ -87,6 +96,7 @@ class SearchParams:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.filtering_params import FilteringParams
+        from ..models.reranking_params import RerankingParams
         from ..models.vector_params import VectorParams
 
         d = dict(src_dict)
@@ -104,6 +114,13 @@ class SearchParams:
         invert = d.pop("invert", UNSET)
 
         query = d.pop("query", UNSET)
+
+        _reranking = d.pop("reranking", UNSET)
+        reranking: Union[Unset, RerankingParams]
+        if isinstance(_reranking, Unset):
+            reranking = UNSET
+        else:
+            reranking = RerankingParams.from_dict(_reranking)
 
         size = d.pop("size", UNSET)
 
@@ -127,6 +144,7 @@ class SearchParams:
             from_=from_,
             invert=invert,
             query=query,
+            reranking=reranking,
             size=size,
             type_=type_,
             vector=vector,

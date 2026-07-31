@@ -5,15 +5,15 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.metadata_update import MetadataUpdate
 from ...models.sherpa_job_bean import SherpaJobBean
-from ...models.simple_metadata import SimpleMetadata
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     project_name: str,
     *,
-    body: SimpleMetadata,
+    body: MetadataUpdate,
     query: Union[Unset, str] = "",
     query_filter: Union[Unset, str] = "",
     simple_query: Union[Unset, bool] = False,
@@ -42,7 +42,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/projects/{project_name}/documents/_search_and_tag".format(
+        "url": "/projects/{project_name}/documents/_search_and_update_metadata".format(
             project_name=project_name,
         ),
         "params": params,
@@ -85,15 +85,14 @@ def sync_detailed(
     project_name: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    body: SimpleMetadata,
+    body: MetadataUpdate,
     query: Union[Unset, str] = "",
     query_filter: Union[Unset, str] = "",
     simple_query: Union[Unset, bool] = False,
     selected_facets: Union[Unset, list[str]] = UNSET,
     invert_search: Union[Unset, bool] = False,
 ) -> Response[SherpaJobBean]:
-    """Search for documents and add/remove a metadata to/from all of them (replaced with
-    _search_and_update_metadata)
+    """Search for documents and update their metadata
 
     Args:
         project_name (str):
@@ -102,7 +101,7 @@ def sync_detailed(
         simple_query (Union[Unset, bool]):  Default: False.
         selected_facets (Union[Unset, list[str]]):
         invert_search (Union[Unset, bool]):  Default: False.
-        body (SimpleMetadata):
+        body (MetadataUpdate):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -133,15 +132,14 @@ def sync(
     project_name: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    body: SimpleMetadata,
+    body: MetadataUpdate,
     query: Union[Unset, str] = "",
     query_filter: Union[Unset, str] = "",
     simple_query: Union[Unset, bool] = False,
     selected_facets: Union[Unset, list[str]] = UNSET,
     invert_search: Union[Unset, bool] = False,
 ) -> Optional[SherpaJobBean]:
-    """Search for documents and add/remove a metadata to/from all of them (replaced with
-    _search_and_update_metadata)
+    """Search for documents and update their metadata
 
     Args:
         project_name (str):
@@ -150,7 +148,7 @@ def sync(
         simple_query (Union[Unset, bool]):  Default: False.
         selected_facets (Union[Unset, list[str]]):
         invert_search (Union[Unset, bool]):  Default: False.
-        body (SimpleMetadata):
+        body (MetadataUpdate):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -176,15 +174,14 @@ async def asyncio_detailed(
     project_name: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    body: SimpleMetadata,
+    body: MetadataUpdate,
     query: Union[Unset, str] = "",
     query_filter: Union[Unset, str] = "",
     simple_query: Union[Unset, bool] = False,
     selected_facets: Union[Unset, list[str]] = UNSET,
     invert_search: Union[Unset, bool] = False,
 ) -> Response[SherpaJobBean]:
-    """Search for documents and add/remove a metadata to/from all of them (replaced with
-    _search_and_update_metadata)
+    """Search for documents and update their metadata
 
     Args:
         project_name (str):
@@ -193,7 +190,7 @@ async def asyncio_detailed(
         simple_query (Union[Unset, bool]):  Default: False.
         selected_facets (Union[Unset, list[str]]):
         invert_search (Union[Unset, bool]):  Default: False.
-        body (SimpleMetadata):
+        body (MetadataUpdate):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -222,15 +219,14 @@ async def asyncio(
     project_name: str,
     *,
     client: Union[AuthenticatedClient, Client],
-    body: SimpleMetadata,
+    body: MetadataUpdate,
     query: Union[Unset, str] = "",
     query_filter: Union[Unset, str] = "",
     simple_query: Union[Unset, bool] = False,
     selected_facets: Union[Unset, list[str]] = UNSET,
     invert_search: Union[Unset, bool] = False,
 ) -> Optional[SherpaJobBean]:
-    """Search for documents and add/remove a metadata to/from all of them (replaced with
-    _search_and_update_metadata)
+    """Search for documents and update their metadata
 
     Args:
         project_name (str):
@@ -239,7 +235,7 @@ async def asyncio(
         simple_query (Union[Unset, bool]):  Default: False.
         selected_facets (Union[Unset, list[str]]):
         invert_search (Union[Unset, bool]):  Default: False.
-        body (SimpleMetadata):
+        body (MetadataUpdate):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

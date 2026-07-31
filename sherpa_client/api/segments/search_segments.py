@@ -27,6 +27,7 @@ def _get_kwargs(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
     answer_question: Union[Unset, bool] = False,
     answerer: Union[Unset, str] = UNSET,
     return_hits: Union[Unset, bool] = True,
@@ -71,6 +72,8 @@ def _get_kwargs(
     params["vectorizer"] = vectorizer
 
     params["vectorQuery"] = vector_query
+
+    params["segmentMarkers"] = segment_markers
 
     params["answerQuestion"] = answer_question
 
@@ -137,6 +140,7 @@ def sync_detailed(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
     answer_question: Union[Unset, bool] = False,
     answerer: Union[Unset, str] = UNSET,
     return_hits: Union[Unset, bool] = True,
@@ -162,6 +166,7 @@ def sync_detailed(
         native_rrf (Union[Unset, bool]):
         vectorizer (Union[Unset, str]):
         vector_query (Union[Unset, str]):  Default: ''.
+        segment_markers (Union[Unset, bool]):  Default: False.
         answer_question (Union[Unset, bool]):  Default: False.
         answerer (Union[Unset, str]):
         return_hits (Union[Unset, bool]):  Default: True.
@@ -192,6 +197,7 @@ def sync_detailed(
         native_rrf=native_rrf,
         vectorizer=vectorizer,
         vector_query=vector_query,
+        segment_markers=segment_markers,
         answer_question=answer_question,
         answerer=answerer,
         return_hits=return_hits,
@@ -224,6 +230,7 @@ def sync(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
     answer_question: Union[Unset, bool] = False,
     answerer: Union[Unset, str] = UNSET,
     return_hits: Union[Unset, bool] = True,
@@ -249,6 +256,7 @@ def sync(
         native_rrf (Union[Unset, bool]):
         vectorizer (Union[Unset, str]):
         vector_query (Union[Unset, str]):  Default: ''.
+        segment_markers (Union[Unset, bool]):  Default: False.
         answer_question (Union[Unset, bool]):  Default: False.
         answerer (Union[Unset, str]):
         return_hits (Union[Unset, bool]):  Default: True.
@@ -280,6 +288,7 @@ def sync(
         native_rrf=native_rrf,
         vectorizer=vectorizer,
         vector_query=vector_query,
+        segment_markers=segment_markers,
         answer_question=answer_question,
         answerer=answerer,
         return_hits=return_hits,
@@ -306,6 +315,7 @@ async def asyncio_detailed(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
     answer_question: Union[Unset, bool] = False,
     answerer: Union[Unset, str] = UNSET,
     return_hits: Union[Unset, bool] = True,
@@ -331,6 +341,7 @@ async def asyncio_detailed(
         native_rrf (Union[Unset, bool]):
         vectorizer (Union[Unset, str]):
         vector_query (Union[Unset, str]):  Default: ''.
+        segment_markers (Union[Unset, bool]):  Default: False.
         answer_question (Union[Unset, bool]):  Default: False.
         answerer (Union[Unset, str]):
         return_hits (Union[Unset, bool]):  Default: True.
@@ -361,6 +372,7 @@ async def asyncio_detailed(
         native_rrf=native_rrf,
         vectorizer=vectorizer,
         vector_query=vector_query,
+        segment_markers=segment_markers,
         answer_question=answer_question,
         answerer=answerer,
         return_hits=return_hits,
@@ -391,6 +403,7 @@ async def asyncio(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
     answer_question: Union[Unset, bool] = False,
     answerer: Union[Unset, str] = UNSET,
     return_hits: Union[Unset, bool] = True,
@@ -416,6 +429,7 @@ async def asyncio(
         native_rrf (Union[Unset, bool]):
         vectorizer (Union[Unset, str]):
         vector_query (Union[Unset, str]):  Default: ''.
+        segment_markers (Union[Unset, bool]):  Default: False.
         answer_question (Union[Unset, bool]):  Default: False.
         answerer (Union[Unset, str]):
         return_hits (Union[Unset, bool]):  Default: True.
@@ -448,6 +462,7 @@ async def asyncio(
             native_rrf=native_rrf,
             vectorizer=vectorizer,
             vector_query=vector_query,
+            segment_markers=segment_markers,
             answer_question=answer_question,
             answerer=answerer,
             return_hits=return_hits,

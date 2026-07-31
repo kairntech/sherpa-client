@@ -32,7 +32,6 @@ class ProjectBean:
         created_by (Union[Unset, str]):
         created_date (Union[Unset, str]):
         description (Union[Unset, str]):
-        dev_patches (Union[Unset, list[str]]):
         doc_delta_started_at (Union[Unset, str]):
         document_delta_enabled (Union[Unset, bool]):
         documents (Union[Unset, int]):
@@ -66,7 +65,6 @@ class ProjectBean:
     created_by: Union[Unset, str] = UNSET
     created_date: Union[Unset, str] = UNSET
     description: Union[Unset, str] = UNSET
-    dev_patches: Union[Unset, list[str]] = UNSET
     doc_delta_started_at: Union[Unset, str] = UNSET
     document_delta_enabled: Union[Unset, bool] = UNSET
     documents: Union[Unset, int] = UNSET
@@ -119,10 +117,6 @@ class ProjectBean:
         created_date = self.created_date
 
         description = self.description
-
-        dev_patches: Union[Unset, list[str]] = UNSET
-        if not isinstance(self.dev_patches, Unset):
-            dev_patches = self.dev_patches
 
         doc_delta_started_at = self.doc_delta_started_at
 
@@ -195,8 +189,6 @@ class ProjectBean:
             field_dict["createdDate"] = created_date
         if description is not UNSET:
             field_dict["description"] = description
-        if dev_patches is not UNSET:
-            field_dict["devPatches"] = dev_patches
         if doc_delta_started_at is not UNSET:
             field_dict["docDeltaStartedAt"] = doc_delta_started_at
         if document_delta_enabled is not UNSET:
@@ -274,8 +266,6 @@ class ProjectBean:
 
         description = d.pop("description", UNSET)
 
-        dev_patches = cast(list[str], d.pop("devPatches", UNSET))
-
         doc_delta_started_at = d.pop("docDeltaStartedAt", UNSET)
 
         document_delta_enabled = d.pop("documentDeltaEnabled", UNSET)
@@ -335,7 +325,6 @@ class ProjectBean:
             created_by=created_by,
             created_date=created_date,
             description=description,
-            dev_patches=dev_patches,
             doc_delta_started_at=doc_delta_started_at,
             document_delta_enabled=document_delta_enabled,
             documents=documents,

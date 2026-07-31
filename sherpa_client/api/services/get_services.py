@@ -27,6 +27,7 @@ def _get_kwargs(
     converter: Union[Unset, str] = "",
     segmenter: Union[Unset, str] = "",
     vectorizer: Union[Unset, str] = "",
+    reranker: Union[Unset, str] = "",
     language_guesser: Union[Unset, str] = "",
     include_embedded_services: Union[Unset, bool] = False,
 ) -> dict[str, Any]:
@@ -64,6 +65,8 @@ def _get_kwargs(
     params["segmenter"] = segmenter
 
     params["vectorizer"] = vectorizer
+
+    params["reranker"] = reranker
 
     params["languageGuesser"] = language_guesser
 
@@ -132,6 +135,7 @@ def sync_detailed(
     converter: Union[Unset, str] = "",
     segmenter: Union[Unset, str] = "",
     vectorizer: Union[Unset, str] = "",
+    reranker: Union[Unset, str] = "",
     language_guesser: Union[Unset, str] = "",
     include_embedded_services: Union[Unset, bool] = False,
 ) -> Response[list["HttpServiceRecord"]]:
@@ -154,6 +158,7 @@ def sync_detailed(
         converter (Union[Unset, str]):  Default: ''.
         segmenter (Union[Unset, str]):  Default: ''.
         vectorizer (Union[Unset, str]):  Default: ''.
+        reranker (Union[Unset, str]):  Default: ''.
         language_guesser (Union[Unset, str]):  Default: ''.
         include_embedded_services (Union[Unset, bool]):  Default: False.
 
@@ -182,6 +187,7 @@ def sync_detailed(
         converter=converter,
         segmenter=segmenter,
         vectorizer=vectorizer,
+        reranker=reranker,
         language_guesser=language_guesser,
         include_embedded_services=include_embedded_services,
     )
@@ -212,6 +218,7 @@ def sync(
     converter: Union[Unset, str] = "",
     segmenter: Union[Unset, str] = "",
     vectorizer: Union[Unset, str] = "",
+    reranker: Union[Unset, str] = "",
     language_guesser: Union[Unset, str] = "",
     include_embedded_services: Union[Unset, bool] = False,
 ) -> Optional[list["HttpServiceRecord"]]:
@@ -234,6 +241,7 @@ def sync(
         converter (Union[Unset, str]):  Default: ''.
         segmenter (Union[Unset, str]):  Default: ''.
         vectorizer (Union[Unset, str]):  Default: ''.
+        reranker (Union[Unset, str]):  Default: ''.
         language_guesser (Union[Unset, str]):  Default: ''.
         include_embedded_services (Union[Unset, bool]):  Default: False.
 
@@ -263,6 +271,7 @@ def sync(
         converter=converter,
         segmenter=segmenter,
         vectorizer=vectorizer,
+        reranker=reranker,
         language_guesser=language_guesser,
         include_embedded_services=include_embedded_services,
     ).parsed
@@ -287,6 +296,7 @@ async def asyncio_detailed(
     converter: Union[Unset, str] = "",
     segmenter: Union[Unset, str] = "",
     vectorizer: Union[Unset, str] = "",
+    reranker: Union[Unset, str] = "",
     language_guesser: Union[Unset, str] = "",
     include_embedded_services: Union[Unset, bool] = False,
 ) -> Response[list["HttpServiceRecord"]]:
@@ -309,6 +319,7 @@ async def asyncio_detailed(
         converter (Union[Unset, str]):  Default: ''.
         segmenter (Union[Unset, str]):  Default: ''.
         vectorizer (Union[Unset, str]):  Default: ''.
+        reranker (Union[Unset, str]):  Default: ''.
         language_guesser (Union[Unset, str]):  Default: ''.
         include_embedded_services (Union[Unset, bool]):  Default: False.
 
@@ -337,6 +348,7 @@ async def asyncio_detailed(
         converter=converter,
         segmenter=segmenter,
         vectorizer=vectorizer,
+        reranker=reranker,
         language_guesser=language_guesser,
         include_embedded_services=include_embedded_services,
     )
@@ -365,6 +377,7 @@ async def asyncio(
     converter: Union[Unset, str] = "",
     segmenter: Union[Unset, str] = "",
     vectorizer: Union[Unset, str] = "",
+    reranker: Union[Unset, str] = "",
     language_guesser: Union[Unset, str] = "",
     include_embedded_services: Union[Unset, bool] = False,
 ) -> Optional[list["HttpServiceRecord"]]:
@@ -387,6 +400,7 @@ async def asyncio(
         converter (Union[Unset, str]):  Default: ''.
         segmenter (Union[Unset, str]):  Default: ''.
         vectorizer (Union[Unset, str]):  Default: ''.
+        reranker (Union[Unset, str]):  Default: ''.
         language_guesser (Union[Unset, str]):  Default: ''.
         include_embedded_services (Union[Unset, bool]):  Default: False.
 
@@ -417,6 +431,7 @@ async def asyncio(
             converter=converter,
             segmenter=segmenter,
             vectorizer=vectorizer,
+            reranker=reranker,
             language_guesser=language_guesser,
             include_embedded_services=include_embedded_services,
         )

@@ -23,6 +23,7 @@ from .annotated_doc_category_properties import AnnotatedDocCategoryProperties
 from .annotated_doc_sentence import AnnotatedDocSentence
 from .annotated_doc_sentence_metadata import AnnotatedDocSentenceMetadata
 from .annotated_document import AnnotatedDocument
+from .annotated_document_boundaries import AnnotatedDocumentBoundaries
 from .annotated_document_metadata import AnnotatedDocumentMetadata
 from .annotation import Annotation
 from .annotation_creation_mode import AnnotationCreationMode
@@ -104,6 +105,7 @@ from .doc_search_request import DocSearchRequest
 from .doc_sentence import DocSentence
 from .doc_sentence_metadata import DocSentenceMetadata
 from .document import Document
+from .document_boundaries import DocumentBoundaries
 from .document_facets import DocumentFacets
 from .document_hit import DocumentHit
 from .document_hits import DocumentHits
@@ -171,9 +173,11 @@ from .imported_doc_category import ImportedDocCategory
 from .imported_doc_category_creation_mode import ImportedDocCategoryCreationMode
 from .imported_doc_category_properties import ImportedDocCategoryProperties
 from .imported_document import ImportedDocument
+from .imported_document_boundaries import ImportedDocumentBoundaries
 from .imported_document_metadata import ImportedDocumentMetadata
 from .index_document_indexes_item import IndexDocumentIndexesItem
 from .input_document import InputDocument
+from .input_document_boundaries import InputDocumentBoundaries
 from .input_document_metadata import InputDocumentMetadata
 from .item_count import ItemCount
 from .item_ref import ItemRef
@@ -217,6 +221,8 @@ from .metadata_definition import MetadataDefinition
 from .metadata_definition_entry import MetadataDefinitionEntry
 from .metadata_description import MetadataDescription
 from .metadata_description_entry import MetadataDescriptionEntry
+from .metadata_update import MetadataUpdate
+from .metadata_update_operation import MetadataUpdateOperation
 from .model_metrics import ModelMetrics
 from .model_metrics_options import ModelMetricsOptions
 from .models_metrics import ModelsMetrics
@@ -264,6 +270,7 @@ from .question_answering_params_language_detection import (
 from .report import Report
 from .report_classes import ReportClasses
 from .request_jwt_token_project_access_mode import RequestJwtTokenProjectAccessMode
+from .reranking_params import RerankingParams
 from .role_desc import RoleDesc
 from .role_update import RoleUpdate
 from .search_documents_search_type import SearchDocumentsSearchType
@@ -351,6 +358,9 @@ from .with_language_guesser_parameters import WithLanguageGuesserParameters
 from .with_processor import WithProcessor
 from .with_processor_condition import WithProcessorCondition
 from .with_processor_parameters import WithProcessorParameters
+from .with_reranker import WithReranker
+from .with_reranker_condition import WithRerankerCondition
+from .with_reranker_parameters import WithRerankerParameters
 from .with_segmenter import WithSegmenter
 from .with_segmenter_condition import WithSegmenterCondition
 from .with_segmenter_parameters import WithSegmenterParameters
@@ -375,6 +385,7 @@ __all__ = (
     "AnnotatedDocSentence",
     "AnnotatedDocSentenceMetadata",
     "AnnotatedDocument",
+    "AnnotatedDocumentBoundaries",
     "AnnotatedDocumentMetadata",
     "AnnotateDocumentsWithPipeline",
     "AnnotateFormatBinaryWithProjectAnnotatorBody",
@@ -453,6 +464,7 @@ __all__ = (
     "DocSentence",
     "DocSentenceMetadata",
     "Document",
+    "DocumentBoundaries",
     "DocumentFacets",
     "DocumentHit",
     "DocumentHits",
@@ -519,10 +531,12 @@ __all__ = (
     "ImportedDocCategoryCreationMode",
     "ImportedDocCategoryProperties",
     "ImportedDocument",
+    "ImportedDocumentBoundaries",
     "ImportedDocumentMetadata",
     "ImportModelsBody",
     "IndexDocumentIndexesItem",
     "InputDocument",
+    "InputDocumentBoundaries",
     "InputDocumentMetadata",
     "ItemCount",
     "ItemRef",
@@ -554,6 +568,8 @@ __all__ = (
     "MetadataDefinitionEntry",
     "MetadataDescription",
     "MetadataDescriptionEntry",
+    "MetadataUpdate",
+    "MetadataUpdateOperation",
     "ModelMetrics",
     "ModelMetricsOptions",
     "ModelsMetrics",
@@ -599,6 +615,7 @@ __all__ = (
     "Report",
     "ReportClasses",
     "RequestJwtTokenProjectAccessMode",
+    "RerankingParams",
     "RoleDesc",
     "RoleUpdate",
     "SearchDocumentsSearchType",
@@ -686,6 +703,9 @@ __all__ = (
     "WithProcessor",
     "WithProcessorCondition",
     "WithProcessorParameters",
+    "WithReranker",
+    "WithRerankerCondition",
+    "WithRerankerParameters",
     "WithSegmenter",
     "WithSegmenterCondition",
     "WithSegmenterParameters",

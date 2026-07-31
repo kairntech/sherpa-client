@@ -27,6 +27,7 @@ def _get_kwargs(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -66,6 +67,8 @@ def _get_kwargs(
     params["vectorizer"] = vectorizer
 
     params["vectorQuery"] = vector_query
+
+    params["segmentMarkers"] = segment_markers
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -122,6 +125,7 @@ def sync_detailed(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
 ) -> Response[TermHits]:
     """Search for terms
 
@@ -141,6 +145,7 @@ def sync_detailed(
         native_rrf (Union[Unset, bool]):
         vectorizer (Union[Unset, str]):
         vector_query (Union[Unset, str]):  Default: ''.
+        segment_markers (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -166,6 +171,7 @@ def sync_detailed(
         native_rrf=native_rrf,
         vectorizer=vectorizer,
         vector_query=vector_query,
+        segment_markers=segment_markers,
     )
 
     response = client.get_httpx_client().request(
@@ -193,6 +199,7 @@ def sync(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
 ) -> Optional[TermHits]:
     """Search for terms
 
@@ -212,6 +219,7 @@ def sync(
         native_rrf (Union[Unset, bool]):
         vectorizer (Union[Unset, str]):
         vector_query (Union[Unset, str]):  Default: ''.
+        segment_markers (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -238,6 +246,7 @@ def sync(
         native_rrf=native_rrf,
         vectorizer=vectorizer,
         vector_query=vector_query,
+        segment_markers=segment_markers,
     ).parsed
 
 
@@ -259,6 +268,7 @@ async def asyncio_detailed(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
 ) -> Response[TermHits]:
     """Search for terms
 
@@ -278,6 +288,7 @@ async def asyncio_detailed(
         native_rrf (Union[Unset, bool]):
         vectorizer (Union[Unset, str]):
         vector_query (Union[Unset, str]):  Default: ''.
+        segment_markers (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -303,6 +314,7 @@ async def asyncio_detailed(
         native_rrf=native_rrf,
         vectorizer=vectorizer,
         vector_query=vector_query,
+        segment_markers=segment_markers,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -328,6 +340,7 @@ async def asyncio(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
 ) -> Optional[TermHits]:
     """Search for terms
 
@@ -347,6 +360,7 @@ async def asyncio(
         native_rrf (Union[Unset, bool]):
         vectorizer (Union[Unset, str]):
         vector_query (Union[Unset, str]):  Default: ''.
+        segment_markers (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -374,5 +388,6 @@ async def asyncio(
             native_rrf=native_rrf,
             vectorizer=vectorizer,
             vector_query=vector_query,
+            segment_markers=segment_markers,
         )
     ).parsed

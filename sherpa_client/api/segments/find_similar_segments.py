@@ -31,6 +31,7 @@ def _get_kwargs(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
     html_version: Union[Unset, bool] = False,
 ) -> dict[str, Any]:
 
@@ -75,6 +76,8 @@ def _get_kwargs(
     params["vectorizer"] = vectorizer
 
     params["vectorQuery"] = vector_query
+
+    params["segmentMarkers"] = segment_markers
 
     params["htmlVersion"] = html_version
 
@@ -137,6 +140,7 @@ def sync_detailed(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
     html_version: Union[Unset, bool] = False,
 ) -> Response[SegmentHits]:
     """Search for similar segments
@@ -160,6 +164,7 @@ def sync_detailed(
         native_rrf (Union[Unset, bool]):
         vectorizer (Union[Unset, str]):
         vector_query (Union[Unset, str]):  Default: ''.
+        segment_markers (Union[Unset, bool]):  Default: False.
         html_version (Union[Unset, bool]):  Default: False.
 
     Raises:
@@ -188,6 +193,7 @@ def sync_detailed(
         native_rrf=native_rrf,
         vectorizer=vectorizer,
         vector_query=vector_query,
+        segment_markers=segment_markers,
         html_version=html_version,
     )
 
@@ -220,6 +226,7 @@ def sync(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
     html_version: Union[Unset, bool] = False,
 ) -> Optional[SegmentHits]:
     """Search for similar segments
@@ -243,6 +250,7 @@ def sync(
         native_rrf (Union[Unset, bool]):
         vectorizer (Union[Unset, str]):
         vector_query (Union[Unset, str]):  Default: ''.
+        segment_markers (Union[Unset, bool]):  Default: False.
         html_version (Union[Unset, bool]):  Default: False.
 
     Raises:
@@ -272,6 +280,7 @@ def sync(
         native_rrf=native_rrf,
         vectorizer=vectorizer,
         vector_query=vector_query,
+        segment_markers=segment_markers,
         html_version=html_version,
     ).parsed
 
@@ -298,6 +307,7 @@ async def asyncio_detailed(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
     html_version: Union[Unset, bool] = False,
 ) -> Response[SegmentHits]:
     """Search for similar segments
@@ -321,6 +331,7 @@ async def asyncio_detailed(
         native_rrf (Union[Unset, bool]):
         vectorizer (Union[Unset, str]):
         vector_query (Union[Unset, str]):  Default: ''.
+        segment_markers (Union[Unset, bool]):  Default: False.
         html_version (Union[Unset, bool]):  Default: False.
 
     Raises:
@@ -349,6 +360,7 @@ async def asyncio_detailed(
         native_rrf=native_rrf,
         vectorizer=vectorizer,
         vector_query=vector_query,
+        segment_markers=segment_markers,
         html_version=html_version,
     )
 
@@ -379,6 +391,7 @@ async def asyncio(
     native_rrf: Union[Unset, bool] = UNSET,
     vectorizer: Union[Unset, str] = UNSET,
     vector_query: Union[Unset, str] = "",
+    segment_markers: Union[Unset, bool] = False,
     html_version: Union[Unset, bool] = False,
 ) -> Optional[SegmentHits]:
     """Search for similar segments
@@ -402,6 +415,7 @@ async def asyncio(
         native_rrf (Union[Unset, bool]):
         vectorizer (Union[Unset, str]):
         vector_query (Union[Unset, str]):  Default: ''.
+        segment_markers (Union[Unset, bool]):  Default: False.
         html_version (Union[Unset, bool]):  Default: False.
 
     Raises:
@@ -432,6 +446,7 @@ async def asyncio(
             native_rrf=native_rrf,
             vectorizer=vectorizer,
             vector_query=vector_query,
+            segment_markers=segment_markers,
             html_version=html_version,
         )
     ).parsed

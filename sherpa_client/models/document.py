@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from ..models.doc_annotation import DocAnnotation
     from ..models.doc_category import DocCategory
     from ..models.doc_sentence import DocSentence
+    from ..models.document_boundaries import DocumentBoundaries
     from ..models.document_metadata import DocumentMetadata
 
 
@@ -25,6 +26,8 @@ class Document:
         title (str): title of the document
         alt_texts (Union[Unset, list['DocAltText']]):
         annotations (Union[Unset, list['DocAnnotation']]):
+        boundaries (Union[Unset, DocumentBoundaries]): text boundaries of the document, as a map of boundary type ->
+            array of {start, end, name}
         categories (Union[Unset, list['DocCategory']]):
         created_by (Union[Unset, str]): User having created the document
         created_date (Union[Unset, str]): Creation date
@@ -38,6 +41,7 @@ class Document:
     title: str
     alt_texts: Union[Unset, list["DocAltText"]] = UNSET
     annotations: Union[Unset, list["DocAnnotation"]] = UNSET
+    boundaries: Union[Unset, "DocumentBoundaries"] = UNSET
     categories: Union[Unset, list["DocCategory"]] = UNSET
     created_by: Union[Unset, str] = UNSET
     created_date: Union[Unset, str] = UNSET
@@ -65,6 +69,10 @@ class Document:
             for annotations_item_data in self.annotations:
                 annotations_item = annotations_item_data.to_dict()
                 annotations.append(annotations_item)
+
+        boundaries: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.boundaries, Unset):
+            boundaries = self.boundaries.to_dict()
 
         categories: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.categories, Unset):
@@ -102,6 +110,8 @@ class Document:
             field_dict["altTexts"] = alt_texts
         if annotations is not UNSET:
             field_dict["annotations"] = annotations
+        if boundaries is not UNSET:
+            field_dict["boundaries"] = boundaries
         if categories is not UNSET:
             field_dict["categories"] = categories
         if created_by is not UNSET:
@@ -123,6 +133,7 @@ class Document:
         from ..models.doc_annotation import DocAnnotation
         from ..models.doc_category import DocCategory
         from ..models.doc_sentence import DocSentence
+        from ..models.document_boundaries import DocumentBoundaries
         from ..models.document_metadata import DocumentMetadata
 
         d = dict(src_dict)
@@ -145,6 +156,13 @@ class Document:
             annotations_item = DocAnnotation.from_dict(annotations_item_data)
 
             annotations.append(annotations_item)
+
+        _boundaries = d.pop("boundaries", UNSET)
+        boundaries: Union[Unset, DocumentBoundaries]
+        if isinstance(_boundaries, Unset):
+            boundaries = UNSET
+        else:
+            boundaries = DocumentBoundaries.from_dict(_boundaries)
 
         categories = []
         _categories = d.pop("categories", UNSET)
@@ -179,6 +197,7 @@ class Document:
             title=title,
             alt_texts=alt_texts,
             annotations=annotations,
+            boundaries=boundaries,
             categories=categories,
             created_by=created_by,
             created_date=created_date,

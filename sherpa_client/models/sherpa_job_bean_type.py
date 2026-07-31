@@ -3,7 +3,6 @@ from enum import Enum
 
 class SherpaJobBeanType(str, Enum):
     ADD_CATEGORY = "ADD_CATEGORY"
-    ADD_METADATA = "ADD_METADATA"
     BACKUP_USER_SESSION = "BACKUP_USER_SESSION"
     CORPUS_ANNOTATE = "CORPUS_ANNOTATE"
     DELETE_DOCS = "DELETE_DOCS"
@@ -26,6 +25,7 @@ class SherpaJobBeanType(str, Enum):
     TERM_IMPORT = "TERM_IMPORT"
     TRAIN_AND_SUGGEST = "TRAIN_AND_SUGGEST"
     UNSPECIFIED = "UNSPECIFIED"
+    UPDATE_METADATA = "UPDATE_METADATA"
 
     def __str__(self) -> str:
         return str(self.value)

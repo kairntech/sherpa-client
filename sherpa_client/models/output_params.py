@@ -24,6 +24,7 @@ class OutputParams:
         random_hits_if_empty_query (Union[Unset, bool]): Return random hits when query is empty Default: True.
         return_hits (Union[Unset, bool]): Return hits in addition to answering the question Default: True.
         return_total (Union[Unset, bool]): Return total number of hits Default: True.
+        segment_markers (Union[Unset, bool]): Embed segment membership markers in markdown-rendered HTML Default: False.
         selected_facets (Union[Unset, SelectedFacets]): Search selected facets parameters
     """
 
@@ -34,6 +35,7 @@ class OutputParams:
     random_hits_if_empty_query: Union[Unset, bool] = True
     return_hits: Union[Unset, bool] = True
     return_total: Union[Unset, bool] = True
+    segment_markers: Union[Unset, bool] = False
     selected_facets: Union[Unset, "SelectedFacets"] = UNSET
 
     def to_dict(self) -> dict[str, Any]:
@@ -50,6 +52,8 @@ class OutputParams:
         return_hits = self.return_hits
 
         return_total = self.return_total
+
+        segment_markers = self.segment_markers
 
         selected_facets: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.selected_facets, Unset):
@@ -71,6 +75,8 @@ class OutputParams:
             field_dict["returnHits"] = return_hits
         if return_total is not UNSET:
             field_dict["returnTotal"] = return_total
+        if segment_markers is not UNSET:
+            field_dict["segmentMarkers"] = segment_markers
         if selected_facets is not UNSET:
             field_dict["selectedFacets"] = selected_facets
 
@@ -95,6 +101,8 @@ class OutputParams:
 
         return_total = d.pop("returnTotal", UNSET)
 
+        segment_markers = d.pop("segmentMarkers", UNSET)
+
         _selected_facets = d.pop("selectedFacets", UNSET)
         selected_facets: Union[Unset, SelectedFacets]
         if isinstance(_selected_facets, Unset):
@@ -110,6 +118,7 @@ class OutputParams:
             random_hits_if_empty_query=random_hits_if_empty_query,
             return_hits=return_hits,
             return_total=return_total,
+            segment_markers=segment_markers,
             selected_facets=selected_facets,
         )
 
